@@ -33,8 +33,13 @@
       color: #f0e8d5;
     }
     nav {
+      position: sticky;
+      top: 0;
+      background-color: #1C1C1C;
+      padding: 1rem 0;
       text-align: center;
-      margin-top: 1rem;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
     nav a {
       color: #F8F5F2;
@@ -84,22 +89,6 @@
     }
   </style>
 </head>
-  nav {
-  position: sticky;
-  top: 0;
-  background-color: #1C1C1C;
-  padding: 1rem 0;
-  text-align: center;
-  z-index: 1000;
-  border-bottom: 1px solid #333;
-}
-nav a {
-  color: #F8F5F2;
-  margin: 0 1rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 <body>
   <header>
     <img src="logo.png" alt="JT Mind & Body Balance Logo" />
@@ -107,13 +96,13 @@ nav a {
     <p>Build Strength. Find Calm. Stay Consistent.</p>
   </header>
 
-<nav>
-  <a href="#services">Services</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#booking">Book Now</a>
-  <a href="#contact">Contact</a>
-  <a href="#findus">Find Us</a>
-</nav>
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#booking">Book Now</a>
+    <a href="#contact">Contact</a>
+    <a href="#findus">Find Us</a>
+  </nav>
 
   <section class="hero">
     <h2>Your Mind & Body Reset Starts Here</h2>
@@ -159,38 +148,36 @@ nav a {
   </section>
 
   <section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1.5rem;">
-    <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
-    <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
-    <a href="tel:07885470111" class="button">📞 Call/Text</a>
-    <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
-  </div>
-</section>
+    <h2>Contact Us</h2>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1.5rem;">
+      <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
+      <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
+      <a href="tel:07885470111" class="button">📞 Call/Text</a>
+      <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
+    </div>
+  </section>
 
-<section id="findus" class="contact">
-  <h2>Find Us</h2>
-  <p>📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
-  <div style="margin: 2rem 0;">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.650445584229042!3d51.48211002035137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718e8e290fb3d7%3A0x3b3c2eeb2a2b7a08!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721293632511!5m2!1sen!2suk"
-      width="100%" height="300" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
-</section>
+  <section id="findus" class="contact">
+    <h2>Find Us</h2>
+    <p>📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
+    <div style="margin: 2rem 0;">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.650445584229042!3d51.48211002035137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718e8e290fb3d7%3A0x3b3c2eeb2a2b7a08!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721293632511!5m2!1sen!2suk"
+        width="100%" height="300" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
 
-<section id="form" class="contact">
-  <h2>Message Us</h2>
-  <form action="https://formsubmit.co/james.taylor3011@yahoo.com" method="POST" style="max-width: 500px; margin: auto;">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="thankyou.html">
-    <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none;">
-    <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none;">
-    <textarea name="message" placeholder="Your Message" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none; height: 120px;"></textarea>
-    <button type="submit" class="button" style="width: 100%;">Send Message</button>
-  </form>
-</section>
-
+  <section id="form" class="contact">
+    <h2>Message Us</h2>
+    <form action="https://formsubmit.co/james.taylor3011@yahoo.com" method="POST" style="max-width: 500px; margin: auto;">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="thankyou.html">
+      <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none;">
+      <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none;">
+      <textarea name="message" placeholder="Your Message" required style="width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 0.5rem; border: none; height: 120px;"></textarea>
+      <button type="submit" class="button" style="width: 100%;">Send Message</button>
+    </form>
+  </section>
 </body>
 </html>
-
