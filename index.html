@@ -192,7 +192,47 @@
 #backToTop:hover {
   background-color: #e1c65a;
 }
+.menu-toggle {
+  display: none;
+  background: #D4AF37;
+  border: none;
+  color: #1C1C1C;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
 
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: #F8F5F2;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.nav-links.collapsed {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -202,13 +242,17 @@
   </header>
 
   <nav>
+  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+  <div class="nav-links collapsed" id="mobileMenu">
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#pricing">Pricing</a>
     <a href="#booking">Book Now</a>
     <a href="#findus">Find Us</a>
     <a href="#form">Contact</a>
-  </nav>
+  </div>
+</nav>
+
 
   <section class="hero">
     <h2>Your Mind & Body Reset Starts Here</h2>
@@ -393,5 +437,12 @@ backToTop.addEventListener("click", function () {
     });
   });
 </script>
+  <script>
+  function toggleMenu() {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("collapsed");
+  }
+</script>
+
 </body>
 </html>
