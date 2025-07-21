@@ -6,6 +6,17 @@
   <title>JT Mind & Body Balance</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    .fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 2s ease, transform 2s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
     * {
       box-sizing: border-box;
     }
@@ -442,6 +453,27 @@ backToTop.addEventListener("click", function () {
     const menu = document.getElementById("mobileMenu");
     menu.classList.toggle("collapsed");
   }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const aboutParagraphs = document.querySelectorAll("#about p");
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }, index * 1000); // Delay each paragraph by 1000ms
+        }
+      });
+    }, { threshold: 0.2 });
+
+    aboutParagraphs.forEach(p => {
+      p.classList.add("fade-in");
+      observer.observe(p);
+    });
+  });
 </script>
 
 </body>
