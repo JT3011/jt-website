@@ -131,6 +131,18 @@
       text-align: center;
     }
 
+    /* Scroll animation styles */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -158,6 +170,29 @@
         font-size: 1rem;
       }
     }
+    #backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #D4AF37;
+  color: #1C1C1C;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+#backToTop:hover {
+  background-color: #e1c65a;
+}
+
   </style>
 </head>
 <body>
@@ -166,15 +201,14 @@
     <p>One Mind. One Body. One Mission.</p>
   </header>
 
-<nav>
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#booking">Book Now</a>
-  <a href="#findus">Find Us</a>
-  <a href="#form">Contact</a>
-</nav>
-
+  <nav>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#booking">Book Now</a>
+    <a href="#findus">Find Us</a>
+    <a href="#form">Contact</a>
+  </nav>
 
   <section class="hero">
     <h2>Your Mind & Body Reset Starts Here</h2>
@@ -182,47 +216,28 @@
     <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button">Book Now</a>
   </section>
 
-  <section id="about" class="about">
+  <section id="about" class="about fade-in">
     <h2>About Me</h2>
     <div class="flex-container">
       <div class="flex-item">
-        <p>
-    <p>
-      Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.
-    </p>
-    <p>
-      From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my dad and grandad.
-    </p>
-    <p>
-      Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.
-    </p>
-    <p>
-      With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.
-    </p>
-    <p>
-      Then life threw another challenge my way. While recovering from surgery, my mum was diagnosed with stage 4 cancer. A year later, she passed away — just two months before the birth of my first child. I didn’t allow myself to grieve. I struggled in silence until I eventually reached out for support. That moment changed everything.
-    </p>
-    <p>
-      Over the years, I’ve worked with a wide range of therapeutic approaches — physical, emotional, and mental — and every part of that journey has shaped who I am today.
-    </p>
-    <p>
-      Now, I’ve made it my mission to help others achieve that same transformation.
-    </p>
-    <p>
-      <strong>JT Mind & Body Balance</strong> is more than a gym. It’s a space where fitness meets therapy — where you’re encouraged to train your body and strengthen your mind. Whether you’re an athlete, a parent, or someone simply trying to feel better in your own skin, I’m here to guide you through it.
-    </p>
-    <p>
-      Because real strength doesn’t come from what you lift. It comes from what you overcome — and who you become along the way.
-    </p>
-    <p style="font-weight: bold; color: #D4AF37;">
-      Your journey starts now. Let’s do it together.
-    </p>
+        <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
+        <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my dad and grandad.</p>
+        <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
+        <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
+        <p>Then life threw another challenge my way. While recovering from surgery, my mum was diagnosed with stage 4 cancer. A year later, she passed away — just two months before the birth of my first child. I didn’t allow myself to grieve. I struggled in silence until I eventually reached out for support. That moment changed everything.</p>
+        <p>Over the years, I’ve worked with a wide range of therapeutic approaches — physical, emotional, and mental — and every part of that journey has shaped who I am today.</p>
+        <p>Now, I’ve made it my mission to help others achieve that same transformation.</p>
+        <p><strong>JT Mind & Body Balance</strong> is more than a gym. It’s a space where fitness meets therapy — where you’re encouraged to train your body and strengthen your mind. Whether you’re an athlete, a parent, or someone simply trying to feel better in your own skin, I’m here to guide you through it.</p>
+        <p>Because real strength doesn’t come from what you lift. It comes from what you overcome — and who you become along the way.</p>
+        <p style="font-weight: bold; color: #D4AF37;">Your journey starts now. Let’s do it together.</p>
       </div>
       <div class="flex-item">
         <img src="logo.jpeg" alt="JT Profile" style="width:100%; border-radius: 1rem;" />
       </div>
     </div>
   </section>
+
+  <!-- Services, Pricing, Booking, Contact, Map & Form (no changes needed) -->
 
   <section id="services">
     <h2>Our Services</h2>
@@ -246,9 +261,9 @@
       <p>£45 per session<br>5 for £210<br>10 for £400</p>
     </div>
     <div class="pricing">
-  <h3>1:1 Personal Health Shopping</h3>
-  <p>Food label education, smart food choices support and meal planning<br><strong>£60/session or 2 for £110</strong></p>
-</div>
+      <h3>1:1 Personal Health Shopping</h3>
+      <p>Food label education, smart food choices support and meal planning<br><strong>£60/session or 2 for £110</strong></p>
+    </div>
     <div class="pricing">
       <h3>Online Mindset Coaching</h3>
       <p>£60/month</p>
@@ -270,38 +285,67 @@
       <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
     </div>
   </section>
-</body>
- <section id="findus" class="contact">
+
+  <section id="findus" class="contact">
     <h2>Find Us</h2>
     <p>📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
     <div style="margin: 2rem 0;">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.650445584229042!3d51.48211002035137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718e8e290fb3d7%3A0x3b3c2eeb2a2b7a08!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721293632511!5m2!1sen!2suk"
-        width="100%" height="300" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.6465561842290426!3d51.4848729796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721380100000!5m2!1sen!2suk"
+        width="100%" height="300" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy">
       </iframe>
     </div>
   </section>
 
-<section id="form" class="contact">
-  <h2>Send a Message</h2>
-  <form id="contactForm" style="max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
-    <input type="text" name="name" placeholder="Your Name" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
-    <input type="email" name="email" placeholder="Your Email" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
-    <textarea name="message" placeholder="Your Message" rows="5" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;"></textarea>
-    <button type="submit" class="button">Send Message</button>
-    <p id="formSuccess" style="display: none; color: #D4AF37;">✅ Message sent successfully (demo only)</p>
-  </form>
-</section>
+  <section id="form" class="contact">
+    <h2>Send a Message</h2>
+    <form id="contactForm" style="max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
+      <input type="text" name="name" placeholder="Your Name" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
+      <input type="email" name="email" placeholder="Your Email" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
+      <textarea name="message" placeholder="Your Message" rows="5" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;"></textarea>
+      <button type="submit" class="button">Send Message</button>
+      <p id="formSuccess" style="display: none; color: #D4AF37;">✅ Message sent successfully (demo only)</p>
+    </form>
+  </section>
 
-<script>
-  document.getElementById("contactForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    document.getElementById("formSuccess").style.display = "block";
-    setTimeout(() => {
-      document.getElementById("formSuccess").style.display = "none";
-      this.reset();
-    }, 4000);
-  });
-</script>
+  <!-- Scroll Animation Script -->
+  <script>
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
 
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("formSuccess").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("formSuccess").style.display = "none";
+        this.reset();
+      }, 4000);
+    });
+    // Back to Top Button
+const backToTop = document.getElementById("backToTop");
+
+window.onscroll = function () {
+  backToTop.style.display = window.scrollY > 300 ? "block" : "none";
+};
+
+backToTop.addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+  </script>
+  <button id="backToTop" title="Back to top">↑</button>
+</body>
 </html>
