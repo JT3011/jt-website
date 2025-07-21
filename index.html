@@ -166,13 +166,15 @@
     <p>Build Strength. Find Calm. Stay Consistent.</p>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#booking">Book Now</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<nav>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#booking">Book Now</a>
+  <a href="#location">Location</a>
+  <a href="#form">Contact</a>
+</nav>
+
 
   <section class="hero">
     <h2>Your Mind & Body Reset Starts Here</h2>
@@ -244,4 +246,37 @@
     </div>
   </section>
 </body>
+  <section id="location" class="contact">
+  <h2>Our Location</h2>
+  <p>Portway Rugby Development Centre, Portway, Avon, Bristol BS9 2HS</p>
+  <div style="margin-top: 1rem;">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2490.624381126656!2d-2.646555084203927!3d51.4848726796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1655059480131!5m2!1sen!2suk"
+      width="100%" height="350" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+<section id="form" class="contact">
+  <h2>Send a Message</h2>
+  <form id="contactForm" style="max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
+    <input type="text" name="name" placeholder="Your Name" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
+    <input type="email" name="email" placeholder="Your Email" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
+    <textarea name="message" placeholder="Your Message" rows="5" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;"></textarea>
+    <button type="submit" class="button">Send Message</button>
+    <p id="formSuccess" style="display: none; color: #D4AF37;">✅ Message sent successfully (demo only)</p>
+  </form>
+</section>
+
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.getElementById("formSuccess").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("formSuccess").style.display = "none";
+      this.reset();
+    }, 4000);
+  });
+</script>
+
 </html>
