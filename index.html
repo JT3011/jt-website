@@ -6,6 +6,9 @@
   <title>JT Mind & Body Balance</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
@@ -13,49 +16,53 @@
       color: #F8F5F2;
     }
     header {
-      background-color: #1A1A1A; /* Logo-matched background */
+      background-color: #1A1A1A;
       text-align: center;
       padding: 2rem 1rem 1rem;
     }
     header img {
+      width: 100%;
       max-width: 300px;
       margin-bottom: 1rem;
     }
     header p {
       font-size: 1rem;
-      margin-top: 0.5rem;
       color: #f0e8d5;
     }
     nav {
       position: sticky;
       top: 0;
       background-color: #1C1C1C;
-      padding: 1rem 0;
+      padding: 1rem 0.5rem;
       text-align: center;
       z-index: 1000;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
     nav a {
       color: #F8F5F2;
-      margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
+      font-size: 0.95rem;
     }
     section {
-      padding: 3rem 2rem;
+      padding: 3rem 1.5rem;
       max-width: 900px;
       margin: auto;
     }
-    .hero {
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #D4AF37;
       text-align: center;
+    }
+    .hero {
       background-color: #2A2A2A;
       padding: 4rem 2rem;
       border-radius: 1rem;
-    }
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      color: #D4AF37;
-      font-size: 2rem;
+      text-align: center;
     }
     .hero p {
       color: #f0e8d5;
@@ -70,7 +77,7 @@
       color: #D4AF37;
       font-family: 'Playfair Display', serif;
     }
-    .contact {
+    .contact, .about {
       text-align: center;
     }
     .button {
@@ -81,7 +88,22 @@
       border-radius: 0.5rem;
       font-weight: bold;
       display: inline-block;
+      margin: 0.5rem auto;
       width: fit-content;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      line-height: 2;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        font-size: 0.85rem;
+      }
+      .hero h2 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -92,6 +114,7 @@
   </header>
 
   <nav>
+    <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#pricing">Pricing</a>
     <a href="#booking">Book Now</a>
@@ -102,6 +125,16 @@
     <h2>Your Mind & Body Reset Starts Here</h2>
     <p>Personalised coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
     <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button">Book Now</a>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <p>
+      Hi, I’m JT — a certified personal trainer and mindset coach based in Bristol. I combine fitness, breathwork, mobility, and mental resilience training into powerful sessions that support both your physical and emotional health.  
+    </p>
+    <p>
+      Whether you're new to training or looking to reset your routine, my goal is to help you build strength, reduce stress, and stay consistent — long term.
+    </p>
   </section>
 
   <section id="services">
@@ -143,12 +176,10 @@
 
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1.5rem;">
-      <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
-      <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
-      <a href="tel:07885470111" class="button">📞 Call/Text</a>
-      <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
-    </div>
+    <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
+    <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
+    <a href="tel:07885470111" class="button">📞 Call/Text</a>
+    <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
   </section>
 </body>
 </html>
