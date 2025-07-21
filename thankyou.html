@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1C1C1C;
+      color: #F8F5F2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .container {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 5px solid #D4AF37;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .checkmark::after {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 10px;
+      width: 20px;
+      height: 40px;
+      border-right: 5px solid #D4AF37;
+      border-bottom: 5px solid #D4AF37;
+      transform: rotate(45deg);
+      animation: stroke 0.5s ease-out forwards;
+    }
+
+    @keyframes stroke {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+      }
+      100% {
+        width: 20px;
+        height: 40px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #D4AF37;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background-color: #D4AF37;
+      color: #1C1C1C;
+      padding: 0.8rem 1.5rem;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="checkmark"></div>
+    <h1>Thank You!</h1>
+    <p>Your message has been sent. We'll get back to you soon.</p>
+    <a href="index.html">← Back to Home</a>
+  </div>
+</body>
+</html>
