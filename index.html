@@ -348,5 +348,50 @@ backToTop.addEventListener("click", function () {
   </script>
   
   <button id="backToTop" title="Back to top">↑</button>
+  <!-- ✅ Scroll to Top Button -->
+<button id="backToTop" title="Back to top">↑</button>
+
+<style>
+  #backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #D4AF37;
+    color: #1C1C1C;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
+  }
+
+  #backToTop:hover {
+    background-color: #e1c65a;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+</script>
 </body>
 </html>
