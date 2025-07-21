@@ -9,77 +9,75 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
       background-color: #1C1C1C;
       color: #F8F5F2;
     }
+
     header {
       background-color: #1A1A1A;
       text-align: center;
       padding: 2rem 1rem 1rem;
     }
+
     header img {
       width: 100%;
       max-width: 300px;
       margin-bottom: 1rem;
     }
+
     header p {
       font-size: 1rem;
       color: #f0e8d5;
     }
+
     nav {
       position: sticky;
       top: 0;
       background-color: #1C1C1C;
-      padding: 1rem 0.5rem;
+      padding: 1rem 1rem;
       text-align: center;
       z-index: 1000;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
     }
+
     nav a {
       color: #F8F5F2;
       text-decoration: none;
       font-weight: bold;
       font-size: 0.95rem;
     }
+
     section {
       padding: 3rem 1.5rem;
-      max-width: 900px;
+      max-width: 1100px;
       margin: auto;
     }
+
     h2 {
       font-family: 'Playfair Display', serif;
       color: #D4AF37;
       text-align: center;
     }
+
     .hero {
       background-color: #2A2A2A;
       padding: 4rem 2rem;
       border-radius: 1rem;
       text-align: center;
     }
+
     .hero p {
       color: #f0e8d5;
     }
-    .pricing {
-      background-color: #333;
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    .pricing h3 {
-      color: #D4AF37;
-      font-family: 'Playfair Display', serif;
-    }
-    .contact, .about {
-      text-align: center;
-    }
+
     .button {
       background-color: #D4AF37;
       color: #1C1C1C;
@@ -91,18 +89,73 @@
       margin: 0.5rem auto;
       width: fit-content;
     }
+
     ul {
       list-style-type: none;
       padding: 0;
       line-height: 2;
     }
 
-    @media (max-width: 600px) {
-      nav a {
-        font-size: 0.85rem;
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+
+    .flex-item {
+      flex: 1 1 45%;
+      min-width: 280px;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .pricing {
+      background-color: #333;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .pricing h3 {
+      color: #D4AF37;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .contact, .about {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
       }
+
+      .flex-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .flex-item {
+        width: 100%;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+      }
+
       .hero h2 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+      }
+
+      nav a {
+        font-size: 1rem;
       }
     }
   </style>
@@ -129,12 +182,19 @@
 
   <section id="about" class="about">
     <h2>About Me</h2>
-    <p>
-      Hi, I’m JT — a certified personal trainer and mindset coach based in Bristol. I combine fitness, breathwork, mobility, and mental resilience training into powerful sessions that support both your physical and emotional health.  
-    </p>
-    <p>
-      Whether you're new to training or looking to reset your routine, my goal is to help you build strength, reduce stress, and stay consistent — long term.
-    </p>
+    <div class="flex-container">
+      <div class="flex-item">
+        <p>
+          Hi, I’m JT — a certified personal trainer and mindset coach based in Bristol. I combine fitness, breathwork, mobility, and mental resilience training into powerful sessions that support both your physical and emotional health.
+        </p>
+        <p>
+          Whether you're new to training or looking to reset your routine, my goal is to help you build strength, reduce stress, and stay consistent — long term.
+        </p>
+      </div>
+      <div class="flex-item">
+        <img src="logo.jpeg" alt="JT Profile" style="width:100%; border-radius: 1rem;" />
+      </div>
+    </div>
   </section>
 
   <section id="services">
@@ -176,10 +236,12 @@
 
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
-    <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
-    <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
-    <a href="tel:07885470111" class="button">📞 Call/Text</a>
-    <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
+    <div class="contact-buttons">
+      <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
+      <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
+      <a href="tel:07885470111" class="button">📞 Call/Text</a>
+      <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
+    </div>
   </section>
 </body>
 </html>
