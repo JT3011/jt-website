@@ -6,29 +6,32 @@
   <title>JT Mind & Body Balance</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    .image-gallery {
+   .about-gallery {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.about-gallery img {
   width: 100%;
-  max-width: 500px;
-  height: 400px;
-  margin: 2rem auto;
-  overflow: hidden;
+  max-width: 600px;
   border-radius: 1rem;
-  position: relative;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transition: opacity 0.5s ease-in-out;
 }
 
-.gallery-track {
-  display: flex;
-  width: calc(100% * 9); /* Adjust if you change number of images */
-  animation: slideGallery 36s infinite;
+.gallery-controls {
+  margin-top: 1rem;
 }
 
-.gallery-track img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  flex-shrink: 0;
+.gallery-controls button {
+  background-color: #D4AF37;
+  border: none;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  cursor: pointer;
 }
+
 
 @keyframes slideGallery {
   0% { transform: translateX(0); }
@@ -326,26 +329,28 @@
       <div class="flex-item">
         <img src="logo.jpeg" alt="JT Profile" style="width:100%; border-radius: 1rem;" />
       </div>
-      <div class="image-gallery">
-  <div class="gallery-track">
-    <img src="images/img1.jpg" alt="James Taylor 1">
-    <img src="images/img2.jpg" alt="James Taylor 2">
-    <img src="images/img3.jpg" alt="James Taylor 3">
-    <img src="images/img4.jpg" alt="James Taylor 4">
-    <img src="images/img5.jpg" alt="James Taylor 5">
-    <img src="images/img6.jpg" alt="James Taylor 6">
-    <img src="images/img7.jpg" alt="James Taylor 7">
-    <img src="images/img8.jpg" alt="James Taylor 8">
-    <img src="images/img9.jpg" alt="James Taylor 9">
-    <img src="images/img10.jpg" alt="James Taylor 10">
-    <img src="images/img11.jpg" alt="James Taylor 11">
-    <img src="images/img12.jpg" alt="James Taylor 12">
-    <img src="images/img13.jpg" alt="James Taylor 13">
-    <img src="images/img14.jpg" alt="James Taylor 14">
-    <img src="images/img15.jpg" alt="James Taylor 15">
-    <img src="images/img16.jpg" alt="James Taylor 16">
-    <img src="images/img17.jpg" alt="James Taylor 17">
-    <img src="images/img18.jpg" alt="James Taylor 18">
+   <div class="about-gallery">
+  <img id="galleryImage" src="images/img1.jpg" alt="Gallery of James Taylor" />
+  <div class="gallery-controls">
+    <button onclick="showImage(0)">●</button>
+    <button onclick="showImage(1)">●</button>
+    <button onclick="showImage(2)">●</button>
+    <button onclick="showImage(3)">●</button>
+    <button onclick="showImage(4)">●</button>
+    <button onclick="showImage(5)">●</button>
+    <button onclick="showImage(6)">●</button>
+    <button onclick="showImage(7)">●</button>
+    <button onclick="showImage(8)">●</button>
+    <button onclick="showImage(9)">●</button>
+    <button onclick="showImage(10)">●</button>
+    <button onclick="showImage(11)">●</button>
+    <button onclick="showImage(12)">●</button>
+    <button onclick="showImage(13)">●</button>
+    <button onclick="showImage(14)">●</button>
+    <button onclick="showImage(15)">●</button>
+    <button onclick="showImage(16)">●</button>
+    <button onclick="showImage(17)">●</button>
+    <button onclick="showImage(18)">●</button>
   </div>
 </div>
 
@@ -534,6 +539,33 @@ backToTop.addEventListener("click", function () {
       observer.observe(p);
     });
   });
+</script>
+<script>
+  const images = [
+    'images/img1.jpg',
+    'images/img2.jpg',
+    'images/img3.jpg',
+    'images/img4.jpg',
+    'images/img5.jpg',
+    'images/img6.jpg',
+    'images/img7.jpg',
+    'images/img8.jpg',
+    'images/img9.jpg',
+    'images/img10.jpg'
+  ];
+
+  let currentIndex = 0;
+  const galleryImage = document.getElementById('galleryImage');
+
+  function showImage(index) {
+    currentIndex = index;
+    galleryImage.src = images[index];
+  }
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  }, 4000);
 </script>
 
 </body>
