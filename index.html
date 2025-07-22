@@ -541,31 +541,36 @@ backToTop.addEventListener("click", function () {
   });
 </script>
 <script>
-  const images = [
-    'images/img1.jpg',
-    'images/img2.jpg',
-    'images/img3.jpg',
-    'images/img4.jpg',
-    'images/img5.jpg',
-    'images/img6.jpg',
-    'images/img7.jpg',
-    'images/img8.jpg',
-    'images/img9.jpg',
-    'images/img10.jpg'
-  ];
+  document.addEventListener("DOMContentLoaded", function () {
+    const images = [
+      'images/img1.jpg',
+      'images/img2.jpg',
+      'images/img3.jpg',
+      'images/img4.jpg',
+      'images/img5.jpg',
+      'images/img6.jpg',
+      'images/img7.jpg',
+      'images/img8.jpg',
+      'images/img9.jpg',
+      'images/img10.jpg'
+    ];
 
-  let currentIndex = 0;
-  const galleryImage = document.getElementById('galleryImage');
+    let currentIndex = 0;
+    const galleryImage = document.getElementById('galleryImage');
 
-  function showImage(index) {
-    currentIndex = index;
-    galleryImage.src = images[index];
-  }
+    function showImage(index) {
+      if (galleryImage && images[index]) {
+        galleryImage.src = images[index];
+      }
+    }
 
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % images.length;
-    showImage(currentIndex);
-  }, 4000);
+    showImage(currentIndex); // Initial image
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }, 4000);
+  });
 </script>
 
 </body>
