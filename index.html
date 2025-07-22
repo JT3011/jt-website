@@ -6,6 +6,43 @@
   <title>JT Mind & Body Balance</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    .image-gallery {
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+  margin: 2rem auto;
+  overflow: hidden;
+  border-radius: 1rem;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.gallery-track {
+  display: flex;
+  width: calc(100% * 9); /* Adjust if you change number of images */
+  animation: slideGallery 36s infinite;
+}
+
+.gallery-track img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+@keyframes slideGallery {
+  0% { transform: translateX(0); }
+  11.11% { transform: translateX(0); }
+  22.22% { transform: translateX(-100%); }
+  33.33% { transform: translateX(-200%); }
+  44.44% { transform: translateX(-300%); }
+  55.55% { transform: translateX(-400%); }
+  66.66% { transform: translateX(-500%); }
+  77.77% { transform: translateX(-600%); }
+  88.88% { transform: translateX(-700%); }
+  100%   { transform: translateX(-800%); }
+}
+
     .fade-in {
   opacity: 0;
   transform: translateY(30px);
@@ -289,6 +326,29 @@
       <div class="flex-item">
         <img src="logo.jpeg" alt="JT Profile" style="width:100%; border-radius: 1rem;" />
       </div>
+      <div class="image-gallery">
+  <div class="gallery-track">
+    <img src="img1.jpg" alt="James Taylor 1">
+    <img src="img2.jpg" alt="James Taylor 2">
+    <img src="img3.jpg" alt="James Taylor 3">
+    <img src="img4.jpg" alt="James Taylor 4">
+    <img src="img5.jpg" alt="James Taylor 5">
+    <img src="img6.jpg" alt="James Taylor 6">
+    <img src="img7.jpg" alt="James Taylor 7">
+    <img src="img8.jpg" alt="James Taylor 8">
+    <img src="img9.jpg" alt="James Taylor 9">
+    <img src="img10.jpg" alt="James Taylor 10">
+    <img src="img11.jpg" alt="James Taylor 11">
+    <img src="img12.jpg" alt="James Taylor 12">
+    <img src="img13.jpg" alt="James Taylor 13">
+    <img src="img14.jpg" alt="James Taylor 14">
+    <img src="img15.jpg" alt="James Taylor 15">
+    <img src="img16.jpg" alt="James Taylor 16">
+    <img src="img17.jpg" alt="James Taylor 17">
+    <img src="img18.jpg" alt="James Taylor 18">
+  </div>
+</div>
+
     </div>
   </section>
 
