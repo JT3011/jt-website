@@ -316,39 +316,6 @@
   }
 }
 
-
-    
-.easy-carousel {
-  width: 100%;
-  height: 999px;
-  margin: 0 auto; /* ← centers horizontally */
-  position: relative;
-  overflow: hidden;
-}
-
-.carousel-image {
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-.carousel-image.active {
-  opacity: 1;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .carousel-container {
-    height: 400px;
-  }
-}
-
     
   </style>
 </head>
@@ -419,6 +386,19 @@
   <img src="images/img20.jpg" class="carousel-image" />
   <img src="images/img21.jpg" class="carousel-image" />
   <img src="images/img22.jpg" class="carousel-image" />
+  <img src="images/img40.jpg" class="carousel-image" />
+  <img src="images/img41.jpg" class="carousel-image" />
+  <img src="images/img42.jpg" class="carousel-image" />
+  <img src="images/img43.jpg" class="carousel-image" />
+  <img src="images/img44.jpg" class="carousel-image" />
+  <img src="images/img45.jpg" class="carousel-image" />
+  <img src="images/img46.jpg" class="carousel-image" />
+  <img src="images/img47.jpg" class="carousel-image" />
+  <img src="images/img48.jpg" class="carousel-image" />
+  <img src="images/img49.jpg" class="carousel-image" />
+  <img src="images/img50.jpg" class="carousel-image" />
+  <img src="images/img51.jpg" class="carousel-image"/>
+  <img src="images/img52.jpg" class="carousel-image" />      
 </div>
     </div>
 </section>
@@ -480,21 +460,6 @@
     </ul>
   </section>
   
-<div class="easy-carousel">
-  <img src="images/img40.jpg" class="carousel-image1" />
-  <img src="images/img41.jpg" class="carousel-image2" />
-  <img src="images/img42.jpg" class="carousel-image3" />
-  <img src="images/img43.jpg" class="carousel-image4" />
-  <img src="images/img44.jpg" class="carousel-image5" />
-  <img src="images/img45.jpg" class="carousel-image6" />
-  <img src="images/img46.jpg" class="carousel-image7" />
-  <img src="images/img47.jpg" class="carousel-image8" />
-  <img src="images/img48.jpg" class="carousel-image9" />
-  <img src="images/img49.jpg" class="carousel-image10" />
-  <img src="images/img50.jpg" class="carousel-images11" />
-  <img src="images/img51.jpg" class="carousel-images12"/>
-  <img src="images/img52.jpg" class="carousel-image13" />
-</div>
   
   <section id="pricing">
     <h2>Pricing</h2>
@@ -760,26 +725,6 @@ backToTop.addEventListener("click", function () {
     // Show first image immediately
     showImage(currentIndex);
   });
-</script>
-<script>
-  let currentIndex = 0;
-  const images = document.querySelectorAll('.easy-carousel img');
-  const totalImages = images.length;
-
-  function showNextImage() {
-    // Hide all images
-    images.forEach(img => img.style.display = 'none');
-
-    // Show the current image
-    images[currentIndex].style.display = 'block';
-
-    // Move to the next index
-    currentIndex = (currentIndex + 1) % totalImages;
-  }
-
-  // Initialize carousel
-  showNextImage();
-  setInterval(showNextImage, 3000); // Change image every 3 seconds
 </script>
 
   
