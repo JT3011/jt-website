@@ -326,7 +326,7 @@
   overflow: hidden;
 }
 
-.carousel-images {
+.carousel-image {
   width: 80%;
   height: 100%;
   object-fit: cover;
@@ -481,19 +481,19 @@
   </section>
   
 <div class="easy-carousel">
-  <img src="images/img40.jpg" class="carousel-images" />
-  <img src="images/img41.jpg" class="carousel-images" />
-  <img src="images/img42.jpg" class="carousel-images" />
-  <img src="images/img43.jpg" class="carousel-images" />
-  <img src="images/img44.jpg" class="carousel-images" />
-  <img src="images/img45.jpg" class="carousel-images" />
-  <img src="images/img46.jpg" class="carousel-images" />
-  <img src="images/img47.jpg" class="carousel-images" />
-  <img src="images/img48.jpg" class="carousel-images" />
-  <img src="images/img49.jpg" class="carousel-images" />
-  <img src="images/img50.jpg" class="carousel-images" />
-  <img src="images/img51.jpg" class="carousel-images" />
-  <img src="images/img52.jpg" class="carousel-images" />
+  <img src="images/img40.jpg" class="carousel-image1" />
+  <img src="images/img41.jpg" class="carousel-image2" />
+  <img src="images/img42.jpg" class="carousel-image3" />
+  <img src="images/img43.jpg" class="carousel-image4" />
+  <img src="images/img44.jpg" class="carousel-image5" />
+  <img src="images/img45.jpg" class="carousel-image6" />
+  <img src="images/img46.jpg" class="carousel-image7" />
+  <img src="images/img47.jpg" class="carousel-image8" />
+  <img src="images/img48.jpg" class="carousel-image9" />
+  <img src="images/img49.jpg" class="carousel-image10" />
+  <img src="images/img50.jpg" class="carousel-images11" />
+  <img src="images/img51.jpg" class="carousel-images12"/>
+  <img src="images/img52.jpg" class="carousel-image13" />
 </div>
   
   <section id="pricing">
@@ -777,7 +777,7 @@ setInterval(showNextImage, 4000);
 
 <script>
 let currentIndex = 0;
-const images = document.querySelectorAll(".carousel-images");
+const images = document.querySelectorAll(".carousel-image1");
 
 function showNextImage() {
   images[currentIndex].classList.remove("active");
