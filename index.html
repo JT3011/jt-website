@@ -762,32 +762,26 @@ backToTop.addEventListener("click", function () {
   });
 </script>
 <script>
-let currentIndex = 0;
-const images = document.querySelectorAll(".carousel-image");
+  let currentIndex = 0;
+  const images = document.querySelectorAll('.easy-carousel img');
+  const totalImages = images.length;
 
-function showNextImage() {
-  images[currentIndex].classList.remove("active");
-  currentIndex = (currentIndex + 1) % images.length;
-  images[currentIndex].classList.add("active");
-}
+  function showNextImage() {
+    // Hide all images
+    images.forEach(img => img.style.display = 'none');
 
-images[currentIndex].classList.add("active");
-setInterval(showNextImage, 4000);
+    // Show the current image
+    images[currentIndex].style.display = 'block';
+
+    // Move to the next index
+    currentIndex = (currentIndex + 1) % totalImages;
+  }
+
+  // Initialize carousel
+  showNextImage();
+  setInterval(showNextImage, 3000); // Change image every 3 seconds
 </script>
 
-<script>
-let currentIndex = 0;
-const images = document.querySelectorAll(".carousel-image1");
-
-function showNextImage() {
-  images[currentIndex].classList.remove("active");
-  currentIndex = (currentIndex + 1) % images.length;
-  images[currentIndex].classList.add("active");
-}
-
-images[currentIndex].classList.add("active");
-setInterval(showNextImage, 4000);
-</script>
   
 </body>
 </html>
