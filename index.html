@@ -315,7 +315,57 @@
     height: 400px;
   }
 }
-    
+.podcast-section {
+  background-color: #1c1c1c; /* Deep charcoal */
+  color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.podcast-title {
+  color: #d4af37; /* Burnt gold */
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.podcast-subtitle {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  font-style: italic;
+}
+
+.podcast-player {
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.podcast-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.podcast-links a {
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid #d4af37;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn-spotify:hover {
+  background-color: #1db954; /* Spotify green */
+  border-color: #1db954;
+}
+
+.btn-apple:hover {
+  background-color: #ccc;
+  color: #000;
+}    
   </style>
 </head>
 <body>
@@ -560,7 +610,6 @@
 </div>
     <section id="payment" class="contact">
   <h2>Pay for a Session</h2>
-  <p>Once you have confirmed a time slot suitable, please pay securely using either the 'PAY' button or the R code below. (Monzo)</p>
   
   <!-- === JT Mind & Body Balance | Payment Section === -->
 <section id="payments" style="background-color:#2e2e2e; color:white; padding:60px 20px; text-align:center; font-family:'Poppins', sans-serif;">
@@ -704,57 +753,7 @@ backToTop.addEventListener("click", function () {
     background-color: #e1c65a;
   }
 </style>
-.podcast-section {
-  background-color: #1c1c1c; /* Deep charcoal */
-  color: #fff;
-  padding: 80px 20px;
-  text-align: center;
-}
 
-.podcast-title {
-  color: #d4af37; /* Burnt gold */
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.podcast-subtitle {
-  color: #ccc;
-  font-size: 1.1rem;
-  margin-bottom: 40px;
-  font-style: italic;
-}
-
-.podcast-player {
-  max-width: 800px;
-  margin: 0 auto 30px;
-}
-
-.podcast-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.podcast-links a {
-  text-decoration: none;
-  color: #fff;
-  border: 2px solid #d4af37;
-  padding: 10px 20px;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-}
-
-.btn-spotify:hover {
-  background-color: #1db954; /* Spotify green */
-  border-color: #1db954;
-}
-
-.btn-apple:hover {
-  background-color: #ccc;
-  color: #000;
-}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const backToTop = document.getElementById("backToTop");
