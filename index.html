@@ -1,851 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>JT Mind & Body Balance</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-   .about-gallery {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.about-gallery img {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 1rem;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.gallery-controls {
-  margin-top: 1rem; 
-}
-    
-.gallery-controls button {
-  background-color: #D4AF37;
-  border: none;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  margin: 0 5px;
-  cursor: pointer;
-}
-
-    
-@keyframes slideGallery {
-  0% { transform: translateX(0); }
-  11.11% { transform: translateX(0); }
-  22.22% { transform: translateX(-100%); }
-  33.33% { transform: translateX(-200%); }
-  44.44% { transform: translateX(-300%); }
-  55.55% { transform: translateX(-400%); }
-  66.66% { transform: translateX(-500%); }
-  77.77% { transform: translateX(-600%); }
-  88.88% { transform: translateX(-700%); }
-  100%   { transform: translateX(-800%); }
-}
-
-    .fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 2s ease, transform 2s ease;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-    * {
-      box-sizing: border-box;
+    :root{
+      --bg:#1C1C1C;
+      --panel:#262626;
+      --gold:#D4AF37;
+      --muted:#f0e8d5;
+      --card:#2e2e2e;
+      --accent:#c79b3b;
     }
-
-    body {
-      margin: 0;
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--muted);
       font-family: 'Montserrat', sans-serif;
-      background-color: #1C1C1C;
-      color: #F8F5F2;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior:smooth;
+    }
+    a{color:inherit}
+    img{max-width:100%;display:block}
+
+    /* Header */
+    header{
+      background:linear-gradient(180deg,#171717 0%, #1A1A1A 100%);
+      padding:2rem 1rem;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .logo-wrap{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      justify-content:center;
+      transform:translateY(10px);
+      opacity:0;
+      animation:logoIn 900ms cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    @keyframes logoIn{
+      to { transform:translateY(0); opacity:1; }
+    }
+    header img{ width:140px; height:auto; display:block; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.6) }
+    header h1{
+      margin:0;
+      font-family:'Playfair Display', serif;
+      color:var(--gold);
+      font-size:1.6rem;
+      letter-spacing:0.6px;
+      transform:translateY(14px);
+      opacity:0;
+      animation:headlineIn 1000ms 200ms cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    header p{margin:.5rem 0 0; color:#e8e1cc; opacity:.9}
+
+    @keyframes headlineIn{
+      to { transform:translateY(0); opacity:1; }
     }
 
-    header {
-      background-color: #1A1A1A;
-      text-align: center;
-      padding: 2rem 1rem 1rem;
+    /* Sticky nav */
+    nav{
+      position:sticky;
+      top:0;
+      background:rgba(28,28,28,0.95);
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      padding:0.6rem;
+      z-index:1000;
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    }
+    .nav-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .nav-links a{
+      padding:.45rem .8rem;
+      border-radius:8px;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:600;
+      background:transparent;
+      transition:transform .18s ease, background .18s;
+    }
+    .nav-links a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.08) }
+
+    /* Hero section */
+    .container{ max-width:1100px; margin:0 auto; padding:2rem 1.25rem }
+    .hero{
+      background:linear-gradient(180deg,#262626 0%, #2a2a2a 100%);
+      border-radius:14px;
+      padding:3.2rem 1.6rem;
+      text-align:center;
+      box-shadow:0 10px 40px rgba(0,0,0,0.6);
+    }
+    .hero h2{ font-family:'Playfair Display', serif; color:var(--gold); font-size:2rem; margin:0 0 0.6rem; letter-spacing:0.5px }
+    .hero p{ color:#efe6d3; max-width:850px; margin:0 auto 1rem }
+    .button{ display:inline-block; background:var(--gold); color: #1B1B1B; padding:.9rem 1.4rem; border-radius:999px; font-weight:700; text-decoration:none; transition:transform .18s, box-shadow .18s }
+    .button:hover{ transform:translateY(-3px); box-shadow: 0 10px 30px rgba(212,175,55,0.12) }
+
+    /* Layout / common */
+    section{ padding:3rem 1.25rem }
+    h2.section-title{ font-family:'Playfair Display', serif; color:var(--gold); font-size:1.7rem; margin-bottom:1rem; text-align:center }
+
+    .flex-container{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
+    .flex-item{ flex:1 1 45%; min-width:260px }
+
+    /* Pricing / cards */
+    .pricing{ background:var(--card); border-radius:12px; padding:1.4rem; margin-bottom:1rem; box-shadow:0 6px 18px rgba(0,0,0,0.45) }
+    .pricing h3{ color:var(--gold); margin-top:0 }
+    ul.clean{ list-style:none; padding:0; margin:0; line-height:2 }
+
+    /* Qualifications list */
+    .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:rgba(255,255,255,0.02); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
+
+    /* Podcast block */
+    .podcast-section{ padding:3rem 1rem; text-align:center; background:transparent; }
+    .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
+
+    /* Carousel (keeps fixed height so page doesn't jump) */
+    .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#111 }
+    .carousel-wrap img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 900ms ease-in-out, transform 900ms ease; }
+    .carousel-wrap img.active{ opacity:1; transform:scale(1); }
+    .carousel-controls{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
+    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.18); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
+    .dot.active{ background:var(--gold); transform:scale(1.15) }
+
+    /* Contact buttons */
+    .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
+    .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
+    .contact-buttons a:hover{ background:rgba(212,175,55,0.06); border-color:var(--gold); color:var(--gold) }
+
+    /* Back to top */
+    #backToTop{ position:fixed; right:22px; bottom:22px; width:48px; height:48px; border-radius:50%; background:var(--gold); color:#111; display:none; border:none; font-size:20px; z-index:9999; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.5) }
+
+    /* Cursor */
+    .cursor, .cursor-dot {
+      position:fixed; pointer-events:none; z-index:99999; mix-blend-mode:normal;
+      transition:transform .12s linear, background .18s linear, opacity .12s;
+    }
+    .cursor{
+      width:36px; height:36px; border-radius:50%;
+      border:2px solid rgba(212,175,55,0.95); transform:translate(-50%,-50%) scale(1);
+      box-shadow:0 10px 30px rgba(212,175,55,0.06), inset 0 2px 6px rgba(212,175,55,0.02);
+      background: rgba(212,175,55,0.06);
+      opacity:0.95;
+    }
+    .cursor-dot{
+      width:6px;height:6px;border-radius:50%; background:var(--gold); transform:translate(-50%,-50%) scale(1);
     }
 
-    header img {
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 1rem;
+    /* Hover states for interactive elements */
+    a:hover ~ .cursor, .button:hover ~ .cursor { transform:translate(-50%,-50%) scale(1.5); background: rgba(212,175,55,0.12) }
+    .button:hover + .cursor { transform:translate(-50%,-50%) scale(1.45) }
+
+    /* Anim helpers (applied by JS) */
+    .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 900ms cubic-bezier(.2,.9,.3,1) }
+    .reveal.show{ opacity:1; transform:translateY(0) scale(1) }
+
+    .reveal-left{ opacity:0; transform:translateX(-28px) scale(.99) }
+    .reveal-left.show{ opacity:1; transform:translateX(0) scale(1) }
+
+    .reveal-right{ opacity:0; transform:translateX(28px) scale(.99) }
+    .reveal-right.show{ opacity:1; transform:translateX(0) scale(1) }
+
+    .glow-up{ transform:translateY(8px); opacity:0; transition:all 1200ms cubic-bezier(.2,.9,.3,1) }
+    .glow-up.show{ transform:translateY(0); opacity:1; box-shadow:0 18px 50px rgba(212,175,55,0.06) }
+
+    /* Responsive tweaks */
+    @media (max-width:900px){
+      .carousel-wrap{ height:320px }
+      .hero{ padding:2.4rem 1rem }
+      header img{ width:120px }
+      .logo-wrap{ gap:.6rem }
     }
-
-    header p {
-      font-size: 1rem;
-      color: #f0e8d5;
+    @media (max-width:600px){
+      nav{ padding:.5rem }
+      .nav-links a{ padding:.4rem .6rem; font-size:0.95rem }
+      .flex-container{ flex-direction:column }
+      .flex-item{ width:100% }
+      .carousel-wrap{ height:260px }
+      .cursor{ display:none } /* hide custom cursor on mobile for UX */
     }
-
-    nav {
-      position: sticky;
-      top: 0;
-      background-color: #1C1C1C;
-      padding: 1rem 1rem;
-      text-align: center;
-      z-index: 1000;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: #F8F5F2;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 0.95rem;
-    }
-
-    section {
-      padding: 3rem 1.5rem;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      color: #D4AF37;
-      text-align: center;
-    }
-
-    .hero {
-      background-color: #2A2A2A;
-      padding: 4rem 2rem;
-      border-radius: 1rem;
-      text-align: center;
-    }
-
-    .hero p {
-      color: #f0e8d5;
-    }
-
-    .button {
-      background-color: #D4AF37;
-      color: #1C1C1C;
-      padding: 0.8rem 1.5rem;
-      text-decoration: none;
-      border-radius: 0.5rem;
-      font-weight: bold;
-      display: inline-block;
-      margin: 0.5rem auto;
-      width: fit-content;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      line-height: 2;
-    }
-
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: space-between;
-    }
-
-    .flex-item {
-      flex: 1 1 45%;
-      min-width: 280px;
-    }
-
-    .contact-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .pricing {
-      background-color: #333;
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .pricing h3 {
-      color: #D4AF37;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .contact, .about {
-      text-align: center;
-    }
-
-    /* Scroll animation styles */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .flex-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .flex-item {
-        width: 100%;
-      }
-
-      .contact-buttons {
-        flex-direction: column;
-      }
-
-      .hero h2 {
-        font-size: 1.6rem;
-      }
-
-      nav a {
-        font-size: 1rem;
-      }
-    }
-    #backToTop {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: #D4AF37;
-  color: #1C1C1C;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  display: none;
-  z-index: 999;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.3s ease;
-}
-
-#backToTop:hover {
-  background-color: #e1c65a;
-}
-.menu-toggle {
-  display: none;
-  background: #D4AF37;
-  border: none;
-  color: #1C1C1C;
-  font-size: 1.2rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.nav-links a {
-  color: #F8F5F2;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 0.95rem;
-}
-
-.nav-links.collapsed {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-    
-.carousel-container {
-  width: 100%;
-  height: 999px;
-  margin: 0 auto; /* ← centers horizontally */
-  position: relative;
-  overflow: hidden;
-}
-
-.carousel-image {
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-.carousel-image.active {
-  opacity: 1;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .carousel-container {
-    height: 400px;
-  }
-}
-.podcast-section {
-  background-color: #1c1c1c; /* Deep charcoal */
-  color: #fff;
-  padding: 80px 20px;
-  text-align: center;
-}
-
-.podcast-title {
-  color: #d4af37; /* Burnt gold */
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.podcast-subtitle {
-  color: #ccc;
-  font-size: 1.1rem;
-  margin-bottom: 40px;
-  font-style: italic;
-}
-
-.podcast-player {
-  max-width: 800px;
-  margin: 0 auto 30px;
-}
-
-.podcast-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.podcast-links a {
-  text-decoration: none;
-  color: #fff;
-  border: 2px solid #d4af37;
-  padding: 10px 20px;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-}
-
-.btn-spotify:hover {
-  background-color: #1db954; /* Spotify green */
-  border-color: #1db954;
-}
-
-.btn-apple:hover {
-  background-color: #ccc;
-  color: #000;
-}    
   </style>
 </head>
 <body>
+
+  <!-- Custom cursor elements -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Header -->
   <header>
-    <img src="logo.jpeg" alt="JT Mind & Body Balance Logo" />
-    <p>One Mind. One Body. One Mission.</p>
+    <div class="logo-wrap">
+      <img src="logo.jpeg" alt="JT Mind & Body Balance logo" id="siteLogo" />
+      <div style="text-align:left">
+        <h1>JT Mind & Body Balance</h1>
+        <p style="font-size:0.95rem; margin-top:6px; color:#e9dec6;">One Mind. One Body. One Mission.</p>
+      </div>
+    </div>
   </header>
 
+  <!-- Nav -->
   <nav>
-  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-  <div class="nav-links" id="mobileMenu">
-    <a href="#about">About</a>
-    <a href="#qualifications">Qualifications</a>
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#packages">Packages</a>
-    <a href="#payment">Pay</a>
-    <a href="#form">Contact</a>
-    <a href="#findus">Find Us</a>
-    <a href="#booking">Book Now</a>
-  </div>
-</nav>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#qualifications">Qualifications</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#packages">Packages</a>
+      <a href="#payments">Pay</a>
+      <a href="#form">Contact</a>
+      <a href="#findus">Find Us</a>
+      <a href="#booking">Book Now</a>
+    </div>
+  </nav>
 
+  <!-- Hero -->
+  <main class="container">
+    <section class="hero reveal glow-up" data-anim="hero">
+      <h2>Your Mind & Body Reset Starts Here</h2>
+      <p>Personalised programs and coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
+      <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">Book Now</a>
+    </section>
 
-  <section class="hero">
-    <h2>Your Mind & Body Reset Starts Here</h2>
-    <p>Personalised programs and coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
-    <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button">Book Now</a>
-  </section>
-</section>
-  <section id="about" class="about fade-in">
-    <h2>About Me</h2>
-    <div class="flex-container">
-      <div class="flex-item">
-        <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
-        <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
-        <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
-        <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
-        <p>Then life threw another challenge my way. While recovering from surgery, my Mum was diagnosed with stage 4 cancer. A year later, she passed away — just two months before the birth of my first child. I didn’t allow myself to grieve. I struggled in silence until I eventually reached out for support. That moment changed everything.</p>
-        <p>Over the years, I’ve worked with a wide range of therapeutic approaches — physical, emotional, and mental — and every part of that journey has shaped who I am today.</p>
-        <p>Now, I’ve made it my mission to help others achieve that same transformation.</p>
-        <p><strong>JT Mind & Body Balance</strong> is more than a gym. It’s a space where fitness meets therapy — where you’re encouraged to train your body and strengthen your mind. Whether you’re an athlete, a parent, or someone simply trying to feel better in your own skin, I’m here to guide you through it.</p>
-        <p>Because real strength doesn’t come from what you lift. It comes from what you overcome — and who you become along the way.</p>
-        <p style="font-weight: bold; color: #D4AF37;">Your journey starts now. Let’s do it together.</p>
+    <!-- About -->
+    <section id="about" class="reveal-left" data-anim>
+      <h2 class="section-title">About Me</h2>
+      <div class="flex-container">
+        <div class="flex-item">
+          <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
+          <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
+          <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
+          <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
+          <p>Then life threw another challenge my way. While recovering from surgery, my Mum was diagnosed with stage 4 cancer. A year later, she passed away — just two months before the birth of my first child. I didn’t allow myself to grieve. I struggled in silence until I eventually reached out for support. That moment changed everything.</p>
+          <p>Over the years, I’ve worked with a wide range of therapeutic approaches — physical, emotional, and mental — and every part of that journey has shaped who I am today.</p>
+          <p><strong>JT Mind & Body Balance</strong> is more than a gym. It’s a space where fitness meets therapy — where you’re encouraged to train your body and strengthen your mind.</p>
+          <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
+        </div>
+
+        <!-- Carousel -->
+        <div class="flex-item">
+          <div class="carousel-wrap reveal-right" data-anim>
+            <!-- IMPORTANT: make sure these files exist in /images folder -->
+            <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" />
+            <img src="images/img2.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img3.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img4.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img5.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img6.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img7.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img8.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img9.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <img src="images/img10.jpg.jpeg" class="carousel-image" loading="lazy" />
+            <div class="carousel-controls" id="carouselDots"></div>
+          </div>
+        </div>
       </div>
-  </section>
-  </section>
-      <div class="carousel-container">
-  <img src="images/img1.jpg.jpeg" class="carousel-image" />
-  <img src="images/img2.jpg.jpeg" class="carousel-image" />
-  <img src="images/img3.jpg.jpeg" class="carousel-image" />
-  <img src="images/img4.jpg.jpeg" class="carousel-image" />
-  <img src="images/img5.jpg.jpeg" class="carousel-image" />
-  <img src="images/img6.jpg.jpeg" class="carousel-image" />
-  <img src="images/img7.jpg.jpeg" class="carousel-image" />
-  <img src="images/img8.jpg.jpeg" class="carousel-image" />
-  <img src="images/img9.jpg.jpeg" class="carousel-image" />
-  <img src="images/img10.jpg.jpeg" class="carousel-image" />
-  <img src="images/img11.jpg.jpeg" class="carousel-image" />
-  <img src="images/img12.jpg.jpeg" class="carousel-image" />
-  <img src="images/img13.jpg.jpeg" class="carousel-image" />
-  <img src="images/img14.jpg.jpeg" class="carousel-image" />
-  <img src="images/img15.jpg.jpeg" class="carousel-image" />
-  <img src="images/img17.jpg.jpeg" class="carousel-image" />
-  <img src="images/img18.jpg.jpeg" class="carousel-image" />
-  <img src="images/img19.jpg.jpeg" class="carousel-image" />
-  <img src="images/img20.jpg.jpeg" class="carousel-image" />
-  <img src="images/img21.jpg.jpeg" class="carousel-image" />
-  <img src="images/img22.jpg.jpeg" class="carousel-image" />
-  <img src="images/img40.jpg" class="carousel-image" />
-  <img src="images/img40.jpg" class="carousel-image" />
-</div>
-    </div>
-</section>
-    <section id="intro-call" class="contact" style="text-align: center; padding: 3rem 1.5rem;">
-  <h2 style="color: #D4AF37; font-family: 'Playfair Display', serif;">Free Introductory Call</h2>
-  <p style="max-width: 700px; margin: auto; font-size: 1.1rem; color: #f0e8d5;">
-    All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James.
-    <br><br>
-    This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.
-  </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</section>
+    </section>
 
-<section id="qualifications" class="contact">
-  <h2>My Qualifications & Experience</h2>
-  <ul style="max-width: 700px; margin: auto; text-align: left; list-style: none; padding: 0; line-height: 2;">
-    <li>✅ Extended Diploma in Sports Performance</li>
-    <li>✅ Extended Diploma in Sports Nutrition & Excellence</li>
-    <li>✅ Extended Diploma in Sport & Exercise Massage</li>
-    <li>✅ Extended Diploma in Psychology</li>
-    <li>✅ Level 3 Distinction in Physiology of Fitness</li>
-    <li>✅ Level 3 Distinction in Fitness Training & Programming</li>
-    <li>✅ FA Level 2 Football Coaching Badge</li>
-    <li>✅ Adverse Childhood Trauma (ACE’s) Certificate</li>
-    <li>✅ Food Safety Awareness Certificate</li>
-    <li>✅ Health & Safety Certificate</li>
-    <li>✅ Safeguarding Certificate</li>
-    <li>✅ Enhanced DBS Certificate</li>
-    <li>✅ Ex-Professional Footballer (working to return back fully professional)</li>
-    <li>✅ Semi-Professional Footballer (current)</li>
-    <li>✅ Certified PT Coach</li>
-    <li>✅ Directly worked with children who have emotional and behavioural difficulties</li>
-  </ul>
-</section>
-<section id="podcast" class="podcast-section">
-  <h2 class="podcast-title">🎙️ Podcast</h2>
-  <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
+    <!-- Free intro call -->
+    <section id="intro-call" class="reveal" data-anim>
+      <h2 class="section-title">Free Introductory Call</h2>
+      <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a></div>
+    </section>
 
-  <div class="podcast-player">
-    <!-- Spotify Embed -->
-    <iframe style="border-radius:12px"
-      src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0"
-      width="100%" height="352" frameBorder="0" allowfullscreen=""
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
-  </div>
-
-  <div class="podcast-links">
-    <a href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" class="btn-spotify" target="_blank"> Listen on Spotify</a>
-    <a href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" class="btn-apple" target="_blank"> Listen on Apple Podcasts</a>
-  </div>
-</section>
-
-  </section>
-
-  <!-- Services, Pricing, Booking, Contact, Map & Form (no changes needed) -->
-
-  <section id="services">
-    <h2>Our Services</h2>
-    <ul>
-      <li>💪 1:1 Personal Training</li>
-      <p>
-      <li>⚽ 1:1 Football Session</li>
-      <p>
-      <li>🧘 Mobility & Posture Coaching</li>
-      <p>
-      <li>🧠 Mindset & Breathwork Coaching</li>
-      <p>
-      <li>🥗 Nutrition Programs & Guidance</li>
-      <p>
-      <li>🏋️ Gym Programs & Guidance</li>
-      <p>
-      <li>💭 Therapy/ Mentoring Session</li>
-    </ul>
-  </section>
-
-  <section id="pricing">
-    <h2>Pricing</h2>
-   <div class="pricing">
-  <h3>1:1 Personal Training</h3>
-  <p>Whether you're starting from scratch or levelling up your performance, our sessions are tailored to your goals, lifestyle, and ability. Each session is designed to challenge and support you — physically and mentally.</p>
-  <p><strong>£35 per session</strong></p>
-      </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-    <div class="pricing">
-  <h3>1:1 Football Session</h3>
-  <p>Tailored football coaching to improve your technique, fitness and game intelligence.<p>
-   <p><strong>£40 per session</strong></p>
-       </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-   <div class="pricing">
-  <h3>Online Therapy & Mentoring Coaching</h3>
-  <p>1:1 coaching designed to help you rebuild confidence, manage stress, and develop mental strength — all from the comfort of your home. Includes personalised support, tools you can use daily, and check-in messages during the week.</p>
-  <p><strong>£30 per session</strong></p>
-      </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div> 
-    <div class="pricing">
-  <h3>Nutrition Plan</h3>
-  <p>Tailored weekly plans with different meals and snacks each week, designed to meet your goals and reach your maximum potential. Shopping list of grocery items and cost breakdown to make food shopping easy and stress free, you also have daily totals which include calories, protein, fats and carbohydrate intake.</p>
-  <p><strong>£30 per month</strong></p>
-       </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-     <div class="pricing">
-  <h3>Gym Program</h3>
-  <p>Designed to meet your goals and include exercises which you will love and enjoy, weekly check ins as well as progress tracking and goal setting. highly detailed and tailored exactly to the individuals goals and targets.</p>
-<p><strong>£30 per month</strong></p>
-        </p>
-  <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-
-<section id="packages">
-  <h2>Packages</h2> 
-<p style="text-align: center; max-width: 700px; margin: 1rem auto; font-style: italic; color: #f0e8d5;">
-  Packages are just a guide and can be tailored to individual needs. Please contact me if you wish to customise and purchase a package deal.
-</p>
-</p>
-</p>
-<div class="pricing">
-  <h3>🥉 Balance Starter Tier</h3>
-  <ul>
-    <li>✔ 2x 1:1 Football Training Sessions </li>
-    <li>✔ Weekly Check-in + Updated Training Plan</li>
-  </ul>
-  <p style="font-weight: bold;">£74/month</p>
-    <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-
-<div class="pricing">
-  <h3>🥈 Balance Plus Tier</h3>
- <ul>
-    <li>✔ 2x 1:1 Football Training Sessions </li>
-    <li>✔ 1x 1:1 Gym Sessions </li>
-    <li>✔ Basic Nutrition Guidance</li>
-  </ul>
-  <p style="font-weight: bold;">£99/month</p>
-    <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-    
-<div class="pricing">
-  <h3>🥇 Balance Elite Tier</h3>
- <ul>
-    <li>✔ 4x 1:1 Football Training Sessions </li>
-    <li>✔ 2x 1:1 Gym Sessions </li>
-    <li>✔ Weekly Check-in + Updated Training Plan</li>
-    <li>✔ Advanced Nutrition Guidance</li>
-  </ul>
-  <p style="font-weight: bold;">£179/month</p>
-    <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button" style="margin-top: 1.5rem; display: inline-block;">
-    📅 Book Now
-  </a>
-</div>
-    <section id="payment" class="contact">
-  <h2>Pay for a Session</h2>
-  
-  <!-- === JT Mind & Body Balance | Payment Section === -->
-<section id="payments" style="background-color:#2e2e2e; color:white; padding:60px 20px; text-align:center; font-family:'Poppins', sans-serif;">
-  <div style="max-width:800px; margin:auto;">
-    <h2 style="color:#c79b3b; font-size:2.5rem; margin-bottom:10px;">Secure Payment Portal</h2>
-    <p style="color:#d1d1d1; font-size:1.1rem; margin-bottom:30px;">
-     Before completing your session please use the links below for payment, this is strictly safe and secure for client privacy.<br>
-      Powered by <strong>Monzo</strong>.
-    </p>
-
-    <div style="background:#1e1e1e; border-radius:16px; padding:40px; box-shadow:0 0 20px rgba(0,0,0,0.3);">
-      <h3 style="color:#c79b3b; margin-bottom:15px;">JT Mind & Body Balance Payments</h3>
-      <p style="margin-bottom:25px;">Use the button below to pay directly via Monzo.</p>
-
-      <!-- Payment Button -->
-      <a href="https://monzo.me/jamestaylor219" target="_blank" 
-         style="background:#c79b3b; color:#2e2e2e; font-weight:600; padding:14px 40px; border-radius:30px; text-decoration:none; transition:all 0.3s ease-in-out; display:inline-block;">
-         💳 Pay Now
-      </a>
-
-      <!-- Hover animation -->
-      <style>
-        a[href*="monzo.me"]:hover {
-          background:#e5b955;
-          transform:scale(1.05);
-        }
-      </style>
-
-      <!-- Optional QR Code (replace with your own QR image link) -->
-      <div style="margin-top:40px;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://monzo.me/jamestaylor219&size=160x160" alt="Monzo QR" style="border-radius:12px; margin-bottom:10px;">
-        <p style="font-size:0.9rem; color:#a0a0a0;">Scan to pay with Monzo app</p>
+    <!-- Qualifications -->
+    <section id="qualifications" class="reveal-left" data-anim>
+      <h2 class="section-title">My Qualifications & Experience</h2>
+      <div class="qual-list">
+        <ul style="margin:0; padding:0 0 0 1rem;">
+          <li>✅ Extended Diploma in Sports Performance</li>
+          <li>✅ Extended Diploma in Sports Nutrition & Excellence</li>
+          <li>✅ Extended Diploma in Sport & Exercise Massage</li>
+          <li>✅ Extended Diploma in Psychology</li>
+          <li>✅ Level 3 Distinction in Physiology of Fitness</li>
+          <li>✅ Level 3 Distinction in Fitness Training & Programming</li>
+          <li>✅ FA Level 2 Football Coaching Badge</li>
+          <li>✅ Adverse Childhood Trauma (ACE’s) Certificate</li>
+          <li>✅ Food Safety Awareness Certificate</li>
+          <li>✅ Health & Safety Certificate</li>
+          <li>✅ Safeguarding Certificate</li>
+          <li>✅ Enhanced DBS Certificate</li>
+          <li>✅ Ex-Professional Footballer</li>
+          <li>✅ Semi-Professional Footballer</li>
+          <li>✅ Certified PT Coach</li>
+          <li>✅ Directly worked with children who have emotional and behavioural difficulties</li>
+        </ul>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
+    <!-- Podcast -->
+    <section id="podcast" class="podcast-section reveal" data-anim>
+      <h2 class="podcast-title">🎙️ Podcast</h2>
+      <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
+      <div class="podcast-player" style="max-width:880px;margin:0 auto">
+        <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      </div>
+      <div class="podcast-links">
+        <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank">Listen on Spotify</a>
+        <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank">Listen on Apple Podcasts</a>
+      </div>
+    </section>
 
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-    <div class="contact-buttons">
-      <a href="mailto:james.taylor3011@yahoo.com" class="button">📧 Email Us</a>
-      <a href="https://instagram.com/jt.mind.body.balance" target="_blank" class="button">📸 Instagram</a>
-      <a href="tel:07885470111" class="button">📞 Call</a>
-      <a href="https://wa.me/447885470111" target="_blank" class="button">💬 WhatsApp</a>
-    </div>
-  </section>
+    <!-- Services -->
+    <section id="services" class="reveal-right" data-anim>
+      <h2 class="section-title">Our Services</h2>
+      <ul class="clean">
+        <li>💪 1:1 Personal Training</li>
+        <li>⚽ 1:1 Football Session</li>
+        <li>🛒 1:1 Personal Health Shopping</li>
+        <li>🧘 Mobility & Posture Coaching</li>
+        <li>🧠 Mindset & Breathwork Coaching</li>
+        <li>🥗 Nutrition Programs & Guidance</li>
+        <li>🏋️ Gym Programs & Guidance</li>
+        <li>💭 Therapy/Mentoring Session</li>
+      </ul>
+    </section>
 
-  <section id="findus" class="contact">
-    <h2>Find Us</h2>
-    <p>📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
-    <div style="margin: 2rem 0;">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.6465561842290426!3d51.4848729796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721380100000!5m2!1sen!2suk"
-        width="100%" height="300" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy">
-      </iframe>
-    </div>
-  </section>
+    <!-- Pricing -->
+    <section id="pricing" class="reveal" data-anim>
+      <h2 class="section-title">Pricing</h2>
 
-  <section id="form" class="contact">
-  <h2>Send a Message</h2>
-  <form action="https://formspree.io/f/mrblpgyw" method="POST" style="max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
-    <input type="text" name="name" placeholder="Your Name" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
-    <input type="email" name="email" placeholder="Your Email" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;">
-    <textarea name="message" placeholder="Your Message" rows="5" required style="padding: 0.75rem; border-radius: 0.5rem; border: none;"></textarea>
-    <button type="submit" class="button">Send Message</button>
-      <p id="formSuccess" style="display: none; color: #D4AF37;">✅ Message sent successfully </p>
-    </form>
-  </section>
+      <div class="pricing">
+        <h3>1:1 Personal Training</h3>
+        <p>£35 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
 
-      <section id="booking" class="contact">
-    <h2>Get Booked In Today</h2>
-    <p>Use our booking system below to find a time that works for you.</p>
-    <a href="https://calendly.com/jt-mind-body-balance" target="_blank" class="button">Book Now</a>
-  </section>
+      <div class="pricing">
+        <h3>1:1 Football Session</h3>
+        <p>£40 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
 
-  <!-- Scroll Animation Script -->
+      <div class="pricing">
+        <h3>Online Therapy & Mentoring Coaching</h3>
+        <p>£30 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>Nutrition Plan</h3>
+        <p>£30 per month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
+    </section>
+
+    <!-- Packages -->
+    <section id="packages" class="reveal-left" data-anim>
+      <h2 class="section-title">Packages</h2>
+      <p style="text-align:center; color:#dcd3b8; font-style:italic; max-width:760px; margin:0 auto 1rem">Packages are just a guide and can be tailored to individual needs. Please contact me if you wish to customise and purchase a package deal.</p>
+
+      <div class="pricing">
+        <h3>🥉 Balance Starter Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+        </ul>
+        <p style="font-weight:bold">£74/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥈 Balance Plus Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ 1x 1:1 Gym Session</li>
+          <li>✔ Basic Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£99/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥇 Balance Elite Tier</h3>
+        <ul class="clean">
+          <li>✔ 4x 1:1 Football Training Sessions</li>
+          <li>✔ 2x 1:1 Gym Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+          <li>✔ Advanced Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£179/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a>
+      </div>
+    </section>
+
+    <!-- Payments -->
+    <section id="payments" class="reveal" data-anim>
+      <h2 class="section-title">Secure Payment Portal</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem; color:#d1d1d1">Before completing your session please use the link below for secure payment via Monzo. Powered by Monzo.</p>
+
+      <div style="max-width:820px; margin:1rem auto; text-align:center">
+        <div style="background:var(--panel); padding:28px; border-radius:14px;">
+          <h3 style="color:var(--accent)">JT Mind & Body Balance Payments</h3>
+          <p>Use the button below to pay directly via Monzo.</p>
+          <a class="button" href="https://monzo.me/jamestaylor219" target="_blank" style="background:var(--accent); color:#1c1c1c">💳 Pay Now</a>
+
+          <div style="margin-top:18px">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://monzo.me/jamestaylor219&size=140x140" alt="Monzo QR" style="border-radius:10px">
+            <p style="color:#a8a18f; font-size:.9rem">Scan to pay with Monzo app</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="form" class="reveal-left" data-anim>
+      <h2 class="section-title">Send a Message</h2>
+      <form id="contactForm" action="https://formspree.io/f/mrblpgyw" method="POST" style="max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:12px">
+        <input name="name" placeholder="Your Name" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <input type="email" name="email" placeholder="Your Email" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <textarea name="message" rows="5" placeholder="Your Message" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)"></textarea>
+        <div style="display:flex; gap:10px; align-items:center; justify-content:center">
+          <button type="submit" class="button">Send Message</button>
+          <p id="formSuccess" style="display:none;color:var(--gold);margin:0">✅ Message sent</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Find us -->
+    <section id="findus" class="reveal" data-anim>
+      <h2 class="section-title">Find Us</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
+      <div style="max-width:900px;margin:1rem auto;border-radius:12px;overflow:hidden">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.6465561842290426!3d51.4848729796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721380100000!5m2!1sen!2suk" width="100%" height="300" style="border:0" loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <!-- Booking CTA -->
+    <section id="booking" class="reveal-right" data-anim>
+      <h2 class="section-title">Get Booked In Today</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">Use our booking system below to find a time that works for you.</p>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">Book Now</a></div>
+    </section>
+  </main>
+
+  <!-- Back to top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- Scripts -->
   <script>
-    const faders = document.querySelectorAll('.fade-in');
-    const appearOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    const appearOnScroll = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+    /* -------------------------
+       Cursor (desktop only)
+    ------------------------- */
+    (function(){
+      const cursor = document.getElementById('cursor');
+      const dot = document.getElementById('cursorDot');
+
+      // hide cursor on touch devices
+      if('ontouchstart' in window) { cursor.style.display='none'; dot.style.display='none'; return; }
+
+      document.addEventListener('mousemove', e=>{
+        cursor.style.left = (e.clientX) + 'px';
+        cursor.style.top  = (e.clientY) + 'px';
+        dot.style.left = (e.clientX) + 'px';
+        dot.style.top  = (e.clientY) + 'px';
       });
-    }, appearOptions);
-    faders.forEach(fader => {
-      appearOnScroll.observe(fader);
-    });
 
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      document.getElementById("formSuccess").style.display = "block";
-      setTimeout(() => {
-        document.getElementById("formSuccess").style.display = "none";
-        this.reset();
-      }, 4000);
-    });
-    // Back to Top Button
-const backToTop = document.getElementById("backToTop");
+      // enlarge on interactive elements
+      const interactives = document.querySelectorAll('a, button, .button');
+      interactives.forEach(el=>{
+        el.addEventListener('mouseenter', ()=> { cursor.style.transform='translate(-50%,-50%) scale(1.45)'; dot.style.transform='translate(-50%,-50%) scale(.6)'; })
+        el.addEventListener('mouseleave', ()=> { cursor.style.transform='translate(-50%,-50%) scale(1)'; dot.style.transform='translate(-50%,-50%) scale(1)'; })
+      });
+    })();
 
-window.onscroll = function () {
-  backToTop.style.display = window.scrollY > 300 ? "block" : "none";
-};
+    /* -------------------------
+       Scroll reveal (IntersectionObserver)
+       Adds 'show' class to elements with data-anim or .reveal*
+    ------------------------- */
+    (function(){
+      const opts = { threshold: 0.12 };
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('show');
+            // if you want repeat on scroll remove the next line
+            io.unobserve(entry.target);
+          }
+        });
+      }, opts);
 
-backToTop.addEventListener("click", function () {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+      // pick all elements we want to animate
+      document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up').forEach(el=>{
+        io.observe(el);
+      });
+    })();
 
+    /* -------------------------
+       Carousel: simple auto + dot controls
+    ------------------------- */
+    (function(){
+      const wrap = document.querySelector('.carousel-wrap');
+      if(!wrap) return;
+      const imgs = Array.from(wrap.querySelectorAll('img'));
+      const dotsContainer = document.getElementById('carouselDots');
+      let idx = 0;
+      const LEN = imgs.length;
+
+      // build dots
+      imgs.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===0? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        imgs.forEach(img=> img.classList.remove('active'));
+        imgs[i].classList.add('active');
+        // update dots
+        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        idx = i;
+      }
+
+      // autoplay
+      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
+
+      // pause on hover
+      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
+      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
+    })();
+
+    /* -------------------------
+       Back to top control
+    ------------------------- */
+    (function(){
+      const btn = document.getElementById('backToTop');
+      window.addEventListener('scroll', ()=>{
+        btn.style.display = (window.scrollY>300)?'block':'none';
+      });
+      btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    })();
+
+    /* -------------------------
+       Form submission feedback
+    ------------------------- */
+    (function(){
+      const form = document.getElementById('contactForm');
+      const success = document.getElementById('formSuccess');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        // let the Formspree handle the request — just show a quick UI feedback
+        success.style.display = 'inline-block';
+        setTimeout(()=> success.style.display='none', 4500);
+      });
+    })();
+
+    /* -------------------------
+       Small improvement: animate logo on load
+    ------------------------- */
+    (function(){
+      const logo = document.getElementById('siteLogo');
+      if(!logo) return;
+      logo.style.transform = 'scale(.92)';
+      logo.style.opacity = '0';
+      setTimeout(()=> { logo.style.transition = 'transform 750ms cubic-bezier(.2,.9,.3,1), opacity 750ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
+    })();
   </script>
-  
-  <button id="backToTop" title="Back to top">↑</button>
-  <!-- ✅ Scroll to Top Button -->
-<button id="backToTop" title="Back to top">↑</button>
 
-<style>
-  #backToTop {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background-color: #D4AF37;
-    color: #1C1C1C;
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: none;
-    z-index: 9999;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: opacity 0.3s ease;
-  }
-
-  #backToTop:hover {
-    background-color: #e1c65a;
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const backToTop = document.getElementById("backToTop");
-
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        backToTop.style.display = "block";
-      } else {
-        backToTop.style.display = "none";
-      }
-    });
-
-    backToTop.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  });
-</script>
-  <script>
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("collapsed");
-  }
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const aboutParagraphs = document.querySelectorAll("#about p");
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }, index * 1000); // Delay each paragraph by 1000ms
-        }
-      });
-    }, { threshold: 0.2 });
-
-    aboutParagraphs.forEach(p => {
-      p.classList.add("fade-in");
-      observer.observe(p);
-    });
-  });
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const images = [
-      'images/img1.jpg.jpeg', 'images/img2.jpg.jpeg', 'images/img3.jpg.jpeg', 'images/img4.jpg.jpeg',
-      'images/img5.jpg.jpeg', 'images/img6.jpg.jpeg', 'images/img7.jpg.jpeg', 'images/img8.jpg.jpeg',
-      'images/img9.jpg.jpeg', 'images/img10.jpg.jpeg', 'images/img11.jpg.jpeg', 'images/img12.jpg.jpeg',
-      'images/img13.jpg.jpeg', 'images/img14.jpg.jpeg', 'images/img15.jpg.jpeg',
-      'images/img17.jpg.jpeg', 'images/img18.jpg.jpeg', 'images/img19.jpg.jpeg', 'images/img20.jpg.jpeg',
-      'images/img21.jpg.jpeg', 'images/img22.jpg.jpeg', 
-    ];
-
-    let currentIndex = 0;
-    const galleryImage = document.getElementById('galleryImage');
-
-    function showImage(index) {
-      if (galleryImage && images[index]) {
-        galleryImage.src = images[index];
-        currentIndex = index;
-      }
-    }
-
-    // Auto-scroll every 4 seconds
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
-    }, 4000);
-
-    // Expose showImage globally so buttons can use it
-    window.showImage = showImage;
-
-    // Show first image immediately
-    showImage(currentIndex);
-  });
-</script>
-<script>
-let currentIndex = 0;
-const images = document.querySelectorAll(".carousel-image");
-
-function showNextImage() {
-  images[currentIndex].classList.remove("active");
-  currentIndex = (currentIndex + 1) % images.length;
-  images[currentIndex].classList.add("active");
-}
-
-images[currentIndex].classList.add("active");
-setInterval(showNextImage, 4000);
-</script>
-      
- 
 </body>
 </html>
