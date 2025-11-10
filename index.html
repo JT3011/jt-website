@@ -16,7 +16,9 @@
       --muted:#f0e8d5;
       --card:#2e2e2e;
       --accent:#c79b3b;
+      --glass: rgba(255,255,255,0.03);
     }
+
     /* Reset & base */
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -28,6 +30,7 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       scroll-behavior:smooth;
+      -webkit-touch-callout:none;
     }
     a{color:inherit}
     img{max-width:100%;display:block}
@@ -47,12 +50,19 @@
       justify-content:center;
       transform:translateY(10px);
       opacity:0;
-      animation:logoIn 900ms cubic-bezier(.2,.9,.3,1) forwards;
+      animation:logoIn 1100ms cubic-bezier(.2,.9,.3,1) forwards;
     }
     @keyframes logoIn{
       to { transform:translateY(0); opacity:1; }
     }
-    header img{ width:140px; height:auto; display:block; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.6) }
+    header img{
+      width:140px;
+      height:auto;
+      display:block;
+      border-radius:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      transform-origin:center;
+    }
     header h1{
       margin:0;
       font-family:'Playfair Display', serif;
@@ -63,7 +73,7 @@
       opacity:0;
       animation:headlineIn 1000ms 200ms cubic-bezier(.2,.9,.3,1) forwards;
     }
-    header p{margin:.5rem 0 0; color:#e8e1cc; opacity:.9}
+    header p{margin:.5rem 0 0; color:#e8e1cc; opacity:.96}
 
     @keyframes headlineIn{
       to { transform:translateY(0); opacity:1; }
@@ -91,9 +101,9 @@
       background:transparent;
       transition:transform .18s ease, background .18s;
     }
-    .nav-links a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.08) }
+    .nav-links a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.06) }
 
-    /* Hero section */
+    /* Container & hero */
     .container{ max-width:1100px; margin:0 auto; padding:2rem 1.25rem }
     .hero{
       background:linear-gradient(180deg,#262626 0%, #2a2a2a 100%);
@@ -120,18 +130,18 @@
     ul.clean{ list-style:none; padding:0; margin:0; line-height:2 }
 
     /* Qualifications list */
-    .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:rgba(255,255,255,0.02); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
+    .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
 
     /* Podcast block */
     .podcast-section{ padding:3rem 1rem; text-align:center; background:transparent; }
     .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
 
-    /* Carousel (keeps fixed height so page doesn't jump) */
-    .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#111 }
-    .carousel-wrap img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 900ms ease-in-out, transform 900ms ease; }
+    /* Carousel (fixed height to avoid jumps) */
+    .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
+    .carousel-wrap img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
     .carousel-wrap img.active{ opacity:1; transform:scale(1); }
     .carousel-controls{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
-    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.18); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
+    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
     .dot.active{ background:var(--gold); transform:scale(1.15) }
 
     /* Contact buttons */
@@ -149,33 +159,53 @@
     }
     .cursor{
       width:36px; height:36px; border-radius:50%;
-      border:2px solid rgba(212,175,55,0.95); transform:translate(-50%,-50%) scale(1);
-      box-shadow:0 10px 30px rgba(212,175,55,0.06), inset 0 2px 6px rgba(212,175,55,0.02);
+      border:2px solid rgba(212,175,55,0.98); transform:translate(-50%,-50%) scale(1);
+      box-shadow:0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset;
       background: rgba(212,175,55,0.06);
-      opacity:0.95;
+      opacity:0.98;
+      backdrop-filter: blur(2px);
     }
     .cursor-dot{
-      width:6px;height:6px;border-radius:50%; background:var(--gold); transform:translate(-50%,-50%) scale(1);
+      width:8px;height:8px;border-radius:50%; background:var(--gold); transform:translate(-50%,-50%) scale(1);
+      box-shadow:0 6px 18px rgba(212,175,55,0.18);
     }
 
     /* Hover states for interactive elements */
-    a:hover ~ .cursor, .button:hover ~ .cursor { transform:translate(-50%,-50%) scale(1.5); background: rgba(212,175,55,0.12) }
+    a:hover ~ .cursor, .button:hover ~ .cursor { transform:translate(-50%,-50%) scale(1.55); background: rgba(212,175,55,0.12) }
     .button:hover + .cursor { transform:translate(-50%,-50%) scale(1.45) }
 
-    /* Anim helpers (applied by JS) */
-    .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 900ms cubic-bezier(.2,.9,.3,1) }
+    /* Reveal helpers */
+    .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
     .reveal.show{ opacity:1; transform:translateY(0) scale(1) }
 
-    .reveal-left{ opacity:0; transform:translateX(-28px) scale(.99) }
+    .reveal-left{ opacity:0; transform:translateX(-36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
     .reveal-left.show{ opacity:1; transform:translateX(0) scale(1) }
 
-    .reveal-right{ opacity:0; transform:translateX(28px) scale(.99) }
+    .reveal-right{ opacity:0; transform:translateX(36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
     .reveal-right.show{ opacity:1; transform:translateX(0) scale(1) }
 
     .glow-up{ transform:translateY(8px); opacity:0; transition:all 1200ms cubic-bezier(.2,.9,.3,1) }
     .glow-up.show{ transform:translateY(0); opacity:1; box-shadow:0 18px 50px rgba(212,175,55,0.06) }
 
-    /* Responsive tweaks */
+    /* Reviews (bold section) */
+    .reviews-wrap{ max-width:900px; margin:1.5rem auto; position:relative; border-radius:12px; overflow:visible; padding:1rem }
+    .review-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; padding:1.1rem 1.25rem; box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      display:flex; gap:12px; align-items:flex-start; transition: transform 600ms cubic-bezier(.2,.9,.3,1), box-shadow 600ms;
+      transform-origin:center;
+    }
+    .review-card + .review-card{ margin-top:12px }
+    .review-card .avatar{ width:64px; height:64px; border-radius:12px; flex:0 0 64px; object-fit:cover; box-shadow:0 8px 18px rgba(0,0,0,0.45) }
+    .review-card .body{ color:#eae6d7 }
+    .review-card .who{ color:var(--gold); font-weight:700; margin-bottom:4px }
+    .review-card:hover{ transform:translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.7) }
+
+    .reviews-controls{ display:flex; gap:8px; justify-content:center; margin-top:10px }
+    .review-dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer; transition:all .25s }
+    .review-dot.active{ background:var(--gold); transform:scale(1.2) }
+
+    /* Mobile-specific */
     @media (max-width:900px){
       .carousel-wrap{ height:320px }
       .hero{ padding:2.4rem 1rem }
@@ -184,19 +214,26 @@
     }
     @media (max-width:600px){
       nav{ padding:.5rem }
-      .nav-links a{ padding:.4rem .6rem; font-size:0.95rem }
+      .nav-links a{ padding:.35rem .6rem; font-size:0.95rem }
       .flex-container{ flex-direction:column }
       .flex-item{ width:100% }
       .carousel-wrap{ height:260px }
       .cursor{ display:none } /* hide custom cursor on mobile for UX */
+
+      /* stronger logo animation on mobile */
+      header img{ animation: mobileLogoPulse 2000ms ease-in-out infinite alternate; border-radius:14px; }
+      @keyframes mobileLogoPulse {
+        from { transform: scale(1); box-shadow:0 8px 20px rgba(0,0,0,0.6) }
+        to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Custom cursor elements -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
+  <!-- Custom cursor elements (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
   <!-- Header -->
   <header>
@@ -224,15 +261,15 @@
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Main -->
   <main class="container">
     <section class="hero reveal glow-up" data-anim="hero">
       <h2>Your Mind & Body Reset Starts Here</h2>
       <p>Personalised programs and coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
-      <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">Book Now</a>
+      <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
     </section>
 
-    <!-- About -->
+    <!-- About + Carousel -->
     <section id="about" class="reveal-left" data-anim>
       <h2 class="section-title">About Me</h2>
       <div class="flex-container">
@@ -241,27 +278,19 @@
           <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
           <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
           <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
-          <p>Then life threw another challenge my way. While recovering from surgery, my Mum was diagnosed with stage 4 cancer. A year later, she passed away — just two months before the birth of my first child. I didn’t allow myself to grieve. I struggled in silence until I eventually reached out for support. That moment changed everything.</p>
-          <p>Over the years, I’ve worked with a wide range of therapeutic approaches — physical, emotional, and mental — and every part of that journey has shaped who I am today.</p>
-          <p><strong>JT Mind & Body Balance</strong> is more than a gym. It’s a space where fitness meets therapy — where you’re encouraged to train your body and strengthen your mind.</p>
           <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
         </div>
 
-        <!-- Carousel -->
         <div class="flex-item">
           <div class="carousel-wrap reveal-right" data-anim>
-            <!-- IMPORTANT: make sure these files exist in /images folder -->
-            <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" />
-            <img src="images/img2.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img3.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img4.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img5.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img6.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img7.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img8.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img9.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <img src="images/img10.jpg.jpeg" class="carousel-image" loading="lazy" />
-            <div class="carousel-controls" id="carouselDots"></div>
+            <!-- IMPORTANT: ensure these paths exist in /images -->
+            <img src="images/img1.jpg" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
+            <img src="images/img2.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
+            <img src="images/img3.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 3" />
+            <img src="images/img4.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 4" />
+            <img src="images/img5.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 5" />
+            <img src="images/img6.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 6" />
+            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -271,7 +300,7 @@
     <section id="intro-call" class="reveal" data-anim>
       <h2 class="section-title">Free Introductory Call</h2>
       <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
-      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank">📅 Book Now</a></div>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a></div>
     </section>
 
     <!-- Qualifications -->
@@ -294,7 +323,386 @@
           <li>✅ Ex-Professional Footballer</li>
           <li>✅ Semi-Professional Footballer</li>
           <li>✅ Certified PT Coach</li>
-          <li>✅ Directly worked with children who have emotional and behavioural difficulties</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Podcast -->
+    <section id="podcast" class="podcast-section reveal" data-anim>
+      <h2 class="podcast-title">🎙️ Podcast</h2>
+      <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
+      <div class="podcast-player" style="max-width:880px;margin:0 auto">
+        <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
+      </div>
+      <div class="podcast-links">
+        <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
+        <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="reveal-right" data-anim>
+      <h2 class="section-title">Our Services</h2>
+      <ul class="clean">
+        <li>💪 1:1 Personal Training</li>
+        <li>⚽ 1:1 Football Session</li>
+        <li>🛒 1:1 Personal Health Shopping</li>
+        <li>🧘 Mobility & Posture Coaching</li>
+        <li>🧠 Mindset & Breathwork Coaching</li>
+        <li>🥗 Nutrition Programs & Guidance</li>
+        <li>🏋️ Gym Programs & Guidance</li>
+        <li>💭 Therapy/Mentoring Session</li>
+      </ul>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="reveal" data-anim>
+      <h2 class="section-title">Pricing</h2>
+
+      <div class="pricing">
+        <h3>1:1 Personal Training</h3>
+        <p>£35 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>1:1 Football Session</h3>
+        <p>£40 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>Online Therapy & Mentoring Coaching</h3>
+        <p>£30 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>Nutrition Plan</h3>
+        <p>£30 per month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+    </section>
+
+    <!-- Packages -->
+    <section id="packages" class="reveal-left" data-anim>
+      <h2 class="section-title">Packages</h2>
+      <p style="text-align:center; color:#dcd3b8; font-style:italic; max-width:760px; margin:0 auto 1rem">Packages are just a guide and can be tailored to individual needs. Please contact me if you wish to customise and purchase a package deal.</p>
+
+      <div class="pricing">
+        <h3>🥉 Balance Starter Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+        </ul>
+        <p style="font-weight:bold">£74/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥈 Balance Plus Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ 1x 1:1 Gym Session</li>
+          <li>✔ Basic Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£99/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥇 Balance Elite Tier</h3>
+        <ul class="clean">
+          <li>✔ 4x 1:1 Football Training Sessions</li>
+          <li>✔ 2x 1:1 Gym Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+          <li>✔ Advanced Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£179/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+    </section>
+
+    <!-- Reviews - bold animated -->
+    <section id="reviews" class="reveal" data-anim>
+      <h2 class="section-title">Client Reviews</h2>
+      <div class="reviews-wrap" id="reviewsWrap" aria-live="polite">
+        <!-- Cards (replace avatar src with real images or keep generic) -->
+        <div class="review-card" data-index="0">
+          <img src="images/avatar1.jpg" alt="Client 1" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Sam P. — Semi-Pro Player</div>
+            <div class="txt">“James transformed my recovery and performance — the blend of mindset work and training is unreal. Highly recommended.”</div>
+          </div>
+        </div>
+
+        <div class="review-card" data-index="1" style="display:none">
+          <img src="images/avatar2.jpg" alt="Client 2" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Laura M. — Busy Mum</div>
+            <div class="txt">“Practical, kind and results-driven. The shopping sessions saved me time and helped the whole family eat better.”</div>
+          </div>
+        </div>
+
+        <div class="review-card" data-index="2" style="display:none">
+          <img src="images/avatar3.jpg" alt="Client 3" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Ethan R. — Youth Player Parent</div>
+            <div class="txt">“Clear progress, great communication and genuine care. My son's confidence has grown massively.”</div>
+          </div>
+        </div>
+
+        <div class="reviews-controls" id="reviewDots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Payments -->
+    <section id="payments" class="reveal" data-anim>
+      <h2 class="section-title">Secure Payment Portal</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem; color:#d1d1d1">Before completing your session please use the link below for secure payment via Monzo. Powered by Monzo.</p>
+
+      <div style="max-width:820px; margin:1rem auto; text-align:center">
+        <div style="background:var(--panel); padding:28px; border-radius:14px;">
+          <h3 style="color:var(--accent)">JT Mind & Body Balance Payments</h3>
+          <p>Use the button below to pay directly via Monzo.</p>
+          <a class="button" href="https://monzo.me/jamestaylor219" target="_blank" rel="noopener" style="background:var(--accent); color:#1c1c1c">💳 Pay Now</a>
+
+          <div style="margin-top:18px">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://monzo.me/jamestaylor219&size=140x140" alt="Monzo QR" style="border-radius:10px">
+            <p style="color:#a8a18f; font-size:.9rem">Scan to pay with Monzo app</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="form" class="reveal-left" data-anim>
+      <h2 class="section-title">Send a Message</h2>
+      <form id="contactForm" action="https://formspree.io/f/mrblpgyw" method="POST" style="max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:12px">
+        <input name="name" placeholder="Your Name" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <input type="email" name="email" placeholder="Your Email" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <textarea name="message" rows="5" placeholder="Your Message" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)"></textarea>
+        <div style="display:flex; gap:10px; align-items:center; justify-content:center">
+          <button type="submit" class="button">Send Message</button>
+          <p id="formSuccess" style="display:none;color:var(--gold);margin:0">✅ Message sent</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Find Us + Booking CTA -->
+    <section id="findus" class="reveal" data-anim>
+      <h2 class="section-title">Find Us</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
+      <div style="max-width:900px;margin:1rem auto;border-radius:12px;overflow:hidden">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.6465561842290426!3d51.4848729796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721380100000!5m2!1sen!2suk" width="100%" height="300" style="border:0" loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section id="booking" class="reveal-right" data-anim>
+      <h2 class="section-title">Get Booked In Today</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">Use our booking system below to find a time that works for you.</p>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a></div>
+    </section>
+
+  </main>
+
+  <!-- Back to top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- Scripts -->
+  <script>
+    /* -------------------------
+       Cursor (desktop only) - stronger trail + glow
+    ------------------------- */
+    (function(){
+      const cursor = document.getElementById('cursor');
+      const dot = document.getElementById('cursorDot');
+
+      // hide cursor on touch devices
+      if('ontouchstart' in window) { cursor.style.display='none'; dot.style.display='none'; return; }
+
+      let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+      let pos = { x: mouse.x, y: mouse.y };
+      const ease = 0.18;
+
+      document.addEventListener('mousemove', e=>{
+        mouse.x = e.clientX; mouse.y = e.clientY;
+        cursor.style.opacity = 1;
+        dot.style.opacity = 1;
+      });
+
+      // trailing animation loop
+      function animate(){
+        pos.x += (mouse.x - pos.x) * ease;
+        pos.y += (mouse.y - pos.y) * ease;
+        cursor.style.left = pos.x + 'px';
+        cursor.style.top  = pos.y + 'px';
+        // dot snaps quicker
+        dot.style.left = (pos.x + (mouse.x - pos.x)*0.6) + 'px';
+        dot.style.top  = (pos.y + (mouse.y - pos.y)*0.6) + 'px';
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // enlarge on interactive elements
+      const interactives = document.querySelectorAll('a, button, .button');
+      interactives.forEach(el=>{
+        el.addEventListener('mouseenter', ()=> {
+          cursor.style.transform='translate(-50%,-50%) scale(1.7)';
+          dot.style.transform='translate(-50%,-50%) scale(.5)';
+          cursor.style.boxShadow = '0 26px 60px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.06) inset';
+        });
+        el.addEventListener('mouseleave', ()=> {
+          cursor.style.transform='translate(-50%,-50%) scale(1)';
+          dot.style.transform='translate(-50%,-50%) scale(1)';
+          cursor.style.boxShadow = '0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset';
+        });
+      });
+    })();
+
+    /* -------------------------
+       Scroll reveal (IntersectionObserver)
+       Adds 'show' class to elements with data-anim or .reveal*
+       Slower reveals for a bold effect.
+    ------------------------- */
+    (function(){
+      const opts = { threshold: 0.12, rootMargin: '0px 0px -6% 0px' };
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            // staggered reveal based on children
+            const el = entry.target;
+            // small stagger for lists/cards
+            const children = el.querySelectorAll('p, h2, .pricing, .review-card, img, li');
+            if(children.length > 1){
+              children.forEach((c,i) => {
+                setTimeout(()=> c.classList && c.classList.add('show'), i * 120 );
+              });
+            }
+            el.classList.add('show');
+            io.unobserve(el);
+          }
+        });
+      }, opts);
+
+      // pick all elements we want to animate
+      document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up, .carousel-wrap').forEach(el=>{
+        io.observe(el);
+      });
+    })();
+
+    /* -------------------------
+       Carousel: simple auto + dot controls
+    ------------------------- */
+    (function(){
+      const wrap = document.querySelector('.carousel-wrap');
+      if(!wrap) return;
+      const imgs = Array.from(wrap.querySelectorAll('img'));
+      const dotsContainer = document.getElementById('carouselDots');
+      let idx = imgs.findIndex(i=>i.classList.contains('active'));
+      if(idx < 0) idx = 0;
+      const LEN = imgs.length;
+
+      // build dots
+      imgs.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===idx? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        imgs.forEach(img=> img.classList.remove('active'));
+        imgs[i].classList.add('active');
+        // update dots
+        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        idx = i;
+      }
+
+      // autoplay
+      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
+
+      // pause on hover
+      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
+      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
+    })();
+
+    /* -------------------------
+       Reviews carousel (bold + manual)
+    ------------------------- */
+    (function(){
+      const wrap = document.getElementById('reviewsWrap');
+      if(!wrap) return;
+      const cards = Array.from(wrap.querySelectorAll('.review-card'));
+      const dotsContainer = document.getElementById('reviewDots');
+      let active = 0;
+      const LEN = cards.length;
+
+      // hide all except first
+      cards.forEach((c,i)=> c.style.display = (i===0? 'flex':'none'));
+
+      // build dots
+      cards.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'review-dot' + (i===0? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        cards.forEach((c,ci)=> {
+          c.style.display = (ci===i? 'flex':'none');
+          if(ci===i){ c.classList.add('show'); } else { c.classList.remove('show'); }
+        });
+        dotsContainer.querySelectorAll('.review-dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        active = i;
+      }
+
+      // autoplay reviews
+      let rTimer = setInterval(()=> show((active+1)%LEN), 7000);
+      wrap.addEventListener('mouseenter', ()=> clearInterval(rTimer));
+      wrap.addEventListener('mouseleave', ()=> rTimer = setInterval(()=> show((active+1)%LEN), 7000));
+    })();
+
+    /* -------------------------
+       Back to top control
+    ------------------------- */
+    (function(){
+      const btn = document.getElementById('backToTop');
+      window.addEventListener('scroll', ()=>{
+        btn.style.display = (window.scrollY>300)?'block':'none';
+      });
+      btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    })();
+
+    /* -------------------------
+       Form submission feedback
+    ------------------------- */
+    (function(){
+      const form = document.getElementById('contactForm');
+      const success = document.getElementById('formSuccess');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        // let the Formspree handle the request — just show a quick UI feedback
+        success.style.display = 'inline-block';
+        setTimeout(()=> success.style.display='none', 4500);
+      });
+    })();
+
+    /* -------------------------
+       Logo micro animation on load
+    ------------------------- */
+    (function(){
+      const logo = document.getElementById('siteLogo');
+      if(!logo) return;
+      logo.style.transform = 'scale(.94)';
+      logo.style.opacity = '0';
+      setTimeout(()=> { logo.style.transition = 'transform 850ms cubic-bezier(.2,.9,.3,1), opacity 850ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
+    })();
+  </script>
+
+</body>
+</html>
         </ul>
       </div>
     </section>
