@@ -256,6 +256,36 @@
         to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
       }
     }
+    /* REMOVE BOXES / BORDERS / CARDS / OUTLINES */
+section, .section, .container, .content-box, .card, .wrapper {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+}
+
+/* REMOVE OUTLINE FROM ANY ELEMENTS */
+* {
+    outline: none !important;
+}
+
+/* MAKE SECTIONS FEEL NATURAL & BLENDED */
+section {
+    padding: 8rem 2rem; /* smoother spacing instead of boxed layout */
+}
+
+/* OPTIONAL: MAKE TEXT FEEL LIKE IT'S FLOATING ON THE BACKGROUND */
+section h1, section h2, section p, section li {
+    background: transparent !important;
+}
+
+/* REMOVE WHITE BOXES BEHIND FLEX/GRID ELEMENTS */
+div {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
   </style>
 </head>
 <body>
