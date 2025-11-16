@@ -256,6 +256,22 @@
         to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
       }
     }
+
+/* Hide nav heading bar on mobile */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+}
+
+/* Keep nav heading bar on desktop */
+@media (min-width: 769px) {
+  .navbar {
+    display: block;
+  }
+}
+
+    
   /* ============ Navbar ============ */
 .navbar {
   position: fixed;
