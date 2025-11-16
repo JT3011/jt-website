@@ -298,7 +298,21 @@
   font-size: 1.2rem;
   color: #d4af37;
 }
+    
+   /* Hide nav heading bar on mobile */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+}
 
+/* Keep nav heading bar on desktop */
+@media (min-width: 769px) {
+  .navbar {
+    display: block;
+  }
+}
+    
 /* ============ Hamburger ============ */
 .hamburger {
   display: none;
@@ -382,19 +396,6 @@
   .hamburger { display: none !important; }
 }
 
-    /* Hide nav heading bar on mobile */
-@media (max-width: 768px) {
-  .navbar {
-    display: none;
-  }
-}
-
-/* Keep nav heading bar on desktop */
-@media (min-width: 769px) {
-  .navbar {
-    display: block;
-  }
-}
   </style>
 </head>
 <body>
@@ -899,6 +900,12 @@
       setTimeout(()=> { logo.style.transition = 'transform 850ms cubic-bezier(.2,.9,.3,1), opacity 850ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
     })();
 
+const bgVideo = document.querySelector("video");
+
+bgVideo.addEventListener("ended", () => {
+  bgVideo.currentTime = 0;
+  bgVideo.play();
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('hamburgerBtn');
