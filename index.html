@@ -256,6 +256,103 @@
         to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
       }
     }
+    /* NAVBAR BASE STYLES */
+.navbar {
+  width: 100%;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: transparent; /* minimal look */
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  color: #d4af37; /* gold accent */
+}
+
+/* DESKTOP MENU */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  font-weight: 600;
+  color: white;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #d4af37;
+}
+
+/* HAMBURGER ICON */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+}
+
+/* MOBILE MENU */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 65px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    padding: 1rem;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links a {
+    color: white;
+    font-size: 1rem;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+}
+
+/* Minimal theme overrides */
+header,
+nav,
+.nav-links,
+.navbar {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
     
   </style>
 </head>
@@ -276,6 +373,30 @@
     <img src="logo.jpeg" alt="JT Mind & Body Balance logo" id="siteLogo" />
     <div style="text-align:left">
     </div>
+  </div>
+</header>
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      JT Mind & Body Balance
+    </div>
+
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Desktop + Mobile Menu -->
+    <nav class="nav-links" id="navMenu">
+      <a href="#hero">Home</a>
+      <a href="#coaching">Coaching</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#podcast">Podcast</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -738,6 +859,12 @@
       setTimeout(()=> { logo.style.transition = 'transform 850ms cubic-bezier(.2,.9,.3,1), opacity 850ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
     })();
   </script>
+  <script>
+function toggleMenu() {
+  document.getElementById("navMenu").classList.toggle("show");
+}
+</script>
+
 
 </body>
 </html>
