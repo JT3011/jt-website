@@ -382,7 +382,19 @@
   .hamburger { display: none !important; }
 }
 
-    
+    /* Hide nav heading bar on mobile */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+}
+
+/* Keep nav heading bar on desktop */
+@media (min-width: 769px) {
+  .navbar {
+    display: block;
+  }
+}
   </style>
 </head>
 <body>
