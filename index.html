@@ -9,43 +9,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    
-
-/* VIDEO SECTION – ALWAYS AT TOP */
-.hero-video {
+    header {
   position: relative;
-  width: 100%;
-  height: 100vh; /* Full screen height */
   overflow: hidden;
-  margin: 0;
-  padding: 0;
 }
 
-/* ACTUAL VIDEO */
+/* Video background */
 .header-video {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Perfect scaling */
+  object-fit: cover;
   z-index: 0;
-
-  /* Your visual settings */
-  opacity: 1;
+  opacity: 1; /* Adjust to make logo stand out even more */
   filter: contrast(1.2) brightness(1.0) saturate(1.0);
 }
 
-/* Prevent header from pushing video down */
-header {
-  margin: 0;
-  padding: 0;
+/* Bring logo forward */
+.logo-wrap {
   position: relative;
-  z-index: 5;
-  background: transparent;
+  z-index: 2;
 }
 
-
+/* Optional: subtle shadow around logo for pop */
+.logo-wrap img {
+  box-shadow: 0 0 40px rgba(0,0,0,0.55);
+}
 
     :root{
       --bg:#1C1C1C;
@@ -116,39 +107,7 @@ header {
     @keyframes headlineIn{
       to { transform:translateY(0); opacity:1; }
     }
-    
-nav {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-}
 
-    /* --- STICKY HEADER (LOGO APPEARS WHEN SCROLLING) --- */
-.sticky-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 70px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid gold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-/* Logo inside sticky header */
-.sticky-logo {
-  height: 50px;
-}
-
-/* Show sticky header ONLY after scrolling */
-body.scrolled .sticky-header {
-  opacity: 1;
-}
     /* Sticky nav */
     nav{
       position:sticky;
@@ -203,88 +162,8 @@ body.scrolled .sticky-header {
     .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
 
     /* Podcast block */
-    .podcast h2{ color:var(--gold); margin-top:0 }
     .podcast-section{ padding:3rem 1rem; text-align:center; background:transparent; }
     .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
-   
-    /* Podcast Button Container */
-.podcast-buttons {
-  display: flex;
-  gap: 1.2rem;
-  justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-/* Base Button Style */
-.podcast-btn {
-  padding: 14px 24px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 14px;
-  text-decoration: none;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.55);
-  border: 2px solid #d4af37; /* Gold */
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
-  text-align: center;
-  min-width: 200px;
-}
-     /* Constant pulsing animation */
-  animation: pulse 2.5s infinite ease-in-out;
-}
-    
-/* Icons */
-.podcast-btn .icon {
-  width: 14px;
-  height: 14px;
- .spotify-btn .icon {
-  filter: invert(69%) sepia(92%) saturate(723%) hue-rotate(70deg) brightness(93%) contrast(94%);
-}
-
-.apple-btn .icon {
-  filter: invert(67%) sepia(27%) saturate(2326%) hue-rotate(237deg) brightness(95%) contrast(89%);
-}
-
-    
-/* Spotify Green Glow */
-.spotify-btn:hover {
-  position: relative;
-  background: rgba(30, 215, 96, 0.25);
-  box-shadow: 0 0 12px rgba(30, 215, 96, 0.6);
-}
-
-/* Apple Podcasts Purple Glow */
-.apple-btn:hover {
-  position: relative;
-  background: rgba(175, 82, 222, 0.25);
-  box-shadow: 0 0 12px rgba(175, 82, 222, 0.6);
-}
-    
-/* Constant Pulse Animation */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-  }
-}
-/* Mobile Styling */
-@media (max-width: 600px) {
-  .podcast-btn {
-    width: 100%;
-  }
-}
-
 
     /* Carousel (fixed height to avoid jumps) */
     .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
@@ -378,7 +257,21 @@ body.scrolled .sticky-header {
       }
     }
 
+/* Hide nav heading bar on mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}
 
+/* Keep nav heading bar on desktop */
+@media (min-width: 769px) {
+  .nav-links {
+    display: block;
+  }
+}
+
+    
   /* ============ Navbar ============ */
 .navbar {
   position: fixed;
@@ -507,7 +400,7 @@ body.scrolled .sticky-header {
 </head>
 <body>
 
-  <!-- Custom cursor elements (desktop  only) -->
+  <!-- Custom cursor elements (desktop only) -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
@@ -517,9 +410,12 @@ body.scrolled .sticky-header {
   <video class="header-video" autoplay muted loop playsinline>
     <source src="video/vid1.mp4" type="video/mp4" />
   </video>
-    
-<header class="sticky-header">
-    <img src="logo.jpeg" alt="JT Mind & Body Balance logo" class="sticky-logo" id="siteLogo" />
+
+  <div class="logo-wrap">
+    <img src="logo.jpeg" alt="JT Mind & Body Balance logo" id="siteLogo" />
+    <div style="text-align:left">
+    </div>
+  </div>
 </header>
 <header class="navbar" role="banner">
   <div class="nav-container">
@@ -564,7 +460,7 @@ body.scrolled .sticky-header {
   <!-- Main -->
   <main class="container">
     <section class="hero reveal glow-up" data-anim="hero">
-      <h2>Services</h2>
+      <h2>Your Mind & Body Reset Starts Here</h2>
       <p>Personalised programs and coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
       <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
     </section>
@@ -640,12 +536,8 @@ body.scrolled .sticky-header {
         <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
       </div>
       <div class="podcast-links">
-     
         <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" class="icon" alt="Spotify">
-       
         <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/applepodcasts.svg" class="icon" alt="Apple Podcasts">
       </div>
     </section>
 
@@ -1035,14 +927,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 80) {
-      document.body.classList.add("scrolled");
-    } else {
-      document.body.classList.remove("scrolled");
-    }
-  });
 </script>
 
 
