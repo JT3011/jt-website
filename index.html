@@ -189,8 +189,80 @@ body.scrolled .sticky-header {
     .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
 
     /* Podcast block */
+    .podcast h3{ color:var(--gold); margin-top:0 }
     .podcast-section{ padding:3rem 1rem; text-align:center; background:transparent; }
     .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
+   
+    /* Podcast Button Container */
+.podcast-buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Base Button Style */
+.podcast-btn {
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 2px solid #d4af37; /* Gold */
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-align: center;
+  min-width: 200px;
+}
+     /* Constant pulsing animation */
+  animation: pulse 2.5s infinite ease-in-out;
+}
+    
+/* Icons */
+.podcast-btn .icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(88%) sepia(61%) saturate(553%) hue-rotate(10deg) brightness(93%) contrast(90%);
+}
+    
+/* Spotify Green Glow */
+.spotify-btn:hover {
+  background: rgba(30, 215, 96, 0.25);
+  box-shadow: 0 0 12px rgba(30, 215, 96, 0.6);
+}
+
+/* Apple Podcasts Purple Glow */
+.apple-btn:hover {
+  background: rgba(175, 82, 222, 0.25);
+  box-shadow: 0 0 12px rgba(175, 82, 222, 0.6);
+}
+    
+/* Constant Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  }
+}
+/* Mobile Styling */
+@media (max-width: 600px) {
+  .podcast-btn {
+    width: 100%;
+  }
+}
+
 
     /* Carousel (fixed height to avoid jumps) */
     .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
@@ -560,8 +632,12 @@ body.scrolled .sticky-header {
         <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
       </div>
       <div class="podcast-links">
+     
         <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" class="icon" alt="Spotify">
+       
         <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/applepodcasts.svg" class="icon" alt="Apple Podcasts">
       </div>
     </section>
 
