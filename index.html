@@ -26,7 +26,7 @@
 
 .header-video {
   position: absolute;
-  top: 100%;
+  top: 0%;
   left: 50%;
   width: 100%;
   height: 100%;
@@ -241,19 +241,27 @@ body.scrolled .sticky-header {
     
 /* Icons */
 .podcast-btn .icon {
-  width: 24px;
-  height: 24px;
-  filter: invert(88%) sepia(61%) saturate(553%) hue-rotate(10deg) brightness(93%) contrast(90%);
+  width: 14px;
+  height: 14px;
+ .spotify-btn .icon {
+  filter: invert(69%) sepia(92%) saturate(723%) hue-rotate(70deg) brightness(93%) contrast(94%);
 }
+
+.apple-btn .icon {
+  filter: invert(67%) sepia(27%) saturate(2326%) hue-rotate(237deg) brightness(95%) contrast(89%);
+}
+
     
 /* Spotify Green Glow */
 .spotify-btn:hover {
+  position: relative;
   background: rgba(30, 215, 96, 0.25);
   box-shadow: 0 0 12px rgba(30, 215, 96, 0.6);
 }
 
 /* Apple Podcasts Purple Glow */
 .apple-btn:hover {
+  position: relative;
   background: rgba(175, 82, 222, 0.25);
   box-shadow: 0 0 12px rgba(175, 82, 222, 0.6);
 }
@@ -373,21 +381,7 @@ body.scrolled .sticky-header {
       }
     }
 
-/* Hide nav heading bar on mobile */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-}
 
-/* Keep nav heading bar on desktop */
-@media (min-width: 769px) {
-  .nav-links {
-    display: block;
-  }
-}
-
-    
   /* ============ Navbar ============ */
 .navbar {
   position: fixed;
