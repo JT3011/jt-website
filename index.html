@@ -15,12 +15,23 @@
 }
 
 /* Video background */
+    /* HERO VIDEO SECTION – stays only at top */
+.hero-video {
+  position: relative;
+  width: 100%;
+  height: 80vh; /* Adjust height here */
+  overflow: hidden;
+}
+
 .header-video {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
   height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: 0;
   opacity: 1; /* Adjust to make logo stand out even more */
