@@ -488,10 +488,86 @@ font-weight: 700;
 }
     
     .nav-logo {
-  height: 60px;
+  height: 100px;
   width: auto;
   margin: 0 auto 1rem auto;
 }
+
+/* mobile logo */
+@media (min-width: 769px) {
+  .nav-logo {
+    height: 80px;
+  }
+}
+    
+/* ===== LOGO AURA CONTAINER ===== */
+.logo-aura {
+  position: relative;
+  display: inline-block;
+}
+
+/* ===== GOLD PARTICLE AURA ===== */
+.logo-aura::before,
+.logo-aura::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Outer golden glow layer */
+.logo-aura::before {
+  width: 140px;
+  height: 140px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(212,175,55,0.25) 0%,
+    rgba(212,175,55,0.15) 40%,
+    rgba(212,175,55,0) 70%
+  );
+  animation: auraPulse 6s infinite ease-in-out;
+}
+
+/* Floating particles */
+.logo-aura::after {
+  width: 170px;
+  height: 170px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(rgba(212,175,55,0.55) 2px, transparent 2px) 20px 30px,
+    radial-gradient(rgba(212,175,55,0.35) 2px, transparent 2px) 80px 60px,
+    radial-gradient(rgba(212,175,55,0.45) 2px, transparent 2px) 50px 110px,
+    radial-gradient(rgba(212,175,55,0.55) 3px, transparent 2px) 120px 20px;
+  background-size: 120px 120px;
+  animation: particleDrift 14s infinite linear;
+  opacity: 0.6;
+}
+
+/* Pulsing glow */
+@keyframes auraPulse {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.08); }
+  100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Particle drifting rotation */
+@keyframes particleDrift {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Mobile scaling */
+@media (max-width: 768px) {
+  .nav-logo { height: 60px; }
+  .logo-aura::before { width: 110px; height: 110px; }
+  .logo-aura::after { width: 130px; height: 130px; }
+}
+
 
   </style>
 </head>
@@ -538,9 +614,11 @@ font-weight: 700;
   <!-- Nav (desktop only)-->
   <nav>
     <div class="nav-links" id="navMenu" role="navigation" aria-label="Primary">
+      <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
+
+      
       <a href="#services">Services</a>
       <a href="#payments">Pay</a>
-      <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
       <a href="#pricing">Pricing</a>
       <a href="#booking">Book</a>
       <a href="#packages">Packages</a>
