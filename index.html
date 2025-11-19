@@ -169,8 +169,24 @@
     .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
 
     /* Podcast block */
-    .podcast-section{ padding:3rem 1rem; text-align:center; background:transparent; }
+    .podcast-section{ padding:3rem 1rem; text-align:center; color:var(--muted);background:transparent; }
     .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
+    .btn-spotify {
+  transition: 0.3s ease;
+}
+
+.btn-spotify:hover {
+  box-shadow: 0 0 15px rgba(30, 215, 96, 0.7); /* Spotify green glow */
+}
+    .btn-apple {
+  transition: 0.3s ease;
+}
+
+.btn-apple:hover {
+  box-shadow: 0 0 15px rgba(175, 82, 222, 0.7); /* Apple purple glow */
+}
+
+
 
     /* Carousel (fixed height to avoid jumps) */
     .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:hidden; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
@@ -435,9 +451,23 @@
   <!-- Main -->
   <main class="container">
     <section class="hero reveal glow-up" data-anim="hero">
-      <h2>Your Mind & Body Reset Starts Here</h2>
-      <p>Personalised programs and coaching in fitness, mindfulness, mobility, and nutrition — all in one place.</p>
+      <h2>One Mind. One Body. One Mission.</h2>
+      <p>Personalised programs and coaching in football, fitness, strength, mindfulness and nutrition — all in one place.</p>
       <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="reveal-right" data-anim>
+      <h2 class="section-title">Our Services</h2>
+      <ul class="clean">
+        <li>💪 1:1 Personal Training</li>
+        <li>⚽ 1:1 Football Session</li>
+        <li>🧑‍🤝‍🧑 Small group/ Team Football Session</li>
+        <li>🛒 1:1 Personal Health Shopping</li>
+        <li>🥗 Nutrition Program</li>
+        <li>🏋️ Gym Program</li>
+        <li>🧠 Therapy/Mentoring Session</li>
+      </ul>
     </section>
 
     <!-- About + Carousel -->
@@ -511,23 +541,11 @@
         <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
       </div>
       <div class="podcast-links">
+        </p>
         <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
+      </p>
         <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
       </div>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="reveal-right" data-anim>
-      <h2 class="section-title">Our Services</h2>
-      <ul class="clean">
-        <li>💪 1:1 Personal Training</li>
-        <li>⚽ 1:1 Football Session</li>
-        <li>🧑‍🤝‍🧑 Small group/ Team Football Session</li>
-        <li>🛒 1:1 Personal Health Shopping</li>
-        <li>🥗 Nutrition Program</li>
-        <li>🏋️ Gym Program</li>
-        <li>🧠 Therapy/Mentoring Session</li>
-      </ul>
     </section>
 
     <!-- Pricing -->
