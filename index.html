@@ -310,7 +310,7 @@
     
 /* ============ Hamburger ============ */
 .hamburger {
-  display: block;
+  display: flex;
   flex-direction: column;
   gap: 6px;
   background: transparent;
@@ -547,13 +547,13 @@ font-weight: 700;
 
 /* Mobile scaling */
 @media (max-width: 768px) {
-  .nav-logo { height: 200px; }
+  .nav-logo { height: 100px; }
   .logo-aura::before { width: 110px; height: 110px; }
   .logo-aura::after { width: 130px; height: 130px; }
 }
 
 /* Nav screen follow */    
-header {
+navbar {
   overflow: visible !important;
 }
 
