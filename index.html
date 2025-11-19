@@ -124,7 +124,7 @@
       justify-content:center;
       gap:12px;
       padding:0.6rem;
-      z-index:1000;
+      z-index: 9999;
       box-shadow:0 6px 18px rgba(0,0,0,0.45);
     }
     .nav-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -386,10 +386,6 @@
   }
 }
 
-@media (min-width: 769px) {
-  .nav-overlay { display: none !important; }
-  .hamburger { display: none !important; }
-}
     
 :root {
 --gold: #d4af37;
@@ -494,13 +490,6 @@ font-weight: 700;
   height: 444px;
   width: auto;
   margin: 0 auto 1rem auto;
-}
-
-/* mobile logo */
-@media (min-width: 769px) {
-  .nav-logo {
-    height: 222px;
-  }
 }
     
 /* ===== LOGO AURA CONTAINER ===== */
