@@ -571,9 +571,15 @@ navbar {
 
 
 body {
-  padding-top: 120px; /* adjust the number to create more or less space */
+  padding-top: 180px; /* adjust the number to create more or less space */
 }
 
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px;
+    }
+  {
+  
   </style>
 </head>
 <body>
@@ -591,7 +597,7 @@ body {
   </video>
     
 </header>
-
+ <header class="navbar" role="banner">
     <button id="hamburgerBtn" class="hamburger" aria-expanded="false">
       <span class="bar bar1"></span>
       <span class="bar bar2"></span>
@@ -599,7 +605,6 @@ body {
     </button>
   </div>
   
-  <header class="navbar" role="banner">
  <div class="logo-aura">
     <div class="nav-spacer"></div>
    <div class="logo"></div>
