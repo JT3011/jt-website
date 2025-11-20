@@ -307,26 +307,7 @@
 }
     
     
-/* ============ Hamburger ============ */
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
 
-.bar {
-  width: 28px;
-  height: 3px;
-  background: white;
-  transition: 0.3s;
-}
-
-.hamburger.open .bar1 { transform: translateY(8px) rotate(45deg); }
-.hamburger.open .bar2 { opacity: 0; }
-.hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }
 
 /* ============ FULL SCREEN OVERLAY MENU ============ */
 .nav-overlay {
@@ -556,6 +537,26 @@ navbar {
   overflow: visible !important;
 }
 
+ /* ============ Hamburger ============ */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bar {
+  width: 28px;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+}
+
+.hamburger.open .bar1 { transform: translateY(8px) rotate(45deg); }
+.hamburger.open .bar2 { opacity: 0; }
+.hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }   
   </style>
 </head>
 <body>
@@ -603,25 +604,6 @@ navbar {
     <div class="nav-links" id="navMenu" role="navigation" aria-label="Primary">
      <div class="logo-aura"><div style="text-align: center;">
       <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
-    </div>
-       
-        <!-- HAMBURGER BUTTON -->
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-        ☰
-      </button>
-    </div>
-
-    <div class="nav-links" id="navMenu">
-      <a href="#services">Services</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#packages">Packages</a>
-      <a href="#payments">Pay</a>
-      <a href="#findus">Find Us</a>
-      <a href="#booking">Book Now</a>
-    </div>
-
-  </div>
-  </nav>
     </div>
   </nav>
 
