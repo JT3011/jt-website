@@ -560,6 +560,1032 @@ navbar {
   </style>
 </head>
 <body>
+
+  <!-- Custom cursor elements (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header>
+  <!-- Video Background -->
+  <div class="hero-video">
+    <video class="header-video" autoplay muted loop playsinline>
+    <source src="video/vid1.mp4" type="video/mp4" />
+  </video>
+    
+</header>
+<header class="navbar" role="banner">
+  <div class="nav-container">
+    <div class="logo"></div>
+
+    <button id="hamburgerBtn" class="hamburger" aria-expanded="false">
+      <span class="bar bar1"></span>
+      <span class="bar bar2"></span>
+      <span class="bar bar3"></span>
+    </button>
+  </div>
+  
+ <!-- Nav -->
+  <nav>
+    <div class="nav-links" id="navMenu" role="navigation" aria-label="Primary">
+     <div class="logo-aura"><div style="text-align: center;">
+      <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
+    </div>
+  
+  <!-- FULL SCREEN OVERLAY MENU -->
+  <nav class="nav-overlay" id="navMenu">
+    <div class="overlay-inner">
+      <a href="#hero">Home</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#payments">Pay</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#podcast">Podcast</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+  <!-- Main -->
+  <main class="container">
+    <section class="hero reveal glow-up" data-anim="hero">
+      <h2>One Mind. One Body. One Mission.</h2>
+      <p>Personalised programs and coaching in football, fitness, strength, mindfulness and nutrition — all in one place.</p>
+      <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="reveal-right" data-anim>
+      <h2 class="section-title">Our Services</h2>
+      <div style="text-align:center"><ul class="clean">
+        <li>💪 1:1 Personal Training</li>
+        <li>⚽ 1:1 Football Session</li>
+        <li>🧑‍🤝‍🧑 Small group/ Team Football Session</li>
+        <li>🛒 1:1 Personal Health Shopping</li>
+        <li>🥗 Nutrition Program</li>
+        <li>🏋️ Gym Program</li>
+        <li>🧠 Therapy/Mentoring Session</li>
+      </ul>
+    </section>
+
+    <!-- About + Carousel -->
+    <section id="about" class="reveal-left" data-anim>
+      <h2 class="section-title">About Me</h2>
+      <div class="flex-container">
+        <div class="flex-item">
+          <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
+          <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
+          <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
+          <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
+          <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
+        </div>
+
+        <div class="flex-item">
+          <div class="carousel-wrap reveal-right" data-anim>
+            <!-- IMPORTANT: ensure these paths exist in /images -->
+            <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
+            <img src="images/img6.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
+            <img src="images/img15.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 3" />
+            <img src="images/img18.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 4" />
+            <img src="images/img2.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 5" />
+            <img src="images/img3.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 6" />
+            <img src="images/img4.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 7" />
+            <img src="images/img5.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 8" />
+            <img src="images/img7.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 9" />
+            <img src="images/img8.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 10" />
+            <img src="images/img9.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 11" />
+            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Free intro call -->
+    <section id="intro-call" class="reveal" data-anim>
+      <h2 class="section-title">Free Introductory Call</h2>
+      <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a></div>
+    </section>
+
+    <!-- Qualifications -->
+    <section id="qualifications" class="reveal-left" data-anim>
+      <h2 class="section-title">My Qualifications & Experience</h2>
+      <div class="qual-list">
+        <ul style="margin:0; padding:0 0 0 1rem;">
+          <li>✅ Extended Diploma in Sports Performance</li>
+          <li>✅ Extended Diploma in Sports Nutrition & Excellence</li>
+          <li>✅ Extended Diploma in Sport & Exercise Massage</li>
+          <li>✅ Extended Diploma in Psychology</li>
+          <li>✅ Level 3 Distinction in Physiology of Fitness</li>
+          <li>✅ Level 3 Distinction in Fitness Training & Programming</li>
+          <li>✅ FA Level 2 Football Coaching Badge</li>
+          <li>✅ Adverse Childhood Trauma (ACE’s) Certificate</li>
+          <li>✅ Food Safety Awareness Certificate</li>
+          <li>✅ Health & Safety Certificate</li>
+          <li>✅ Safeguarding Certificate</li>
+          <li>✅ Enhanced DBS Certificate</li>
+          <li>✅ Ex-Professional Footballer</li>
+          <li>✅ Semi-Professional Footballer</li>
+          <li>✅ Certified PT Coach</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Podcast -->
+    <section id="podcast" class="podcast-section reveal" data-anim>
+      <h2 class="podcast-title">🎙️ Podcast</h2>
+      <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
+      <div class="podcast-player" style="max-width:880px;margin:0 auto">
+        <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
+      </div>
+      <div class="podcast-links">
+        </p>
+        </p>
+        <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
+        </p>
+        </p>
+        <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="reveal" data-anim>
+      <h2 class="section-title">Pricing</h2>
+
+      <div class="pricing">
+        <h3>1:1 Personal Training</h3>
+        <p>£35 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>1:1 Football Session</h3>
+        <p>£40 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>Online Therapy & Mentoring Coaching</h3>
+        <p>£30 per session</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>Nutrition Plan</h3>
+        <p>£30 per month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+    </section>
+
+    <!-- Packages -->
+    <section id="packages" class="reveal-left" data-anim>
+      <h2 class="section-title">Packages</h2>
+      <p style="text-align:center; color:#dcd3b8; font-style:italic; max-width:760px; margin:0 auto 1rem">Packages are just a guide and can be tailored to individual needs. Please contact me if you wish to customise and purchase a package deal.</p>
+
+      <div class="pricing">
+        <h3>🥉 Balance Starter Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+        </ul>
+        <p style="font-weight:bold">£74/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥈 Balance Plus Tier</h3>
+        <ul class="clean">
+          <li>✔ 2x 1:1 Football Training Sessions</li>
+          <li>✔ 1x 1:1 Gym Session</li>
+          <li>✔ Basic Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£99/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+
+      <div class="pricing">
+        <h3>🥇 Balance Elite Tier</h3>
+        <ul class="clean">
+          <li>✔ 4x 1:1 Football Training Sessions</li>
+          <li>✔ 2x 1:1 Gym Sessions</li>
+          <li>✔ Weekly Check-in + Updated Training Plan</li>
+          <li>✔ Advanced Nutrition Guidance</li>
+        </ul>
+        <p style="font-weight:bold">£179/month</p>
+        <a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a>
+      </div>
+    </section>
+    <!-- Reviews - bold animated -->
+    <section id="reviews" class="reveal" data-anim>
+      <h2 class="section-title">Client Reviews</h2>
+      <div class="reviews-wrap" id="reviewsWrap" aria-live="polite">
+        <!-- Cards (replace avatar src with real images or keep generic) -->
+        <div class="review-card" data-index="0">
+          <img src="images/img60.jpg.JPEG" alt="Client 1" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Ross Treherne</div>
+            <div class="txt">“My son (Ellis) has been attending 1:1 sessions with James and has grown Ellis' confidence massively, I have noticed such an improvement in his game and couldn't recommend James enough to anybody.”</div>
+          </div>
+        </div>
+
+        <div class="review-card" data-index="1" style="display:none">
+          <img src="images/img62.jpg.JPEG" alt="Client 2" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Sarah Jeavons</div>
+            <div class="txt">“The football sessions are the highlight on my sons week, James is very friendly and very engaging. I have seen such a difference in a short space of time in my sons football ability as well as other parts of his game.”</div>
+          </div>
+        </div>
+
+        <div class="review-card" data-index="2" style="display:none">
+          <img src="images/img63.jpg.PNG" alt="Client 3" class="avatar" onerror="this.style.display='none'">
+          <div class="body">
+            <div class="who">Rob Steed</div>
+            <div class="txt">“Following a team session with Mangotsfield U14's, James has made a massive difference in the teams approach and overall playing mindset. We have seen such a huge difference in the way the team move the ball and thinking about on/off the ball movement, we cannot wait to have you back.”</div>
+          </div>
+        </div>
+
+        <div class="reviews-controls" id="reviewDots" aria-hidden="true"></div>
+      </div>
+    </section>
+    </p>
+    </p>
+    </p>
+    </p>
+     </p>
+    <!-- Payments -->
+    <section id="payments" class="reveal" data-anim>
+      <h2 class="section-title">Secure Payment Portal</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem; color:#d1d1d1">Before completing your session please use the link below for secure payment via Monzo. Powered by Monzo.</p>
+
+      <div style="max-width:820px; margin:1rem auto; text-align:center">
+        <div style="background:var(--panel); padding:28px; border-radius:14px;">
+          <h3 style="color:var(--accent)">JT Mind & Body Balance Payments</h3>
+          <p>Use the button below to pay directly via Monzo.</p>
+          <a class="button" href="https://monzo.me/jamestaylor219" target="_blank" rel="noopener" style="background:var(--accent); color:#1c1c1c">💳 Pay Now</a>
+
+          <div style="margin-top:18px">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://monzo.me/jamestaylor219&size=140x140" alt="Monzo QR" style="border-radius:10px">
+            <p style="color:#a8a18f; font-size:.9rem">Scan to pay with Monzo app</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- Premium Cancellation Policy Section -->
+<section class="cancel-policy">
+<div class="cancel-inner">
+<h2 class="cancel-title">Cancellation Policy</h2>
+<p class="cancel-text">
+At <strong>JT Mind & Body Balance</strong>, every session is prepared with precision, time, and dedication. To maintain the highest quality of service, a
+<span class="gold">50% cancellation fee</span> of the full session price will apply for any cancellations made within 24 hours of your scheduled appointment.
+</p>
+<p class="cancel-text">
+This policy ensures fairness, respects the booking schedule, and protects the time reserved exclusively for you. If I (JT) cancel the session then a full refund will be given back to you.
+</p>
+</div>
+</section>
+    
+    <!-- Contact Form -->
+    <section id="form" class="reveal-left" data-anim>
+      <h2 class="section-title">Send a Message</h2>
+      <form id="contactForm" action="https://formspree.io/f/mrblpgyw" method="POST" style="max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:12px">
+        <input name="name" placeholder="Your Name" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <input type="email" name="email" placeholder="Your Email" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
+        <textarea name="message" rows="5" placeholder="Your Message" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)"></textarea>
+        <div style="display:flex; gap:10px; align-items:center; justify-content:center">
+          <button type="submit" class="button">Send Message</button>
+          <p id="formSuccess" style="display:none;color:var(--gold);margin:0">✅ Message sent</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Find Us + Booking CTA -->
+    <section id="findus" class="reveal" data-anim>
+      <h2 class="section-title">Find Us</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
+      <div style="max-width:900px;margin:1rem auto;border-radius:12px;overflow:visible">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.086109426267!2d-2.6465561842290426!3d51.4848729796298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48718eb9f27dc4f7%3A0x1e268fdd00c7f70b!2sPortway%20Rugby%20Development%20Centre!5e0!3m2!1sen!2suk!4v1721380100000!5m2!1sen!2suk" width="100%" height="300" style="border:0" loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section id="booking" class="reveal-right" data-anim>
+      <h2 class="section-title">Get Booked In Today</h2>
+      <p style="text-align:center; max-width:900px; margin:0 auto 1rem">Use our booking system below to find a time that works for you.</p>
+      <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a></div>
+    </section>
+
+  </main>
+
+  <!-- Back to top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- Scripts -->
+  <script>
+    /* -------------------------
+       Cursor (desktop only) - stronger trail + glow
+    ------------------------- */
+    (function(){
+      const cursor = document.getElementById('cursor');
+      const dot = document.getElementById('cursorDot');
+
+      // hide cursor on touch devices
+      if('ontouchstart' in window) { cursor.style.display='none'; dot.style.display='none'; return; }
+
+      let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+      let pos = { x: mouse.x, y: mouse.y };
+      const ease = 0.18;
+
+      document.addEventListener('mousemove', e=>{
+        mouse.x = e.clientX; mouse.y = e.clientY;
+        cursor.style.opacity = 1;
+        dot.style.opacity = 1;
+      });
+
+      // trailing animation loop
+      function animate(){
+        pos.x += (mouse.x - pos.x) * ease;
+        pos.y += (mouse.y - pos.y) * ease;
+        cursor.style.left = pos.x + 'px';
+        cursor.style.top  = pos.y + 'px';
+        // dot snaps quicker
+        dot.style.left = (pos.x + (mouse.x - pos.x)*0.6) + 'px';
+        dot.style.top  = (pos.y + (mouse.y - pos.y)*0.6) + 'px';
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // enlarge on interactive elements
+      const interactives = document.querySelectorAll('a, button, .button');
+      interactives.forEach(el=>{
+        el.addEventListener('mouseenter', ()=> {
+          cursor.style.transform='translate(-50%,-50%) scale(1.7)';
+          dot.style.transform='translate(-50%,-50%) scale(.5)';
+          cursor.style.boxShadow = '0 26px 60px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.06) inset';
+        });
+        el.addEventListener('mouseleave', ()=> {
+          cursor.style.transform='translate(-50%,-50%) scale(1)';
+          dot.style.transform='translate(-50%,-50%) scale(1)';
+          cursor.style.boxShadow = '0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset';
+        });
+      });
+    })();
+
+    /* -------------------------
+       Scroll reveal (IntersectionObserver)
+       Adds 'show' class to elements with data-anim or .reveal*
+       Slower reveals for a bold effect.
+    ------------------------- */
+    (function(){
+      const opts = { threshold: 0.12, rootMargin: '0px 0px -6% 0px' };
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            // staggered reveal based on children
+            const el = entry.target;
+            // small stagger for lists/cards
+            const children = el.querySelectorAll('p, h2, .pricing, .review-card, img, li');
+            if(children.length > 1){
+              children.forEach((c,i) => {
+                setTimeout(()=> c.classList && c.classList.add('show'), i * 120 );
+              });
+            }
+            el.classList.add('show');
+            io.unobserve(el);
+          }
+        });
+      }, opts);
+
+      // pick all elements we want to animate
+      document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up, .carousel-wrap').forEach(el=>{
+        io.observe(el);
+      });
+    })();
+
+    /* -------------------------
+       Carousel: simple auto + dot controls
+    ------------------------- */
+    (function(){
+      const wrap = document.querySelector('.carousel-wrap');
+      if(!wrap) return;
+      const imgs = Array.from(wrap.querySelectorAll('img'));
+      const dotsContainer = document.getElementById('carouselDots');
+      let idx = imgs.findIndex(i=>i.classList.contains('active'));
+      if(idx < 0) idx = 0;
+      const LEN = imgs.length;
+
+      // build dots
+      imgs.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===idx? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        imgs.forEach(img=> img.classList.remove('active'));
+        imgs[i].classList.add('active');
+        // update dots
+        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        idx = i;
+      }
+
+      // autoplay
+      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
+
+      // pause on hover
+      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
+      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
+    })();
+
+    /* -------------------------
+       Reviews carousel (bold + manual)
+    ------------------------- */
+    (function(){
+      const wrap = document.getElementById('reviewsWrap');
+      if(!wrap) return;
+      const cards = Array.from(wrap.querySelectorAll('.review-card'));
+      const dotsContainer = document.getElementById('reviewDots');
+      let active = 0;
+      const LEN = cards.length;
+
+      // hide all except first
+      cards.forEach((c,i)=> c.style.display = (i===0? 'flex':'none'));
+
+      // build dots
+      cards.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'review-dot' + (i===0? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        cards.forEach((c,ci)=> {
+          c.style.display = (ci===i? 'flex':'none');
+          if(ci===i){ c.classList.add('show'); } else { c.classList.remove('show'); }
+        });
+        dotsContainer.querySelectorAll('.review-dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        active = i;
+      }
+
+      // autoplay reviews
+      let rTimer = setInterval(()=> show((active+1)%LEN), 7000);
+      wrap.addEventListener('mouseenter', ()=> clearInterval(rTimer));
+      wrap.addEventListener('mouseleave', ()=> rTimer = setInterval(()=> show((active+1)%LEN), 7000));
+    })();
+
+    /* -------------------------
+       Back to top control
+    ------------------------- */
+    (function(){
+      const btn = document.getElementById('backToTop');
+      window.addEventListener('scroll', ()=>{
+        btn.style.display = (window.scrollY>300)?'block':'none';
+      });
+      btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    })();
+
+    /* -------------------------
+       Form submission feedback
+    ------------------------- */
+    (function(){
+      const form = document.getElementById('contactForm');
+      const success = document.getElementById('formSuccess');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        // let the Formspree handle the request — just show a quick UI feedback
+        success.style.display = 'inline-block';
+        setTimeout(()=> success.style.display='none', 4500);
+      });
+    })();
+
+    /* -------------------------
+       Logo micro animation on load
+    ------------------------- */
+    (function(){
+      const logo = document.getElementById('siteLogo');
+      if(!logo) return;
+      logo.style.transform = 'scale(.94)';
+      logo.style.opacity = '0';
+      setTimeout(()=> { logo.style.transition = 'transform 850ms cubic-bezier(.2,.9,.3,1), opacity 850ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
+    })();
+
+const bgVideo = document.querySelector("video");
+
+bgVideo.addEventListener("ended", () => {
+  bgVideo.currentTime = 0;
+  bgVideo.play();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('hamburgerBtn');
+  const nav = document.getElementById('navMenu');
+
+  btn.addEventListener('click', () => {
+    const open = nav.classList.contains('open');
+    nav.classList.toggle('open');
+    btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded', !open);
+  });
+
+  // Clicking a link closes overlay
+  nav.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      nav.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+</script>
+
+
+</body>
+</html>      position:relative;
+      overflow:visible;
+    }
+    .logo-wrap{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      justify-content:center;
+      transform:translateY(10px);
+      opacity:0;
+      animation:logoIn 1100ms cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    @keyframes logoIn{
+      to { transform:translateY(0); opacity:1; }
+    }
+    header img{
+      width:140px;
+      height:auto;
+      display:block;
+      border-radius:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      transform-origin:center;
+    }
+    header h1{
+      margin:0;
+      font-family:'Playfair Display', serif;
+      color:var(--gold);
+      font-size:1.6rem;
+      letter-spacing:0.6px;
+      transform:translateY(14px);
+      opacity:0;
+      animation:headlineIn 1000ms 200ms cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    header p{margin:.5rem 0 0; color:#e8e1cc; opacity:.96}
+
+    @keyframes headlineIn{
+      to { transform:translateY(0); opacity:1; }
+    }
+
+    /* Sticky nav */
+    nav{
+      position:sticky;
+      top:0;
+      background:rgba(28,28,28,0.95);
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      padding:0.6rem;
+      z-index: 9999;
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    }
+    .nav-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .nav-links a{
+      padding:.45rem .8rem;
+      border-radius:8px;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:600;
+      background:transparent;
+      transition:transform .18s ease, background .18s;
+    }
+    .nav-links a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.06) }
+
+    /* Container & hero */
+    .container{ max-width:1100px; margin:0 auto; padding:2rem 1.25rem }
+    .hero{
+      background:linear-gradient(180deg,#262626 0%, #2a2a2a 100%);
+      border-radius:14px;
+      padding:3.2rem 1.6rem;
+      text-align:center;
+      box-shadow:0 10px 40px rgba(0,0,0,0.6);
+    }
+    .hero h2{ font-family:'Playfair Display', serif; color:var(--gold); font-size:2rem; margin:0 0 0.6rem; letter-spacing:0.5px }
+    .hero p{ color:#efe6d3; max-width:850px; margin:0 auto 1rem }
+    .button{ display:inline-block; background:var(--gold); color: #1B1B1B; padding:.9rem 1.4rem; border-radius:999px; font-weight:700; text-decoration:none; transition:transform .18s, box-shadow .18s }
+    .button:hover{ transform:translateY(-3px); box-shadow: 0 10px 30px rgba(212,175,55,0.12) }
+
+    /* Layout / common */
+    section{ padding:3rem 1.25rem }
+    h2.section-title{ font-family:'Playfair Display', serif; color:var(--gold); font-size:1.7rem; margin-bottom:1rem; text-align:center }
+
+    .flex-container{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
+    .flex-item{ flex:1 1 45%; min-width:260px }
+
+    /* Pricing / cards */
+    .pricing{ background:var(--card); border-radius:12px; padding:1.4rem; margin-bottom:1rem; box-shadow:0 6px 18px rgba(0,0,0,0.45) }
+    .pricing h3{ color:var(--gold); margin-top:0 }
+    ul.clean{ list-style:none; padding:0; margin:0; line-height:2 }
+
+    /* Qualifications list */
+    .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
+
+    /* Podcast block */
+    .podcast-section{ padding:3rem 1rem; text-align:center; color:var(--muted);background:transparent; }
+    .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
+    .btn-spotify {
+  transition: 0.3s ease;
+}
+
+.btn-spotify:hover {
+  box-shadow: 0 0 15px rgba(30, 215, 96, 0.7); /* Spotify green glow */
+}
+    .btn-apple {
+  transition: 0.3s ease;
+}
+
+.btn-apple:hover {
+  box-shadow: 0 0 15px rgba(175, 82, 222, 0.7); /* Apple purple glow */
+}
+
+
+
+    /* Carousel (fixed height to avoid jumps) */
+    .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
+    .carousel-wrap img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
+    .carousel-wrap img.active{ opacity:1; transform:scale(1); }
+    .carousel-controls{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
+    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
+    .dot.active{ background:var(--gold); transform:scale(1.15) }
+
+    /* Contact buttons */
+    .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
+    .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
+    .contact-buttons a:hover{ background:rgba(212,175,55,0.06); border-color:var(--gold); color:var(--gold) }
+
+    /* Back to top */
+    #backToTop{ position:fixed; right:22px; bottom:22px; width:48px; height:48px; border-radius:50%; background:var(--gold); color:#111; display:none; border:none; font-size:20px; z-index:9999; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.5) }
+
+    /* Cursor */
+    .cursor, .cursor-dot {
+      position:fixed; pointer-events:none; z-index:99999; mix-blend-mode:normal;
+      transition:transform .12s linear, background .18s linear, opacity .12s;
+    }
+    .cursor{
+      width:36px; height:36px; border-radius:50%;
+      border:2px solid rgba(212,175,55,0.98); transform:translate(-50%,-50%) scale(1);
+      box-shadow:0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset;
+      background: rgba(212,175,55,0.06);
+      opacity:0.98;
+      backdrop-filter: blur(2px);
+    }
+    .cursor-dot{
+      width:8px;height:8px;border-radius:50%; background:var(--gold); transform:translate(-50%,-50%) scale(1);
+      box-shadow:0 6px 18px rgba(212,175,55,0.18);
+    }
+
+    /* Hover states for interactive elements */
+    a:hover ~ .cursor, .button:hover ~ .cursor { transform:translate(-50%,-50%) scale(1.55); background: rgba(212,175,55,0.12) }
+    .button:hover + .cursor { transform:translate(-50%,-50%) scale(1.45) }
+
+    /* Reveal helpers */
+    .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
+    .reveal.show{ opacity:1; transform:translateY(0) scale(1) }
+
+    .reveal-left{ opacity:0; transform:translateX(-36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
+    .reveal-left.show{ opacity:1; transform:translateX(0) scale(1) }
+
+    .reveal-right{ opacity:0; transform:translateX(36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
+    .reveal-right.show{ opacity:1; transform:translateX(0) scale(1) }
+
+    .glow-up{ transform:translateY(8px); opacity:0; transition:all 1200ms cubic-bezier(.2,.9,.3,1) }
+    .glow-up.show{ transform:translateY(0); opacity:1; box-shadow:0 18px 50px rgba(212,175,55,0.06) }
+
+    /* Reviews (bold section) */
+    .reviews-wrap{  min-height: 280px;  max-height: 280px; overflow: visible;max-width:900px; margin:1.5rem auto; position:relative; border-radius:12px; overflow:visible; padding:1rem }
+    .review-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; padding:1.1rem 1.25rem; box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      display:flex; gap:12px; align-items:flex-start; transition: transform 600ms cubic-bezier(.2,.9,.3,1), box-shadow 600ms;
+      transform-origin:center;
+    }
+    .review-card + .review-card{ margin-top:12px }
+    .review-card .avatar{ width:64px; height:64px; border-radius:12px; flex:0 0 64px; object-fit:cover; box-shadow:0 8px 18px rgba(0,0,0,0.45) }
+    .review-card .body{ color:#eae6d7 }
+    .review-card .who{ color:var(--gold); font-weight:700; margin-bottom:4px }
+    .review-card:hover{ transform:translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.7) }
+
+    .reviews-controls{ display:flex; gap:8px; justify-content:center; margin-top:10px }
+    .review-dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer; transition:all .25s }
+    .review-dot.active{ background:var(--gold); transform:scale(1.2) }
+
+    /* Mobile-specific */
+    @media (max-width:900px){
+      .carousel-wrap{ height:320px }
+      .hero{ padding:2.4rem 1rem }
+      header img{ width:120px }
+      .logo-wrap{ gap:.6rem }
+    }
+    @media (max-width:600px){
+      nav{ padding:.5rem }
+      .nav-links a{ padding:.35rem .6rem; font-size:0.95rem }
+      .flex-container{ flex-direction:column }
+      .flex-item{ width:100% }
+      .carousel-wrap{ height:260px }
+      .cursor{ display:none } /* hide custom cursor on mobile for UX */
+
+      /* stronger logo animation on mobile */
+      header img{ animation: mobileLogoPulse 2000ms ease-in-out infinite alternate; border-radius:14px; }
+      @keyframes mobileLogoPulse {
+        from { transform: scale(1); box-shadow:0 8px 20px rgba(0,0,0,0.6) }
+        to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
+      }
+    }
+
+  /* ============ Navbar ============ */
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 1rem 0;
+  background: transparent;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1100px;
+  padding: 0 20px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #d4af37;
+}
+    
+    
+
+
+/* ============ FULL SCREEN OVERLAY MENU ============ */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  /* GLASS EFFECT */
+  backdrop-filter: blur(14px);
+  background: rgba(0, 0, 0, 0.45);
+
+  /* GOLD BORDER */
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+
+  /* fade in */
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.nav-overlay.open {
+  display: flex !important;
+  opacity: 1;
+}
+
+/* Inner container for menu links */
+.overlay-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+}
+
+.nav-overlay a {
+  font-size: 1.8rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  transition: color 0.25s;
+}
+
+.nav-overlay a:hover {
+  color: #d4af37;
+}
+    
+:root {
+--gold: #d4af37;
+--gold-soft: #c9b27d;
+--dark: #111;
+--dark2: #1a1a1a;
+}
+
+/* Floating Gold Particles */
+.cancel-policy::before,
+.cancel-policy::after {
+content: "";
+position: absolute;
+width: 50%;
+height: 50%;
+background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
+animation: floatGlow 12s infinite linear;
+opacity: 0.15;
+}
+
+
+.cancel-policy::after {
+animation-duration: 18s;
+opacity: 0.12;
+}
+
+
+@keyframes floatGlow {
+0% { transform: translate(-20%, -20%) rotate(0deg); }
+50% { transform: translate(10%, 10%) rotate(180deg); }
+100% { transform: translate(-20%, -20%) rotate(360deg); }
+}
+
+
+/* Inner Box */
+.cancel-inner {
+max-width: 800px;
+margin: 0 auto;
+padding: 3rem 2rem;
+background: rgba(20, 20, 20, 0.6);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(212,175,55,0.25);
+border-radius: 18px;
+box-shadow: 0 0 30px rgba(0,0,0,0.4);
+animation: fadeIn 1.4s ease;
+}
+
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Title */
+.cancel-title {
+font-family: 'Playfair Display', serif;
+font-size: 2.4rem;
+margin-bottom: 1.5rem;
+color: var(--gold);
+text-align: center;
+letter-spacing: 1px;
+animation: shimmer 4s infinite linear;
+}
+
+
+/* Subtle Gold Shimmer */
+@keyframes shimmer {
+0% { text-shadow: 0 0 12px rgba(212,175,55,0.25); }
+50% { text-shadow: 0 0 24px rgba(212,175,55,0.45); }
+100% { text-shadow: 0 0 12px rgba(212,175,55,0.25); }
+}
+
+
+/* Paragraphs */
+.cancel-text {
+color: #eee;
+font-size: 1.15rem;
+line-height: 1.7;
+margin-bottom: 1rem;
+text-align: center;
+}
+
+
+.gold {
+color: var(--gold-soft);
+font-weight: 700;
+}
+
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+.cancel-inner { padding: 2rem 1.3rem; }
+.cancel-title { font-size: 2rem; }
+.cancel-text { font-size: 1.05rem; }
+}
+
+    
+/* LOGO TOP OF SCREEN */   
+    /* desktop logo */
+    .nav-logo {
+  height: 200px;
+  width: auto;
+  margin: 0 auto 1rem auto;
+}
+    
+/* ===== LOGO AURA CONTAINER ===== */
+.logo-aura {
+  position: relative;
+  display: inline-block;
+}
+
+/* ===== GOLD PARTICLE AURA ===== */
+.logo-aura::before,
+.logo-aura::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Outer golden glow layer */
+.logo-aura::before {
+  width: 140px;
+  height: 140px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(212,175,55,0.25) 0%,
+    rgba(212,175,55,0.15) 40%,
+    rgba(212,175,55,0) 70%
+  );
+  animation: auraPulse 6s infinite ease-in-out;
+}
+
+/* Floating particles */
+.logo-aura::after {
+  width: 170px;
+  height: 170px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(rgba(212,175,55,0.55) 2px, transparent 2px) 20px 30px,
+    radial-gradient(rgba(212,175,55,0.35) 2px, transparent 2px) 80px 60px,
+    radial-gradient(rgba(212,175,55,0.45) 2px, transparent 2px) 50px 110px,
+    radial-gradient(rgba(212,175,55,0.55) 3px, transparent 2px) 120px 20px;
+  background-size: 120px 120px;
+  animation: particleDrift 14s infinite linear;
+  opacity: 0.6;
+}
+
+/* Pulsing glow */
+@keyframes auraPulse {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.08); }
+  100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Particle drifting rotation */
+@keyframes particleDrift {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Mobile scaling */
+@media (max-width: 768px) {
+  .nav-logo { height: 100px; }
+  .logo-aura::before { width: 110px; height: 110px; }
+  .logo-aura::after { width: 130px; height: 130px; }
+}
+
+/* Nav screen follow */    
+navbar {
+  overflow: visible !important;
+}
+
+ /* ============ Hamburger ============ */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bar {
+  width: 28px;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+}
+
+.hamburger.open .bar1 { transform: translateY(8px) rotate(45deg); }
+.hamburger.open .bar2 { opacity: 0; }
+.hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }   
+  </style>
+</head>
+<body>
 <header>
   <div class="hero-video">
     <video class="header-video" autoplay muted loop playsinline>
