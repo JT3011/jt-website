@@ -302,7 +302,8 @@
   align-items: center;
 }
 .hamburger {
-  margin-right: 20px; /* Try 10–30px */
+  margin-left: auto;
+  margin-right: 20px; /* adjust this number */
 }
 
     
@@ -551,15 +552,15 @@ navbar {
 .hamburger {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   background: transparent;
   border: none;
   cursor: pointer;
 }
 
 .bar {
-  width: 60px;
-  height: 6px;
+  width: 30px;
+  height: 3px;
   background: white;
   transition: 0.3s;
 }
@@ -568,6 +569,11 @@ navbar {
 .hamburger.open .bar2 { opacity: 0; }
 .hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }   
 
+
+body {
+  padding-top: 40px; /* adjust the number to create more or less space */
+}
+
   </style>
 </head>
 <body>
@@ -575,23 +581,6 @@ navbar {
   <!-- Custom cursor elements (desktop only) -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-
-   <!--SPACE AT THE TOP OF THE PAGE -->
-   <header>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-      <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-       <li></li>
-<header>
      
   <!-- Header -->
   <header>
