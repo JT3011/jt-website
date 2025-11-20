@@ -566,6 +566,47 @@ navbar {
 .hamburger.open .bar1 { transform: translateY(8px) rotate(45deg); }
 .hamburger.open .bar2 { opacity: 0; }
 .hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }   
+
+    .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Center the logo */
+.nav-logo-wrapper {
+  text-align: center;
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+/* Push hamburger to the right */
+.nav-ham-wrapper {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger {
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.bar {
+  width: 28px;
+  height: 3px;
+  background: white;
+}
+
   </style>
 </head>
 <body>
@@ -577,6 +618,14 @@ navbar {
    <!--SPACE AT THE TOP OF THE PAGE -->
    <header>
        <li></li>
+       <li></li>
+       <li></li>
+       <li></li>
+       <li></li>
+       <li></li>
+       <li></li>
+       <li></li>
+      <li></li>
        <li></li>
        <li></li>
        <li></li>
@@ -598,18 +647,18 @@ navbar {
 <header class="navbar" role="banner">
  <div class="logo-aura">
     <div class="nav-spacer"></div>
- 
-  
+   <div class="nav-logo-wrapper">
+   <div class="logo"></div>
+     <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
+    </div>
+
+   <div class="nav-ham-wrapper">
     <button id="hamburgerBtn" class="hamburger" aria-expanded="false">
       <span class="bar bar1"></span>
       <span class="bar bar2"></span>
       <span class="bar bar3"></span>
     </button>
   </div>
-  
-  <div class="logo"></div>
-     <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
-    </div>
   
   <!-- FULL SCREEN OVERLAY MENU -->
   <nav class="nav-overlay" id="navMenu">
