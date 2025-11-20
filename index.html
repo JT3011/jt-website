@@ -286,8 +286,11 @@
   top: 0;
   left: 0;
   padding: 1rem 0;
-  background: transparent;
   z-index: 1000;
+  background: rgba(0, 0, 0, 0.4); /* transparent dark */
+  backdrop-filter: blur(10px); /* frosted glass effect */
+  border-bottom: 1px solid rgba(212,175,55,0.25); /* subtle gold line */
+}
 }
 
 .nav-container {
@@ -298,7 +301,10 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.hamburger {
+  margin-left: auto; /* ensures it stays far right */
+}
+    
 .logo {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
