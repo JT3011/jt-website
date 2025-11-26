@@ -159,6 +159,9 @@
     .flex-container{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
     .flex-item{ flex:1 1 45%; min-width:260px }
 
+    .flex-container2{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
+    .flex-item2{ flex:1 1 45%; min-width:260px }
+
     /* Pricing / cards */
     .pricing{ background:var(--card); border-radius:12px; padding:1.4rem; margin-bottom:1rem; box-shadow:0 6px 18px rgba(0,0,0,0.45) }
     .pricing h3{ color:var(--gold); margin-top:0 }
@@ -195,6 +198,14 @@
     .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
     .dot.active{ background:var(--gold); transform:scale(1.15) }
 
+/* Carousel 2 (fixed height to avoid jumps) */
+    .carousel-wrap2{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
+    .carousel-wrap2 img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
+    .carousel-wrap2 img.active{ opacity:1; transform:scale(1); }
+    .carousel-controls2{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
+    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
+    .dot.active{ background:var(--gold); transform:scale(1.15) }
+    
     /* Contact buttons */
     .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
     .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
@@ -580,34 +591,6 @@ body {
     }
   {
   
-/* Stop parent containers from forcing images into a row */
-.simple-carousel {
-  display: block !important;
-  position: relative !important;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-}
-
-/* Prevent flexbox from affecting inside the carousel */
-.simple-carousel * {
-  flex: none !important;
-}
-
-/* Stack slides on top of each other */
-.simple-carousel .slide {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  display: none !important;
-}
-
-.simple-carousel .slide.active {
-  display: block !important;
-}
 
   </style>
 </head>
@@ -893,49 +876,18 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 </p>
 </div>
 </section>
-
-<!-- About + Carousel -->
-    <section id="about" class="reveal-left" data-anim>
-      <h2 class="section-title">About Me</h2>
-      <div class="flex-container">
-        <div class="flex-item">
-          <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
-          <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
-          <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
-          <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
-          <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
-        </div>
-
-        <div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
-            <!-- IMPORTANT: ensure these paths exist in /images -->
-            <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
-            <img src="images/img6.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
-            <img src="images/img15.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 3" />
-            <img src="images/img18.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 4" />
-            <img src="images/img2.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 5" />
-            <img src="images/img3.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 6" />
-            <img src="images/img4.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 7" />
-            <img src="images/img5.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 8" />
-            <img src="images/img7.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 9" />
-            <img src="images/img8.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 10" />
-            <img src="images/img9.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 11" />
-            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
-          </div>
- </div>
-    </section>
     
 <!-- Premium Partnership Section -->
     <section class="cancel-policy">
     <div class="cancel-inner"> 
 <h2 class="cancel-title">Partnership</h2>
-<div class="flex-container">
-<div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
+<div class="flex-container2">
+<div class="flex-item2">
+          <div class="carousel-wrap2 reveal-right" data-anim>
             <!-- IMPORTANT: ensure these paths exist in /images -->
             <img src="images/fkprologo.jpg" class="simple-carousel active" loading="lazy" width="1600" height="900" alt="James - 1" />
             <img src="images/pro11logo.webp" class="simple-carousel" loading="lazy" width="1600" height="900" alt="James - 2" />
-            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
+            <div class="carousel-controls2" id="carouselDots2" aria-hidden="true"></div>
          </div>    
   </div>    
 </section>
@@ -1093,6 +1045,43 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
     })();
 
 
+   /* -------------------------
+       Carouse2: simple auto + dot controls
+    ------------------------- */
+    (function(){
+      const wrap = document.querySelector('.carousel-wrap2');
+      if(!wrap) return;
+      const imgs = Array.from(wrap.querySelectorAll('img'));
+      const dotsContainer = document.getElementById('carouselDots2');
+      let idx = imgs.findIndex(i=>i.classList.contains('active'));
+      if(idx < 0) idx = 0;
+      const LEN = imgs.length;
+
+      // build dots
+      imgs.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===idx? ' active':'');
+        d.addEventListener('click', ()=> show(i));
+        dotsContainer.appendChild(d);
+      });
+
+      function show(i){
+        imgs.forEach(img=> img.classList.remove('active'));
+        imgs[i].classList.add('active');
+        // update dots
+        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
+        idx = i;
+      }
+
+      // autoplay
+      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
+
+      // pause on hover
+      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
+      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
+    })();
+
+    
     /* -------------------------
        Reviews carousel (bold + manual)
     ------------------------- */
