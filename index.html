@@ -664,7 +664,7 @@ body {
         </div>
 
         <div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
+          <div class="carousel-wrap carousel-1 reveal-right" data-anim>
             <!-- IMPORTANT: ensure these paths exist in /images -->
             <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
             <img src="images/img6.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
@@ -875,7 +875,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 <h2 class="cancel-title">Partnership</h2>
 <div class="flex-container">
         <div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
+          <div class="carousel-wrap carousel-2 reveal-right" data-anim>
             <img src="images/pro11logo.webp" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 11" />
             <img src="images/fkprologo.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 12" />
             <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
@@ -1035,6 +1035,11 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
       wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
     })();
+    
+// Start both carousels separately
+startCarousel('.carousel-1');
+startCarousel('.carousel-2');
+
 
     /* -------------------------
        Reviews carousel (bold + manual)
