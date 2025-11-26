@@ -466,7 +466,7 @@ font-weight: 700;
 .cancel-text { font-size: 1.05rem; }
 }
    .half-size {
-            width: 25%;     /* 25% of container width */
+            width: 10%;     /* 25% of container width */
             height: auto;   /* keep aspect ratio */
         }
     
@@ -582,7 +582,21 @@ body {
     padding-top: 180px;
     }
   {
-  
+  .simple-carousel {
+  width: 200px;        /* adjust size */
+  height: auto;
+  position: relative;
+}
+
+.simple-carousel .slide {
+  width: 100%;
+  display: none;       /* hide all images by default */
+}
+
+.simple-carousel .slide.active {
+  display: block;      /* show the active image */
+}
+
   </style>
 </head>
 <body>
@@ -873,12 +887,10 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
     <section class="cancel-policy">
 <div class="cancel-inner">
 <h2 class="cancel-title">Partnership</h2>
-<div class="flex-container">
-        <div class="flex-item">
-          <div class="carousel-wrap carousel-2 reveal-right" data-anim>
-            <img src="images/pro11logo.webp" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 11" />
-            <img src="images/fkprologo.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 12" />
-            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
+
+        <div class="simple-carousel" data-anim>
+             <img src="images/pro11logo.webp" class="slide" />
+              <img src="images/fkprologo.jpg" class="slide" />
           </div>
       </div> 
   </div>    
@@ -1157,6 +1169,18 @@ const images = document.querySelectorAll('.carousel-image');
 
   // Rotate every 2 seconds
   setInterval(rotateImages, 2000);
+const slides = document.querySelectorAll('.simple-carousel .slide');
+  let i = 0;
+
+  // show the first image
+  slides[0].classList.add('active');
+
+  setInterval(() => {
+    slides[i].classList.remove('active'); // hide current
+    i = (i + 1) % slides.length;          // move to next
+    slides[i].classList.add('active');    // show next
+  }, 2000);
+    
 </script>
 
 
