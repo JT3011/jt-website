@@ -877,8 +877,8 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 
         <div class="flex-item">
           <div class="carousel-wrap reveal-right" data-anim>
-            <img src="images/pro11logo.webp" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
-            <img src="images/fkprologo.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
+            <img src="images/pro11logo.webp" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 11" />
+            <img src="images/fkprologo.jpg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 12" />
             <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
           </div>
 </section>
@@ -1136,28 +1136,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
-  const images = document.querySelectorAll('.carousel-image');
-  let index = 0;
-
-  // Hide all except the first
-  images.forEach((img, i) => {
-    img.style.display = i === 0 ? "block" : "none";
-  });
-
-  function rotateImages() {
-    // Hide the current image
-    images[index].style.display = "none";
-
-    // Move to the next (looping back to start)
-    index = (index + 1) % images.length;
-
-    // Show the next image
-    images[index].style.display = "block";
-  }
-
-  // Rotate every 2 seconds
-  setInterval(rotateImages, 2000);
 </script>
 
 
