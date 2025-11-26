@@ -583,25 +583,25 @@ body {
     }
   {
   
- .simple-carousel {
+.simple-carousel {
   width: 200px;        /* adjust size */
-  height: 200px;       /* set a fixed height so images don't push each other */
+  height: 200px;       /* must have height */
   position: relative;
   overflow: hidden;
 }
 
 .simple-carousel .slide {
-  position: absolute;   /* overlap all images */
+  position: absolute !important;  /* FORCE overlap */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;  /* or cover if you prefer */
-  display: none;
+  object-fit: contain;
+  display: none !important;       /* hide all by default */
 }
 
 .simple-carousel .slide.active {
-  display: block;
+  display: block !important;      /* show only the active image */
 }
 
   </style>
@@ -894,13 +894,10 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 <div class="cancel-inner">
 <h2 class="cancel-title">Partnership</h2>
 
-        <div class="simple-carousel">
-             <img src="images/pro11logo.webp" class="slide half-size" />
-          </p>
-          </p>
-              <img src="images/fkprologo.jpg" class="slide half-size" />
-          </div>
-      </div> 
+        <div id="myCarousel" class="simple-carousel">
+  <img src="images/pro11logo.webp" class="slide active">
+  <img src="images/fkprologo.jpg" class="slide">
+</div>
   </div>    
 </section>
   
@@ -1177,17 +1174,14 @@ const images = document.querySelectorAll('.carousel-image');
 
   // Rotate every 2 seconds
   setInterval(rotateImages, 2000);
-const slides = document.querySelectorAll('.simple-carousel .slide');
-  let i = 0;
+const slides = document.querySelectorAll('#myCarousel .slide');
+let i = 0;
 
-  // show the first image
-  slides[0].classList.add('active');
-
-  setInterval(() => {
-    slides[i].classList.remove('active'); // hide current
-    i = (i + 1) % slides.length;          // move to next
-    slides[i].classList.add('active');    // show next
-  }, 2000);
+setInterval(() => {
+  slides[i].classList.remove('active');
+  i = (i + 1) % slides.length;
+  slides[i].classList.add('active');
+}, 2000);
     
 </script>
 
