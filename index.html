@@ -205,7 +205,10 @@
     .carousel-controls2{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
     .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
     .dot.active{ background:var(--gold); transform:scale(1.15) }
-    
+
+        @media (max-width:900px){
+      .carousel-wrap2 { height:320px }
+     
     /* Contact buttons */
     .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
     .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
