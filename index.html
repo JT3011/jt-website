@@ -582,19 +582,26 @@ body {
     padding-top: 180px;
     }
   {
-  .simple-carousel {
+  
+ .simple-carousel {
   width: 200px;        /* adjust size */
-  height: auto;
+  height: 200px;       /* set a fixed height so images don't push each other */
   position: relative;
+  overflow: hidden;
 }
 
 .simple-carousel .slide {
+  position: absolute;   /* overlap all images */
+  top: 0;
+  left: 0;
   width: 100%;
-  display: none;       /* hide all images by default */
+  height: 100%;
+  object-fit: contain;  /* or cover if you prefer */
+  display: none;
 }
 
 .simple-carousel .slide.active {
-  display: block;      /* show the active image */
+  display: block;
 }
 
   </style>
