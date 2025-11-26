@@ -583,25 +583,33 @@ body {
     }
   {
   
+/* Stop parent containers from forcing images into a row */
 .simple-carousel {
-  width: 200px;        /* adjust size */
-  height: 200px;       /* must have height */
-  position: relative;
+  display: block !important;
+  position: relative !important;
+  width: 200px;
+  height: 200px;
   overflow: hidden;
 }
 
+/* Prevent flexbox from affecting inside the carousel */
+.simple-carousel * {
+  flex: none !important;
+}
+
+/* Stack slides on top of each other */
 .simple-carousel .slide {
-  position: absolute !important;  /* FORCE overlap */
+  position: absolute !important;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: none !important;       /* hide all by default */
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  display: none !important;
 }
 
 .simple-carousel .slide.active {
-  display: block !important;      /* show only the active image */
+  display: block !important;
 }
 
   </style>
@@ -662,7 +670,7 @@ body {
     <section id="services" class="reveal-right" data-anim>
       <h2 class="section-title">Our Services</h2>
       <div style="text-align:center"><ul class="clean">
-        <li>💪 1:1 Personal Training</li>
+        <li>💪 1:1 Personal Gym Training</li>
         <li>⚽ 1:1 Football Session</li>
         <li>🧑‍🤝‍🧑 Small group/ Team Football Session</li>
         <li>🛒 1:1 Personal Health Shopping</li>
