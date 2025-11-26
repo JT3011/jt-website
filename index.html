@@ -465,10 +465,7 @@ font-weight: 700;
 .cancel-title { font-size: 2rem; }
 .cancel-text { font-size: 1.05rem; }
 }
-   .half-size {
-            width: 50%;     /* 50% of container width */
-            height: auto;   /* keep aspect ratio */
-        }
+  
     
 /* LOGO TOP OF SCREEN */   
     /* desktop logo */
@@ -693,7 +690,7 @@ body {
         </div>
 
         <div class="flex-item">
-          <div class="carousel-wrap carousel-1 reveal-right" data-anim>
+          <div class="carousel-wrap reveal-right" data-anim>
             <!-- IMPORTANT: ensure these paths exist in /images -->
             <img src="images/img1.jpg.jpeg" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
             <img src="images/img6.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
@@ -903,7 +900,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 <h2 class="cancel-title">Partnership</h2>
 <div class="flex-container">
 <div class="flex-item">
-          <div class="carousel-wrap carousel-1 reveal-right" data-anim>
+          <div class="carousel-wrap reveal-right" data-anim>
             <!-- IMPORTANT: ensure these paths exist in /images -->
             <img src="images/fkprologo.jpg" class="simple-carousel active" loading="lazy" width="1600" height="900" alt="James - 1" />
             <img src="images/pro11logo.webp" class="simple-carousel" loading="lazy" width="1600" height="900" alt="James - 2" />
@@ -1063,10 +1060,6 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
       wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
     })();
-    
-// Start both carousels separately
-startCarousel('.carousel-1');
-startCarousel('.carousel-2');
 
 
     /* -------------------------
@@ -1169,31 +1162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-const images = document.querySelectorAll('.carousel-image');
-  let index = 0;
-
-  function rotateImages() {
-    // Remove active from current
-    images[index].classList.remove('active');
-
-    // Move to next
-    index = (index + 1) % images.length;
-
-    // Add active to next
-    images[index].classList.add('active');
-  }
-
-  // Rotate every 2 seconds
-  setInterval(rotateImages, 2000);
-const slides = document.querySelectorAll('#myCarousel .slide');
-let i = 0;
-
-setInterval(() => {
-  slides[i].classList.remove('active');
-  i = (i + 1) % slides.length;
-  slides[i].classList.add('active');
-}, 2000);
-    
 </script>
 
 
