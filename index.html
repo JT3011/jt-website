@@ -233,7 +233,14 @@
     .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
     .dot.active{ background:var(--gold); transform:scale(1.15) }
 
-     
+     /* Carousel 3 (fixed height to avoid jumps) */
+    .carousel-wrap3{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
+    .carousel-wrap3 img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
+    .carousel-wrap3 img.active{ opacity:1; transform:scale(1); }
+    .carousel-controls3{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
+    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
+    .dot.active{ background:var(--gold); transform:scale(1.15) }  
+      
     /* Contact buttons */
     .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
     .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
@@ -958,11 +965,11 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
          
         
      <div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
+          <div class="carousel-wrap3 reveal-right" data-anim>
             <!-- IMPORTANT: ensure these paths exist in /images -->
             <img src="images/hoodie1.png" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
             <img src="images/hoodie2.png" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
-            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
+            <div class="carousel-controls3" id="carouselDots3" aria-hidden="true"></div>
 </p>
 </p>
             <p style="font-size:14px;opacity:0.8">
