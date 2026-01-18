@@ -625,13 +625,15 @@ body {
     }
   {
   
+/* 1. Fixed outer container */
 .hoodie-rotator {
   width: 400px;
-  height: 500px;
+  aspect-ratio: 4 / 5; /* forces consistent shape */
   perspective: 1200px;
   margin: 0 auto;
 }
 
+/* 2. Inner rotating object */
 .hoodie-inner {
   width: 100%;
   height: 100%;
@@ -640,25 +642,24 @@ body {
   transition: transform 0.8s ease;
 }
 
-/* Both faces occupy the SAME position */
-.hoodie.face {
+/* 3. Faces occupy the SAME EXACT SPACE */
+.hoodie-face {
   position: absolute;
-  inset: 0; /* replaces top/left/width/height */
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain; /* or cover if you prefer */
   backface-visibility: hidden;
 }
 
-/* Front face */
-.hoodie.front {
-  transform: rotateY(0deg) translateZ(1px);
+/* 4. 3D orientation */
+.hoodie-face.front {
+  transform: rotateY(0deg);
 }
 
-/* Back face */
-.hoodie.back {
-  transform: rotateY(180deg) translateZ(1px);
+.hoodie-face.back {
+  transform: rotateY(180deg);
 }
-
 
 
   </style>
@@ -1204,33 +1205,21 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       });
     })();
 
-  const front = document.querySelector('.hoodie.front');
-  const back = document.querySelector('.hoodie.back');
+ 
+  const inner = document.getElementById('hoodieInner');
   const btn = document.getElementById('toggleView');
 
-  let showingFront = true;
+  let frontShowing = true;
 
   btn.addEventListener('click', () => {
-    if (showingFront) {
-      front.classList.remove('active');
-      front.style.transform = 'rotateY(-90deg) scale(0.9)';
-      
-      back.classList.add('active');
-      back.style.transform = 'rotateY(0deg) scale(1)';
-      
-      btn.textContent = 'View Front';
-    } else {
-      back.classList.remove('active');
-      back.style.transform = 'rotateY(90deg) scale(0.9)';
-      
-      front.classList.add('active');
-      front.style.transform = 'rotateY(0deg) scale(1)';
-      
-      btn.textContent = 'View Back';
-    }
+    inner.style.transform = frontShowing
+      ? 'rotateY(180deg)'
+      : 'rotateY(0deg)';
 
-    showingFront = !showingFront;
+    btn.textContent = frontShowing ? 'View Front' : 'View Back';
+    frontShowing = !frontShowing;
   });
+
 
 
     /* -------------------------
