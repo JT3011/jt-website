@@ -626,11 +626,18 @@ body {
   {
   
 .hoodie-rotator {
-  position: relative;
   width: 400px;
   height: 500px;
   perspective: 1200px;
   margin: 0 auto;
+}
+
+.hoodie-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
 }
 
 .hoodie {
@@ -639,26 +646,17 @@ body {
   height: auto;
   top: 0;
   left: 0;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease, opacity 0.8s ease;
-  opacity: 0;
+  backface-visibility: hidden; /* THIS IS CRITICAL */
 }
 
 .hoodie.front {
-  transform: rotateY(0deg) scale(1);
+  transform: rotateY(0deg);
 }
 
 .hoodie.back {
-  transform: rotateY(180deg) scale(0.95);
+  transform: rotateY(180deg);
 }
 
-.hoodie.active {
-  opacity: 1;
-}
-.hoodie-rotator:hover .front {
-  transform: rotateY(-20deg);
-}
 
   </style>
 </head>
