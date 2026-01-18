@@ -691,6 +691,30 @@ body {
   margin-right: 10px;
 }
 
+.hoodie-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hoodie-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* EXACT initials position – tweak ONCE, then never touch again */
+#initialsPreview {
+  position: absolute;
+  top: 47%;   /* adjust this */
+  left: 50%;  /* adjust this */
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #000;
+  pointer-events: none;
+}
 
 
   </style>
@@ -1014,6 +1038,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 
             <!-- FRONT -->
             <div class="hoodie-face front">
+              <div class="hoodie-image-wrap">
               <img src="images/hoodie1.png" alt="Hoodie Front">
               <span id="initialsPreview">JT</span>
             </div>
