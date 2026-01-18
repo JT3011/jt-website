@@ -625,15 +625,14 @@ body {
     }
   {
   
-/* 1. Fixed outer container */
+/* Lock geometry */
 .hoodie-rotator {
   width: 400px;
-  aspect-ratio: 4 / 5; /* forces consistent shape */
+  aspect-ratio: 4 / 5;
   perspective: 1200px;
   margin: 0 auto;
 }
 
-/* 2. Inner rotating object */
 .hoodie-inner {
   width: 100%;
   height: 100%;
@@ -642,17 +641,23 @@ body {
   transition: transform 0.8s ease;
 }
 
-/* 3. Faces occupy the SAME EXACT SPACE */
+/* Faces */
 .hoodie-face {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* or cover if you prefer */
   backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 4. 3D orientation */
+.hoodie-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Orientation */
 .hoodie-face.front {
   transform: rotateY(0deg);
 }
@@ -660,6 +665,32 @@ body {
 .hoodie-face.back {
   transform: rotateY(180deg);
 }
+
+/* Initials overlay (front only) */
+#initialsPreview {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: #000;
+  pointer-events: none;
+}
+
+/* Controls */
+.hoodie-controls {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.hoodie-controls input {
+  padding: 10px;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+
 
 
   </style>
@@ -970,19 +1001,47 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 </section>
   
  <!-- Premium Hoodie Section -->
- 
-    <section id="shop" class="reveal" data-anim>
-<div class="cancel-inner">
-<h2 class="cancel-title">Merchandise</h2>
-<div class="flex-container2">
-<div class="flex-item2">
-          <div class="review-wrap reveal-right" data-anim>
-            <!-- IMPORTANT: ensure these paths exist in /images -->
-            <img src="images/hoodie1.png" class="simple-carousel active" loading="lazy" width="1206" height="1100" alt="James - 1" />
-            <img src="images/hoodie2.png" class="simple-carousel" loading="lazy" width="1206" height="1100" alt="James - 2" />
-            <div class="review-dot" id="review-dot" aria-hidden="true"></div>
-      </div>    
-<button id="toggleView">View Back</button>
+<section id="shop" class="reveal" data-anim>
+  <div class="cancel-inner">
+    <h2 class="cancel-title">Merchandise</h2>
+
+    <div class="flex-container2">
+      <div class="flex-item2">
+
+        <!-- Hoodie Swivel -->
+        <div class="hoodie-rotator">
+          <div class="hoodie-inner" id="hoodieInner">
+
+            <!-- FRONT -->
+            <div class="hoodie-face front">
+              <img src="images/hoodie1.png" alt="Hoodie Front">
+              <span id="initialsPreview">JT</span>
+            </div>
+
+            <!-- BACK -->
+            <div class="hoodie-face back">
+              <img src="images/hoodie2.png" alt="Hoodie Back">
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="hoodie-controls">
+          <input
+            type="text"
+            id="initialsInput"
+            maxlength="3"
+            placeholder="Add initials (max 3)"
+          >
+          <button id="toggleView">View Back</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
   
   
     <section id="booking" class="reveal-right" data-anim>
@@ -1217,18 +1276,26 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 
  
   const inner = document.getElementById('hoodieInner');
-  const btn = document.getElementById('toggleView');
+  const toggleBtn = document.getElementById('toggleView');
+  const initialsInput = document.getElementById('initialsInput');
+  const initialsPreview = document.getElementById('initialsPreview');
 
   let frontShowing = true;
 
-  btn.addEventListener('click', () => {
+  toggleBtn.addEventListener('click', () => {
     inner.style.transform = frontShowing
       ? 'rotateY(180deg)'
       : 'rotateY(0deg)';
 
-    btn.textContent = frontShowing ? 'View Front' : 'View Back';
+    toggleBtn.textContent = frontShowing ? 'View Front' : 'View Back';
     frontShowing = !frontShowing;
   });
+
+  initialsInput.addEventListener('input', (e) => {
+    initialsPreview.textContent = e.target.value.toUpperCase();
+  });
+
+
 
 
 
