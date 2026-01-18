@@ -625,6 +625,37 @@ body {
     }
   {
   
+.hoodie-rotator {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  perspective: 1200px;
+  margin: 0 auto;
+}
+
+.hoodie {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  opacity: 0;
+}
+
+.hoodie.front {
+  transform: rotateY(0deg) scale(1);
+}
+
+.hoodie.back {
+  transform: rotateY(180deg) scale(0.95);
+}
+
+.hoodie.active {
+  opacity: 1;
+}
 
   </style>
 </head>
@@ -931,6 +962,13 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
   </a>
 </p>
 </section>
+  
+<div class="hoodie-rotator">
+  <img src="hoodie1.JPEG" class="hoodie front active">
+  <img src="hoodie2.JPEG" class="hoodie back">
+</div>
+
+<button id="toggleView">View Back</button>
 
     <section id="booking" class="reveal-right" data-anim>
        <div class="cancel-inner"> 
@@ -1161,6 +1199,35 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
         setTimeout(()=> success.style.display='none', 4500);
       });
     })();
+
+  const front = document.querySelector('.hoodie.front');
+  const back = document.querySelector('.hoodie.back');
+  const btn = document.getElementById('toggleView');
+
+  let showingFront = true;
+
+  btn.addEventListener('click', () => {
+    if (showingFront) {
+      front.classList.remove('active');
+      front.style.transform = 'rotateY(-90deg) scale(0.9)';
+      
+      back.classList.add('active');
+      back.style.transform = 'rotateY(0deg) scale(1)';
+      
+      btn.textContent = 'View Front';
+    } else {
+      back.classList.remove('active');
+      back.style.transform = 'rotateY(90deg) scale(0.9)';
+      
+      front.classList.add('active');
+      front.style.transform = 'rotateY(0deg) scale(1)';
+      
+      btn.textContent = 'View Back';
+    }
+
+    showingFront = !showingFront;
+  });
+
 
     /* -------------------------
        Logo micro animation on load
