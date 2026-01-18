@@ -625,97 +625,62 @@ body {
     }
   {
   
-/* Lock geometry */
-.hoodie-rotator {
-  width: 400px;
-  aspect-ratio: 4 / 5;
-  perspective: 1200px;
-  margin: 0 auto;
+.hoodie-carousel {
+  width: 350px;
+  margin: auto;
+  text-align: center;
 }
 
-.hoodie-inner {
-  width: 100%;
-  height: 100%;
+.hoodie-stage {
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease;
+  width: 100%;
+  height: 450px;
+  perspective: 1200px;
 }
 
-/* Faces */
-.hoodie-face {
+.hoodie.face {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
 }
 
-.hoodie-face img {
+.hoodie.face img {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  display: block;
 }
 
-/* Orientation */
-.hoodie-face.front {
+/* Active side */
+.hoodie.face.active {
+  opacity: 1;
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+/* Inactive side */
+.hoodie.face.front {
   transform: rotateY(0deg);
 }
 
-.hoodie-face.back {
+.hoodie.face.back {
   transform: rotateY(180deg);
 }
 
-/* Initials overlay (front only) */
-#initialsPreview {
+/* Initials overlay */
+#initialsOverlay {
   position: absolute;
-  top: 46%;
+  top: 42%;      /* adjust ONCE */
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: 700;
   font-size: 28px;
-  letter-spacing: 3px;
-  color: #000;
+  letter-spacing: 2px;
+  color: white;
   pointer-events: none;
 }
-
-/* Controls */
-.hoodie-controls {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.hoodie-controls input {
-  padding: 10px;
-  text-transform: uppercase;
-  margin-right: 10px;
-}
-
-.hoodie-image-wrap {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.hoodie-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* EXACT initials position – tweak ONCE, then never touch again */
-#initialsPreview {
-  position: absolute;
-  top: 75%;   /* adjust this */
-  left: 80%;  /* adjust this */
-  transform: translate(-50%, -50%);
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: #000;
-  pointer-events: none;
-}
-
 
   </style>
 </head>
@@ -1028,44 +993,33 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 <section id="shop" class="reveal" data-anim>
   <div class="cancel-inner">
     <h2 class="cancel-title">Merchandise</h2>
+  <div class="hoodie-carousel">
 
-    <div class="flex-container2">
-      <div class="flex-item2">
+    <div class="hoodie-stage">
+      <!-- FRONT -->
+      <div class="hoodie face front active">
+        <img src="images/hoodie1.png" alt="Front Hoodie">
+        <span id="initialsOverlay">JT</span>
+      </div>
 
-        <!-- Hoodie Swivel -->
-        <div class="hoodie-rotator">
-          <div class="hoodie-inner" id="hoodieInner">
-
-            <!-- FRONT -->
-            <div class="hoodie-face front">
-              <div class="hoodie-image-wrap">
-              <img src="images/hoodie1.png" alt="Hoodie Front">
-              <span id="initialsPreview">JT</span>
-            </div>
-
-            <!-- BACK -->
-            <div class="hoodie-face back">
-              <img src="images/hoodie2.png" alt="Hoodie Back">
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="hoodie-controls">
-          <input
-            type="text"
-            id="initialsInput"
-            maxlength="3"
-            placeholder="Add initials (max 3)"
-          >
-          <button id="toggleView">View Back</button>
-        </div>
-
+      <!-- BACK -->
+      <div class="hoodie face back">
+        <img src="images/hoodie2.png" alt="Back Hoodie">
       </div>
     </div>
+
+    <input
+      type="text"
+      id="initialsInput"
+      maxlength="3"
+      placeholder="Enter initials"
+    />
+
+    <button id="toggleView">View Back</button>
+
   </div>
 </section>
+
 
   
   
@@ -1299,28 +1253,36 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       });
     })();
 
- 
-  const inner = document.getElementById('hoodieInner');
-  const toggleBtn = document.getElementById('toggleView');
-  const initialsInput = document.getElementById('initialsInput');
-  const initialsPreview = document.getElementById('initialsPreview');
+const toggleBtn = document.getElementById("toggleView");
+const front = document.querySelector(".hoodie.front");
+const back = document.querySelector(".hoodie.back");
 
-  let frontShowing = true;
+let showingFront = true;
 
-  toggleBtn.addEventListener('click', () => {
-    inner.style.transform = frontShowing
-      ? 'rotateY(180deg)'
-      : 'rotateY(0deg)';
+toggleBtn.addEventListener("click", () => {
+  if (showingFront) {
+    front.classList.remove("active");
+    front.style.transform = "rotateY(-180deg)";
+    back.classList.add("active");
+    back.style.transform = "rotateY(0deg)";
+    toggleBtn.textContent = "View Front";
+  } else {
+    back.classList.remove("active");
+    back.style.transform = "rotateY(180deg)";
+    front.classList.add("active");
+    front.style.transform = "rotateY(0deg)";
+    toggleBtn.textContent = "View Back";
+  }
+  showingFront = !showingFront;
+});
 
-    toggleBtn.textContent = frontShowing ? 'View Front' : 'View Back';
-    frontShowing = !frontShowing;
-  });
+// Initials logic
+const initialsInput = document.getElementById("initialsInput");
+const initialsOverlay = document.getElementById("initialsOverlay");
 
-  initialsInput.addEventListener('input', (e) => {
-    initialsPreview.textContent = e.target.value.toUpperCase();
-  });
-
-
+initialsInput.addEventListener("input", () => {
+  initialsOverlay.textContent = initialsInput.value.toUpperCase();
+});
 
 
 
