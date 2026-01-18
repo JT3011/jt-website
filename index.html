@@ -633,29 +633,32 @@ body {
 }
 
 .hoodie-inner {
-  position: relative;
   width: 100%;
   height: 100%;
+  position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s ease;
 }
 
-.hoodie {
+/* Both faces occupy the SAME position */
+.hoodie.face {
   position: absolute;
+  inset: 0; /* replaces top/left/width/height */
   width: 100%;
   height: auto;
-  top: 0;
-  left: 0;
-  backface-visibility: hidden; /* THIS IS CRITICAL */
+  backface-visibility: hidden;
 }
 
+/* Front face */
 .hoodie.front {
-  transform: rotateY(0deg);
+  transform: rotateY(0deg) translateZ(1px);
 }
 
+/* Back face */
 .hoodie.back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(1px);
 }
+
 
 
   </style>
