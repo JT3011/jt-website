@@ -649,126 +649,155 @@ body {
   transform: scale(1.05);
   opacity: 0.9;
 }
-.merch-section {
-  background-color: #1f1f1f; /* Charcoal */
-  padding: 90px 20px;
+
+/* merchandise */
+  
+.jt-merch {
+  background: #1c1c1c;
+  padding: 120px 20px;
   font-family: 'Inter', sans-serif;
+  color: #f1f1f1;
 }
 
-.merch-container {
+.jt-merch-inner {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.merch-header {
+/* HEADER */
+
+.jt-merch-header {
   text-align: center;
-  margin-bottom: 65px;
+  margin-bottom: 90px;
 }
 
-.merch-header h2 {
-  font-size: 34px;
+.jt-overline {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #bfa55a;
+  margin-bottom: 10px;
+}
+
+.jt-merch-header h2 {
+  font-size: 40px;
   font-weight: 500;
-  color: #e6c67a; /* Muted gold */
-  margin-bottom: 12px;
+  margin-bottom: 25px;
 }
 
-.merch-header p {
-  font-size: 15px;
-  color: #b5b5b5;
-  max-width: 520px;
+.jt-divider {
+  width: 60px;
+  height: 1px;
+  background: #bfa55a;
+  margin: 0 auto 25px auto;
+}
+
+.jt-subtext {
+  font-size: 16px;
+  color: #aaaaaa;
+  max-width: 550px;
   margin: 0 auto;
 }
 
-.merch-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 45px;
-}
+/* FEATURED SECTION */
 
-.merch-card a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.merch-card img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 18px;
-  transition: transform 0.4s ease;
-}
-
-.merch-card:hover img {
-  transform: scale(1.03);
-}
-
-.merch-info {
-  padding-top: 18px;
-}
-
-.merch-info h3 {
-  font-size: 17px;
-  font-weight: 500;
-  color: #f5f5f5;
-  margin-bottom: 6px;
-}
-
-.merch-info span {
-  font-size: 14px;
-  color: #9e9e9e;
-}
-
-.merch-bottom {
+.jt-featured {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 14px;
+  gap: 80px;
 }
 
-.price {
-  font-size: 15px;
-  font-weight: 500;
-  color: #e6c67a;
-}
-
-.cta {
-  font-size: 14px;
-  color: #e6c67a;
-  position: relative;
-}
-
-.cta::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 1px;
-  background: #e6c67a;
-  left: 0;
-  bottom: -3px;
-  transition: width 0.3s ease;
-}
-
-.merch-card:hover .cta::after {
+.jt-featured-image img {
   width: 100%;
+  max-width: 520px;
+  border-radius: 20px;
+  transition: transform 0.6s ease;
 }
 
-.merch-footer {
-  text-align: center;
-  margin-top: 70px;
+.jt-featured-image img:hover {
+  transform: scale(1.02);
+}
+
+.jt-featured-content {
+  max-width: 480px;
+}
+
+.jt-featured-content h3 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.jt-featured-content p {
+  color: #b5b5b5;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.jt-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.jt-features li {
+  margin-bottom: 8px;
+  color: #999;
+  font-size: 14px;
+}
+
+.jt-price {
+  font-size: 18px;
+  color: #bfa55a;
+  margin-bottom: 30px;
+}
+
+/* BUTTON */
+
+.jt-button {
+  display: inline-block;
+  padding: 14px 32px;
+  border: 1px solid #bfa55a;
+  color: #bfa55a;
+  text-decoration: none;
+  letter-spacing: 1px;
   font-size: 13px;
-  color: #8a8a8a;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
 }
 
-/* Mobile optimisation */
-@media (max-width: 600px) {
-  .merch-header h2 {
-    font-size: 28px;
+.jt-button:hover {
+  background: #bfa55a;
+  color: #1c1c1c;
+}
+
+.jt-fulfilment {
+  font-size: 11px;
+  color: #777;
+  margin-top: 20px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .jt-featured {
+    flex-direction: column;
+    text-align: center;
+    gap: 50px;
   }
 
-  .merch-card img {
-    height: 320px;
+  .jt-featured-content {
+    max-width: 100%;
+  }
+
+  .jt-featured-content h3 {
+    font-size: 22px;
+  }
+
+  .jt-merch-header h2 {
+    font-size: 30px;
   }
 }
+
 
   </style>
 </head>
@@ -1069,7 +1098,57 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
    </div>
 </p>
 </section>
+
   
+  <section class="jt-merch">
+  <div class="jt-merch-inner">
+
+    <div class="jt-merch-header">
+      <p class="jt-overline">JT Mind & Body Balance</p>
+      <h2>Essentials Collection</h2>
+      <div class="jt-divider"></div>
+      <p class="jt-subtext">
+        Precision-built apparel for training, recovery and disciplined living.
+      </p>
+    </div>
+
+    <div class="jt-featured">
+
+      <!-- Featured Product -->
+      <div class="jt-featured-image">
+        <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
+        </a>
+      </div>
+
+      <div class="jt-featured-content">
+        <h3>JT Performance Tee</h3>
+        <p>
+          Designed for athletes who move with intent. Lightweight construction,
+          tailored fit, and understated presence.
+        </p>
+
+        <ul class="jt-features">
+          <li>Performance stretch fabric</li>
+          <li>Athletic tapered cut</li>
+          <li>Minimal gold emblem detailing</li>
+        </ul>
+
+        <div class="jt-price">£35</div>
+
+        <a class="jt-button" href="https://external-link-1.com" target="_blank">
+          Explore Piece
+        </a>
+
+        <p class="jt-fulfilment">
+          Fulfilled via our official merchandise partner.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
   
     <section id="booking" class="reveal-right" data-anim>
        <div class="cancel-inner"> 
@@ -1077,67 +1156,6 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       <p style="text-align:center; max-width:900px; margin:0 auto 1rem">Use our booking system below to find a time that works for you.</p>
       <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a></div>
     </section>
-    
-  <section class="merch-section">
-  <div class="merch-container">
-
-    <header class="merch-header">
-      <h2>JT Mind & Body Balance — Essentials</h2>
-      <p>Premium performance wear designed for training, recovery, and everyday life.</p>
-    </header>
-
-    <div class="merch-grid">
-
-      <!-- Product -->
-      <div class="merch-card">
-    	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
-          <div class="merch-info">
-            <h3>JT Performance Tee</h3>
-            <span>Lightweight. Breathable. Built to move.</span>
-            <div class="merch-bottom">
-              <span class="price">£35</span>
-              <span class="cta">View Product →</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Product -->
-      <div class="merch-card">
-       <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie-front.jpg" width="350" height="350" alt="Hoodie" /></a>
-          <div class="merch-info">
-            <h3>JT Training Hoodie</h3>
-            <span>Warm. Minimal. Everyday comfort.</span>
-            <div class="merch-bottom">
-              <span class="price">£30</span>
-              <span class="cta">View Product →</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Product -->
-      <div class="merch-card">
-      <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-front.jpg" width="350" height="350" alt="Baseball cap" /></a>
-          <div class="merch-info">
-            <h3>JT Essentials Cap</h3>
-            <span>Clean design. All-day wear.</span>
-            <div class="merch-bottom">
-              <span class="price">£25</span>
-              <span class="cta">View Product →</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-    </div>
-
-    <footer class="merch-footer">
-      <p>Limited drops. No compromises.</p>
-    </footer>
-
-  </div>
-
     
     </section>
   
