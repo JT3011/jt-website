@@ -649,6 +649,126 @@ body {
   transform: scale(1.05);
   opacity: 0.9;
 }
+.merch-section {
+  background-color: #1f1f1f; /* Charcoal */
+  padding: 90px 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.merch-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.merch-header {
+  text-align: center;
+  margin-bottom: 65px;
+}
+
+.merch-header h2 {
+  font-size: 34px;
+  font-weight: 500;
+  color: #e6c67a; /* Muted gold */
+  margin-bottom: 12px;
+}
+
+.merch-header p {
+  font-size: 15px;
+  color: #b5b5b5;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.merch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 45px;
+}
+
+.merch-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.merch-card img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 18px;
+  transition: transform 0.4s ease;
+}
+
+.merch-card:hover img {
+  transform: scale(1.03);
+}
+
+.merch-info {
+  padding-top: 18px;
+}
+
+.merch-info h3 {
+  font-size: 17px;
+  font-weight: 500;
+  color: #f5f5f5;
+  margin-bottom: 6px;
+}
+
+.merch-info span {
+  font-size: 14px;
+  color: #9e9e9e;
+}
+
+.merch-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.price {
+  font-size: 15px;
+  font-weight: 500;
+  color: #e6c67a;
+}
+
+.cta {
+  font-size: 14px;
+  color: #e6c67a;
+  position: relative;
+}
+
+.cta::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 1px;
+  background: #e6c67a;
+  left: 0;
+  bottom: -3px;
+  transition: width 0.3s ease;
+}
+
+.merch-card:hover .cta::after {
+  width: 100%;
+}
+
+.merch-footer {
+  text-align: center;
+  margin-top: 70px;
+  font-size: 13px;
+  color: #8a8a8a;
+}
+
+/* Mobile optimisation */
+@media (max-width: 600px) {
+  .merch-header h2 {
+    font-size: 28px;
+  }
+
+  .merch-card img {
+    height: 320px;
+  }
+}
 
   </style>
 </head>
@@ -957,31 +1077,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       <p style="text-align:center; max-width:900px; margin:0 auto 1rem">Use our booking system below to find a time that works for you.</p>
       <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a></div>
     </section>
-    </p>
-  </p>
-  </p>
-  </p>
-  </p>
-  </p>
-<section id="shop" class="reveal-left" data-anim>
-         <h2 class="cancel-title">Merchandise</h2>
-
-
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-1-4-zip-long-sleeve-top-2"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-1-4-zip-long-sleeve-top-front.jpg-2" width="350" height="350" alt="Sports 1/4 zip long sleeve top" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie-front.jpg" width="350" height="350" alt="Hoodie" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/white-sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/white-sports-top-front.jpg" width="350" height="350" alt="White Sports Top" /></a>			
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-sports-top-front.jpg" width="350" height="350" alt="Kids Sports Top" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-hoodie"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-hoodie-front.jpg" width="350" height="350" alt="Kids Hoodie" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-front.jpg" width="350" height="350" alt="Baseball cap" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-2"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-front.jpg-2" width="350" height="350" alt="Baseball cap" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-baseball-cap"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/kids-baseball-cap-front.jpg" width="350" height="350" alt="Kids Baseball Cap" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/water-bottle-2"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/water-bottle-front.jpg-2" width="350" height="350" alt="Water Bottle" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/water-bottle"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/water-bottle-front.jpg" width="350" height="350" alt="Water bottle" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-bag"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-bag-front.jpg" width="350" height="350" alt="Sports Bag Black" /></a>
-	<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-bag-grey"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-bag-grey-front.jpg" width="350" height="350" alt="Sports Bag Grey" /></a>
-																																				
-
+    
   <section class="merch-section">
   <div class="merch-container">
 
