@@ -653,23 +653,20 @@ body {
 /* merchandise */
   
 .jt-merch {
-  background: #1c1c1c;
-  padding: 120px 20px;
+  background: radial-gradient(circle at top, #262626 0%, #1a1a1a 60%);
+  padding: 140px 20px;
   font-family: 'Inter', sans-serif;
-  color: #f1f1f1;
+  color: #f5f5f5;
+  overflow: hidden;
 }
 
 .jt-merch-inner {
   max-width: 1200px;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* HEADER */
-
-.jt-merch-header {
-  text-align: center;
-  margin-bottom: 90px;
-}
 
 .jt-overline {
   font-size: 12px;
@@ -680,123 +677,168 @@ body {
 }
 
 .jt-merch-header h2 {
-  font-size: 40px;
+  font-size: 44px;
   font-weight: 500;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .jt-divider {
   width: 60px;
   height: 1px;
   background: #bfa55a;
-  margin: 0 auto 25px auto;
+  margin: 0 auto 20px auto;
 }
 
 .jt-subtext {
   font-size: 16px;
   color: #aaaaaa;
   max-width: 550px;
-  margin: 0 auto;
+  margin: 0 auto 100px auto;
 }
 
-/* FEATURED SECTION */
+/* GRID */
 
-.jt-featured {
-  display: flex;
-  align-items: center;
-  gap: 80px;
+.jt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 60px;
 }
 
-.jt-featured-image img {
+/* CARD */
+
+.jt-card {
+  position: relative;
+  padding: 40px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(6px);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  animation: fadeUp 1s ease forwards;
+  opacity: 0;
+}
+
+.jt-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(191,165,90,0.15);
+}
+
+/* GOLD GLOW */
+
+.jt-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(191,165,90,0.4) 0%, transparent 70%);
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.jt-card:hover .jt-glow {
+  opacity: 1;
+}
+
+/* IMAGE */
+
+.jt-card img {
   width: 100%;
-  max-width: 520px;
-  border-radius: 20px;
+  max-width: 260px;
+  border-radius: 18px;
   transition: transform 0.6s ease;
 }
 
-.jt-featured-image img:hover {
-  transform: scale(1.02);
+.jt-card:hover img {
+  transform: scale(1.05);
 }
 
-.jt-featured-content {
-  max-width: 480px;
+/* INFO */
+
+.jt-info {
+  margin-top: 25px;
 }
 
-.jt-featured-content h3 {
-  font-size: 26px;
-  margin-bottom: 20px;
+.jt-info h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.jt-featured-content p {
-  color: #b5b5b5;
-  line-height: 1.7;
-  margin-bottom: 25px;
-}
-
-.jt-features {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 30px;
-}
-
-.jt-features li {
-  margin-bottom: 8px;
-  color: #999;
+.jt-info p {
   font-size: 14px;
+  color: #aaa;
+  margin-bottom: 18px;
 }
 
 .jt-price {
-  font-size: 18px;
+  display: block;
   color: #bfa55a;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 
 /* BUTTON */
 
 .jt-button {
   display: inline-block;
-  padding: 14px 32px;
+  padding: 12px 32px;
   border: 1px solid #bfa55a;
   color: #bfa55a;
   text-decoration: none;
-  letter-spacing: 1px;
-  font-size: 13px;
   text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
   transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.jt-button::before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  background: #bfa55a;
+  left: 0;
+  top: 0;
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+.jt-button:hover::before {
+  width: 100%;
 }
 
 .jt-button:hover {
-  background: #bfa55a;
-  color: #1c1c1c;
+  color: #1a1a1a;
 }
 
-.jt-fulfilment {
-  font-size: 11px;
-  color: #777;
-  margin-top: 20px;
+/* FADE ANIMATION */
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* MOBILE */
 
-@media (max-width: 900px) {
-  .jt-featured {
-    flex-direction: column;
-    text-align: center;
-    gap: 50px;
-  }
-
-  .jt-featured-content {
-    max-width: 100%;
-  }
-
-  .jt-featured-content h3 {
-    font-size: 22px;
-  }
-
+@media (max-width: 768px) {
   .jt-merch-header h2 {
-    font-size: 30px;
+    font-size: 32px;
+  }
+
+  .jt-grid {
+    gap: 40px;
   }
 }
+
 
 
   </style>
@@ -1100,7 +1142,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 </section>
 
   
-  <section class="jt-merch">
+<section class="jt-merch">
   <div class="jt-merch-inner">
 
     <div class="jt-merch-header">
@@ -1112,40 +1154,63 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       </p>
     </div>
 
-    <div class="jt-featured">
+    <div class="jt-grid">
 
-      <!-- Featured Product -->
-      <div class="jt-featured-image">
-        <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
+      <!-- PRODUCT 1 -->
+      <div class="jt-card">
+        <div class="jt-glow"></div>
+    													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
+					
         </a>
+        <div class="jt-info">
+          <h3>JT Performance Tee</h3>
+          <p>Lightweight. Athletic cut. Built to move.</p>
+          <span class="jt-price">£35</span>
+          <a class="jt-button" href="https://external-link-1.com" target="_blank">Explore</a>
+        </div>
       </div>
 
-      <div class="jt-featured-content">
-        <h3>JT Performance Tee</h3>
-        <p>
-          Designed for athletes who move with intent. Lightweight construction,
-          tailored fit, and understated presence.
-        </p>
-
-        <ul class="jt-features">
-          <li>Performance stretch fabric</li>
-          <li>Athletic tapered cut</li>
-          <li>Minimal gold emblem detailing</li>
-        </ul>
-
-        <div class="jt-price">£35</div>
-
-        <a class="jt-button" href="https://external-link-1.com" target="_blank">
-          Explore Piece
+      <!-- PRODUCT 2 -->
+      <div class="jt-card">
+        <div class="jt-glow"></div>
+    													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie-front.jpg" width="350" height="350" alt="Hoodie" /></a>
+												
         </a>
-
-        <p class="jt-fulfilment">
-          Fulfilled via our official merchandise partner.
-        </p>
+        <div class="jt-info">
+          <h3>JT Training Hoodie</h3>
+          <p>Minimal warmth. Everyday discipline.</p>
+          <span class="jt-price">£60</span>
+          <a class="jt-button" href="https://external-link-2.com" target="_blank">Explore</a>
+        </div>
       </div>
 
-    </div>
+      <!-- PRODUCT 3 -->
+      <div class="jt-card">
+        <div class="jt-glow"></div>
+       													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-front.jpg" width="350" height="350" alt="Baseball cap" /></a>
+												
+        </a>
+        <div class="jt-info">
+          <h3>JT Essentials Cap</h3>
+          <p>Clean structure. Elevated simplicity.</p>
+          <span class="jt-price">£25</span>
+          <a class="jt-button" href="https://external-link-3.com" target="_blank">Explore</a>
+        </div>
+      </div>
 
+      <!-- PRODUCT 4 -->
+      <div class="jt-card">
+        <div class="jt-glow"></div>
+        <a href="https://external-link-4.com" target="_blank">
+          <img src="https://your-image-url.com/joggers.jpg" alt="JT Elite Joggers">
+        </a>
+        <div class="jt-info">
+          <h3>JT Elite Joggers</h3>
+          <p>Performance comfort. Tailored edge.</p>
+          <span class="jt-price">£55</span>
+          <a class="jt-button" href="https://external-link-4.com" target="_blank">Explore</a>
+        </div>
+      </div>
   </div>
 </section>
 
