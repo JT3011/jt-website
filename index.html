@@ -839,6 +839,145 @@ body {
   }
 }
 
+/* =============================
+   PREMIUM MERCH UPGRADE
+============================= */
+
+.jt-merch {
+  position: relative;
+  background: radial-gradient(circle at top, #2b2b2b 0%, #151515 70%);
+  padding: 160px 20px;
+  overflow: hidden;
+}
+
+/* GOLD SPOTLIGHT BACKGROUND */
+.jt-spotlight {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(80px);
+  animation: pulseGlow 6s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: .4; transform: translateX(-50%) scale(1); }
+  50% { opacity: .7; transform: translateX(-50%) scale(1.08); }
+  100% { opacity: .4; transform: translateX(-50%) scale(1); }
+}
+
+/* SHIMMER TITLE */
+.jt-shimmer {
+  background: linear-gradient(
+    90deg,
+    #d4af37,
+    #f5e6b3,
+    #d4af37
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerMove 4s linear infinite;
+}
+
+@keyframes shimmerMove {
+  to { background-position: 200% center; }
+}
+
+/* LUXURY GLASS CARD */
+.jt-card {
+  position: relative;
+  padding: 50px 25px;
+  border-radius: 26px;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.01)
+  );
+  border: 1px solid rgba(212,175,55,0.15);
+  backdrop-filter: blur(12px);
+  transition: transform .6s ease, box-shadow .6s ease;
+  transform-style: preserve-3d;
+}
+
+/* 3D Hover Depth */
+.jt-card:hover {
+  transform: rotateX(6deg) rotateY(-6deg) translateY(-10px);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+}
+
+/* GOLD ORB GLOW */
+.jt-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(212,175,55,0.35) 0%, transparent 70%);
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(60px);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+.jt-card:hover .jt-glow {
+  opacity: 1;
+}
+
+/* IMAGE FLOAT */
+.jt-card img {
+  transition: transform .6s ease;
+}
+
+.jt-card:hover img {
+  transform: scale(1.07);
+}
+
+/* BUTTON UPGRADE */
+.jt-button {
+  position: relative;
+  padding: 14px 36px;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 2px;
+  overflow: hidden;
+  transition: all .4s ease;
+}
+
+.jt-button::before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: linear-gradient(90deg, #d4af37, #f5e6b3);
+  transition: width .4s ease;
+  z-index: -1;
+}
+
+.jt-button:hover::before {
+  width: 100%;
+}
+
+.jt-button:hover {
+  color: #111;
+}
+
+/* STAGGER ANIMATION */
+.jt-card:nth-child(1) { animation: fadeUp 1s .2s forwards; }
+.jt-card:nth-child(2) { animation: fadeUp 1s .4s forwards; }
+.jt-card:nth-child(3) { animation: fadeUp 1s .6s forwards; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(50px); }
+  to { opacity:1; transform: translateY(0); }
+}
 
 
   </style>
@@ -1080,15 +1219,22 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 </p>
 </div>
 </section>
-    <section class="jt-merch">
+
+
+
+	  
+       <section id="shop" class="jt-merch reveal">
+
+  <div class="jt-spotlight"></div>
+
   <div class="jt-merch-inner">
 
     <div class="jt-merch-header">
       <p class="jt-overline">JT Mind & Body Balance</p>
-      <h2>Essentials Collection</h2>
+      <h2 class="jt-shimmer">Elite Performance Collection</h2>
       <div class="jt-divider"></div>
       <p class="jt-subtext">
-        Precision-built apparel for training, recovery and disciplined living.
+        Precision-crafted apparel for disciplined athletes.
       </p>
     </div>
 
@@ -1097,61 +1243,52 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
       <!-- PRODUCT 1 -->
       <div class="jt-card">
         <div class="jt-glow"></div>
-    													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/sports-top-front.jpg" width="350" height="350" alt="Sports Top" /></a>
-					
-        </a>
+        <img src="images/product1.jpg" alt="Performance Tee">
         <div class="jt-info">
-          <h3>JT Performance Tee</h3>
-          <p>Lightweight. Athletic cut. Built to move.</p>
+          <h3>Performance Tee</h3>
+          <p>Lightweight. Athletic cut. Everyday discipline.</p>
           <span class="jt-price">£35</span>
-          <a class="jt-button" href="https://external-link-1.com" target="_blank">Explore</a>
+          <a href="YOUR_TSHIRT_STUDIO_LINK" target="_blank" class="jt-button">
+            Explore
+          </a>
         </div>
       </div>
 
       <!-- PRODUCT 2 -->
       <div class="jt-card">
         <div class="jt-glow"></div>
-    													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie-front.jpg" width="350" height="350" alt="Hoodie" /></a>
-												
-        </a>
+        <img src="images/product2.jpg" alt="Oversized Hoodie">
         <div class="jt-info">
-          <h3>JT Training Hoodie</h3>
-          <p>Minimal warmth. Everyday discipline.</p>
-          <span class="jt-price">£60</span>
-          <a class="jt-button" href="https://external-link-2.com" target="_blank">Explore</a>
+          <h3>Oversized Hoodie</h3>
+          <p>Heavyweight comfort. Premium street aesthetic.</p>
+          <span class="jt-price">£65</span>
+          <a href="YOUR_TSHIRT_STUDIO_LINK" target="_blank" class="jt-button">
+            Explore
+          </a>
         </div>
       </div>
 
       <!-- PRODUCT 3 -->
       <div class="jt-card">
         <div class="jt-glow"></div>
-       													<a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap"><img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/baseball-cap-front.jpg" width="350" height="350" alt="Baseball cap" /></a>
-												
-        </a>
+        <img src="images/product3.jpg" alt="Athlete Cap">
         <div class="jt-info">
-          <h3>JT Essentials Cap</h3>
-          <p>Clean structure. Elevated simplicity.</p>
-          <span class="jt-price">£25</span>
-          <a class="jt-button" href="https://external-link-3.com" target="_blank">Explore</a>
+          <h3>Elite Athlete Cap</h3>
+          <p>Minimal. Structured. Understated authority.</p>
+          <span class="jt-price">£28</span>
+          <a href="YOUR_TSHIRT_STUDIO_LINK" target="_blank" class="jt-button">
+            Explore
+          </a>
         </div>
       </div>
 
-      <!-- PRODUCT 4 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <a href="https://external-link-4.com" target="_blank">
-          <img src="https://your-image-url.com/joggers.jpg" alt="JT Elite Joggers">
-        </a>
-        <div class="jt-info">
-          <h3>JT Elite Joggers</h3>
-          <p>Performance comfort. Tailored edge.</p>
-          <span class="jt-price">£55</span>
-          <a class="jt-button" href="https://external-link-4.com" target="_blank">Explore</a>
-        </div>
-      </div>
+    </div>
+
   </div>
 </section>
 
+
+	  
 <!-- Premium Partnership Section -->
 <h2 class="cancel-title">Partnership</h2>
 <div class="flex-container2">
