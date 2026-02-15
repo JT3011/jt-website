@@ -136,6 +136,45 @@
   ]
 }
 
+	  
+/* ==============================
+   JT PREMIUM DESKTOP CURSOR
+============================== */
+
+@media (max-width: 1024px) {
+  .jt-cursor,
+  .jt-cursor-ring {
+    display: none;
+  }
+}
+
+.jt-cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #D4AF37;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+.jt-cursor-ring {
+  position: fixed;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(212,175,55,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: 
+    width 0.3s ease,
+    height 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
     /* Sticky nav */
     nav{
       position:sticky;
@@ -249,27 +288,6 @@
     /* Back to top */
     #backToTop{ position:fixed; right:22px; bottom:22px; width:48px; height:48px; border-radius:50%; background:var(--gold); color:#111; display:none; border:none; font-size:20px; z-index:9999; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.5) }
 
-    /* Cursor */
-    .cursor, .cursor-dot {
-      position:fixed; pointer-events:none; z-index:99999; mix-blend-mode:normal;
-      transition:transform .12s linear, background .18s linear, opacity .12s;
-    }
-    .cursor{
-      width:36px; height:36px; border-radius:50%;
-      border:2px solid rgba(212,175,55,0.98); transform:translate(-50%,-50%) scale(1);
-      box-shadow:0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset;
-      background: rgba(212,175,55,0.06);
-      opacity:0.98;
-      backdrop-filter: blur(2px);
-    }
-    .cursor-dot{
-      width:8px;height:8px;border-radius:50%; background:var(--gold); transform:translate(-50%,-50%) scale(1);
-      box-shadow:0 6px 18px rgba(212,175,55,0.18);
-    }
-
-    /* Hover states for interactive elements */
-    a:hover ~ .cursor, .button:hover ~ .cursor { transform:translate(-50%,-50%) scale(1.55); background: rgba(212,175,55,0.12) }
-    .button:hover + .cursor { transform:translate(-50%,-50%) scale(1.45) }
 
     /* Reveal helpers */
     .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
@@ -888,40 +906,6 @@ body {
   to { opacity:1; transform: translateY(0); }
 }
 
-/* Hide on mobile */
-@media (max-width: 768px) {
-  .cursor,
-  .cursor-follower {
-    display: none;
-  }
-}
-
-/* Main dot */
-.cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: #D4AF37;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: transform 0.15s ease;
-}
-
-/* Outer glow follower */
-.cursor-follower {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(212,175,55,0.5);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
-}
-
-
 		
   </style>
 </head>
@@ -942,12 +926,9 @@ body {
   
 </head>
 <body>
+<div class="jt-cursor"></div>
+<div class="jt-cursor-ring"></div>
 
-  <!-- Custom cursor elements (desktop only) -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-   <div class="cursor"></div>
-<div class="cursor-follower"></div>
   
   <!-- Header -->
 	</header>
@@ -1633,48 +1614,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-const cursor = document.querySelector('.cursor');
-const follower = document.querySelector('.cursor-follower');
+const cursor = document.querySelector(".jt-cursor");
+const ring = document.querySelector(".jt-cursor-ring");
 
-let mouseX = 0;
-let mouseY = 0;
-let posX = 0;
-let posY = 0;
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
 
-// Track mouse
-document.addEventListener('mousemove', e => {
+document.addEventListener("mousemove", e => {
   mouseX = e.clientX;
   mouseY = e.clientY;
-  cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+  cursor.style.left = mouseX + "px";
+  cursor.style.top = mouseY + "px";
 });
 
-// Smooth follower animation
-function animate() {
-  posX += (mouseX - posX) / 8;
-  posY += (mouseY - posY) / 8;
-  follower.style.transform = `translate(${posX}px, ${posY}px)`;
-  requestAnimationFrame(animate);
+function animateRing() {
+  ringX += (mouseX - ringX) / 8;
+  ringY += (mouseY - ringY) / 8;
+  ring.style.left = ringX + "px";
+  ring.style.top = ringY + "px";
+  requestAnimationFrame(animateRing);
 }
-animate();
+animateRing();
 
-hoverItems.forEach(item => {
-  item.addEventListener('mousemove', e => {
-    const rect = item.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    item.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+/* Interactive elements */
+const hoverTargets = document.querySelectorAll("a, button, .jt-card");
+
+hoverTargets.forEach(el => {
+
+  el.addEventListener("mouseenter", () => {
+    ring.style.width = "80px";
+    ring.style.height = "80px";
+    ring.style.background = "rgba(212,175,55,0.08)";
+    ring.style.boxShadow = "0 0 30px rgba(212,175,55,0.6)";
   });
 
-  item.addEventListener('mouseleave', () => {
-    item.style.transform = '';
+  el.addEventListener("mouseleave", () => {
+    ring.style.width = "42px";
+    ring.style.height = "42px";
+    ring.style.background = "transparent";
+    ring.style.boxShadow = "none";
   });
+
 });
-
-
-	  
 </script>
-
-
-
 </body>
 </html>
