@@ -1609,49 +1609,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-const cursor = document.querySelector(".jt-cursor");
-const ring = document.querySelector(".jt-cursor-ring");
-
-let mouseX = 0, mouseY = 0;
-let ringX = 0, ringY = 0;
-
-document.addEventListener("mousemove", e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX + "px";
-  cursor.style.top = mouseY + "px";
-});
-
-function animateRing() {
-  ringX += (mouseX - ringX) / 8;
-  ringY += (mouseY - ringY) / 8;
-  ring.style.left = ringX + "px";
-  ring.style.top = ringY + "px";
-  requestAnimationFrame(animateRing);
-}
-animateRing();
-
-/* Interactive elements */
-const hoverTargets = document.querySelectorAll("a, button, .jt-card");
-
-hoverTargets.forEach(el => {
-
-  el.addEventListener("mouseenter", () => {
-    ring.style.width = "80px";
-    ring.style.height = "80px";
-    ring.style.background = "rgba(212,175,55,0.08)";
-    ring.style.boxShadow = "0 0 30px rgba(212,175,55,0.6)";
-  });
-
-  el.addEventListener("mouseleave", () => {
-    ring.style.width = "42px";
-    ring.style.height = "42px";
-    ring.style.background = "transparent";
-    ring.style.boxShadow = "none";
-  });
-
-});
 </script>
 </body>
 </html>
