@@ -629,8 +629,9 @@ body {
 @media (max-width: 768px) {
   body {
     padding-top: 180px;
-    }
-  
+  }
+}
+
 
 .buy-now-btn {
   display: inline-block;
@@ -738,6 +739,7 @@ body {
   }
 
   .jt-grid {
+    perspective: 1200px;
     gap: 40px;
   }
 }
@@ -791,6 +793,10 @@ body {
 }
 
 /* LUXURY GLASS CARD */
+.jt-card {
+  opacity: 0;
+}
+		
 .jt-card {
   position: relative;
   padding: 50px 25px;
@@ -882,7 +888,41 @@ body {
   to { opacity:1; transform: translateY(0); }
 }
 
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .cursor,
+  .cursor-follower {
+    display: none;
+  }
+}
 
+/* Main dot */
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #D4AF37;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease;
+}
+
+/* Outer glow follower */
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(212,175,55,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+}
+
+
+		
   </style>
 </head>
   <!-- Apple Touch Icon (iOS home screen) -->
@@ -906,28 +946,32 @@ body {
   <!-- Custom cursor elements (desktop only) -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-     
+   <div class="cursor"></div>
+<div class="cursor-follower"></div>
+  
   <!-- Header -->
-  <header>
-  <!-- Video Background -->
+ <header class="site-header">
+
   <div class="hero-video">
     <video class="header-video" autoplay muted loop playsinline>
-    <source src="video/vid1.mp4" type="video/mp4" />
-  </video>
-  <header>   
- <header class="navbar" role="banner">
+      <source src="video/vid1.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="navbar">
     <button id="hamburgerBtn" class="hamburger" aria-expanded="false">
       <span class="bar bar1"></span>
       <span class="bar bar2"></span>
       <span class="bar bar3"></span>
     </button>
   </div>
-  
- <div class="logo-aura">
-    <div class="nav-spacer"></div>
-   <div class="logo"></div>
-     <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
-    </div>
+
+  <div class="logo-aura">
+    <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
+  </div>
+
+</header>
+
   <!-- FULL SCREEN OVERLAY MENU -->
   <nav class="nav-overlay" id="navMenu">
     <div class="overlay-inner">
@@ -940,9 +984,6 @@ body {
       <a href="#form">Find Us</a>
       <a href="#shop">Shop</a>
     </div>
-
-  </nav>
-</header>
 
 
   <!-- Main -->
@@ -1590,6 +1631,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+const cursor = document.querySelector('.cursor');
+const follower = document.querySelector('.cursor-follower');
+
+let mouseX = 0;
+let mouseY = 0;
+let posX = 0;
+let posY = 0;
+
+// Track mouse
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+});
+
+// Smooth follower animation
+function animate() {
+  posX += (mouseX - posX) / 8;
+  posY += (mouseY - posY) / 8;
+  follower.style.transform = `translate(${posX}px, ${posY}px)`;
+  requestAnimationFrame(animate);
+}
+animate();
+
+hoverItems.forEach(item => {
+  item.addEventListener('mousemove', e => {
+    const rect = item.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    item.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+  });
+
+  item.addEventListener('mouseleave', () => {
+    item.style.transform = '';
+  });
+});
+
+
+	  
 </script>
 
 
