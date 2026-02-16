@@ -1482,25 +1482,28 @@ const toggleBtn = document.getElementById("toggleView");
 const front = document.querySelector(".hoodie.front");
 const back = document.querySelector(".hoodie.back");
 
-let showingFront = true;
+if (toggleBtn && front && back) {
+  let showingFront = true;
 
-toggleBtn.addEventListener("click", () => {
-  if (showingFront) {
-    front.classList.remove("active");
-    front.style.transform = "rotateY(-180deg)";
-    back.classList.add("active");
-    back.style.transform = "rotateY(0deg)";
-    toggleBtn.textContent = "View Front";
-  } else {
-    back.classList.remove("active");
-    back.style.transform = "rotateY(180deg)";
-    front.classList.add("active");
-    front.style.transform = "rotateY(0deg)";
-    toggleBtn.textContent = "View Back";
-  }
-  showingFront = !showingFront;
-});
-
+  toggleBtn.addEventListener("click", () => {
+    if (showingFront) {
+      front.classList.remove("active");
+      front.style.transform = "rotateY(-180deg)";
+      back.classList.add("active");
+      back.style.transform = "rotateY(0deg)";
+      toggleBtn.textContent = "View Front";
+    } else {
+      back.classList.remove("active");
+      back.style.transform = "rotateY(180deg)";
+      front.classList.add("active");
+      front.style.transform = "rotateY(0deg)";
+      toggleBtn.textContent = "View Back";
+    }
+    showingFront = !showingFront;
+  });
+}
+	  
+	  
 // Initials logic
 const initialsInput = document.getElementById("initialsInput");
 const initialsOverlay = document.getElementById("initialsOverlay");
