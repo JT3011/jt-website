@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+	<html class="no-js">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -858,12 +859,22 @@ body {
   from { opacity:0; transform: translateY(50px); }
   to { opacity:1; transform: translateY(0); }
 }
-.jt-card,
-section,
-main,
-div {
-  opacity: 1 !important;
-  transform: none !important;
+.reveal,
+.reveal-left,
+.reveal-right,
+.glow-up {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: all 1000ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Only hide if JS is active */
+.no-js .reveal,
+.no-js .reveal-left,
+.no-js .reveal-right,
+.no-js .glow-up {
+  opacity: 1;
+  transform: none;
 }
 
   </style>
@@ -1550,6 +1561,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+	  
+document.addEventListener("DOMContentLoaded", () => {
+
+  const reveals = document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-right, .glow-up"
+  );
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+        observer.unobserve(entry.target); // animate once
+      }
+    });
+  }, {
+    threshold: 0.15
+  });
+
+  reveals.forEach(el => observer.observe(el));
+
+});
+
+	document.documentElement.classList.remove("no-js");
+  
 </script>
 </body>
 </html>
