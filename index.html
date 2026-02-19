@@ -170,7 +170,18 @@
 
     /* Layout / common */
     section{ padding:3rem 1.25rem }
-    h2.section-title{ font-family:'Playfair Display', serif; color:var(--gold); font-size:1.7rem; margin-bottom:1rem; text-align:center }
+    .section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  text-align: center;
+  background: linear-gradient(90deg,#d4af37,#f5e6b3,#d4af37);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerMove 4s linear infinite;
+}
 
     .flex-container{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
     .flex-item{ flex:1 1 45%; min-width:260px }
@@ -876,6 +887,69 @@ body {
   transform: none;
 }
 
+/* ================================
+   GLOBAL LUXURY PAGE CONTAINER
+================================ */
+
+.page-wrap {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 80px 40px 140px 40px;
+  position: relative;
+}
+
+/* subtle gold ambient glow */
+.page-wrap::before {
+  content: "";
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
+  filter: blur(100px);
+  z-index: -1;
+  pointer-events: none;
+}
+	  
+.lux-card {
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.01)
+  );
+  border: 1px solid rgba(212,175,55,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 26px;
+  padding: 60px 40px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+  transition: transform .6s ease, box-shadow .6s ease;
+}
+
+.lux-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.75);
+}
+	  
+section + section {
+  margin-top: -40px;
+}
+	  
+section::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(80px);
+  animation: pulseGlow 8s infinite ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
 
   </style>
 </head>
@@ -920,7 +994,8 @@ body {
 
 
 
-    
+    <div class="page-wrap">
+
 
 	
 	</p>
@@ -932,6 +1007,7 @@ body {
 
     <!-- Services -->
     <section id="services" class="reveal-right" data-anim>
+		<div class="lux-card">
       <h2 class="section-title">Our Services</h2>
       <div style="text-align:center"><ul class="clean">
         <li>💪 1:1 Gym Personal Training</li>
@@ -945,6 +1021,7 @@ body {
 
     <!-- About + Carousel -->
     <section id="about" class="reveal-left" data-anim>
+		<div class="lux-card">
       <h2 class="section-title">About Me</h2>
       <div class="flex-container">
         <div class="flex-item">
@@ -976,7 +1053,7 @@ body {
 
     <!-- Free intro call -->
     <section id="intro-call" class="reveal" data-anim>
-      <div class="cancel-inner"> 
+      <div class="lux-card"> 
       <h2 class="section-title">Free Introductory Call</h2>
       <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
       <div style="text-align:center"><a class="button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">📅 Book Now</a></div>
@@ -984,6 +1061,7 @@ body {
 
     <!-- Qualifications -->
     <section id="qualifications" class="reveal-left" data-anim>
+		<div class="lux-card">
       <h2 class="section-title">My Qualifications & Experience</h2>
       <div class="qual-list">
         <ul style="margin:0; padding:0 0 0 1rem;">
@@ -1025,6 +1103,7 @@ body {
 
     <!-- Pricing -->
     <section id="pricing" class="reveal" data-anim>
+		<div class="lux-card">
       <h2 class="section-title">Pricing</h2>
 
       <div class="pricing">
