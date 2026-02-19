@@ -936,21 +936,6 @@ section + section {
   margin-top: -40px;
 }
 	  
-section::before {
-  content: "";
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: blur(80px);
-  animation: pulseGlow 8s infinite ease-in-out;
-  z-index: 0;
-  pointer-events: none;
-}
-
   </style>
 </head>
 <body>
@@ -1086,6 +1071,7 @@ section::before {
 
     <!-- Podcast -->
     <section id="podcast" class="podcast-section reveal" data-anim>
+		<div class="lux-card">
       <h2 class="podcast-title">🎙️ Podcast</h2>
       <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
       <div class="podcast-player" style="max-width:880px;margin:0 auto">
@@ -1183,6 +1169,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 	  
 <!-- Premium Partnership Section -->
 <h2 class="cancel-title">Partnership</h2>
+ <div class="lux-card">
 <div class="flex-container2">
 <div class="flex-item2">
           <div class="carousel-wrap2 reveal-right" data-anim>
@@ -1215,6 +1202,7 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
     
    <!-- Find Us + Booking CTA -->
 <section id="findus" class="reveal" data-anim>
+	<div class="lux-card">
   <h2 class="section-title">Find Us</h2>
 
   <p style="text-align:center; max-width:900px; margin:0 auto 1rem">
