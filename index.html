@@ -935,11 +935,79 @@ body {
 section + section {
   margin-top: -40px;
 }
-	  
+	 /* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Main page container */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Make images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Typography scaling */
+h1 {
+  font-size: clamp(28px, 5vw, 48px);
+}
+
+h2 {
+  font-size: clamp(22px, 4vw, 36px);
+}
+
+p {
+  font-size: clamp(16px, 2.5vw, 18px);
+  line-height: 1.6;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+
+  .page-container {
+    padding: 0 16px;
+  }
+
+  section {
+    padding: 40px 0;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+}
+ 
   </style>
 </head>
 <body>
-
+	
+<div class="page-container">
+	
   <!-- Header -->
  <header class="site-header">
 
