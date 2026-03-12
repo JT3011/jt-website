@@ -1682,16 +1682,6 @@ if (toggleBtn && front && back) {
     showingFront = !showingFront;
   });
 }
-	  
-	  
-// Initials logic
-const initialsInput = document.getElementById("initialsInput");
-const initialsOverlay = document.getElementById("initialsOverlay");
-
-initialsInput.addEventListener("input", () => {
-  initialsOverlay.textContent = initialsInput.value.toUpperCase();
-});
-
 
 
     /* -------------------------
@@ -1731,31 +1721,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-expanded', 'false');
     }
   });
-});
-	document.addEventListener("DOMContentLoaded", () => {
-
-  // Remove no-js class safely
-  document.documentElement.classList.remove("no-js");
-
-  // Scroll Reveal
-  const revealElements = document.querySelectorAll(
-    ".reveal, .reveal-left, .reveal-right, .glow-up"
-  );
-
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.15,
-    rootMargin: "0px 0px -5% 0px"
-  });
-
-  revealElements.forEach(el => observer.observe(el));
-
 });
   
 </script>
