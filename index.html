@@ -1461,37 +1461,32 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
         requestAnimationFrame(animate);
       }
       animate();
+		
+/* -------------------------
+   Scroll reveal (IntersectionObserver)
+------------------------- */
 
-      // enlarge on interactive elements
-      const interactives = document.querySelectorAll('a, button, .button');
-      interactives.forEach(el=>{
-        el.addEventListener('mouseenter', ()=> {
-          cursor.style.transform='translate(-50%,-50%) scale(1.7)';
-          dot.style.transform='translate(-50%,-50%) scale(.5)';
-          cursor.style.boxShadow = '0 26px 60px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.06) inset';
-        });
-        el.addEventListener('mouseleave', ()=> {
-          cursor.style.transform='translate(-50%,-50%) scale(1)';
-          dot.style.transform='translate(-50%,-50%) scale(1)';
-          cursor.style.boxShadow = '0 14px 40px rgba(212,175,55,0.06), 0 0 30px rgba(212,175,55,0.02) inset';
-        });
-      });
-    })();
+(function(){
 
-    /* -------------------------
-       Scroll reveal (IntersectionObserver)
-       Adds 'show' class to elements with data-anim or .reveal*
-       Slower reveals for a bold effect.
-    ------------------------- */
-   
-      }, opts);
+const opts = {
+  threshold: 0.15
+};
 
-      // pick all elements we want to animate
-      document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up, .carousel-wrap').forEach(el=>{
-        io.observe(el);
-      });
-    })();
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
+    }
+  });
+}, opts);
 
+// pick all elements we want to animate
+document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up, .carousel-wrap').forEach(el=>{
+  io.observe(el);
+});
+
+})();
+		
     /* -------------------------
        Carousel: simple auto + dot controls
     ------------------------- */
