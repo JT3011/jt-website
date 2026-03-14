@@ -1021,54 +1021,6 @@ iframe {
   }
 }
 
-	  
-	  .hamburger {
-  width: 30px;
-  height: 22px;
-  position: relative;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-
-.hamburger span {
-  position: absolute;
-  height: 3px;
-  width: 100%;
-  background: white;
-  left: 0;
-  transition: 0.3s;
-}
-
-.hamburger span:nth-child(1) {
-  top: 0;
-}
-
-.hamburger span:nth-child(2) {
-  top: 9px;
-}
-
-.hamburger span:nth-child(3) {
-  bottom: 0;
-}
-	  .hamburger.active span:nth-child(1) {
-  transform: rotate(45deg);
-  top: 9px;
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg);
-  bottom: 10px;
-}
-	  @media (min-width: 768px) {
-  .hamburger {
-    display: none;
-  }
-}
   </style>
 </head>
 <body>
@@ -1128,12 +1080,6 @@ iframe {
 <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/jt-mind-body-balance?primary_color=dcbc09', text: 'Secure Spot', color: '#dcbc09', textColor: '#1a1a1a', branding: true }); }</script>
 <!-- Calendly badge widget end -->
 
-
-<button class="hamburger" id="hamburger">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
 		
   <!-- Free intro call -->
     <section id="intro-call" class="reveal" data-anim>
@@ -1799,11 +1745,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 	  
-  const hamburger = document.getElementById("hamburger");
-
-hamburger.addEventListener("click", () => {
-  hamburger.classList.toggle("active");
-});
 </script>
 </body>
 </html>
