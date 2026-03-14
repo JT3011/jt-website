@@ -1020,7 +1020,55 @@ iframe {
     padding-right: 8px;
   }
 }
+
 	  
+	  .hamburger {
+  width: 30px;
+  height: 22px;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: white;
+  left: 0;
+  transition: 0.3s;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger span:nth-child(2) {
+  top: 9px;
+}
+
+.hamburger span:nth-child(3) {
+  bottom: 0;
+}
+	  .hamburger.active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 9px;
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg);
+  bottom: 10px;
+}
+	  @media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -1077,16 +1125,23 @@ iframe {
 <!-- Calendly badge widget begin -->
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-<script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/jt-mind-body-balance?primary_color=dcbc09', text: 'Book Now', color: '#dcbc09', textColor: '#1a1a1a', branding: true }); }</script>
+<script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/jt-mind-body-balance?primary_color=dcbc09', text: 'Secure Spot', color: '#dcbc09', textColor: '#1a1a1a', branding: true }); }</script>
 <!-- Calendly badge widget end -->
+
+
+<button class="hamburger" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 		
   <!-- Free intro call -->
     <section id="intro-call" class="reveal" data-anim>
-      <h2 class="section-title">Free Introductory Call</h2>
+      <h2 class="section-title">Free Performance Consultation</h2>
 		  <div class="lux-card"> 
-      <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute online introduction meeting</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
+      <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute Performance Consultation over the phone</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
      <br>
-		  <div style="text-align:center"><a class="jt-button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a></div>
+		  <div style="text-align:center"><a class="jt-button" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a></div>
     </section>
 
     <!-- Services -->
@@ -1124,7 +1179,7 @@ iframe {
           <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
           <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
 			<br>
-			<a class="jt-button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
+			<a class="jt-button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Secure Spot</a>
         </div>
 
         <div class="flex-item">
@@ -1182,35 +1237,10 @@ iframe {
     </section>
 
 
-
-		  
-    <!-- Podcast -->
-    <section id="podcast" class="podcast-section reveal" data-anim>
-      <h2 class="section-title">Podcast</h2>
-      <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
-		 <br>
-        <br>
-        <br>
-      <div class="podcast-player" style="max-width:850px;margin:100">
-        <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="190%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
-      </div>
-      <div class="podcast-links">
-        <br>
-        <br>
-        <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
-        <br>
-        <br>
-        <br>
-        <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
-      </div>
-    </section>
-	
-<br>
-        <br>
-    <!-- Pricing -->
+	    <!-- BOOK -->
     <section id="pricing" class="reveal" data-anim>
 		
-      <h2 class="section-title">Pricing</h2>
+      <h2 class="section-title">Book</h2>
 
       <br><br>
 		<div class="lux-card">	
@@ -1222,7 +1252,7 @@ iframe {
     <br><br>
 	
 			<div class="lux-card">	
-        <h3>1:1 Football Session 60 mins</h3>
+        <h3>1:1 Football Session</h3>
         <p>£45 per session</p>
 				<br>
         <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/1-1-football-sessions?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
@@ -1320,6 +1350,31 @@ This policy ensures fairness, respects the booking schedule, and protects the ti
 </section>
 
 
+  <!-- Podcast -->
+    <section id="podcast" class="podcast-section reveal" data-anim>
+      <h2 class="section-title">Podcast</h2>
+      <p class="podcast-subtitle">Real conversations. Real growth. Real balance.</p>
+		 <br>
+        <br>
+        <br>
+      <div class="podcast-player" style="max-width:850px;margin:100">
+        <iframe src="https://open.spotify.com/embed/show/5AsiIJHeyEunjeIgfx0T3l?utm_source=generator&theme=0" width="190%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="JT Podcast"></iframe>
+      </div>
+      <div class="podcast-links">
+        <br>
+        <br>
+        <a class="btn-spotify" href="https://open.spotify.com/show/5AsiIJHeyEunjeIgfx0T3l" target="_blank" rel="noopener">Listen on Spotify</a>
+        <br>
+        <br>
+        <br>
+        <a class="btn-apple" href="https://podcasts.apple.com/gb/podcast/jt-mind-body-balance/id1838425758" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+      </div>
+    </section>
+	
+<br>
+        <br>
+	
+	
        <section id="shop" class="jt-merch reveal">
 
   <div class="jt-spotlight"></div>
@@ -1743,7 +1798,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-  
+	  
+  const hamburger = document.getElementById("hamburger");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+});
 </script>
 </body>
 </html>
