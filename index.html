@@ -3,1759 +3,2784 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>JT Mind & Body Balance</title>
+  <title>JT Mind & Body Balance | Elite Football, Gym & Mindset Coaching</title>
+  <meta name="description" content="JT Mind & Body Balance provides elite 1:1 football coaching, gym personal training, nutrition programming and mentoring in Bristol." />
 
-	
-	
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-	<!-- Apple Touch Icon (iOS home screen) -->
+  <!-- Apple Touch Icon (iOS home screen) -->
   <link rel="apple-touch-icon" sizes="180x180" href="images/applogo.png">
 
+  <!-- Android / Chrome -->
+  <link rel="icon" type="image/png" sizes="192x192" href="images/applogo192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="images/applogo512.png">
 
- <!-- Android / Chrome -->
-<link rel="icon" type="image/png" sizes="192x192" href="images/applogo192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="images/applogo512.png">
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json">
 
-<!-- Manifest (needed for Android Chrome) -->
-<link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#050505">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="JT">
 
-    <meta name="theme-color" content="#0a0a0a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="JT">
-	
   <style>
-  .hero-video {
-  height: 24vh;
-  position: relative;
-  width: 100%;
-  overflow: visible;
-}
-  header {
-  position: relative;
-  overflow: visible;
-}
-
-/* Video background */
-.header-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 1; /* Adjust to make logo stand out even more */
-  filter: contrast(1.2) brightness(1.0) saturate(1.0);
-}
-
-/* Bring logo forward */
-.logo-wrap {
-  position: relative;
-  z-index: 2;
-}
-
-/* Optional: subtle shadow around logo for pop */
-.logo-wrap img {
-  box-shadow: 0 0 40px rgba(0,0,0,0.55);
-}
-
-    :root{
-      --bg:#1C1C1C;
-      --panel:#262626;
-      --gold:#D4AF37;
-      --muted:#f0e8d5;
-      --card:#2e2e2e;
-      --accent:#c79b3b;
-      --glass: rgba(255,255,255,0.03);
+    :root {
+      --black: #050505;
+      --near-black: #090909;
+      --charcoal: #111111;
+      --charcoal-2: #171717;
+      --panel: rgba(255,255,255,0.045);
+      --panel-strong: rgba(255,255,255,0.075);
+      --gold: #d4af37;
+      --gold-2: #f5e6b3;
+      --gold-dark: #9b7627;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --soft: #e6dcc7;
+      --line: rgba(212,175,55,0.18);
+      --line-white: rgba(255,255,255,0.12);
+      --shadow: 0 30px 90px rgba(0,0,0,0.65);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --max: 1380px;
     }
 
-    /* Reset & base */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--muted);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 70% -10%, rgba(212,175,55,.13), transparent 32rem),
+        radial-gradient(circle at 15% 20%, rgba(212,175,55,.07), transparent 36rem),
+        linear-gradient(180deg, #050505 0%, #101010 38%, #050505 100%);
+      color: var(--white);
       font-family: 'Montserrat', sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      scroll-behavior:smooth;
-      -webkit-touch-callout:none;
-    }
-    a{color:inherit}
-    img{max-width:100%;display:block}
-
-    /* Header */
-    header{
-      background:linear-gradient(180deg,#171717 0%, #1A1A1A 100%);
-      padding:2rem 1rem;
-      text-align:center;
-      position:relative;
-      overflow:visible;
-    }
-    .logo-wrap{
-      display:flex;
-      align-items:center;
-      gap:1rem;
-      justify-content:center;
-      transform:translateY(10px);
-      opacity:0;
-      animation:logoIn 1100ms cubic-bezier(.2,.9,.3,1) forwards;
-    }
-    @keyframes logoIn{
-      to { transform:translateY(0); opacity:1; }
-    }
-    header img{
-      width:140px;
-      height:auto;
-      display:block;
-      border-radius:10px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      transform-origin:center;
-    }
-    header h1{
-      margin:0;
-      font-family:'Playfair Display', serif;
-      color:var(--gold);
-      font-size:1.6rem;
-      letter-spacing:0.6px;
-      transform:translateY(14px);
-      opacity:0;
-      animation:headlineIn 1000ms 200ms cubic-bezier(.2,.9,.3,1) forwards;
-    }
-    header p{margin:.5rem 0 0; color:#e8e1cc; opacity:.96}
-
-    @keyframes headlineIn{
-      to { transform:translateY(0); opacity:1; }
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-align: left;
     }
 
-    /* Sticky nav */
-    nav{
-      position:sticky;
-      top:0;
-      background:rgba(28,28,28,0.95);
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      padding:0.6rem;
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img, video {
+      max-width: 100%;
+      display: block;
+    }
+
+    iframe {
+      max-width: 100%;
+      display: block;
+      border: 0;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    ::selection {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .no-js .reveal,
+    .no-js .reveal-left,
+    .no-js .reveal-right,
+    .no-js .scale-in,
+    .no-js .split-line {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      opacity: .12;
+      mix-blend-mode: soft-light;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at center, black, transparent 90%);
+    }
+
+    .cursor-ring,
+    .cursor-dot {
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      opacity: 0;
+    }
+
+    .cursor-ring {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(212,175,55,.55);
+      border-radius: 999px;
+      box-shadow: 0 0 30px rgba(212,175,55,.22);
+      transition: width .25s ease, height .25s ease, border-color .25s ease;
+    }
+
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 20px rgba(212,175,55,.8);
+    }
+
+    body.cursor-hover .cursor-ring {
+      width: 68px;
+      height: 68px;
+      border-color: rgba(245,230,179,.7);
+    }
+
+    .site-shell {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    .navbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 92px;
       z-index: 9999;
-      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.2));
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(212,175,55,.13);
+      transition: height .35s var(--ease), background .35s var(--ease);
     }
-    .nav-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .nav-links a{
-      padding:.45rem .8rem;
-      border-radius:8px;
-      text-decoration:none;
-      color:var(--muted);
-      font-weight:600;
-      background:transparent;
-      transition:transform .18s ease, background .18s;
-    }
-    .nav-links a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.06) }
 
-    /* Container & hero */
-    .container{ max-width:1100px; margin:0 auto; padding:2rem 1.25rem }
-    .hero{
-      background:linear-gradient(180deg,#262626 0%, #2a2a2a 100%);
-      border-radius:14px;
-      padding:3.2rem 1.6rem;
-      text-align:center;
-      box-shadow:0 10px 40px rgba(0,0,0,0.6);
+    .navbar.scrolled {
+      height: 76px;
+      background: rgba(5,5,5,.86);
     }
-    .hero h2{ font-family:'Playfair Display', serif; color:var(--gold); font-size:2rem; margin:0 0 0.6rem; letter-spacing:0.5px }
-    .hero p{ color:#efe6d3; max-width:850px; margin:0 auto 1rem }
-    .button{ display:inline-block; background:var(--gold); color: #1B1B1B; padding:.9rem 1.4rem; border-radius:999px; font-weight:700; text-decoration:none; transition:transform .18s, box-shadow .18s }
-    .button:hover{ transform:translateY(-3px); box-shadow: 0 10px 30px rgba(212,175,55,0.12) }
 
-    /* Layout / common */
-    section{ padding:3rem 1.25rem }
+    .nav-inner {
+      width: min(var(--max), calc(100% - 44px));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(212,175,55,.25), transparent 65%);
+      filter: blur(8px);
+      animation: logoPulse 6s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .brand-mark img {
+      width: 62px;
+      height: 62px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.55);
+      border: 1px solid rgba(212,175,55,.18);
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { opacity: .5; transform: scale(.95); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .brand-copy {
+      line-height: 1;
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-size: .82rem;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      color: rgba(248,243,231,.72);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      font-size: .72rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color .25s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      height: 1px;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform .3s var(--ease);
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-size: .72rem;
+      box-shadow: 0 14px 36px rgba(212,175,55,.16);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .3s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-3px);
+      background: var(--gold-2);
+      box-shadow: 0 20px 48px rgba(212,175,55,.25);
+    }
+
+    .hamburger {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(212,175,55,.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,.035);
+      display: none;
+      place-items: center;
+      cursor: pointer;
+      position: relative;
+      z-index: 10002;
+      transition: border-color .25s ease, transform .25s ease;
+    }
+
+    .hamburger:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hamburger-lines {
+      width: 20px;
+      height: 14px;
+      position: relative;
+      display: block;
+    }
+
+    .hamburger-lines span {
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 2px;
+      border-radius: 99px;
+      background: var(--white);
+      transition: transform .35s var(--ease), opacity .25s ease, top .35s var(--ease);
+    }
+
+    .hamburger-lines span:nth-child(1) { top: 0; }
+    .hamburger-lines span:nth-child(2) { top: 6px; }
+    .hamburger-lines span:nth-child(3) { top: 12px; }
+
+    .hamburger.open .hamburger-lines span:nth-child(1) {
+      top: 6px;
+      transform: rotate(45deg);
+    }
+
+    .hamburger.open .hamburger-lines span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open .hamburger-lines span:nth-child(3) {
+      top: 6px;
+      transform: rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(212,175,55,.18), transparent 28rem),
+        rgba(0,0,0,.86);
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .45s var(--ease), visibility .45s var(--ease);
+      border: 1px solid rgba(212,175,55,.18);
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-inner {
+      width: min(560px, calc(100% - 40px));
+      text-align: center;
+    }
+
+    .mobile-menu a {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.1rem, 10vw, 5rem);
+      line-height: 1.02;
+      color: var(--white);
+      padding: 10px 0;
+      transition: color .25s ease, transform .25s var(--ease);
+    }
+
+    .mobile-menu a:hover {
+      color: var(--gold);
+      transform: translateX(8px);
+    }
+
+    .menu-small {
+      margin-top: 30px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .75rem;
+    }
+
+    /* =========================
+       SHARED
+    ========================= */
+
+    .section {
+      position: relative;
+      padding: 128px 22px;
+    }
+
+    .section-inner {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3.5px;
+      font-size: .75rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .mega-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(3.5rem, 10vw, 10.8rem);
+      line-height: .82;
+      letter-spacing: -0.07em;
+      text-transform: uppercase;
+    }
+
     .section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;
-  font-weight: 500;
-  margin-bottom: 30px;
-  text-align: center;
-  background: linear-gradient(90deg,#d4af37,#f5e6b3,#d4af37);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmerMove 4s linear infinite;
-}
-
-    .flex-container{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
-    .flex-item{ flex:1 1 45%; min-width:260px }
-
-    .flex-container2{ display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:space-between }
-    .flex-item2{ flex:1 1 45%; min-width:260px }
-
-    /* Pricing / cards */
-    .pricing{ background:var(--card); border-radius:12px; padding:1.4rem; margin-bottom:1rem; box-shadow:0 6px 18px rgba(0,0,0,0.45) }
-    .pricing h3{ color:var(--gold); margin-top:0 }
-    ul.clean{ list-style:none; padding:0; margin:0; line-height:2 }
-
-    /* Qualifications list */
-    .qual-list{ max-width:780px; margin:0 auto; text-align:left; color:var(--muted); padding:1rem; background:var(--glass); border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.02) }
-
-    /* Podcast block */
-    .podcast-section{ padding:3rem 1rem; text-align:center; color:var(--muted);background:transparent; }
-    .podcast-player iframe{ border-radius:12px; border:0; box-shadow:0 12px 32px rgba(0,0,0,0.6) }
-    .btn-spotify {
-  transition: 0.3s ease;
-}
-
-.btn-spotify:hover {
-  box-shadow: 0 0 15px rgba(30, 215, 96, 0.7); /* Spotify green glow */
-}
-    .btn-apple {
-  transition: 0.3s ease;
-}
-
-.btn-apple:hover {
-  box-shadow: 0 0 15px rgba(175, 82, 222, 0.7); /* Apple purple glow */
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-
-    /* Carousel (fixed height to avoid jumps) */
-    .carousel-wrap{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
-    .carousel-wrap img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
-    .carousel-wrap img.active{ opacity:1; transform:scale(1); }
-    .carousel-controls{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
-    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
-    .dot.active{ background:var(--gold); transform:scale(1.15) }
-
-/* Carousel 2 (fixed height to avoid jumps) */
-    .carousel-wrap2{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
-    .carousel-wrap2 img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
-    .carousel-wrap2 img.active{ opacity:1; transform:scale(1); }
-    .carousel-controls2{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
-    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
-    .dot.active{ background:var(--gold); transform:scale(1.15) }
-
-     /* Carousel 3 (fixed height to avoid jumps) */
-    .carousel-wrap3{ max-width:900px; margin:1.2rem auto 0; height:460px; position:relative; border-radius:12px; overflow:visible; background:#0e0e0e; box-shadow: 0 12px 30px rgba(0,0,0,0.6) }
-    .carousel-wrap3 img{ width:100%; height:100%; object-fit:cover; position:absolute; left:0; top:0; opacity:0; transition:opacity 1000ms cubic-bezier(.2,.9,.3,1), transform 1000ms cubic-bezier(.2,.9,.3,1); transform:scale(1.02); filter: saturate(0.98) contrast(1.02); }
-    .carousel-wrap3 img.active{ opacity:1; transform:scale(1); }
-    .carousel-controls3{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); display:flex; gap:8px; z-index:30 }
-    .dot{ width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.16); border:2px solid rgba(0,0,0,0.2); cursor:pointer; transition:all .2s }
-    .dot.active{ background:var(--gold); transform:scale(1.15) }  
-      
-    /* Contact buttons */
-    .contact-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:.6rem }
-    .contact-buttons a{ text-decoration:none; background:transparent; border:2px solid rgba(212,175,55,0.12); padding:.6rem .9rem; border-radius:999px; color:var(--muted); font-weight:700 }
-    .contact-buttons a:hover{ background:rgba(212,175,55,0.06); border-color:var(--gold); color:var(--gold) }
-
-    /* Back to top */
-    #backToTop{ position:fixed; right:22px; bottom:22px; width:48px; height:48px; border-radius:50%; background:var(--gold); color:#111; display:none; border:none; font-size:20px; z-index:9999; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.5) }
-
-
-    /* Reveal helpers */
-    .reveal{ opacity:0; transform:translateY(36px) scale(.98); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
-    .reveal.show{ opacity:1; transform:translateY(0) scale(1) }
-
-    .reveal-left{ opacity:0; transform:translateX(-36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
-    .reveal-left.show{ opacity:1; transform:translateX(0) scale(1) }
-
-    .reveal-right{ opacity:0; transform:translateX(36px) scale(.99); transition: all 1000ms cubic-bezier(.2,.9,.3,1) }
-    .reveal-right.show{ opacity:1; transform:translateX(0) scale(1) }
-
-    .glow-up{ transform:translateY(8px); opacity:0; transition:all 1200ms cubic-bezier(.2,.9,.3,1) }
-    .glow-up.show{ transform:translateY(0); opacity:1; box-shadow:0 18px 50px rgba(212,175,55,0.06) }
-
-    /* Reviews (bold section) */
-    .reviews-wrap{  min-height: 280px;  max-height: 280px; overflow: visible;max-width:900px; margin:1.5rem auto; position:relative; border-radius:12px; overflow:visible; padding:1rem }
-    .review-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px; padding:1.1rem 1.25rem; box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-      display:flex; gap:12px; align-items:flex-start; transition: transform 600ms cubic-bezier(.2,.9,.3,1), box-shadow 600ms;
-      transform-origin:center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 7.4vw, 8.2rem);
+      line-height: .86;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      max-width: 980px;
     }
-    .review-card + .review-card{ margin-top:12px }
-    .review-card .avatar{ width:64px; height:64px; border-radius:12px; flex:0 0 64px; object-fit:cover; box-shadow:0 8px 18px rgba(0,0,0,0.45) }
-    .review-card .body{ color:#eae6d7 }
-    .review-card .who{ color:var(--gold); font-weight:700; margin-bottom:4px }
-    .review-card:hover{ transform:translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.7) }
 
-    .reviews-controls{ display:flex; gap:8px; justify-content:center; margin-top:10px }
-    .review-dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer; transition:all .25s }
-    .review-dot.active{ background:var(--gold); transform:scale(1.2) }
-
-    /* Mobile-specific */
-    @media (max-width:900px){
-      .carousel-wrap{ height:320px }
-      .hero{ padding:2.4rem 1rem }
-      header img{ width:120px }
-      .logo-wrap{ gap:.6rem }
-
-       @media (max-width:900px){
-      .carousel-wrap2{ height:320px }
-      .hero{ padding:2.4rem 1rem }
-      header img{ width:120px }
-      .logo-wrap{ gap:.6rem }
+    .gold-text {
+      background: linear-gradient(90deg, var(--gold), var(--gold-2), var(--gold));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmerMove 4.5s linear infinite;
     }
-    @media (max-width:600px){
-      nav{ padding:.5rem }
-      .nav-links a{ padding:.35rem .6rem; font-size:0.95rem }
-      .flex-container{ flex-direction:column }
-      .flex-item{ width:100% }
-      .carousel-wrap{ height:260px }
-      .cursor{ display:none } /* hide custom cursor on mobile for UX */
 
-      /* stronger logo animation on mobile */
-      header img{ animation: mobileLogoPulse 2000ms ease-in-out infinite alternate; border-radius:14px; }
-      @keyframes mobileLogoPulse {
-        from { transform: scale(1); box-shadow:0 8px 20px rgba(0,0,0,0.6) }
-        to { transform: scale(1.04) rotate(-0.6deg); box-shadow:0 26px 60px rgba(0,0,0,0.7) }
+    @keyframes shimmerMove {
+      to { background-position: 200% center; }
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .55fr);
+      gap: 52px;
+      align-items: end;
+      margin-bottom: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head p,
+    .lead {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.45vw, 1.2rem);
+      line-height: 1.8;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      overflow: hidden;
+      cursor: pointer;
+      isolation: isolate;
+      border: 1px solid rgba(212,175,55,.28);
+      transition: color .3s ease, transform .3s var(--ease), border-color .3s ease, box-shadow .3s ease;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      transform: translateX(-105%);
+      background: linear-gradient(90deg, var(--gold), var(--gold-2));
+      transition: transform .42s var(--ease);
+    }
+
+    .btn:hover::before {
+      transform: translateX(0);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      border-color: transparent;
+      box-shadow: 0 18px 50px rgba(212,175,55,.17);
+    }
+
+    .btn-primary::before {
+      background: linear-gradient(90deg, var(--gold-2), var(--gold));
+      transform: translateX(0);
+      opacity: 0;
+    }
+
+    .btn-primary:hover::before {
+      opacity: 1;
+    }
+
+    .btn-primary:hover,
+    .btn-outline:hover {
+      transform: translateY(-4px);
+      color: var(--black);
+      box-shadow: 0 24px 60px rgba(212,175,55,.22);
+    }
+
+    .btn-outline {
+      color: var(--white);
+      background: rgba(255,255,255,.035);
+    }
+
+    .btn-outline:hover {
+      border-color: transparent;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .lux-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.078), rgba(255,255,255,.02)),
+        radial-gradient(circle at top right, rgba(212,175,55,.08), transparent 20rem);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .lux-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.06) 45%, transparent 65%);
+      transform: translateX(-120%);
+      transition: transform .9s var(--ease);
+      z-index: -1;
+    }
+
+    .lux-card:hover::before {
+      transform: translateX(120%);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(64px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-64px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(64px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+
+    .scale-in {
+      opacity: 0;
+      transform: scale(.94);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+
+    .show {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      padding: 150px 22px 74px;
+      overflow: hidden;
+      isolation: isolate;
+      background: #050505;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      overflow: hidden;
+    }
+
+    .hero-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .52;
+      filter: contrast(1.18) saturate(1.05) brightness(.72);
+      transform: scale(1.04);
+    }
+
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: -5;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.95)),
+        url("images/IMG_1486.PNG") center/cover;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(212,175,55,.28), transparent 28rem),
+        linear-gradient(90deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.5) 48%, rgba(0,0,0,.82) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.95) 82%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 45vh;
+      z-index: -2;
+      background: linear-gradient(180deg, transparent, var(--black));
+    }
+
+    .hero-inner {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 46px;
+      align-items: end;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 12.4vw, 13.5rem);
+      line-height: .76;
+      letter-spacing: -0.085em;
+      text-transform: uppercase;
+      max-width: 1100px;
+      text-shadow: 0 24px 80px rgba(0,0,0,.75);
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-copy {
+      margin-top: 30px;
+      max-width: 760px;
+      color: rgba(248,243,231,.84);
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      line-height: 1.8;
+    }
+
+    .hero-card {
+      padding: 28px;
+      align-self: end;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-card .mini-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .hero-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      line-height: .92;
+      letter-spacing: -0.04em;
+      margin: 24px 0;
+    }
+
+    .hero-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: .96rem;
+    }
+
+    .hero-meta {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      color: rgba(248,243,231,.5);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .68rem;
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      left: 22px;
+      bottom: 30px;
+      width: calc(100% - 44px);
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .scroll-cue span {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(248,243,231,.55);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .scroll-cue span::before,
+    .scroll-cue span::after {
+      content: "";
+      width: 54px;
+      height: 1px;
+      background: rgba(212,175,55,.34);
+    }
+
+    /* =========================
+       MARQUEE
+    ========================= */
+
+    .marquee {
+      position: relative;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee span {
+      white-space: nowrap;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 4.5rem);
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      padding: 0 28px;
+      color: rgba(248,243,231,.92);
+    }
+
+    .marquee span:nth-child(even) {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(212,175,55,.65);
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .88fr 1.12fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .about-portrait {
+      min-height: 720px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      position: sticky;
+      top: 105px;
+      align-self: start;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, transparent, rgba(0,0,0,.85)),
+        url("images/img6.jpg.JPEG") center/cover;
+    }
+
+    .about-portrait::after {
+      content: "James Taylor";
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 5.8rem);
+      letter-spacing: -0.06em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .about-copy {
+      padding: clamp(28px, 5vw, 58px);
+    }
+
+    .about-copy p {
+      color: var(--soft);
+      line-height: 1.88;
+      margin-bottom: 20px;
+      font-size: 1.04rem;
+    }
+
+    .about-copy strong {
+      color: var(--gold);
+    }
+
+    .quote-box {
+      margin-top: 28px;
+      padding: 26px;
+      border-left: 3px solid var(--gold);
+      background: rgba(0,0,0,.28);
+      border-radius: 0 22px 22px 0;
+      color: var(--white);
+      font-weight: 800;
+      line-height: 1.65;
+    }
+
+    /* =========================
+       PATHWAY
+    ========================= */
+
+    .pathway {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(212,175,55,.11), transparent 34rem),
+        linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0));
+    }
+
+    .pathway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .path-card {
+      min-height: 560px;
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .55s var(--ease), border-color .35s ease;
+    }
+
+    .path-card:hover {
+      transform: translateY(-14px);
+      border-color: rgba(212,175,55,.55);
+    }
+
+    .path-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      color: var(--gold);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .72rem;
+    }
+
+    .path-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,.28);
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      background: rgba(0,0,0,.22);
+    }
+
+    .path-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 4.6vw, 5.2rem);
+      line-height: .86;
+      letter-spacing: -0.07em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .path-card p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      padding: 32px 24px;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.4rem, 7vw, 7.8rem);
+      line-height: .8;
+      letter-spacing: -0.08em;
+      color: var(--gold);
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: .72rem;
+      font-weight: 900;
+      line-height: 1.65;
+    }
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .service-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1.2fr) minmax(300px, .8fr) 90px;
+      gap: 24px;
+      align-items: center;
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding-left .4s var(--ease), color .25s ease;
+    }
+
+    .service-row:hover {
+      padding-left: 26px;
+      color: var(--gold);
+    }
+
+    .service-row .num {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .74rem;
+      font-weight: 900;
+    }
+
+    .service-row h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.2vw, 6rem);
+      line-height: .85;
+      letter-spacing: -0.065em;
+      text-transform: uppercase;
+    }
+
+    .service-row p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: .98rem;
+    }
+
+    .service-row .arrow {
+      justify-self: end;
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,.3);
+      display: grid;
+      place-items: center;
+      font-size: 1.7rem;
+      color: var(--gold);
+      transition: transform .3s var(--ease), background .3s ease, color .3s ease;
+    }
+
+    .service-row:hover .arrow {
+      transform: translateX(8px);
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* =========================
+       BOOKING CARDS
+    ========================= */
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .booking-card {
+      padding: 32px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .45s var(--ease), border-color .3s ease;
+    }
+
+    .booking-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(212,175,55,.5);
+    }
+
+    .booking-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: .9;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .price {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+    }
+
+    .booking-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .booking-card.featured {
+      grid-column: span 2;
+      min-height: 360px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(212,175,55,.18), transparent 28rem),
+        linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+    }
+
+    /* =========================
+       MEDIA / CAROUSEL
+    ========================= */
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .carousel {
+      position: relative;
+      min-height: 660px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background: #080808;
+    }
+
+    .carousel img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.08);
+      transition: opacity 1s var(--ease), transform 1.2s var(--ease);
+      filter: saturate(1.04) contrast(1.05) brightness(.84);
+    }
+
+    .carousel img.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .carousel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 34%, rgba(0,0,0,.9));
+      pointer-events: none;
+    }
+
+    .carousel-label {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 5;
+    }
+
+    .carousel-label span {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .carousel-label h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 5.5rem);
+      line-height: .85;
+      letter-spacing: -0.07em;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    .dots {
+      position: absolute;
+      left: 28px;
+      bottom: 22px;
+      display: flex;
+      gap: 7px;
+      z-index: 6;
+      transform: translateY(46px);
+    }
+
+    .dot {
+      width: 28px;
+      height: 3px;
+      border: 0;
+      border-radius: 99px;
+      background: rgba(255,255,255,.24);
+      cursor: pointer;
+      transition: background .25s ease, width .25s ease;
+    }
+
+    .dot.active {
+      width: 46px;
+      background: var(--gold);
+    }
+
+    .media-side {
+      display: grid;
+      gap: 22px;
+    }
+
+    .media-tile {
+      min-height: 318px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .media-tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.88));
+    }
+
+    .media-tile > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .media-tile span {
+      color: var(--gold);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .72rem;
+    }
+
+    .media-tile h3 {
+      margin-top: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.7rem;
+      line-height: .86;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .tile-1 {
+      background-image:
+        linear-gradient(180deg, transparent, rgba(0,0,0,.85)),
+        url("images/img15.jpg.jpeg");
+    }
+
+    .tile-2 {
+      background-image:
+        linear-gradient(180deg, transparent, rgba(0,0,0,.85)),
+        url("images/img18.jpg.jpeg");
+    }
+
+    /* =========================
+       QUALIFICATIONS
+    ========================= */
+
+    .qual-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .qual-item {
+      padding: 18px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(212,175,55,.12);
+      color: var(--soft);
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .qual-item span {
+      color: var(--gold);
+      margin-right: 8px;
+    }
+
+    /* =========================
+       REVIEWS / POLICY
+    ========================= */
+
+    .reviews-frame {
+      padding: 12px;
+    }
+
+    .reviews-frame iframe {
+      width: 100%;
+      min-height: 520px;
+      border-radius: 22px;
+      background: #080808;
+    }
+
+    .policy-card {
+      padding: clamp(28px, 5vw, 64px);
+      text-align: center;
+      max-width: 990px;
+      margin: 0 auto;
+    }
+
+    .policy-card p {
+      color: var(--soft);
+      line-height: 1.85;
+      font-size: clamp(1rem, 1.35vw, 1.18rem);
+      margin-top: 20px;
+    }
+
+    .policy-card strong,
+    .policy-card span {
+      color: var(--gold);
+    }
+
+    /* =========================
+       CONTACT / LOCATION
+    ========================= */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      padding: 34px;
+    }
+
+    .contact-card h3,
+    .map-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 4.6rem);
+      line-height: .86;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid rgba(212,175,55,.15);
+      border-radius: 16px;
+      background: rgba(0,0,0,.34);
+      color: var(--white);
+      padding: 15px 16px;
+      outline: none;
+      transition: border-color .25s ease, box-shadow .25s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(212,175,55,.65);
+      box-shadow: 0 0 0 4px rgba(212,175,55,.08);
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    .form-success {
+      display: none;
+      color: var(--gold);
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .map-card {
+      padding: 34px;
+    }
+
+    .map-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .map-wrap {
+      height: 360px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,.14);
+      margin-bottom: 20px;
+      background: #080808;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* =========================
+       SHOP / LAB
+    ========================= */
+
+    .shop-section {
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,.13), transparent 34rem),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      padding: 24px;
+      text-align: center;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .5s var(--ease), border-color .3s ease;
+      transform-style: preserve-3d;
+    }
+
+    .product-card:hover {
+      transform: translateY(-12px) rotateX(3deg) rotateY(-3deg);
+      border-color: rgba(212,175,55,.55);
+    }
+
+    .product-image {
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle, rgba(212,175,55,.12), transparent 55%),
+        rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+
+    .product-image img {
+      max-height: 270px;
+      margin: auto;
+      object-fit: contain;
+      transition: transform .45s var(--ease);
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.06);
+    }
+
+    .product-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.15rem;
+      line-height: .93;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .product-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .product-price {
+      color: var(--gold);
+      font-weight: 900;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .lab-card {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 34px;
+      align-items: center;
+      padding: clamp(26px, 5vw, 58px);
+      margin-bottom: 40px;
+    }
+
+    .lab-card img {
+      border-radius: 28px;
+      border: 1px solid rgba(212,175,55,.16);
+      box-shadow: var(--shadow);
+    }
+
+    .lab-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      line-height: .85;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .lab-card p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    /* =========================
+       PARTNERSHIP
+    ========================= */
+
+    .partners-card {
+      padding: 34px;
+    }
+
+    .partner-carousel {
+      position: relative;
+      min-height: 430px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(212,175,55,.14);
+    }
+
+    .partner-carousel img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 32px;
+      opacity: 0;
+      transform: scale(.96);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .partner-carousel img.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* =========================
+       FINAL CTA / FOOTER
+    ========================= */
+
+    .final-cta {
+      min-height: 78vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(212,175,55,.24), transparent 32rem),
+        linear-gradient(180deg, transparent, #020202);
+    }
+
+    .final-cta .section-inner {
+      max-width: 1050px;
+    }
+
+    .final-cta .mega-title {
+      margin-bottom: 28px;
+    }
+
+    .final-cta p {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 38px 22px;
+      background: #030303;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: .85rem;
+    }
+
+    footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #backToTop {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,.2);
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 900;
+      display: none;
+      z-index: 9999;
+      cursor: pointer;
+      box-shadow: 0 18px 46px rgba(0,0,0,.5);
+      transition: transform .25s var(--ease);
+    }
+
+    #backToTop:hover {
+      transform: translateY(-4px);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1120px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: grid;
+      }
+
+      .nav-inner {
+        grid-template-columns: 1fr auto;
+      }
+
+      .nav-actions {
+        gap: 10px;
+      }
+
+      .hero-inner,
+      .section-head,
+      .about-grid,
+      .media-grid,
+      .contact-grid,
+      .lab-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        max-width: 520px;
+      }
+
+      .about-portrait {
+        position: relative;
+        top: auto;
+        min-height: 620px;
+      }
+
+      .pathway-grid,
+      .stats-grid,
+      .product-grid,
+      .qual-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+
+      .service-row {
+        grid-template-columns: 56px minmax(0, 1fr) 70px;
+      }
+
+      .service-row p {
+        grid-column: 2 / -1;
+      }
+
+      .booking-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-card.featured {
+        grid-column: span 1;
       }
     }
 
-  /* ============ Navbar ============ */
-.navbar {
-  position: fixed;
-  width: 100%;
-  height: 18%;
-  top: 0;
-  left: 0;
-  padding: 1rem 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.4); /* transparent dark */
-  backdrop-filter: blur(10px); /* frosted glass effect */
-  border-bottom: 1px solid rgba(212,175,55,0.25); /* subtle gold line */
-}
-}
-
-.nav-container {
-  max-width: 1100px;
-  padding: 0 20px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.hamburger {
-  margin-left: auto;
-  margin-right: 20px; /* adjust this number */
-}
-
-    
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #d4af37;
-}
-    
- .nav-spacer {
-  width: 40px; /* same width as the hamburger for perfect centering */
-}
-   
-
-
-/* ============ FULL SCREEN OVERLAY MENU ============ */
-.nav-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-
-  /* GLASS EFFECT */
-  backdrop-filter: blur(14px);
-  background: rgba(0, 0, 0, 0.45);
-
-  /* GOLD BORDER */
-  border: 2px solid #d4af37;
-  border-radius: 15px;
-
-  /* fade in */
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.nav-overlay.open {
-  display: flex !important;
-  opacity: 1;
-}
-
-/* Inner container for menu links */
-.overlay-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  text-align: center;
-}
-
-.nav-overlay a {
-  font-size: 1.8rem;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
-  transition: color 0.25s;
-}
-
-.nav-overlay a:hover {
-  color: #d4af37;
-}
-    
-:root {
---gold: #d4af37;
---gold-soft: #c9b27d;
---dark: #111;
---dark2: #1a1a1a;
-}
-
-/* Floating Gold Particles */
-.cancel-policy::before,
-.cancel-policy::after {
-content: "";
-position: absolute;
-width: 50%;
-height: 50%;
-background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
-animation: floatGlow 12s infinite linear;
-opacity: 0.15;
-}
-
-
-.cancel-policy::after {
-animation-duration: 18s;
-opacity: 0.12;
-}
-
-
-@keyframes floatGlow {
-0% { transform: translate(-20%, -20%) rotate(0deg); }
-50% { transform: translate(10%, 10%) rotate(180deg); }
-100% { transform: translate(-20%, -20%) rotate(360deg); }
-}
-
-
-/* Inner Box */
-.cancel-inner {
-max-width: 800px;
-margin: 0 auto;
-padding: 3rem 2rem;
-background: rgba(20, 20, 20, 0.6);
-backdrop-filter: blur(10px);
-border: 1px solid rgba(212,175,55,0.25);
-border-radius: 18px;
-box-shadow: 0 0 30px rgba(0,0,0,0.4);
-animation: fadeIn 1.4s ease;
-}
-
-
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* Title */
-.cancel-title {
-font-family: 'Playfair Display', serif;
-font-size: 2.4rem;
-margin-bottom: 1.5rem;
-color: var(--gold);
-text-align: center;
-letter-spacing: 1px;
-animation: shimmer 4s infinite linear;
-}
-
-
-/* Subtle Gold Shimmer */
-@keyframes shimmer {
-0% { text-shadow: 0 0 12px rgba(212,175,55,0.25); }
-50% { text-shadow: 0 0 24px rgba(212,175,55,0.45); }
-100% { text-shadow: 0 0 12px rgba(212,175,55,0.25); }
-}
-
-
-/* Paragraphs */
-.cancel-text {
-color: #eee;
-font-size: 1.15rem;
-line-height: 1.7;
-margin-bottom: 1rem;
-text-align: center;
-}
-
-
-.gold {
-color: var(--gold-soft);
-font-weight: 700;
-}
-
-
-/* Mobile Adjustments */
-@media (max-width: 600px) {
-.cancel-inner { padding: 2rem 1.3rem; }
-.cancel-title { font-size: 2rem; }
-.cancel-text { font-size: 1.05rem; }
-}
-  
-    
-/* LOGO TOP OF SCREEN */   
-    /* desktop logo */
-    .nav-logo {
-  height: 200px;
-  width: auto;
-  margin: 0 auto 1rem auto;
-}
-    
-/* ===== LOGO AURA CONTAINER ===== */
-.logo-aura {
-  position: relative;
-  display: inline-block;
-}
-
-/* ===== GOLD PARTICLE AURA ===== */
-.logo-aura::before,
-.logo-aura::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-/* Outer golden glow layer */
-.logo-aura::before {
-  width: 140px;
-  height: 140px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(212,175,55,0.25) 0%,
-    rgba(212,175,55,0.15) 40%,
-    rgba(212,175,55,0) 70%
-  );
-  animation: auraPulse 6s infinite ease-in-out;
-}
-
-/* Floating particles */
-.logo-aura::after {
-  width: 170px;
-  height: 170px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background:
-    radial-gradient(rgba(212,175,55,0.55) 2px, transparent 2px) 20px 30px,
-    radial-gradient(rgba(212,175,55,0.35) 2px, transparent 2px) 80px 60px,
-    radial-gradient(rgba(212,175,55,0.45) 2px, transparent 2px) 50px 110px,
-    radial-gradient(rgba(212,175,55,0.55) 3px, transparent 2px) 120px 20px;
-  background-size: 120px 120px;
-  animation: particleDrift 14s infinite linear;
-  opacity: 0.6;
-}
-
-/* Pulsing glow */
-@keyframes auraPulse {
-  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.08); }
-  100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-}
-
-/* Particle drifting rotation */
-@keyframes particleDrift {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Mobile scaling */
-@media (max-width: 768px) {
-  .nav-logo { height: 88px; }
-  .logo-aura::before { width: 110px; height: 110px; }
-  .logo-aura::after { width: 130px; height: 130px; }
-}
-
-/* Nav screen follow */    
-.navbar {
-  overflow: visible !important;
-}
-
- /* ============ Hamburger ============ */
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.bar {
-  width: 30px;
-  height: 3px;
-  background: white;
-  transition: 0.3s;
-}
-
-.hamburger.open .bar1 { transform: translateY(8px) rotate(45deg); }
-.hamburger.open .bar2 { opacity: 0; }
-.hamburger.open .bar3 { transform: translateY(-8px) rotate(-45deg); }   
-
-
-body {
-  padding-top: 300px; 
-}
-
-@media (max-width: 768px) {
-  body {
-    padding-top: 180px;
-  }
-}
-
-
-.buy-now-btn {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 14px 26px;
-  background: #000;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.buy-now-btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-	  
-/* merchandise */
-  
-
-/* HEADER */
-
-.jt-overline {
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #bfa55a;
-  margin-bottom: 10px;
-}
-
-.jt-merch-header h2 {
-  font-size: 44px;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-
-.jt-divider {
-  width: 60px;
-  height: 1px;
-  background: #bfa55a;
-  margin: 0 auto 20px auto;
-}
-
-.jt-subtext {
-  font-size: 16px;
-  color: #aaaaaa;
-  max-width: 550px;
-  margin: 0 auto 100px auto;
-}
-
-/* GRID */
-
-.jt-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 60px;
-}
-
-
-/* INFO */
-
-.jt-info {
-  margin-top: 25px;
-}
-
-.jt-info h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.jt-info p {
-  font-size: 14px;
-  color: #aaa;
-  margin-bottom: 18px;
-}
-
-.jt-price {
-  display: block;
-  color: #bfa55a;
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-
-
-/* FADE ANIMATION */
-
-@keyframes fadeUp {
-  from {
-    transform: translateY(40px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-  .jt-merch-header h2 {
-    font-size: 32px;
-  }
-
-  .jt-grid {
-    perspective: 1200px;
-    gap: 40px;
-  }
-}
-
-/* =============================
-   PREMIUM MERCH UPGRADE
-============================= */
-
-.jt-merch {
-  position: relative;
-  background: radial-gradient(circle at top, #2b2b2b 0%, #151515 70%);
-  padding: 160px 20px;
-  overflow: hidden;
-}
-
-/* GOLD SPOTLIGHT BACKGROUND */
-.jt-spotlight {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: blur(80px);
-  animation: pulseGlow 6s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-  0% { opacity: .4; transform: translateX(-50%) scale(1); }
-  50% { opacity: .7; transform: translateX(-50%) scale(1.08); }
-  100% { opacity: .4; transform: translateX(-50%) scale(1); }
-}
-
-/* SHIMMER TITLE */
-.jt-shimmer {
-  background: linear-gradient(
-    90deg,
-    #d4af37,
-    #f5e6b3,
-    #d4af37
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmerMove 4s linear infinite;
-}
-
-@keyframes shimmerMove {
-  to { background-position: 200% center; }
-}
-
-/* LUXURY GLASS CARD */
-		
-.jt-card {
-  position: relative;
-  padding: 50px 25px;
-  border-radius: 26px;
-  background: linear-gradient(
-    145deg,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.01)
-  );
-  border: 1px solid rgba(212,175,55,0.15);
-  backdrop-filter: blur(12px);
-  transition: transform .6s ease, box-shadow .6s ease;
-  transform-style: preserve-3d;
-}
-
-/* 3D Hover Depth */
-	  
-.jt-card:hover {
-  transform: rotateX(6deg) rotateY(-6deg) translateY(-10px);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.7);
-}
-
-/* GOLD ORB GLOW */
-.jt-glow {
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(212,175,55,0.35) 0%, transparent 70%);
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: blur(60px);
-  opacity: 0;
-  transition: opacity .6s ease;
-}
-
-.jt-card:hover .jt-glow {
-  opacity: 1;
-}
-
-/* IMAGE FLOAT */
-.jt-card img {
-  transition: transform .6s ease;
-}
-
-.jt-card:hover img {
-  transform: scale(1.07);
-}
-
-/* BUTTON UPGRADE */
-.jt-button {
-  position: relative;
-  padding: 14px 36px;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 2px;
-  overflow: hidden;
-  transition: all .4s ease;
-}
-
-.jt-button::before {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background: linear-gradient(90deg, #d4af37, #f5e6b3);
-  transition: width .4s ease;
-  z-index: -1;
-}
-
-.jt-button:hover::before {
-  width: 100%;
-}
-
-.jt-button:hover {
-  color: #111;
-}
-
-/* STAGGER ANIMATION */
-.jt-card:nth-child(1) { animation: fadeUp 1s .2s forwards; }
-.jt-card:nth-child(2) { animation: fadeUp 1s .4s forwards; }
-.jt-card:nth-child(3) { animation: fadeUp 1s .6s forwards; }
-
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(50px); }
-  to { opacity:1; transform: translateY(0); }
-}
-.reveal,
-.reveal-left,
-.reveal-right,
-.glow-up {
-  opacity: 0;
-  transform: translateY(36px);
-  transition: all 1000ms cubic-bezier(.2,.9,.3,1);
-}
-
-/* Only hide if JS is active */
-.no-js .reveal,
-.no-js .reveal-left,
-.no-js .reveal-right,
-.no-js .glow-up {
-  opacity: 1;
-  transform: none;
-}
-
-/* ================================
-   GLOBAL LUXURY PAGE CONTAINER
-================================ */
-
-.page-wrap {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 80px 40px 140px 40px;
-  position: relative;
-}
-
-/* subtle gold ambient glow */
-.page-wrap::before {
-  content: "";
-  position: absolute;
-  width: 900px;
-  height: 900px;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
-  filter: blur(100px);
-  z-index: -1;
-  pointer-events: none;
-}
-	  
-.lux-card {
-  background: linear-gradient(
-    145deg,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.01)
-  );
-  border: 1px solid rgba(212,175,55,0.15);
-  backdrop-filter: blur(12px);
-  border-radius: 26px;
-  padding: 60px 40px;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.6);
-  transition: transform .6s ease, box-shadow .6s ease;
-}
-
-.lux-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.75);
-}
-	  
-section + section {
-  margin-top: -40px;
-}
-
-	  
-	 /* Global Mobile Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* Prevent horizontal scrolling */
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* Main page container */
-.page-container {
-  width: 100%;
-  max-width: 1700px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Make images responsive */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Typography scaling */
-h1 {
-  font-size: clamp(28px, 5vw, 48px);
-}
-
-h2 {
-  font-size: clamp(22px, 4vw, 36px);
-}
-
-p {
-  font-size: clamp(16px, 2.5vw, 18px);
-  line-height: 1.6;
-}
-
-/* Mobile adjustments */
-@media (max-width: 1200px) {
-
-  .page-container {
-    padding: 0 16px;
-  }
-
-  section {
-    padding: 40px 0;
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-
-  h2 {
-    font-size: 22px;
-  }
-
-  p {
-    font-size: 16px;
-  }
-
-}
-	  
- body {
-  text-align: center;
-}
-	  
-iframe {
-  margin-left: -150px; /* adjust value */
-}
-	  
-@media (max-width: 768px) {
-  .container, .section, .wrapper {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-}
-	  
-.booking-section {
-  max-width: 900px;
-  margin: auto;
-  padding: 80px 20px;
-  text-align: center;
-}
-
+    @media (max-width: 760px) {
+      .navbar {
+        height: 82px;
+      }
+
+      .nav-inner {
+        width: calc(100% - 28px);
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .brand-mark,
+      .brand-mark img {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding: 120px 16px 58px;
+      }
+
+      .hero-inner {
+        gap: 24px;
+      }
+
+      .hero-title {
+        font-size: clamp(4rem, 23vw, 7rem);
+      }
+
+      .hero-meta {
+        display: none;
+      }
+
+      .hero-card {
+        min-height: auto;
+        padding: 24px;
+      }
+
+      .hero-card h2 {
+        font-size: 2.2rem;
+      }
+
+      .section {
+        padding: 86px 16px;
+      }
+
+      .section-head {
+        gap: 24px;
+        margin-bottom: 36px;
+      }
+
+      .section-title {
+        font-size: clamp(3rem, 17vw, 5.7rem);
+      }
+
+      .mega-title {
+        font-size: clamp(3.5rem, 18vw, 6.3rem);
+      }
+
+      .about-portrait {
+        min-height: 500px;
+      }
+
+      .about-copy {
+        padding: 26px;
+      }
+
+      .pathway-grid,
+      .stats-grid,
+      .product-grid,
+      .qual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .path-card {
+        min-height: 430px;
+      }
+
+      .stats-grid {
+        gap: 12px;
+      }
+
+      .stat-card {
+        min-height: 190px;
+      }
+
+      .service-row {
+        grid-template-columns: 1fr;
+        padding: 28px 0;
+      }
+
+      .service-row p {
+        grid-column: auto;
+      }
+
+      .service-row .arrow {
+        justify-self: start;
+      }
+
+      .booking-card,
+      .contact-card,
+      .map-card,
+      .partners-card {
+        padding: 24px;
+      }
+
+      .carousel {
+        min-height: 480px;
+      }
+
+      .media-side {
+        grid-template-columns: 1fr;
+      }
+
+      .media-tile {
+        min-height: 260px;
+      }
+
+      .reviews-frame iframe {
+        min-height: 560px;
+      }
+
+      .product-card {
+        min-height: auto;
+      }
+
+      .lab-card {
+        padding: 24px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cursor-ring,
+      .cursor-dot,
+      .grain {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
+
 <body>
-	
-<div class="page-container">
-	
-  <!-- Header -->
- <header class="site-header">
-  <div class="navbar">
-    <button id="hamburgerBtn" class="hamburger" aria-expanded="false">
-      <span class="bar bar1"></span>
-      <span class="bar bar2"></span>
-      <span class="bar bar3"></span>
-    </button>
+  <div class="grain"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-  <div class="logo-aura">
-    <img src="images/logo.jpeg" alt="JT Logo" class="nav-logo" />
-  </div>
-</header>  
-	
- <div class="hero-video">
-    <video class="header-video" autoplay muted loop playsinline>
-      <source src="video/vid1 .mp4" type="video/mp4" />
-    </video>
-  </div>
+  <div class="site-shell">
 
+    <!-- NAVIGATION -->
+    <header class="navbar" id="navbar">
+      <div class="nav-inner">
+        <a class="nav-brand" href="#top" aria-label="JT Mind & Body Balance home">
+          <span class="brand-mark">
+            <img src="images/logo.jpeg" alt="JT Mind & Body Balance Logo">
+          </span>
+          <span class="brand-copy">
+            <strong>JT Mind & Body Balance</strong>
+            <span>Football • Gym • Mindset</span>
+          </span>
+        </a>
 
-  <!-- FULL SCREEN OVERLAY MENU -->
-  <nav class="nav-overlay" id="navMenu">
-    <div class="overlay-inner">
-      <a href="#booking">Book</a>
-      <a href="#services">Services</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#cancellation">Cancellation</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#podcast">Podcast</a>
-      <a href="#form">Find Us</a>
-      <a href="#shop">Shop</a>
-    </div>
-</nav>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#pathway">Pathway</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Book</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#shop">Shop</a>
+          <a href="#findus">Find Us</a>
+        </nav>
 
+        <div class="nav-actions">
+          <a class="nav-cta" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Now</a>
+          <button id="hamburgerBtn" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+            <span class="hamburger-lines" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
 
+    <!-- MOBILE MENU -->
+    <nav class="mobile-menu" id="navMenu" aria-label="Mobile navigation">
+      <div class="mobile-menu-inner">
+        <a href="#about">About</a>
+        <a href="#pathway">Pathway</a>
+        <a href="#services">Services</a>
+        <a href="#pricing">Book</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#whatsapp">The Lab</a>
+        <a href="#shop">Shop</a>
+        <a href="#findus">Find Us</a>
+        <p class="menu-small">One Mind. One Body. One Mission.</p>
+      </div>
+    </nav>
 
-
-    <div class="page-wrap">
-
-
-	
-	</p>
-	</p>
-	
-  <!-- Main -->
-		
-  <!-- Free intro call -->
-    <section id="intro-call" class="reveal" data-anim>
-      <h2 class="section-title">Free Performance Consultation</h2>
-		  <div class="lux-card"> 
-      <p style="max-width:800px; margin:0 auto 1rem">All new clients are entitled to a <strong>free 15-minute Performance Consultation over the phone</strong> with James. This is your opportunity to ask questions, discuss your goals, and find out how JT Mind & Body Balance can support your journey — <em>no pressure, no commitment</em>.</p>
-     <br>
-		  <div style="text-align:center"><a class="jt-button" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a></div>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="reveal-right" data-anim>
-      <h2 class="section-title">Our Services</h2>
-			<div class="lux-card">
-      <div style="text-align:center"><ul class="clean">
-        <li>💪 1:1 Gym Personal Training</li>
-        <li>⚽ 1:1 Football Session</li>
-        <li>🧑‍🤝‍🧑 Small group/ Team Football Session</li>
-        <li>🥗 Nutrition Program</li>
-        <li>🏋️ Gym Program</li>
-        <li>🧠 Mentoring Session</li>
-      </ul>
-    </section>
-
-		<br>
-		  <br>
-<!-- Reviews -->
-<section id="reviews" class="reveal" data-anim>
-<h2 class="section-title">Client Reviews</h2>
-	
-<iframe src="https://widgets.sociablekit.com/google-reviews/iframe/25636685" frameborder="0" width="1500px" height="500px"></iframe>
-		  
-		  
-    <!-- About + Carousel -->
-    <section id="about" class="reveal-left" data-anim>
-      <h2 class="section-title">About Me</h2>
-			
-      <div class="flex-container">
-        <div class="flex-item">
-          <p>Hi, I’m James Taylor — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, and someone who knows what it means to fight through adversity and come out stronger.</p>
-          <p>From a young age, I’ve faced significant personal challenges. Growing up with childhood trauma and undergoing years of counselling gave me an early understanding of the deep connection between the mind and body. Football became my outlet — I started playing at just 7 years old, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
-          <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again. I refused to accept that.</p>
-          <p>With the support of a 1:1 trainer and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
-          <p style="font-weight:700; color:var(--gold)">Your journey starts now. Let’s do it together.</p>
-			<br>
-			<a class="jt-button" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Secure Spot</a>
+    <!-- HERO -->
+    <main id="top">
+      <section class="hero">
+        <div class="hero-fallback"></div>
+        <div class="hero-video" aria-hidden="true">
+          <video autoplay muted loop playsinline poster="images/IMG_1486.PNG">
+            <source src="video/vid1 .mp4" type="video/mp4">
+          </video>
         </div>
 
-        <div class="flex-item">
-          <div class="carousel-wrap reveal-right" data-anim>
-            <!-- IMPORTANT: ensure these paths exist in /images -->
-            <img src="images/IMG_1486.PNG" class="carousel-image active" loading="lazy" width="1600" height="900" alt="James - 1" />
-            <img src="images/img6.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 2" />
-            <img src="images/img15.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 3" />
-            <img src="images/img18.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 4" />
-            <img src="images/img2.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 5" />
-            <img src="images/img3.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 6" />
-            <img src="images/img4.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 7" />
-            <img src="images/img5.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 8" />
-            <img src="images/img7.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 9" />
-            <img src="images/img8.jpg.jpeg" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 10" />
-            <img src="images/img9.jpg.JPEG" class="carousel-image" loading="lazy" width="1600" height="900" alt="James - 11" />
-            <div class="carousel-controls" id="carouselDots" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="hero-main reveal">
+            <div class="eyebrow">Elite Football • Gym • Nutrition • Mentoring</div>
+            <h1 class="hero-title">
+              <span>One Mind.</span>
+              <span>One Body.</span>
+              <span class="gold-text">One Mission.</span>
+            </h1>
+            <p class="hero-copy">
+              Premium performance coaching for players who want to train sharper, move better, think stronger and perform with purpose.
+            </p>
+            <div class="btn-row" style="margin-top:30px;">
+              <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book a Session</a>
+              <a class="btn btn-outline" href="#pathway">Enter The System</a>
+            </div>
           </div>
- </div>
-    </section>
 
-
-    <!-- Qualifications -->
-    <section id="qualifications" class="reveal-left" data-anim>
-      <h2 class="section-title">My Qualifications & Experience</h2>
-<div class="lux-card">
-        <ul style="margin:0; padding:0 0 0 1rem;">
-          <li>✅ Extended Diploma in Sports Performance</li>
-          <li>✅ Extended Diploma in Sports Nutrition & Excellence</li>
-          <li>✅ Extended Diploma in Sport & Exercise Massage</li>
-          <li>✅ Extended Diploma in Psychology</li>
-          <li>✅ Level 3 Distinction in Physiology of Fitness</li>
-          <li>✅ Level 3 Distinction in Fitness Training & Programming</li>
-          <li>✅ FA Level 2 Football Coaching Badge</li>
-          <li>✅ Adverse Childhood Trauma (ACE’s) Certificate</li>
-          <li>✅ Food Safety Awareness Certificate</li>
-          <li>✅ Health & Safety Certificate</li>
-          <li>✅ Safeguarding Certificate</li>
-          <li>✅ Enhanced DBS Certificate</li>
-          <li>✅ Ex-Professional Footballer</li>
-          <li>✅ Semi-Professional Footballer</li>
-          <li>✅ Certified PT Coach</li>
-        </ul>
-      </div>
-    </section>
-
-
-    <!-- Call to Action -->
-    <section id="intro-call" class="reveal" data-anim>
-      <div class="lux-card"> 
-      <h2 class="section-title">Ready To Level Up?</h2>
-      <p style="max-width:800px; margin:0 auto 1rem">Serious about improving your performance? Whether it’s <strong>elite 1:1 coaching, strength training, or mindset development</strong> this is where results begin. Stop waiting. Start progressing.</em>.</p>
-     <br>
-		  <div style="text-align:center"><a class="jt-button" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a></div>
-    </section>
-
-
-	    <!-- BOOK -->
-    <section id="pricing" class="reveal" data-anim>
-		
-      <h2 class="section-title">Secure Session</h2>
-
-      <br><br>
-		<div class="lux-card">	
-        <h3>1:1 Gym Personal Training</h3>
-        <p>£45 per session</p>
-			<br>
-        <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/1-1-gym-session?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
-      </div>
-    <br><br>
-	
-			<div class="lux-card">	
-        <h3>1:1 Football Session</h3>
-        <p>£45 per session</p>
-				<br>
-        <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/1-1-football-sessions?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
-      </div>
-	<br><br>
-	
-			<div class="lux-card">	
-        <h3>Online Mentoring Coaching</h3>
-        <p>£30 per session</p>
-				<br>
-        <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/30min" target="_blank?primary_color=dcbc09" rel="noopener">Book Now</a>
-       </div>
-	<br><br>
-
-			<div class="lux-card">	
-        <h3>Nutrition Plan</h3>
-        <p>£60 per month</p>
-				<br>
-        <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
-       </div>
- <br><br>
-	
-			<div class="lux-card">	
-        <h3>Gym Plan</h3>
-        <p>£60 per month</p>
-				<br>
-        <a class="jt-button" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
-      </div>
-    </section>
-
-<br><br>
-	<br><br>	  
-
-	
-<!-- Premium Cancellation Policy Section -->
-    <section id="cancellation" class="reveal" data-anim>
-<div class="cancel-inner">
-<h2 class="section-title">Cancellation Policy</h2>
-<p class="cancel-text">
-At <strong>JT Mind & Body Balance</strong>, every session is prepared with precision, time, and dedication. To maintain the highest quality of service, a
-<span class="gold">50% cancellation fee</span> of the full session price will apply for any cancellations made within 24 hours of your scheduled appointment.
-</p>
-<p class="cancel-text">
-This policy ensures fairness, respects the booking schedule, and protects the time reserved exclusively for you. If I (JT) cancel the session then a full refund will be given back to you.
-</p>
-</div>
-</section>
-
-
-
-  
-
-    <!-- Contact Form -->
-    <section id="form" class="reveal-left" data-anim>
-      <div class="lux-card">
-      <h2 class="section-title">Send a Message</h2>
-      <form id="contactForm" action="https://formspree.io/f/mrblpgyw" method="POST" style="max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:12px">
-        <input name="name" placeholder="Your Name" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
-        <input type="email" name="email" placeholder="Your Email" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)">
-        <textarea name="message" rows="5" placeholder="Your Message" required style="padding:.8rem;border-radius:8px;border:none;background:#111;color:var(--muted)"></textarea>
-        <div style="display:flex; gap:10px; align-items:center; justify-content:center">
-          <button type="submit" class="jt-button">Send Message</button>
-          <p id="formSuccess" style="display:none;color:var(--gold);margin:0">✅ Message sent</p>
+          <aside class="hero-card lux-card reveal-right">
+            <div>
+              <div class="mini-label">Free First Step</div>
+              <h2>Performance Consultation</h2>
+              <p>New clients can book a free 15-minute call with James to discuss goals, sessions and the best route forward.</p>
+            </div>
+            <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Free Call</a>
+          </aside>
         </div>
-      </form>
-    </section>
-  
 
-    
-   <!-- Find Us  -->
-<section id="findus" class="reveal" data-anim>
-  <h2 class="section-title">Find Us</h2>
+        <div class="hero-meta">
+          <span>Bristol</span>
+          <span>Player Development</span>
+          <span>JT M&BB</span>
+        </div>
 
-  <p style="text-align:center; max-width:900px; margin:0 auto 1rem">
-    📍 Portway Rugby Development Centre<br>
-    Portway, Avon, Bristol BS9 2HS
-  </p>
+        <div class="scroll-cue"><span>Scroll</span></div>
+      </section>
 
-  <div style="max-width:900px;margin:1rem auto;border-radius:12px;overflow:hidden">
-    <iframe
-      src="https://www.google.com/maps?q=Portway%20Rugby%20Development%20Centre%2C%20Bristol%20BS9%202HS&output=embed"
-      width="120%"
-      height="300"
-      style="border:0"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+      <!-- MARQUEE -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Football Coaching</span>
+          <span>Gym Performance</span>
+          <span>Nutrition</span>
+          <span>Mindset</span>
+          <span>Mentoring</span>
+          <span>JT Performance Lab</span>
+          <span>Football Coaching</span>
+          <span>Gym Performance</span>
+          <span>Nutrition</span>
+          <span>Mindset</span>
+          <span>Mentoring</span>
+          <span>JT Performance Lab</span>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <section class="section" id="about">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Built From Experience</div>
+              <h2 class="section-title">Train Like An <span class="gold-text">Athlete.</span><br>Think Like A <span class="gold-text">Professional.</span></h2>
+            </div>
+            <p>
+              JT Mind & Body Balance is not just a coaching business. It is a complete player development system: technical detail, athletic performance, nutrition structure and mindset standards.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-portrait reveal-left" data-parallax></div>
+
+            <div class="about-copy lux-card reveal-right">
+              <p>Hi, I’m <strong>James Taylor</strong> — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, semi-professional footballer, coach and performance mentor.</p>
+
+              <p>Football has shaped my life from a young age. I started playing at 7, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
+
+              <p>Throughout my career, I worked with top sports scientists and nutritionists to push my physical performance to the highest level. But at 22, during a loan to Cheltenham FC, I suffered four knee dislocations in one season. I underwent double knee surgery and was told by specialists that I would never play football again.</p>
+
+              <p>I refused to accept that. With 1:1 support, discipline and relentless determination, I returned to playing at a semi-professional level — stronger in mind and body than ever before.</p>
+
+              <p>Now I use that experience to help players build the complete package: skill, athleticism, resilience, confidence and standards.</p>
+
+              <div class="quote-box">
+                Your journey starts now. Let’s build the player, the athlete and the mindset together.
+              </div>
+
+              <div class="btn-row" style="margin-top:30px;">
+                <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Secure Your Spot</a>
+                <a class="btn btn-outline" href="#pricing">View Sessions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PATHWAY -->
+      <section class="section pathway" id="pathway">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">The JT System</div>
+              <h2 class="section-title">Complete Performance <span class="gold-text">Pathway.</span></h2>
+            </div>
+            <p>
+              Inspired by elite athlete-brand storytelling: clear, visual, bold, and built around the journey of the player.
+            </p>
+          </div>
+
+          <div class="pathway-grid">
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>01 / On The Pitch</span>
+                <span class="path-icon">⚽</span>
+              </div>
+              <div>
+                <h3>Football Development</h3>
+                <p>1:1 football coaching, position-specific work, ball mastery, agility, movement, technical detail and game-realistic outcomes.</p>
+              </div>
+            </article>
+
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>02 / In The Gym</span>
+                <span class="path-icon">💪</span>
+              </div>
+              <div>
+                <h3>Physical Performance</h3>
+                <p>Strength, speed, power, mobility, injury resilience and football-specific gym programming to support real performance.</p>
+              </div>
+            </article>
+
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>03 / Inside The Mind</span>
+                <span class="path-icon">🧠</span>
+              </div>
+              <div>
+                <h3>Mentoring & Mindset</h3>
+                <p>Confidence, emotional control, discipline, resilience and the standards required to improve consistently.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="section" id="results">
+        <div class="section-inner">
+          <div class="stats-grid">
+            <div class="stat-card lux-card reveal">
+              <h3><span class="counter" data-target="60" data-suffix="+">0</span></h3>
+              <p>Players Coached</p>
+            </div>
+            <div class="stat-card lux-card reveal">
+              <h3>1:1</h3>
+              <p>Elite Individual Development</p>
+            </div>
+            <div class="stat-card lux-card reveal">
+              <h3><span class="counter" data-target="3" data-suffix="">0</span></h3>
+              <p>Core Performance Areas</p>
+            </div>
+            <div class="stat-card lux-card reveal">
+              <h3><span class="counter" data-target="100" data-suffix="%">0</span></h3>
+              <p>Commitment Required</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="section" id="services">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Services</div>
+              <h2 class="section-title">Choose Your <span class="gold-text">Route.</span></h2>
+            </div>
+            <p>
+              Every service has a purpose. Whether the player needs technical coaching, physical development, nutrition structure or mentoring, the goal is progress that carries into real life and real performance.
+            </p>
+          </div>
+
+          <div class="service-list">
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/1-1-football-sessions?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">01</span>
+              <h3>1:1 Football Session</h3>
+              <p>Technical and position-specific football development built around the individual player.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/1-1-gym-session?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">02</span>
+              <h3>Gym Personal Training</h3>
+              <p>Strength, speed, power and football-specific physical performance coaching.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">03</span>
+              <h3>Nutrition Program</h3>
+              <p>Simple and effective nutrition support for energy, recovery and performance.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">04</span>
+              <h3>Gym Program</h3>
+              <p>Structured programming designed to help players train with intent and consistency.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/30min?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">05</span>
+              <h3>Mentoring Session</h3>
+              <p>Mindset, confidence, discipline and resilience support for players and individuals.</p>
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MEDIA -->
+      <section class="section" id="media">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Inside The Work</div>
+              <h2 class="section-title">Cinematic Player <span class="gold-text">Development.</span></h2>
+            </div>
+            <p>
+              This section gives the site that premium sports feel: large visual blocks, movement, depth and a stronger brand-world experience.
+            </p>
+          </div>
+
+          <div class="media-grid">
+            <div class="carousel reveal-left" data-carousel="main">
+              <img src="images/IMG_1486.PNG" class="active" loading="lazy" alt="James coaching and football performance">
+              <img src="images/img6.jpg.JPEG" loading="lazy" alt="James Taylor football image">
+              <img src="images/img15.jpg.jpeg" loading="lazy" alt="Football coaching session">
+              <img src="images/img18.jpg.jpeg" loading="lazy" alt="Performance coaching image">
+              <img src="images/img2.jpg.jpeg" loading="lazy" alt="JT Mind and Body Balance">
+              <img src="images/img3.jpg.jpeg" loading="lazy" alt="Football training">
+              <img src="images/img4.jpg.jpeg" loading="lazy" alt="Football training detail">
+              <img src="images/img5.jpg.jpeg" loading="lazy" alt="Player development">
+              <img src="images/img7.jpg.jpeg" loading="lazy" alt="Football coaching Bristol">
+              <img src="images/img8.jpg.jpeg" loading="lazy" alt="JT coaching image">
+              <img src="images/img9.jpg.JPEG" loading="lazy" alt="James Taylor football">
+              <div class="carousel-label">
+                <span>Football • Gym • Mindset</span>
+                <h3>Built Through Detail</h3>
+              </div>
+              <div class="dots" id="mainDots" aria-label="Carousel controls"></div>
+            </div>
+
+            <div class="media-side">
+              <div class="media-tile tile-1 reveal-right">
+                <span>Technical Work</span>
+                <h3>Sharper Detail</h3>
+              </div>
+              <div class="media-tile tile-2 reveal-right">
+                <span>Performance</span>
+                <h3>Higher Standards</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUALIFICATIONS -->
+      <section class="section" id="qualifications">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Experience & Standards</div>
+              <h2 class="section-title">Qualified To Build <span class="gold-text">Performance.</span></h2>
+            </div>
+            <p>
+              Coaching backed by football experience, sports performance education, fitness programming, nutrition knowledge, safeguarding and personal resilience.
+            </p>
+          </div>
+
+          <div class="qual-grid">
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Performance</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Nutrition & Excellence</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sport & Exercise Massage</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Psychology</div>
+            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Physiology of Fitness</div>
+            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Fitness Training & Programming</div>
+            <div class="qual-item reveal"><span>✓</span>FA Level 2 Football Coaching Badge</div>
+            <div class="qual-item reveal"><span>✓</span>Adverse Childhood Trauma Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Food Safety Awareness Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Health & Safety Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Safeguarding Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Enhanced DBS Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Ex-Professional Footballer</div>
+            <div class="qual-item reveal"><span>✓</span>Semi-Professional Footballer</div>
+            <div class="qual-item reveal"><span>✓</span>Certified PT Coach</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOOKING / PRICING -->
+      <section class="section" id="pricing">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Secure Session</div>
+              <h2 class="section-title">Book Your Next <span class="gold-text">Move.</span></h2>
+            </div>
+            <p>
+              Direct Calendly booking links are built into each service, keeping the journey simple from interest to action.
+            </p>
+          </div>
+
+          <div class="booking-grid">
+            <article class="booking-card featured lux-card reveal">
+              <div>
+                <div class="eyebrow">Free Performance Consultation</div>
+                <h3>Start With A Free 15-Minute Call</h3>
+                <p>All new clients are entitled to a free phone consultation with James to discuss goals, ask questions and work out the best starting point.</p>
+              </div>
+              <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Free Call</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>1:1 Football Session</h3>
+                <div class="price">£45 per session</div>
+                <p>Individual football coaching built around technical detail, confidence and player-specific development.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/1-1-football-sessions?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>1:1 Gym Personal Training</h3>
+                <div class="price">£45 per session</div>
+                <p>Physical coaching for strength, speed, movement quality and football-specific performance.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/1-1-gym-session?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>Online Mentoring Coaching</h3>
+                <div class="price">£30 per session</div>
+                <p>Support around mindset, confidence, emotional resilience, discipline and standards.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/30min?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>Nutrition Plan</h3>
+                <div class="price">£60 per month</div>
+                <p>Nutrition structure to support recovery, performance, energy and long-term consistency.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>Gym Plan</h3>
+                <div class="price">£60 per month</div>
+                <p>Structured gym programming for players and individuals who want a clear plan.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/gym-or-nutrition-program?primary_color=dcbc09" target="_blank" rel="noopener">Book Now</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section class="section" id="reviews">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Client Reviews</div>
+              <h2 class="section-title">Trust Built Through <span class="gold-text">Results.</span></h2>
+            </div>
+            <p>
+              Real feedback matters. This section keeps your Google reviews embedded but gives it a much more premium frame.
+            </p>
+          </div>
+
+          <div class="reviews-frame lux-card reveal">
+            <iframe src="https://widgets.sociablekit.com/google-reviews/iframe/25636685" title="JT Mind & Body Balance Google Reviews" loading="lazy"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- CANCELLATION POLICY -->
+      <section class="section" id="cancellation">
+        <div class="section-inner">
+          <div class="policy-card lux-card reveal">
+            <div class="eyebrow">Standards & Respect</div>
+            <h2 class="section-title" style="max-width:none;">Cancellation <span class="gold-text">Policy.</span></h2>
+            <p>
+              At <strong>JT Mind & Body Balance</strong>, every session is prepared with precision, time and dedication. To maintain the highest quality of service, a <span>50% cancellation fee</span> of the full session price will apply for any cancellations made within 24 hours of your scheduled appointment.
+            </p>
+            <p>
+              This policy ensures fairness, respects the booking schedule and protects the time reserved exclusively for you. If I, JT, cancel the session, a full refund will be given back to you.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT AND FIND US -->
+      <section class="section" id="contact">
+        <div class="section-inner">
+          <div class="contact-grid">
+            <div class="contact-card lux-card reveal-left" id="form">
+              <div class="eyebrow">Message JT</div>
+              <h3>Send A Message</h3>
+
+              <form id="contactForm" action="https://formspree.io/f/mrblpgyw" method="POST">
+                <input name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+                <p id="formSuccess" class="form-success">✅ Message sent</p>
+              </form>
+            </div>
+
+            <div class="map-card lux-card reveal-right" id="findus">
+              <div class="eyebrow">Find Us</div>
+              <h3>Portway RDC</h3>
+              <p>📍 Portway Rugby Development Centre<br>Portway, Avon, Bristol BS9 2HS</p>
+
+              <div class="map-wrap">
+                <iframe
+                  title="Portway Rugby Development Centre Map"
+                  src="https://www.google.com/maps?q=Portway%20Rugby%20Development%20Centre%2C%20Bristol%20BS9%202HS&output=embed"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+
+              <a class="btn btn-outline" href="https://www.google.com/maps?q=Portway+Rugby+Development+Centre+Bristol+BS9+2HS" target="_blank" rel="noopener">Get Directions</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JT PERFORMANCE LAB -->
+      <section class="section shop-section" id="whatsapp">
+        <div class="section-inner">
+          <article class="lab-card lux-card reveal">
+            <div>
+              <img src="images/jtperformancelab.PNG" alt="JT Performance Lab">
+            </div>
+            <div>
+              <div class="eyebrow">JT Performance Lab</div>
+              <h3>Elite Performance Group Chat</h3>
+              <p>Unlock elite-level support with exclusive access to football training advice, gym guidance, nutrition tips, mindset coaching and performance content — all delivered directly through WhatsApp.</p>
+              <div class="price">£12.99 per month</div>
+              <a href="https://buy.stripe.com/7sY6oA03I9Ct9cYc4B6Vq00" target="_blank" rel="noopener" class="btn btn-primary">Subscribe</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SHOP -->
+      <section class="section shop-section" id="shop">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">JT Mind & Body Balance</div>
+              <h2 class="section-title">Elite Performance <span class="gold-text">Collection.</span></h2>
+            </div>
+            <p>
+              Precision-crafted apparel and performance essentials for disciplined athletes.
+            </p>
+          </div>
+
+          <div class="product-grid">
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-front.jpg" alt="Elite Performance Tee">
+              </div>
+              <div>
+                <h3>Elite Performance Tee</h3>
+                <p>Lightweight. Athletic cut. Everyday discipline.</p>
+                <span class="product-price">£19</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-front.jpg" alt="Elite Performance Sweatshirt">
+              </div>
+              <div>
+                <h3>Elite Performance Sweatshirt</h3>
+                <p>Luxury. Lightweight. Elevate your game in comfort.</p>
+                <span class="product-price">£24</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie-front.jpg" alt="Elite Performance Hoodie">
+              </div>
+              <div>
+                <h3>Elite Performance Hoodie</h3>
+                <p>Heavyweight comfort. Premium street aesthetic.</p>
+                <span class="product-price">£26</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap-front.jpg" alt="Elite Performance Athlete Cap">
+              </div>
+              <div>
+                <h3>Elite Performance Athlete Cap</h3>
+                <p>Minimal. Structured. Understated authority.</p>
+                <span class="product-price">£18</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat-front.jpg" alt="Elite Performance Coat">
+              </div>
+              <div>
+                <h3>Elite Performance Coat</h3>
+                <p>Premium. Durable. Professional.</p>
+                <span class="product-price">£37</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+
+            <article class="product-card lux-card reveal">
+              <div class="product-image">
+                <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle-front.jpg" alt="Elite Performance Hydration Bottle">
+              </div>
+              <div>
+                <h3>Elite Performance Hydration Bottle</h3>
+                <p>Elegant. Unique. Discipline.</p>
+                <span class="product-price">£13</span>
+                <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle" target="_blank" rel="noopener" class="btn btn-outline">Explore</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- PARTNERSHIP -->
+      <section class="section" id="partnership">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Partnership</div>
+              <h2 class="section-title">Trusted Performance <span class="gold-text">Connections.</span></h2>
+            </div>
+            <p>
+              A premium section to showcase partners, tools, brands and collaborations connected to the JT performance ecosystem.
+            </p>
+          </div>
+
+          <div class="partners-card lux-card reveal">
+            <div class="partner-carousel" data-carousel="partners">
+              <img src="images/fkprologo.jpg" class="active" loading="lazy" alt="FK Pro Logo">
+              <img src="images/pro11logo.jpg" loading="lazy" alt="Pro 11 Logo">
+              <img src="images/replaicam.JPEG" loading="lazy" alt="Replay Cam">
+              <div class="dots" id="partnerDots"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="section final-cta" id="book">
+        <div class="section-inner reveal">
+          <div class="eyebrow">Ready To Level Up?</div>
+          <h2 class="mega-title">Start Your <span class="gold-text">Development.</span></h2>
+          <p>
+            Book your next 1:1 football session, gym session, mentoring call or performance consultation with JT Mind & Body Balance.
+          </p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance" target="_blank" rel="noopener">Book Through Calendly</a>
+            <a class="btn btn-outline" href="#contact">Send A Message</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <strong>JT Mind & Body Balance</strong><br>
+          One Mind. One Body. One Mission.
+        </div>
+        <div>Football • Gym • Nutrition • Mentoring</div>
+        <div>Bristol, United Kingdom</div>
+      </div>
+    </footer>
+
+    <button id="backToTop" aria-label="Back to top">↑</button>
   </div>
-<p style="text-align:center; margin-top:1rem">
-  <a href="https://www.google.com/maps?q=Portway+Rugby+Development+Centre+Bristol+BS9+2HS"
-     target="_blank"
-	  <a class="jt-button" href="https://www.google.com/maps?q=Portway+Rugby+Development+Centre+Bristol+BS9+2HS" target="_blank" rel="noopener"> GET DIRECTIONS </a>
-   </div>
-</p>
-</section>
-	
-<br>
-        <br>
-	
-	 <!-- Performance Lab -->
-<section id="whatsapp" class="jt-merch reveal">
 
-  <div class="jt-spotlight"></div>
-
-  <div class="jt-merch-inner">
-
-    <div class="jt-merch-header">
-      <p class="jt-overline">JT Performance Lab</p>
-      <h2 class="jt-shimmer">Elite Performance Group Chat</h2>
-      <div class="jt-divider"></div>
-      <p class="jt-subtext">
-        Unlock elite-level support with exclusive access to football training advice, gym guidance, nutrition tips, mindset coaching, and performance content — all delivered directly through WhatsApp.
-      </p>
-    </div>
-
-    <div class="jt-grid">
-	
-   <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="images/jtperformancelab.PNG" alt="JT Performance Lab">
-        <div class="jt-info">
-          <h3>JOIN THE LAB</h3>
-          <span class="jt-price">£12.99</span>
-          <a href="https://buy.stripe.com/7sY6oA03I9Ct9cYc4B6Vq00" target="_blank" class="jt-button">
-            Subscribe
-          </a>
-        </div>
-      </div>
-  </div>
-</section>
-
-	
-       <section id="shop" class="jt-merch reveal">
-
-  <div class="jt-spotlight"></div>
-
-  <div class="jt-merch-inner">
-
-    <div class="jt-merch-header">
-      <p class="jt-overline">JT Mind & Body Balance</p>
-      <h2 class="jt-shimmer">Elite Performance Collection</h2>
-      <div class="jt-divider"></div>
-      <p class="jt-subtext">
-        Precision-crafted apparel for disciplined athletes.
-      </p>
-    </div>
-
-    <div class="jt-grid">
-
-      <!-- PRODUCT 1 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-front.jpg" alt="Elite Performance Tee">
-        <div class="jt-info">
-          <h3>Elite Performance Tee</h3>
-          <p>Lightweight. Athletic cut. Everyday discipline.</p>
-          <span class="jt-price">£19</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-
-  <!-- PRODUCT 2 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-front.jpg" alt="Elite Performance Sweatshirt">
-        <div class="jt-info">
-          <h3>Elite Performance Sweatshirt</h3>
-          <p>Luxury. Lightweight. Elevate your game in comfort.</p>
-          <span class="jt-price">£24</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-		
-      <!-- PRODUCT 3 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie-front.jpg" alt="Elite Performance Hoodie">
-        <div class="jt-info">
-          <h3>Elite Performance Hoodie</h3>
-          <p>Heavyweight comfort. Premium street aesthetic.</p>
-          <span class="jt-price">£26</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/hoodie" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-
-      <!-- PRODUCT 4 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap-front.jpg" alt="Elite Performance Athlete Cap">
-        <div class="jt-info">
-          <h3>Elite Performance Athlete Cap</h3>
-          <p>Minimal. Structured. Understated authority.</p>
-          <span class="jt-price">£18</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-
-		
-<!-- PRODUCT 5 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat-front.jpg" alt="Elite Performance Athlete Backpack">
-        <div class="jt-info">
-          <h3>Elite Performance Coat</h3>
-          <p>Premium. Durable. Professional.</p>
-          <span class="jt-price">£37</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-
-<!-- PRODUCT 6 -->
-      <div class="jt-card">
-        <div class="jt-glow"></div>
-        <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle-front.jpg" alt="Elite Performance Athlete Hydration Bottle">
-        <div class="jt-info">
-          <h3>Elite Performance Hydration Bottle</h3>
-          <p>Elegant. Unique. Discipline.</p>
-          <span class="jt-price">£13</span>
-          <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle" target="_blank" class="jt-button">
-            Explore
-          </a>
-        </div>
-      </div>
-	  
-  </div>
-</section>
-	
- <!-- Premium Partnership Section -->
-<h2 class="section-title">Partnership</h2>
- <div class="lux-card">
-<div class="flex-item2">
-          <div class="carousel-wrap2 reveal-right" data-anim>
-            <!-- IMPORTANT: ensure these paths exist in /images -->
-            <img src="images/fkprologo.jpg" class="simple-carousel active" loading="lazy" width="1600" height="900" alt="James - 1" />
-            <img src="images/pro11logo.jpg" class="simple-carousel" loading="lazy" width="1600" height="900" alt="James - 2" />
-             <img src="images/replaicam.JPEG" class="simple-carousel" loading="lazy" width="1600" height="900" alt="James - 3" />
-            <div class="carousel-controls2" id="carouselDots2" aria-hidden="true"></div>
-  </div>    
-</section>
-
-	
-  </main>
-
-  <!-- Back to top -->
-  <button id="backToTop" aria-label="Back to top">↑</button>
-
-  <!-- Scripts -->
   <script>
-    /* -------------------------
-       Cursor (desktop only) - stronger trail + glow
-    ------------------------- */
-    (function(){
-      const cursor = document.getElementById('cursor');
-      const dot = document.getElementById('cursorDot');
+    document.documentElement.classList.remove('no-js');
 
-      // hide cursor on touch devices
-      if('ontouchstart' in window) { cursor.style.display='none'; dot.style.display='none'; return; }
+    /* =========================
+       NAV + MENU
+    ========================= */
 
-      let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
-      let pos = { x: mouse.x, y: mouse.y };
-      const ease = 0.18;
+    const navbar = document.getElementById('navbar');
+    const menuBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('navMenu');
 
-      document.addEventListener('mousemove', e=>{
-        mouse.x = e.clientX; mouse.y = e.clientY;
-        cursor.style.opacity = 1;
-        dot.style.opacity = 1;
+    function setScrolledNav() {
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
+    }
+
+    setScrolledNav();
+    window.addEventListener('scroll', setScrolledNav, { passive: true });
+
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        menuBtn.classList.toggle('open', isOpen);
+        menuBtn.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('menu-open', isOpen);
       });
 
-      // trailing animation loop
-      function animate(){
-        pos.x += (mouse.x - pos.x) * ease;
-        pos.y += (mouse.y - pos.y) * ease;
-        cursor.style.left = pos.x + 'px';
-        cursor.style.top  = pos.y + 'px';
-        // dot snaps quicker
-        dot.style.left = (pos.x + (mouse.x - pos.x)*0.6) + 'px';
-        dot.style.top  = (pos.y + (mouse.y - pos.y)*0.6) + 'px';
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          menuBtn.classList.remove('open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('menu-open');
+        });
+      });
+    }
+
+    /* =========================
+       CUSTOM CURSOR
+    ========================= */
+
+    (function cursorEffect() {
+      const ring = document.getElementById('cursorRing');
+      const dot = document.getElementById('cursorDot');
+      if (!ring || !dot || 'ontouchstart' in window || window.matchMedia('(max-width: 760px)').matches) return;
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX;
+      let ringY = mouseY;
+
+      document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        ring.style.opacity = 1;
+        dot.style.opacity = 1;
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+      });
+
+      function animate() {
+        ringX += (mouseX - ringX) * 0.16;
+        ringY += (mouseY - ringY) * 0.16;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
         requestAnimationFrame(animate);
       }
+
       animate();
-		
-		})();
-	  
-/* -------------------------
-   Scroll reveal (IntersectionObserver)
-------------------------- */
 
-(function(){
-
-const opts = {
-  threshold: 0.15
-};
-
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("show");
-    }
-  });
-}, opts);
-
-// pick all elements we want to animate
-document.querySelectorAll('[data-anim], .reveal, .reveal-left, .reveal-right, .glow-up, .carousel-wrap').forEach(el=>{
-  io.observe(el);
-});
-
-})();
-		
-    /* -------------------------
-       Carousel: simple auto + dot controls
-    ------------------------- */
-    (function(){
-      const wrap = document.querySelector('.carousel-wrap');
-      if(!wrap) return;
-      const imgs = Array.from(wrap.querySelectorAll('img'));
-      const dotsContainer = document.getElementById('carouselDots');
-      let idx = imgs.findIndex(i=>i.classList.contains('active'));
-      if(idx < 0) idx = 0;
-      const LEN = imgs.length;
-
-      // build dots
-      imgs.forEach((_,i)=>{
-        const d = document.createElement('div');
-        d.className = 'dot' + (i===idx? ' active':'');
-        d.addEventListener('click', ()=> show(i));
-        dotsContainer.appendChild(d);
+      document.querySelectorAll('a, button, input, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
       });
-
-      function show(i){
-        imgs.forEach(img=> img.classList.remove('active'));
-        imgs[i].classList.add('active');
-        // update dots
-        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
-        idx = i;
-      }
-
-      // autoplay
-      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
-
-      // pause on hover
-      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
-      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
     })();
 
+    /* =========================
+       SCROLL REVEAL
+    ========================= */
 
-   /* -------------------------
-       Carouse2: simple auto + dot controls
-    ------------------------- */
-    (function(){
-      const wrap = document.querySelector('.carousel-wrap2');
-      if(!wrap) return;
-      const imgs = Array.from(wrap.querySelectorAll('img'));
-      const dotsContainer = document.getElementById('carouselDots2');
-      let idx = imgs.findIndex(i=>i.classList.contains('active'));
-      if(idx < 0) idx = 0;
-      const LEN = imgs.length;
-
-      // build dots
-      imgs.forEach((_,i)=>{
-        const d = document.createElement('div');
-        d.className = 'dot' + (i===idx? ' active':'');
-        d.addEventListener('click', ()=> show(i));
-        dotsContainer.appendChild(d);
-      });
-
-      function show(i){
-        imgs.forEach(img=> img.classList.remove('active'));
-        imgs[i].classList.add('active');
-        // update dots
-        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
-        idx = i;
-      }
-
-      // autoplay
-      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
-
-      // pause on hover
-      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
-      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
-    })();
-
-     /* -------------------------
-       Carousel 3: simple auto + dot controls
-    ------------------------- */
-    (function(){
-      const wrap = document.querySelector('.carousel-wrap3');
-      if(!wrap) return;
-      const imgs = Array.from(wrap.querySelectorAll('img'));
-      const dotsContainer = document.getElementById('carouselDots3');
-      let idx = imgs.findIndex(i=>i.classList.contains('active'));
-      if(idx < 0) idx = 0;
-      const LEN = imgs.length;
-
-      // build dots
-      imgs.forEach((_,i)=>{
-        const d = document.createElement('div');
-        d.className = 'dot' + (i===idx? ' active':'');
-        d.addEventListener('click', ()=> show(i));
-        dotsContainer.appendChild(d);
-      });
-
-      function show(i){
-        imgs.forEach(img=> img.classList.remove('active'));
-        imgs[i].classList.add('active');
-        // update dots
-        dotsContainer.querySelectorAll('.dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
-        idx = i;
-      }
-
-      // autoplay
-      let timer = setInterval(()=> show((idx+1)%LEN), 4000);
-
-      // pause on hover
-      wrap.addEventListener('mouseenter', ()=> clearInterval(timer));
-      wrap.addEventListener('mouseleave', ()=> timer = setInterval(()=> show((idx+1)%LEN), 4000));
-    })();
-
-    /* -------------------------
-       Reviews carousel (bold + manual)
-    ------------------------- */
-    (function(){
-      const wrap = document.getElementById('reviewsWrap');
-      if(!wrap) return;
-      const cards = Array.from(wrap.querySelectorAll('.review-card'));
-      const dotsContainer = document.getElementById('reviewDots');
-      let active = 0;
-      const LEN = cards.length;
-
-      // hide all except first
-      cards.forEach((c,i)=> c.style.display = (i===0? 'flex':'none'));
-
-      // build dots
-      cards.forEach((_,i)=>{
-        const d = document.createElement('div');
-        d.className = 'review-dot' + (i===0? ' active':'');
-        d.addEventListener('click', ()=> show(i));
-        dotsContainer.appendChild(d);
-      });
-
-      function show(i){
-        cards.forEach((c,ci)=> {
-          c.style.display = (ci===i? 'flex':'none');
-          if(ci===i){ c.classList.add('show'); } else { c.classList.remove('show'); }
+    (function revealOnScroll() {
+      const items = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .scale-in');
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            io.unobserve(entry.target);
+          }
         });
-        dotsContainer.querySelectorAll('.review-dot').forEach((dot,di)=> dot.classList.toggle('active', di===i));
-        active = i;
+      }, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
+
+      items.forEach(item => io.observe(item));
+    })();
+
+    /* =========================
+       COUNTERS
+    ========================= */
+
+    (function animatedCounters() {
+      const counters = document.querySelectorAll('.counter');
+      if (!counters.length) return;
+
+      const runCounter = counter => {
+        const target = Number(counter.dataset.target || 0);
+        const suffix = counter.dataset.suffix || '';
+        const start = performance.now();
+        const duration = 1400;
+
+        function update(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = Math.floor(eased * target) + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+      };
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            runCounter(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.55 });
+
+      counters.forEach(counter => io.observe(counter));
+    })();
+
+    /* =========================
+       CAROUSELS
+    ========================= */
+
+    function setupCarousel(selector, dotsSelector, interval = 4200) {
+      const wrap = document.querySelector(selector);
+      const dotsWrap = document.querySelector(dotsSelector);
+      if (!wrap || !dotsWrap) return;
+
+      const imgs = Array.from(wrap.querySelectorAll('img'));
+      if (!imgs.length) return;
+
+      let index = imgs.findIndex(img => img.classList.contains('active'));
+      if (index < 0) index = 0;
+
+      imgs.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === index ? ' active' : '');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', () => show(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      function show(next) {
+        imgs.forEach((img, i) => img.classList.toggle('active', i === next));
+        dotsWrap.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === next));
+        index = next;
       }
 
-      // autoplay reviews
-      let rTimer = setInterval(()=> show((active+1)%LEN), 7000);
-      wrap.addEventListener('mouseenter', ()=> clearInterval(rTimer));
-      wrap.addEventListener('mouseleave', ()=> rTimer = setInterval(()=> show((active+1)%LEN), 7000));
-    })();
+      let timer = setInterval(() => show((index + 1) % imgs.length), interval);
 
-    /* -------------------------
-       Back to top control
-    ------------------------- */
-    (function(){
-      const btn = document.getElementById('backToTop');
-      window.addEventListener('scroll', ()=>{
-        btn.style.display = (window.scrollY>300)?'block':'none';
+      wrap.addEventListener('mouseenter', () => clearInterval(timer));
+      wrap.addEventListener('mouseleave', () => {
+        timer = setInterval(() => show((index + 1) % imgs.length), interval);
       });
-      btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    }
+
+    setupCarousel('[data-carousel="main"]', '#mainDots', 3800);
+    setupCarousel('[data-carousel="partners"]', '#partnerDots', 4200);
+
+    /* =========================
+       HERO / PARALLAX FEEL
+    ========================= */
+
+    (function parallaxScroll() {
+      const heroVideo = document.querySelector('.hero-video video');
+      const parallaxItems = document.querySelectorAll('[data-parallax]');
+      let ticking = false;
+
+      function update() {
+        const y = window.scrollY;
+        if (heroVideo) {
+          heroVideo.style.transform = `translateY(${y * 0.12}px) scale(1.05)`;
+        }
+
+        parallaxItems.forEach(item => {
+          const rect = item.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const distance = (center - window.innerHeight / 2) * -0.025;
+          item.style.transform = `translateY(${distance}px)`;
+        });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
     })();
 
-    /* -------------------------
-       Form submission feedback
-    ------------------------- */
-    (function(){
+    /* =========================
+       FORM FEEDBACK
+    ========================= */
+
+    (function formFeedback() {
       const form = document.getElementById('contactForm');
       const success = document.getElementById('formSuccess');
-      if(!form) return;
-      form.addEventListener('submit', (e)=>{
-        // let the Formspree handle the request — just show a quick UI feedback
-        success.style.display = 'inline-block';
-        setTimeout(()=> success.style.display='none', 4500);
+      if (!form || !success) return;
+
+      form.addEventListener('submit', () => {
+        success.style.display = 'block';
+        setTimeout(() => success.style.display = 'none', 4500);
       });
     })();
 
-const toggleBtn = document.getElementById("toggleView");
-const front = document.querySelector(".hoodie.front");
-const back = document.querySelector(".hoodie.back");
+    /* =========================
+       BACK TO TOP
+    ========================= */
 
-if (toggleBtn && front && back) {
-  let showingFront = true;
+    (function backToTop() {
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
 
-  toggleBtn.addEventListener("click", () => {
-    if (showingFront) {
-      front.classList.remove("active");
-      front.style.transform = "rotateY(-180deg)";
-      back.classList.add("active");
-      back.style.transform = "rotateY(0deg)";
-      toggleBtn.textContent = "View Front";
-    } else {
-      back.classList.remove("active");
-      back.style.transform = "rotateY(180deg)";
-      front.classList.add("active");
-      front.style.transform = "rotateY(0deg)";
-      toggleBtn.textContent = "View Back";
-    }
-    showingFront = !showingFront;
-  });
-}
+      window.addEventListener('scroll', () => {
+        btn.style.display = window.scrollY > 450 ? 'block' : 'none';
+      }, { passive: true });
 
-
-    /* -------------------------
-       Logo micro animation on load
-    ------------------------- */
-    (function(){
-      const logo = document.getElementById('siteLogo');
-      if(!logo) return;
-      logo.style.transform = 'scale(.94)';
-      logo.style.opacity = '0';
-      setTimeout(()=> { logo.style.transition = 'transform 850ms cubic-bezier(.2,.9,.3,1), opacity 850ms'; logo.style.transform='scale(1)'; logo.style.opacity='1'; }, 300);
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
-const bgVideo = document.querySelector("video");
+    /* =========================
+       VIDEO SAFETY
+    ========================= */
 
-if (bgVideo) {
-  bgVideo.addEventListener("ended", () => {
-    bgVideo.currentTime = 0;
-    bgVideo.play();
-  });
-}
+    (function videoLoopSafety() {
+      const bgVideo = document.querySelector('.hero-video video');
+      if (!bgVideo) return;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('hamburgerBtn');
-  const nav = document.getElementById('navMenu');
+      bgVideo.addEventListener('ended', () => {
+        bgVideo.currentTime = 0;
+        bgVideo.play();
+      });
 
-  btn.addEventListener('click', () => {
-    const open = nav.classList.contains('open');
-    nav.classList.toggle('open');
-    btn.classList.toggle('open');
-    btn.setAttribute('aria-expanded', !open);
-  });
-
-  // Clicking a link closes overlay
-  nav.addEventListener('click', e => {
-    if (e.target.tagName === 'A') {
-      nav.classList.remove('open');
-      btn.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-});
-	  
-</script>
+      bgVideo.play().catch(() => {
+        // Some browsers block autoplay. The poster/fallback image will remain visible.
+      });
+    })();
+  </script>
 </body>
 </html>
