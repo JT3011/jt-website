@@ -65,14 +65,14 @@ async function retrieveStripeSession(
 async function retrieveSupabaseUser({
   accessToken,
   supabaseUrl,
-  supabaseSecretKey,
+  supabasePublishableKey,
 }) {
   const response = await fetch(
     `${supabaseUrl}/auth/v1/user`,
     {
       method: "GET",
       headers: {
-        apikey: supabaseSecretKey,
+        apikey: supabasePublishableKey,
         Authorization: `Bearer ${accessToken}`,
       },
     }
@@ -81,6 +81,12 @@ async function retrieveSupabaseUser({
   const body = await response.json();
 
   if (!response.ok || !body?.id) {
+    console.error(
+      "Supabase user lookup failed:",
+      response.status,
+      body
+    );
+
     return null;
   }
 
