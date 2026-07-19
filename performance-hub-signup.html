@@ -1,1 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Create Your Account | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Create your secure JT Performance Hub account."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="images/applogo192.png"
+  >
+
+  <meta
+    name="theme-color"
+    content="#050505"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --near-black: #090909;
+      --charcoal: #111111;
+      --gold: #d4af37;
+      --gold-light: #f5e6b3;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --soft: #e6dcc7;
+      --success: #76e09b;
+      --error: #ff8a8a;
+      --line: rgba(212, 175, 55, 0.2);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 78% 8%,
+          rgba(212, 175, 55, 0.17),
+          transparent 35rem
+        ),
+        radial-gradient(
+          circle at 8% 90%,
+          rgba(212, 175, 55, 0.07),
+          transparent 32rem
+        ),
+        linear-gradient(
+          145deg,
+          #050505,
+          #111111 48%,
+          #050505
+        );
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        );
+      background-size: 38px 38px;
+      mask-image:
+        radial-gradient(
+          circle at center,
+          black,
+          transparent 92%
+        );
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      width: 660px;
+      height: 660px;
+      right: -270px;
+      top: -260px;
+      z-index: -1;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      box-shadow:
+        0 0 0 90px rgba(212, 175, 55, 0.023),
+        0 0 0 180px rgba(212, 175, 55, 0.014);
+    }
+
+    .topbar {
+      width: min(1280px, calc(100% - 40px));
+      min-height: 92px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.6),
+        0 0 28px rgba(212, 175, 55, 0.08);
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      font-size: 0.78rem;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-size: 0.63rem;
+    }
+
+    .website-link {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .website-link:hover {
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .main {
+      width: min(1280px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 70px 0;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 0.92fr)
+        minmax(430px, 0.68fr);
+      gap: 76px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 20px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3.2px;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      max-width: 790px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.5rem, 9.5vw, 9.5rem);
+      line-height: 0.79;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .gold-text {
+      display: block;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light),
+          var(--gold)
+        );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .intro {
+      max-width: 700px;
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.4vw, 1.16rem);
+      line-height: 1.85;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 710px;
+      margin-top: 34px;
+    }
+
+    .benefit {
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .benefit strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--white);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+    }
+
+    .benefit span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .auth-shell {
+      position: relative;
+      padding: 14px;
+      border-radius: 36px;
+      border: 1px solid rgba(212, 175, 55, 0.27);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.085),
+          rgba(255, 255, 255, 0.018)
+        ),
+        #060606;
+      box-shadow:
+        0 45px 110px rgba(0, 0, 0, 0.75),
+        0 0 65px rgba(212, 175, 55, 0.07);
+    }
+
+    .auth-card {
+      min-height: 610px;
+      padding: clamp(25px, 4vw, 42px);
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background:
+        radial-gradient(
+          circle at 90% 0%,
+          rgba(212, 175, 55, 0.13),
+          transparent 22rem
+        ),
+        linear-gradient(
+          155deg,
+          #141414,
+          #070707 72%
+        );
+    }
+
+    .card-header {
+      margin-bottom: 27px;
+    }
+
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.35px;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .card-status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow:
+        0 0 16px rgba(118, 224, 155, 0.75);
+    }
+
+    .card-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .card-header p {
+      margin-top: 17px;
+      color: var(--muted);
+      font-size: 0.87rem;
+      line-height: 1.65;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin-bottom: 24px;
+      padding: 6px;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .tab-button {
+      min-height: 42px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-size: 0.65rem;
+      font-weight: 900;
+      transition:
+        background 0.25s ease,
+        color 0.25s ease;
+    }
+
+    .tab-button.active {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .form {
+      display: grid;
+      gap: 15px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-size: 0.66rem;
+      font-weight: 800;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 15px;
+      outline: none;
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--white);
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .field input:focus {
+      border-color: rgba(212, 175, 55, 0.65);
+      box-shadow:
+        0 0 0 4px rgba(212, 175, 55, 0.08);
+    }
+
+    .field input[readonly] {
+      color: var(--gold-light);
+      cursor: not-allowed;
+      background: rgba(212, 175, 55, 0.045);
+    }
+
+    .field-note {
+      color: rgba(248, 243, 231, 0.5);
+      font-size: 0.68rem;
+      line-height: 1.5;
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 11px;
+      align-items: start;
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 0.73rem;
+      line-height: 1.55;
+    }
+
+    .consent input {
+      width: 17px;
+      height: 17px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+    }
+
+    .button {
+      min-height: 53px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1.25px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      transition:
+        transform 0.3s var(--ease),
+        box-shadow 0.3s ease,
+        opacity 0.25s ease;
+    }
+
+    .button-primary {
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      box-shadow:
+        0 18px 45px rgba(212, 175, 55, 0.16);
+    }
+
+    .button-outline {
+      border: 1px solid rgba(212, 175, 55, 0.27);
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--white);
+    }
+
+    .button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow:
+        0 23px 52px rgba(212, 175, 55, 0.2);
+    }
+
+    .button:disabled {
+      cursor: wait;
+      opacity: 0.62;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 19px;
+      padding: 15px 16px;
+      border-radius: 15px;
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message-info {
+      border: 1px solid rgba(212, 175, 55, 0.21);
+      background: rgba(212, 175, 55, 0.055);
+      color: var(--gold-light);
+    }
+
+    .message-error {
+      border: 1px solid rgba(255, 138, 138, 0.25);
+      background: rgba(255, 138, 138, 0.06);
+      color: #ffc2c2;
+    }
+
+    .message-success {
+      border: 1px solid rgba(118, 224, 155, 0.25);
+      background: rgba(118, 224, 155, 0.06);
+      color: #bdf4cf;
+    }
+
+    .loading-state,
+    .result-state {
+      display: none;
+      min-height: 480px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .loading-state.active,
+    .result-state.active {
+      display: grid;
+    }
+
+    .spinner {
+      width: 46px;
+      height: 46px;
+      margin: 0 auto 22px;
+      border: 3px solid rgba(212, 175, 55, 0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-icon {
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 22px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold);
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .result-state h2,
+    .loading-state h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.7rem, 5vw, 4.7rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .result-state p,
+    .loading-state p {
+      max-width: 430px;
+      margin: 17px auto 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.7;
+    }
+
+    .result-actions {
+      display: grid;
+      gap: 11px;
+      width: min(100%, 360px);
+      margin: 27px auto 0;
+    }
+
+    .auth-content {
+      display: none;
+    }
+
+    .auth-content.active {
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      width: min(1280px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1000px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-shell {
+        max-width: 720px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .topbar {
+        min-height: 80px;
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .brand img {
+        width: 52px;
+        height: 52px;
+      }
+
+      .main {
+        width: min(100% - 28px, 1280px);
+        padding: 52px 0;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 21vw, 6.5rem);
+      }
+
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-shell {
+        padding: 8px;
+        border-radius: 27px;
+      }
+
+      .auth-card {
+        min-height: 560px;
+        padding: 24px 18px;
+        border-radius: 21px;
+      }
+
+      footer {
+        width: min(100% - 28px, 1280px);
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grain"></div>
+
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/"
+        aria-label="Return to JT Mind and Body Balance"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>One Mind. One Body. One Mission.</span>
+        </span>
+      </a>
+
+      <a
+        class="website-link"
+        href="/"
+      >
+        Return to website
+      </a>
+    </header>
+
+    <main class="main">
+
+      <section>
+        <div class="eyebrow">
+          Secure Member Registration
+        </div>
+
+        <h1>
+          Build Your
+          <span class="gold-text">JT Profile.</span>
+        </h1>
+
+        <p class="intro">
+          Create the secure account that will connect your subscription
+          to your personal JT Performance Hub. Your training, nutrition,
+          mindset support and football development will all live here.
+        </p>
+
+        <div class="benefits">
+          <div class="benefit">
+            <strong>Personal Dashboard</strong>
+            <span>
+              Your football profile, goals, current focus and progress.
+            </span>
+          </div>
+
+          <div class="benefit">
+            <strong>JT AI Performance Coach</strong>
+            <span>
+              Support with training, preparation, recovery and mindset.
+            </span>
+          </div>
+
+          <div class="benefit">
+            <strong>Parent-Supported</strong>
+            <span>
+              Young-player profiles can be managed safely by a parent.
+            </span>
+          </div>
+
+          <div class="benefit">
+            <strong>Private and Secure</strong>
+            <span>
+              Your account is connected only to your verified membership.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="auth-shell"
+        aria-label="JT Performance Hub account registration"
+      >
+        <div class="auth-card">
+
+          <!-- CHECKING STRIPE REGISTRATION -->
+          <div
+            class="loading-state active"
+            id="loadingState"
+          >
+            <div>
+              <div class="spinner"></div>
+
+              <h2>
+                Verifying Registration.
+              </h2>
+
+              <p>
+                We are securely checking your JT Performance Hub
+                subscription before creating your account.
+              </p>
+            </div>
+          </div>
+
+          <!-- CREATE ACCOUNT / SIGN IN -->
+          <div
+            class="auth-content"
+            id="authContent"
+          >
+            <div class="card-header">
+              <div class="card-status">
+                Registration verified
+              </div>
+
+              <h2>
+                Secure Your Place.
+              </h2>
+
+              <p>
+                Create a new account or sign in if you already have
+                a JT Performance Hub login.
+              </p>
+            </div>
+
+            <div
+              class="message"
+              id="formMessage"
+              role="alert"
+            ></div>
+
+            <div class="tabs">
+              <button
+                class="tab-button active"
+                id="createTab"
+                type="button"
+              >
+                Create account
+              </button>
+
+              <button
+                class="tab-button"
+                id="signInTab"
+                type="button"
+              >
+                Sign in
+              </button>
+            </div>
+
+            <!-- CREATE ACCOUNT FORM -->
+            <form
+              class="form"
+              id="createForm"
+              novalidate
+            >
+              <div class="field">
+                <label for="firstName">
+                  Account holder’s first name
+                </label>
+
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  maxlength="60"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label for="createEmail">
+                  Checkout email
+                </label>
+
+                <input
+                  id="createEmail"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  readonly
+                  required
+                >
+
+                <span class="field-note">
+                  For security, this must match the email used at checkout.
+                </span>
+              </div>
+
+              <div class="field">
+                <label for="createPassword">
+                  Create password
+                </label>
+
+                <input
+                  id="createPassword"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="10"
+                  required
+                >
+
+                <span class="field-note">
+                  Use at least 10 characters and avoid reusing an old password.
+                </span>
+              </div>
+
+              <div class="field">
+                <label for="confirmPassword">
+                  Confirm password
+                </label>
+
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="10"
+                  required
+                >
+              </div>
+
+              <label class="consent">
+                <input
+                  id="adultConsent"
+                  type="checkbox"
+                  required
+                >
+
+                <span>
+                  I confirm that I am aged 18 or over. Where this
+                  membership is for a young player, I am their parent
+                  or legal guardian and will manage the account.
+                </span>
+              </label>
+
+              <button
+                class="button button-primary"
+                id="createButton"
+                type="submit"
+              >
+                Create secure account
+              </button>
+            </form>
+
+            <!-- SIGN-IN FORM -->
+            <form
+              class="form hidden"
+              id="signInForm"
+              novalidate
+            >
+              <div class="field">
+                <label for="signInEmail">
+                  Checkout email
+                </label>
+
+                <input
+                  id="signInEmail"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  readonly
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label for="signInPassword">
+                  Password
+                </label>
+
+                <input
+                  id="signInPassword"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                >
+              </div>
+
+              <button
+                class="button button-primary"
+                id="signInButton"
+                type="submit"
+              >
+                Sign in and connect membership
+              </button>
+            </form>
+          </div>
+
+          <!-- RESULT / ERROR STATE -->
+          <div
+            class="result-state"
+            id="resultState"
+          >
+            <div>
+              <div
+                class="state-icon"
+                id="resultIcon"
+              >
+                JT
+              </div>
+
+              <h2 id="resultTitle">
+                Account Created.
+              </h2>
+
+              <p id="resultText"></p>
+
+              <div
+                class="result-actions"
+                id="resultActions"
+              ></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>
+        <strong>JT Mind & Body Balance</strong>
+      </div>
+
+      <div>
+        Football • Gym • Nutrition • Mentoring
+      </div>
+
+      <div>
+        Bristol, United Kingdom
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const authContent =
+      document.getElementById("authContent");
+
+    const resultState =
+      document.getElementById("resultState");
+
+    const resultIcon =
+      document.getElementById("resultIcon");
+
+    const resultTitle =
+      document.getElementById("resultTitle");
+
+    const resultText =
+      document.getElementById("resultText");
+
+    const resultActions =
+      document.getElementById("resultActions");
+
+    const formMessage =
+      document.getElementById("formMessage");
+
+    const createTab =
+      document.getElementById("createTab");
+
+    const signInTab =
+      document.getElementById("signInTab");
+
+    const createForm =
+      document.getElementById("createForm");
+
+    const signInForm =
+      document.getElementById("signInForm");
+
+    const createEmail =
+      document.getElementById("createEmail");
+
+    const signInEmail =
+      document.getElementById("signInEmail");
+
+    const createButton =
+      document.getElementById("createButton");
+
+    const signInButton =
+      document.getElementById("signInButton");
+
+    const query =
+      new URLSearchParams(window.location.search);
+
+    const sessionId =
+      (query.get("session_id") || "").trim();
+
+    let verifiedCheckoutEmail = "";
+
+    function normaliseEmail(value) {
+      return typeof value === "string"
+        ? value.trim().toLowerCase()
+        : "";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function setFormMessage(
+      message = "",
+      type = "info"
+    ) {
+      formMessage.textContent = message;
+
+      formMessage.className =
+        `message message-${type}`;
+
+      if (message) {
+        formMessage.classList.add("show");
+      }
+    }
+
+    function showOnly(element) {
+      loadingState.classList.remove("active");
+      authContent.classList.remove("active");
+      resultState.classList.remove("active");
+
+      element.classList.add("active");
+    }
+
+    function showResult({
+      icon = "JT",
+      title,
+      text,
+      actions = []
+    }) {
+      resultIcon.textContent = icon;
+      resultTitle.textContent = title;
+      resultText.textContent = text;
+      resultActions.innerHTML = "";
+
+      for (const action of actions) {
+        const link = document.createElement("a");
+
+        link.className =
+          action.primary
+            ? "button button-primary"
+            : "button button-outline";
+
+        link.href = action.href;
+        link.textContent = action.label;
+
+        resultActions.appendChild(link);
+      }
+
+      showOnly(resultState);
+    }
+
+    function setButtonLoading(
+      button,
+      loading,
+      normalText,
+      loadingText
+    ) {
+      button.disabled = loading;
+      button.textContent =
+        loading ? loadingText : normalText;
+    }
+
+    function switchTab(tab) {
+      const creating = tab === "create";
+
+      createTab.classList.toggle(
+        "active",
+        creating
+      );
+
+      signInTab.classList.toggle(
+        "active",
+        !creating
+      );
+
+      createForm.classList.toggle(
+        "hidden",
+        !creating
+      );
+
+      signInForm.classList.toggle(
+        "hidden",
+        creating
+      );
+
+      setFormMessage("");
+    }
+
+    createTab.addEventListener(
+      "click",
+      () => switchTab("create")
+    );
+
+    signInTab.addEventListener(
+      "click",
+      () => switchTab("signin")
+    );
+
+    async function verifyCheckout() {
+      if (
+        !sessionId ||
+        !sessionId.startsWith("cs_")
+      ) {
+        throw new Error(
+          "This registration link is missing its secure Stripe reference."
+        );
+      }
+
+      const response = await fetch(
+        `/api/verify-checkout?session_id=${encodeURIComponent(
+          sessionId
+        )}`,
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+      const body = await response.json();
+
+      if (!response.ok || !body?.verified) {
+        throw new Error(
+          body?.error ||
+          "This JT Performance Hub registration could not be verified."
+        );
+      }
+
+      const email =
+        normaliseEmail(body.email);
+
+      if (!email) {
+        throw new Error(
+          "Stripe did not return an email address for this registration."
+        );
+      }
+
+      verifiedCheckoutEmail = email;
+      createEmail.value = email;
+      signInEmail.value = email;
+
+      return body;
+    }
+
+    async function getAuthenticatedMember() {
+      const {
+        data: sessionData,
+        error: sessionError
+      } = await supabase.auth.getSession();
+
+      if (
+        sessionError ||
+        !sessionData?.session
+      ) {
+        return null;
+      }
+
+      const {
+        data: userData,
+        error: userError
+      } = await supabase.auth.getUser();
+
+      if (
+        userError ||
+        !userData?.user
+      ) {
+        return null;
+      }
+
+      return {
+        session: sessionData.session,
+        user: userData.user
+      };
+    }
+
+    async function claimMembership(session) {
+      const response = await fetch(
+        "/api/claim-membership",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+            Authorization:
+              `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            session_id: sessionId
+          })
+        }
+      );
+
+      const body = await response.json();
+
+      if (
+        !response.ok ||
+        !body?.claimed
+      ) {
+        throw new Error(
+          body?.error ||
+          "Your membership could not be connected."
+        );
+      }
+
+      showResult({
+        icon: "✓",
+        title: "Membership Connected.",
+        text:
+          "Your secure JT Performance Hub account is active. The next step is building your personal player profile.",
+        actions: [
+          {
+            label: "Return to JT website",
+            href: "/",
+            primary: true
+          }
+        ]
+      });
+    }
+
+    async function handleExistingSession() {
+      const authenticated =
+        await getAuthenticatedMember();
+
+      if (!authenticated) {
+        return false;
+      }
+
+      const userEmail =
+        normaliseEmail(
+          authenticated.user.email
+        );
+
+      if (
+        userEmail !== verifiedCheckoutEmail
+      ) {
+        await supabase.auth.signOut();
+
+        setFormMessage(
+          "A different JT account was signed in on this device. It has been signed out so you can continue with the checkout email.",
+          "info"
+        );
+
+        return false;
+      }
+
+      if (
+        !authenticated.user.email_confirmed_at
+      ) {
+        showResult({
+          icon: "✉",
+          title: "Confirm Your Email.",
+          text:
+            "Open the confirmation email from JT Performance Hub. After confirming, you will return here and your membership will connect automatically.",
+          actions: [
+            {
+              label: "Return to JT website",
+              href: "/",
+              primary: false
+            }
+          ]
+        });
+
+        return true;
+      }
+
+      showOnly(loadingState);
+
+      await claimMembership(
+        authenticated.session
+      );
+
+      return true;
+    }
+
+    createForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        setFormMessage("");
+
+        const firstName =
+          document
+            .getElementById("firstName")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("createPassword")
+            .value;
+
+        const confirmPassword =
+          document
+            .getElementById("confirmPassword")
+            .value;
+
+        const adultConsent =
+          document
+            .getElementById("adultConsent")
+            .checked;
+
+        if (!firstName) {
+          setFormMessage(
+            "Enter the account holder’s first name.",
+            "error"
+          );
+
+          return;
+        }
+
+        if (password.length < 10) {
+          setFormMessage(
+            "Your password must contain at least 10 characters.",
+            "error"
+          );
+
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          setFormMessage(
+            "The two passwords do not match.",
+            "error"
+          );
+
+          return;
+        }
+
+        if (!adultConsent) {
+          setFormMessage(
+            "The account must be created by an adult account holder.",
+            "error"
+          );
+
+          return;
+        }
+
+        setButtonLoading(
+          createButton,
+          true,
+          "Create secure account",
+          "Creating account..."
+        );
+
+        try {
+          const redirectUrl =
+            `${window.location.origin}` +
+            `/performance-hub-signup.html` +
+            `?session_id=${encodeURIComponent(
+              sessionId
+            )}`;
+
+          const {
+            data,
+            error
+          } = await supabase.auth.signUp({
+            email:
+              verifiedCheckoutEmail,
+            password,
+            options: {
+              emailRedirectTo:
+                redirectUrl,
+              data: {
+                first_name:
+                  firstName
+              }
+            }
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          if (data?.session) {
+            await claimMembership(
+              data.session
+            );
+
+            return;
+          }
+
+          showResult({
+            icon: "✉",
+            title: "Check Your Email.",
+            text:
+              `We sent a secure confirmation link to ${verifiedCheckoutEmail}. Open that email to verify the account and connect the membership.`,
+            actions: [
+              {
+                label: "Open email then return here",
+                href:
+                  window.location.href,
+                primary: true
+              },
+              {
+                label: "Return to JT website",
+                href: "/",
+                primary: false
+              }
+            ]
+          });
+        } catch (error) {
+          console.error(
+            "Account creation error:",
+            error
+          );
+
+          setFormMessage(
+            error?.message ||
+            "The account could not be created.",
+            "error"
+          );
+        } finally {
+          setButtonLoading(
+            createButton,
+            false,
+            "Create secure account",
+            "Creating account..."
+          );
+        }
+      }
+    );
+
+    signInForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        setFormMessage("");
+
+        const password =
+          document
+            .getElementById("signInPassword")
+            .value;
+
+        if (!password) {
+          setFormMessage(
+            "Enter your password.",
+            "error"
+          );
+
+          return;
+        }
+
+        setButtonLoading(
+          signInButton,
+          true,
+          "Sign in and connect membership",
+          "Signing in..."
+        );
+
+        try {
+          const {
+            data,
+            error
+          } =
+            await supabase.auth
+              .signInWithPassword({
+                email:
+                  verifiedCheckoutEmail,
+                password
+              });
+
+          if (error) {
+            throw error;
+          }
+
+          if (
+            !data?.session ||
+            !data?.user
+          ) {
+            throw new Error(
+              "Supabase did not return a valid login session."
+            );
+          }
+
+          if (
+            !data.user.email_confirmed_at
+          ) {
+            throw new Error(
+              "Confirm your email before connecting the membership."
+            );
+          }
+
+          showOnly(loadingState);
+
+          await claimMembership(
+            data.session
+          );
+        } catch (error) {
+          console.error(
+            "Sign-in error:",
+            error
+          );
+
+          setFormMessage(
+            error?.message ||
+            "The account could not be signed in.",
+            "error"
+          );
+
+          showOnly(authContent);
+        } finally {
+          setButtonLoading(
+            signInButton,
+            false,
+            "Sign in and connect membership",
+            "Signing in..."
+          );
+        }
+      }
+    );
+
+    async function initialisePage() {
+      try {
+        await verifyCheckout();
+
+        const sessionHandled =
+          await handleExistingSession();
+
+        if (!sessionHandled) {
+          showOnly(authContent);
+        }
+      } catch (error) {
+        console.error(
+          "Registration initialisation error:",
+          error
+        );
+
+        showResult({
+          icon: "!",
+          title: "Registration Not Verified.",
+          text:
+            error?.message ||
+            "We could not verify this registration.",
+          actions: [
+            {
+              label: "Start a new free trial",
+              href: "/#performance-hub",
+              primary: true
+            },
+            {
+              label: "Return to JT website",
+              href: "/",
+              primary: false
+            }
+          ]
+        });
+      }
+    }
+
+    initialisePage();
+  </script>
+</body>
+</html>
