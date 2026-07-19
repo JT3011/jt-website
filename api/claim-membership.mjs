@@ -121,16 +121,25 @@ async function findMembershipByCheckoutSession({
     },
   });
 
-  if (!response.ok) {
-    throw new Error(
-      "Could not check the existing membership."
-    );
-  }
+ const responseText = await response.text();
 
-  const rows = await response.json();
+if (!response.ok) {
+  console.error(
+    "Supabase membership lookup failed:",
+    response.status,
+    responseText
+  );
 
-  return rows[0] || null;
+  throw new Error(
+    "Could not check the existing membership."
+  );
 }
+
+const rows = responseText
+  ? JSON.parse(responseText)
+  : [];
+
+return rows[0] || null;
 
 async function saveMembership({
   membership,
