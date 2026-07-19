@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Member Login | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Sign in securely to the JT Performance Hub."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #111111;
+      --gold: #d4af37;
+      --gold-light: #f5e6b3;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --error: #ff9a9a;
+      --success: #76e09b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 82% 8%,
+          rgba(212, 175, 55, 0.18),
+          transparent 35rem
+        ),
+        radial-gradient(
+          circle at 8% 90%,
+          rgba(212, 175, 55, 0.07),
+          transparent 30rem
+        ),
+        linear-gradient(
+          145deg,
+          var(--black),
+          var(--charcoal),
+          var(--black)
+        );
+    }
+
+    .page {
+      width: min(100%, 1120px);
+      display: grid;
+      grid-template-columns: 1fr minmax(360px, 470px);
+      gap: 70px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 20px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      max-width: 650px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 0.83;
+      letter-spacing: -0.065em;
+      text-transform: uppercase;
+    }
+
+    .gold {
+      display: block;
+      color: var(--gold);
+    }
+
+    .intro {
+      max-width: 620px;
+      margin-top: 28px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .login-shell {
+      padding: 13px;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.025);
+      box-shadow:
+        0 45px 110px rgba(0, 0, 0, 0.72),
+        0 0 60px rgba(212, 175, 55, 0.06);
+    }
+
+    .login-card {
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 24px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(212, 175, 55, 0.12),
+          transparent 22rem
+        ),
+        linear-gradient(155deg, #151515, #070707);
+    }
+
+    .status {
+      margin-bottom: 17px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-size: 0.65rem;
+      font-weight: 900;
+    }
+
+    h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 6vw, 4.8rem);
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .login-copy {
+      margin-top: 17px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.65;
+    }
+
+    form {
+      display: grid;
+      gap: 17px;
+      margin-top: 28px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.66rem;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 53px;
+      padding: 0 16px;
+      border: 1px solid rgba(212, 175, 55, 0.17);
+      border-radius: 15px;
+      outline: none;
+      background: rgba(0, 0, 0, 0.36);
+      color: var(--white);
+      font: inherit;
+    }
+
+    input:focus {
+      border-color: rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.08);
+    }
+
+    button,
+    .secondary-link {
+      min-height: 53px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1.15px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    button {
+      margin-top: 5px;
+      border: 0;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .secondary-link {
+      margin-top: 11px;
+      border: 1px solid rgba(212, 175, 55, 0.24);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 15px;
+      border-radius: 14px;
+      font-size: 0.77rem;
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message-error {
+      border: 1px solid rgba(255, 154, 154, 0.25);
+      background: rgba(255, 154, 154, 0.07);
+      color: #ffcaca;
+    }
+
+    .message-success {
+      border: 1px solid rgba(118, 224, 155, 0.25);
+      background: rgba(118, 224, 155, 0.07);
+      color: #c0f4d1;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .login-shell {
+        width: min(100%, 650px);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 18px;
+      }
+
+      .login-card {
+        padding: 29px 21px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 21vw, 6rem);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section>
+      <div class="eyebrow">
+        JT Performance Hub
+      </div>
+
+      <h1>
+        Return to
+        <span class="gold">Your Hub.</span>
+      </h1>
+
+      <p class="intro">
+        Sign in securely to access your player dashboard, training
+        resources, nutrition support, mindset tools and performance
+        development.
+      </p>
+    </section>
+
+    <section class="login-shell">
+      <div class="login-card">
+        <div class="status">
+          Secure member access
+        </div>
+
+        <h2>
+          Member Login.
+        </h2>
+
+        <p class="login-copy">
+          Enter the email address and password connected to your
+          JT Performance Hub membership.
+        </p>
+
+        <div
+          class="message"
+          id="message"
+          role="alert"
+        ></div>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">
+              Email address
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="password">
+              Password
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <button id="loginButton" type="submit">
+            Enter Performance Hub
+          </button>
+        </form>
+
+        <a class="secondary-link" href="/#performance-hub">
+          Return to JT website
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const message =
+      document.getElementById("message");
+
+    function showMessage(text, type = "error") {
+      message.textContent = text;
+      message.className =
+        `message message-${type} show`;
+    }
+
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
+    async function redirectExistingMember() {
+      const {
+        data,
+        error
+      } = await supabase.auth.getSession();
+
+      if (!error && data?.session) {
+        window.location.replace(
+          "/performance-hub-dashboard.html"
+        );
+      }
+    }
+
+    loginForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        clearMessage();
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+        if (!email || !password) {
+          showMessage(
+            "Enter your email address and password."
+          );
+
+          return;
+        }
+
+        loginButton.disabled = true;
+        loginButton.textContent = "Signing in...";
+
+        try {
+          const {
+            data,
+            error
+          } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          if (!data?.session || !data?.user) {
+            throw new Error(
+              "A valid login session was not returned."
+            );
+          }
+
+          if (!data.user.email_confirmed_at) {
+            await supabase.auth.signOut();
+
+            throw new Error(
+              "Please confirm your email before entering the Performance Hub."
+            );
+          }
+
+          showMessage(
+            "Login successful. Opening your dashboard...",
+            "success"
+          );
+
+          window.location.replace(
+            "/performance-hub-dashboard.html"
+          );
+        } catch (error) {
+          console.error("Login error:", error);
+
+          showMessage(
+            error?.message ||
+            "Your account could not be signed in."
+          );
+        } finally {
+          loginButton.disabled = false;
+          loginButton.textContent =
+            "Enter Performance Hub";
+        }
+      }
+    );
+
+    redirectExistingMember();
+  </script>
+</body>
+</html>
