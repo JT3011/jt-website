@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Build Your Player Profile | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Create your personalised JT Performance Hub player profile."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --near-black: #090909;
+      --charcoal: #121212;
+      --gold: #d4af37;
+      --gold-light: #f5e6b3;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --success: #76e09b;
+      --error: #ff9898;
+      --line: rgba(212, 175, 55, 0.18);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 82% 7%,
+          rgba(212, 175, 55, 0.17),
+          transparent 36rem
+        ),
+        radial-gradient(
+          circle at 8% 92%,
+          rgba(212, 175, 55, 0.07),
+          transparent 32rem
+        ),
+        linear-gradient(
+          145deg,
+          var(--black),
+          var(--charcoal) 50%,
+          var(--black)
+        );
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .topbar {
+      width: min(1280px, calc(100% - 40px));
+      min-height: 92px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      font-size: 0.78rem;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 0.62rem;
+    }
+
+    .dashboard-link {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .dashboard-link:hover {
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .main {
+      width: min(1280px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 70px 0 90px;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 0.82fr)
+        minmax(520px, 1.18fr);
+      gap: 72px;
+      align-items: start;
+    }
+
+    .intro-panel {
+      position: sticky;
+      top: 32px;
+      padding-top: 26px;
+    }
+
+    .eyebrow {
+      margin-bottom: 20px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      max-width: 680px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.6rem, 8vw, 8.8rem);
+      line-height: 0.8;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .gold-text {
+      display: block;
+      color: var(--gold);
+    }
+
+    .intro-copy {
+      max-width: 620px;
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .profile-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .profile-point {
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .profile-point strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-size: 0.73rem;
+    }
+
+    .profile-point span {
+      color: var(--muted);
+      font-size: 0.79rem;
+      line-height: 1.55;
+    }
+
+    .form-shell {
+      padding: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.27);
+      border-radius: 36px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.08),
+          rgba(255, 255, 255, 0.018)
+        ),
+        #060606;
+      box-shadow:
+        0 45px 110px rgba(0, 0, 0, 0.72),
+        0 0 65px rgba(212, 175, 55, 0.07);
+    }
+
+    .form-card {
+      min-height: 650px;
+      padding: clamp(26px, 4vw, 44px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 25px;
+      background:
+        radial-gradient(
+          circle at 90% 0%,
+          rgba(212, 175, 55, 0.13),
+          transparent 25rem
+        ),
+        linear-gradient(
+          155deg,
+          #151515,
+          #070707 72%
+        );
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 12px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.65rem;
+      font-weight: 900;
+    }
+
+    .progress-track {
+      height: 5px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+      width: 25%;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+    }
+
+    .form-heading h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .form-heading p {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.7;
+    }
+
+    .message {
+      display: none;
+      margin-top: 22px;
+      padding: 15px 16px;
+      border-radius: 15px;
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message-error {
+      border: 1px solid rgba(255, 152, 152, 0.25);
+      background: rgba(255, 152, 152, 0.065);
+      color: #ffcaca;
+    }
+
+    .message-success {
+      border: 1px solid rgba(118, 224, 155, 0.25);
+      background: rgba(118, 224, 155, 0.065);
+      color: #c3f5d3;
+    }
+
+    .profile-form {
+      display: grid;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .form-section {
+      display: grid;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 175, 55, 0.13);
+    }
+
+    .form-section:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .section-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.65rem;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 15px;
+      outline: none;
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--white);
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .field input,
+    .field select {
+      min-height: 52px;
+      padding: 0 15px;
+    }
+
+    .field textarea {
+      min-height: 135px;
+      padding: 15px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(212, 175, 55, 0.68);
+      box-shadow:
+        0 0 0 4px rgba(212, 175, 55, 0.08);
+    }
+
+    .field select option {
+      background: #111111;
+      color: var(--white);
+    }
+
+    .field-note {
+      color: rgba(248, 243, 231, 0.48);
+      font-size: 0.68rem;
+      line-height: 1.5;
+    }
+
+    .guardian-box {
+      display: grid;
+      grid-template-columns: 21px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 16px;
+      background: rgba(212, 175, 55, 0.04);
+    }
+
+    .guardian-box input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+    }
+
+    .guardian-box span {
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.6;
+    }
+
+    .submit-button {
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 26px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1.25px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      box-shadow:
+        0 18px 45px rgba(212, 175, 55, 0.16);
+      transition:
+        transform 0.3s var(--ease),
+        box-shadow 0.3s ease,
+        opacity 0.25s ease;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow:
+        0 24px 56px rgba(212, 175, 55, 0.22);
+    }
+
+    .submit-button:disabled {
+      cursor: wait;
+      opacity: 0.62;
+    }
+
+    .loading-state,
+    .error-state,
+    .success-state {
+      display: none;
+      min-height: 580px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .loading-state.active,
+    .error-state.active,
+    .success-state.active {
+      display: grid;
+    }
+
+    .form-content.hidden {
+      display: none;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 22px;
+      border: 3px solid rgba(212, 175, 55, 0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-icon {
+      width: 70px;
+      height: 70px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 22px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold);
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .state-heading {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .state-copy {
+      max-width: 430px;
+      margin: 17px auto 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.7;
+    }
+
+    .state-button {
+      min-height: 51px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      padding: 0 24px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    footer {
+      width: min(1280px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1020px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-panel {
+        position: static;
+      }
+
+      .form-shell {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .topbar {
+        min-height: 80px;
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .main {
+        width: min(100% - 28px, 1280px);
+        padding: 50px 0 70px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 21vw, 6.6rem);
+      }
+
+      .form-shell {
+        padding: 8px;
+        border-radius: 27px;
+      }
+
+      .form-card {
+        padding: 26px 19px;
+        border-radius: 21px;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-full {
+        grid-column: auto;
+      }
+
+      footer {
+        width: min(100% - 28px, 1280px);
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/performance-hub-dashboard.html"
+        aria-label="Return to JT Performance Hub dashboard"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>One Mind. One Body. One Mission.</span>
+        </span>
+      </a>
+
+      <a
+        class="dashboard-link"
+        href="/performance-hub-dashboard.html"
+      >
+        Return to dashboard
+      </a>
+    </header>
+
+    <main class="main">
+
+      <section class="intro-panel">
+        <div class="eyebrow">
+          Player Onboarding
+        </div>
+
+        <h1>
+          Build Your
+          <span class="gold-text">Player Profile.</span>
+        </h1>
+
+        <p class="intro-copy">
+          Your profile helps JT Performance Hub personalise your football
+          development, position-specific guidance, mindset support,
+          nutrition and future training recommendations.
+        </p>
+
+        <div class="profile-points">
+          <div class="profile-point">
+            <strong>Position-Specific Support</strong>
+            <span>
+              Resources and recommendations shaped around where you play.
+            </span>
+          </div>
+
+          <div class="profile-point">
+            <strong>Personal Development Goal</strong>
+            <span>
+              Set the main outcome you want the Performance Hub to support.
+            </span>
+          </div>
+
+          <div class="profile-point">
+            <strong>Parent-Supported Accounts</strong>
+            <span>
+              Parents and guardians can safely manage profiles for young players.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-shell">
+        <div class="form-card">
+
+          <div
+            class="loading-state active"
+            id="loadingState"
+          >
+            <div>
+              <div class="spinner"></div>
+
+              <h2 class="state-heading">
+                Loading Your Profile.
+              </h2>
+
+              <p class="state-copy">
+                We are securely checking your account and membership.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="form-content hidden"
+            id="formContent"
+          >
+            <div class="progress-label">
+              <span>Player profile</span>
+              <span>Step 1 of 4</span>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-bar"></div>
+            </div>
+
+            <div class="form-heading">
+              <h2>
+                Tell Us About The Player.
+              </h2>
+
+              <p>
+                Complete the information below so your Performance Hub
+                experience can be personalised.
+              </p>
+            </div>
+
+            <div
+              class="message"
+              id="message"
+              role="alert"
+            ></div>
+
+            <form
+              class="profile-form"
+              id="profileForm"
+              novalidate
+            >
+
+              <section class="form-section">
+                <div class="section-label">
+                  Account details
+                </div>
+
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="accountType">
+                      Account type
+                    </label>
+
+                    <select id="accountType" required>
+                      <option value="">
+                        Select account type
+                      </option>
+
+                      <option value="player">
+                        Adult player account
+                      </option>
+
+                      <option value="parent">
+                        Parent or guardian account
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="firstName">
+                      Account holder’s first name
+                    </label>
+
+                    <input
+                      id="firstName"
+                      type="text"
+                      autocomplete="given-name"
+                      maxlength="60"
+                      required
+                    >
+                  </div>
+
+                  <div class="field field-full">
+                    <label for="playerName">
+                      Player’s name
+                    </label>
+
+                    <input
+                      id="playerName"
+                      type="text"
+                      autocomplete="name"
+                      maxlength="100"
+                      required
+                    >
+
+                    <span class="field-note">
+                      Enter the player’s name, even when the player and
+                      account holder are the same person.
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <div class="section-label">
+                  Football profile
+                </div>
+
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="ageGroup">
+                      Age group
+                    </label>
+
+                    <select id="ageGroup" required>
+                      <option value="">
+                        Select age group
+                      </option>
+
+                      <option value="under-8">Under 8</option>
+                      <option value="8-10">8–10</option>
+                      <option value="11-13">11–13</option>
+                      <option value="14-15">14–15</option>
+                      <option value="16-17">16–17</option>
+                      <option value="18-20">18–20</option>
+                      <option value="21-plus">21+</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="playingLevel">
+                      Current playing level
+                    </label>
+
+                    <select id="playingLevel" required>
+                      <option value="">
+                        Select playing level
+                      </option>
+
+                      <option value="beginner">
+                        Beginner / new player
+                      </option>
+
+                      <option value="grassroots">
+                        Grassroots
+                      </option>
+
+                      <option value="school-college">
+                        School or college
+                      </option>
+
+                      <option value="academy-development">
+                        Academy or development centre
+                      </option>
+
+                      <option value="semi-professional">
+                        Semi-professional
+                      </option>
+
+                      <option value="professional">
+                        Professional
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="primaryPosition">
+                      Primary position
+                    </label>
+
+                    <select id="primaryPosition" required>
+                      <option value="">
+                        Select primary position
+                      </option>
+
+                      <option value="goalkeeper">Goalkeeper</option>
+                      <option value="right-back">Right back</option>
+                      <option value="centre-back">Centre back</option>
+                      <option value="left-back">Left back</option>
+                      <option value="defensive-midfield">
+                        Defensive midfield
+                      </option>
+                      <option value="central-midfield">
+                        Central midfield
+                      </option>
+                      <option value="attacking-midfield">
+                        Attacking midfield
+                      </option>
+                      <option value="right-wing">Right wing</option>
+                      <option value="left-wing">Left wing</option>
+                      <option value="striker">Striker</option>
+                      <option value="versatile">Versatile / multiple</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="secondaryPosition">
+                      Secondary position
+                    </label>
+
+                    <select id="secondaryPosition">
+                      <option value="">
+                        No secondary position
+                      </option>
+
+                      <option value="goalkeeper">Goalkeeper</option>
+                      <option value="right-back">Right back</option>
+                      <option value="centre-back">Centre back</option>
+                      <option value="left-back">Left back</option>
+                      <option value="defensive-midfield">
+                        Defensive midfield
+                      </option>
+                      <option value="central-midfield">
+                        Central midfield
+                      </option>
+                      <option value="attacking-midfield">
+                        Attacking midfield
+                      </option>
+                      <option value="right-wing">Right wing</option>
+                      <option value="left-wing">Left wing</option>
+                      <option value="striker">Striker</option>
+                      <option value="versatile">Versatile / multiple</option>
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <div class="section-label">
+                  Development focus
+                </div>
+
+                <div class="field-grid">
+                  <div class="field field-full">
+                    <label for="developmentGoal">
+                      Main development goal
+                    </label>
+
+                    <textarea
+                      id="developmentGoal"
+                      maxlength="600"
+                      placeholder="For example: improve acceleration, become more confident in matches, develop as a central midfielder or improve nutrition and recovery."
+                      required
+                    ></textarea>
+
+                    <span class="field-note">
+                      Describe the single most important improvement the
+                      player wants to make.
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <div class="section-label">
+                  Parent and guardian confirmation
+                </div>
+
+                <label class="guardian-box">
+                  <input
+                    id="guardianConsent"
+                    type="checkbox"
+                  >
+
+                  <span>
+                    Where the player is under 18, I confirm that I am their
+                    parent or legal guardian and consent to managing this
+                    Performance Hub profile on their behalf.
+                  </span>
+                </label>
+              </section>
+
+              <button
+                class="submit-button"
+                id="saveButton"
+                type="submit"
+              >
+                Save Player Profile
+              </button>
+            </form>
+          </div>
+
+          <div
+            class="error-state"
+            id="errorState"
+          >
+            <div>
+              <div class="state-icon">!</div>
+
+              <h2 class="state-heading">
+                Profile Unavailable.
+              </h2>
+
+              <p
+                class="state-copy"
+                id="errorText"
+              ></p>
+
+              <a
+                class="state-button"
+                href="/performance-hub-login.html"
+              >
+                Member Login
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="success-state"
+            id="successState"
+          >
+            <div>
+              <div class="state-icon">✓</div>
+
+              <h2 class="state-heading">
+                Profile Complete.
+              </h2>
+
+              <p class="state-copy">
+                Your player profile has been saved. JT Performance Hub can
+                now begin personalising your development experience.
+              </p>
+
+              <a
+                class="state-button"
+                href="/performance-hub-dashboard.html"
+              >
+                Continue to Dashboard
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>
+        <strong>JT Mind & Body Balance</strong>
+      </div>
+
+      <div>
+        Football • Gym • Nutrition • Mentoring
+      </div>
+
+      <div>
+        Bristol, United Kingdom
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const formContent =
+      document.getElementById("formContent");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const successState =
+      document.getElementById("successState");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const message =
+      document.getElementById("message");
+
+    const profileForm =
+      document.getElementById("profileForm");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const accountType =
+      document.getElementById("accountType");
+
+    const firstName =
+      document.getElementById("firstName");
+
+    const playerName =
+      document.getElementById("playerName");
+
+    const ageGroup =
+      document.getElementById("ageGroup");
+
+    const primaryPosition =
+      document.getElementById("primaryPosition");
+
+    const secondaryPosition =
+      document.getElementById("secondaryPosition");
+
+    const playingLevel =
+      document.getElementById("playingLevel");
+
+    const developmentGoal =
+      document.getElementById("developmentGoal");
+
+    const guardianConsent =
+      document.getElementById("guardianConsent");
+
+    let currentUser = null;
+
+    function showOnly(element) {
+      loadingState.classList.remove("active");
+      errorState.classList.remove("active");
+      successState.classList.remove("active");
+      formContent.classList.add("hidden");
+
+      if (element === formContent) {
+        formContent.classList.remove("hidden");
+        return;
+      }
+
+      element.classList.add("active");
+    }
+
+    function showMessage(text = "", type = "error") {
+      message.textContent = text;
+      message.className =
+        `message message-${type}`;
+
+      if (text) {
+        message.classList.add("show");
+      }
+    }
+
+    function showError(text) {
+      errorText.textContent = text;
+      showOnly(errorState);
+    }
+
+    function isYouthAgeGroup(value) {
+      return [
+        "under-8",
+        "8-10",
+        "11-13",
+        "14-15",
+        "16-17"
+      ].includes(value);
+    }
+
+    function populateProfile(profile) {
+      if (!profile) {
+        return;
+      }
+
+      accountType.value =
+        profile.account_type || "";
+
+      firstName.value =
+        profile.first_name || "";
+
+      playerName.value =
+        profile.player_name || "";
+
+      ageGroup.value =
+        profile.age_group || "";
+
+      primaryPosition.value =
+        profile.primary_position || "";
+
+      secondaryPosition.value =
+        profile.secondary_position || "";
+
+      playingLevel.value =
+        profile.playing_level || "";
+
+      developmentGoal.value =
+        profile.development_goal || "";
+
+      guardianConsent.checked =
+        profile.guardian_consent === true;
+    }
+
+    async function initialiseProfile() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in before creating your player profile."
+          );
+
+          return;
+        }
+
+        currentUser = sessionData.session.user;
+
+        const {
+          data: membership,
+          error: membershipError
+        } = await supabase
+          .from("memberships")
+          .select("subscription_status")
+          .eq("user_id", currentUser.id)
+          .maybeSingle();
+
+        if (membershipError) {
+          throw membershipError;
+        }
+
+        if (
+          !membership ||
+          !["trialing", "active"].includes(
+            membership.subscription_status
+          )
+        ) {
+          showError(
+            "An active JT Performance Hub membership is required."
+          );
+
+          return;
+        }
+
+        const {
+          data: profile,
+          error: profileError
+        } = await supabase
+          .from("profiles")
+          .select(
+            [
+              "account_type",
+              "first_name",
+              "player_name",
+              "age_group",
+              "primary_position",
+              "secondary_position",
+              "playing_level",
+              "development_goal",
+              "guardian_consent",
+              "onboarding_complete"
+            ].join(",")
+          )
+          .eq("id", currentUser.id)
+          .maybeSingle();
+
+        if (profileError) {
+          throw profileError;
+        }
+
+        populateProfile(profile);
+        showOnly(formContent);
+      } catch (error) {
+        console.error(
+          "Profile initialisation error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading your player profile."
+        );
+      }
+    }
+
+    profileForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        showMessage("");
+
+        const accountTypeValue =
+          accountType.value;
+
+        const firstNameValue =
+          firstName.value.trim();
+
+        const playerNameValue =
+          playerName.value.trim();
+
+        const ageGroupValue =
+          ageGroup.value;
+
+        const primaryPositionValue =
+          primaryPosition.value;
+
+        const secondaryPositionValue =
+          secondaryPosition.value || null;
+
+        const playingLevelValue =
+          playingLevel.value;
+
+        const developmentGoalValue =
+          developmentGoal.value.trim();
+
+        const guardianConsentValue =
+          guardianConsent.checked;
+
+        if (
+          !accountTypeValue ||
+          !firstNameValue ||
+          !playerNameValue ||
+          !ageGroupValue ||
+          !primaryPositionValue ||
+          !playingLevelValue ||
+          !developmentGoalValue
+        ) {
+          showMessage(
+            "Complete all required profile fields."
+          );
+
+          return;
+        }
+
+        if (
+          secondaryPositionValue &&
+          secondaryPositionValue ===
+            primaryPositionValue
+        ) {
+          showMessage(
+            "Choose a different secondary position or leave it blank."
+          );
+
+          return;
+        }
+
+        if (
+          isYouthAgeGroup(ageGroupValue) &&
+          !guardianConsentValue
+        ) {
+          showMessage(
+            "Parent or guardian consent is required for players under 18."
+          );
+
+          return;
+        }
+
+        saveButton.disabled = true;
+        saveButton.textContent =
+          "Saving Profile...";
+
+        try {
+          if (!currentUser?.id) {
+            throw new Error(
+              "Your login session is no longer available."
+            );
+          }
+
+          const {
+            error
+          } = await supabase
+            .from("profiles")
+            .upsert(
+              {
+                id: currentUser.id,
+                account_type:
+                  accountTypeValue,
+                first_name:
+                  firstNameValue,
+                player_name:
+                  playerNameValue,
+                age_group:
+                  ageGroupValue,
+                primary_position:
+                  primaryPositionValue,
+                secondary_position:
+                  secondaryPositionValue,
+                playing_level:
+                  playingLevelValue,
+                development_goal:
+                  developmentGoalValue,
+                guardian_consent:
+                  guardianConsentValue,
+                onboarding_complete:
+                  true,
+                updated_at:
+                  new Date().toISOString()
+              },
+              {
+                onConflict: "id"
+              }
+            );
+
+          if (error) {
+            throw error;
+          }
+
+          showOnly(successState);
+        } catch (error) {
+          console.error(
+            "Profile save error:",
+            error
+          );
+
+          showMessage(
+            error?.message ||
+            "Your player profile could not be saved."
+          );
+        } finally {
+          saveButton.disabled = false;
+          saveButton.textContent =
+            "Save Player Profile";
+        }
+      }
+    );
+
+    initialiseProfile();
+  </script>
+</body>
+</html>
