@@ -140,7 +140,7 @@ const rows = responseText
   : [];
 
 return rows[0] || null;
-
+}
 async function saveMembership({
   membership,
   supabaseUrl,
