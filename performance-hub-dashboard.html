@@ -342,7 +342,23 @@ if (profileError) {
         
         memberEmail.textContent =
           user.email || "JT member";
+        
+playerName.textContent =
+  profile?.player_name || "Not completed";
 
+primaryPosition.textContent =
+  profile?.primary_position || "Not completed";
+
+playingLevel.textContent =
+  profile?.playing_level || "Not completed";
+
+developmentGoal.textContent =
+  profile?.development_goal || "Not completed";
+
+profileStatus.textContent =
+  profile?.onboarding_complete
+    ? "Complete"
+    : "Incomplete";
         membershipStatus.textContent =
           membership.subscription_status === "trialing"
             ? "30-Day Trial Active"
