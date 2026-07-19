@@ -318,7 +318,28 @@ const membershipStatus =
 
           return;
         }
+        
+const {
+  data: profile,
+  error: profileError
+} = await supabase
+  .from("profiles")
+  .select(
+    [
+      "player_name",
+      "primary_position",
+      "playing_level",
+      "development_goal",
+      "onboarding_complete"
+    ].join(",")
+  )
+  .eq("id", user.id)
+  .maybeSingle();
 
+if (profileError) {
+  throw profileError;
+}
+        
         memberEmail.textContent =
           user.email || "JT member";
 
