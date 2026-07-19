@@ -339,7 +339,13 @@ const {
 if (profileError) {
   throw profileError;
 }
-        
+       if (!profile?.onboarding_complete) {
+  window.location.replace(
+    "/performance-hub-profile.html"
+  );
+
+  return;
+} 
         memberEmail.textContent =
           user.email || "JT member";
         
