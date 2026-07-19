@@ -757,12 +757,13 @@
         </div>
 
         <div class="button-row">
-          <a
-            class="button button-primary"
-            href="/"
-          >
-            Return to JT Website
-          </a>
+         <a
+         class="button button-primary"
+         id="createAccountButton"
+         href="/performance-hub-signup.html"
+         >
+         Create Secure Account
+         </a>
 
           <a
             class="button button-outline"
@@ -897,5 +898,21 @@
     </footer>
 
   </div>
+
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get("session_id");
+  const createAccountButton =
+    document.getElementById("createAccountButton");
+
+  if (sessionId && sessionId.startsWith("cs_")) {
+    createAccountButton.href =
+      "/performance-hub-signup.html?session_id=" +
+      encodeURIComponent(sessionId);
+  } else {
+    createAccountButton.href = "/#performance-hub";
+    createAccountButton.textContent = "Start Your Free Trial";
+  }
+</script>
 </body>
 </html>
