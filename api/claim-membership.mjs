@@ -246,7 +246,10 @@ export default {
 
       const stripeSecretKey =
         process.env.STRIPE_SECRET_KEY;
-
+      
+      const supabasePublishableKey =
+        process.env.SUPABASE_PUBLISHABLE_KEY;
+      
       const expectedPriceId =
         process.env.STRIPE_PRICE_ID;
 
@@ -257,12 +260,13 @@ export default {
       const supabaseSecretKey =
         process.env.SUPABASE_SECRET_KEY;
 
-      if (
-        !stripeSecretKey ||
-        !expectedPriceId ||
-        !supabaseUrl ||
-        !supabaseSecretKey
-      ) {
+     if (
+  !stripeSecretKey ||
+  !expectedPriceId ||
+  !supabaseUrl ||
+  !supabaseSecretKey ||
+  !supabasePublishableKey
+) {
         console.error(
           "A required server environment variable is missing."
         );
@@ -283,7 +287,7 @@ export default {
       const user = await retrieveSupabaseUser({
         accessToken,
         supabaseUrl,
-        supabaseSecretKey,
+        supabasePublishableKey,
       });
 
       if (!user) {
