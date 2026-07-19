@@ -1633,7 +1633,450 @@
     #backToTop:hover {
       transform: translateY(-4px);
     }
+    
+/* =========================
+   JT PERFORMANCE HUB
+========================= */
 
+.performance-hub-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(212,175,55,.17), transparent 34rem),
+    radial-gradient(circle at 10% 90%, rgba(212,175,55,.08), transparent 30rem),
+    linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,0));
+}
+
+.performance-hub-section::before {
+  content: "";
+  position: absolute;
+  width: 620px;
+  height: 620px;
+  right: -220px;
+  top: -180px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,175,55,.12);
+  box-shadow:
+    0 0 0 80px rgba(212,175,55,.025),
+    0 0 0 160px rgba(212,175,55,.018);
+  pointer-events: none;
+}
+
+.performance-hub-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(520px, 1.14fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.performance-hub-copy {
+  position: relative;
+  z-index: 3;
+}
+
+.performance-hub-copy .section-title {
+  font-size: clamp(3.6rem, 7.1vw, 7.8rem);
+  max-width: 760px;
+}
+
+.performance-hub-intro {
+  max-width: 660px;
+  margin: 28px 0;
+  color: var(--soft);
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.85;
+}
+
+.performance-hub-trial {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  padding: 10px 15px;
+  border: 1px solid rgba(212,175,55,.25);
+  border-radius: 999px;
+  background: rgba(212,175,55,.06);
+  color: var(--gold-2);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.performance-hub-trial::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 18px rgba(212,175,55,.8);
+}
+
+.performance-hub-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 30px 0 34px;
+}
+
+.performance-hub-feature {
+  padding: 18px;
+  border: 1px solid rgba(212,175,55,.14);
+  border-radius: 18px;
+  background: rgba(255,255,255,.025);
+  transition:
+    transform .3s var(--ease),
+    border-color .3s ease,
+    background .3s ease;
+}
+
+.performance-hub-feature:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212,175,55,.42);
+  background: rgba(212,175,55,.055);
+}
+
+.performance-hub-feature strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--white);
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.performance-hub-feature span {
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.55;
+}
+
+.performance-hub-note {
+  margin-top: 18px;
+  color: rgba(248,243,231,.54);
+  font-size: .76rem;
+  line-height: 1.6;
+}
+
+/* Dashboard preview */
+
+.performance-hub-preview {
+  position: relative;
+  padding: 14px;
+  border: 1px solid rgba(212,175,55,.28);
+  border-radius: 38px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02)),
+    rgba(5,5,5,.94);
+  box-shadow:
+    0 45px 120px rgba(0,0,0,.75),
+    0 0 60px rgba(212,175,55,.08);
+  transform: perspective(1200px) rotateY(-3deg) rotateX(1deg);
+  transition:
+    transform .7s var(--ease),
+    border-color .4s ease;
+}
+
+.performance-hub-preview:hover {
+  transform: perspective(1200px) rotateY(0) rotateX(0) translateY(-8px);
+  border-color: rgba(212,175,55,.55);
+}
+
+.performance-hub-screen {
+  overflow: hidden;
+  min-height: 620px;
+  border-radius: 27px;
+  border: 1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(212,175,55,.13), transparent 22rem),
+    linear-gradient(160deg, #141414, #070707 70%);
+}
+
+.performance-hub-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 22px;
+  border-bottom: 1px solid rgba(212,175,55,.13);
+  background: rgba(0,0,0,.28);
+}
+
+.performance-hub-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.performance-hub-logo-mark {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--gold);
+  color: var(--black);
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 10px 30px rgba(212,175,55,.16);
+}
+
+.performance-hub-logo strong {
+  display: block;
+  color: var(--white);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+
+.performance-hub-logo span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: .6rem;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+}
+
+.performance-hub-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--soft);
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.performance-hub-avatar {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(212,175,55,.3);
+  border-radius: 50%;
+  background: rgba(212,175,55,.08);
+  color: var(--gold);
+  font-weight: 900;
+}
+
+.performance-hub-dashboard {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 14px;
+  padding: 18px;
+}
+
+.performance-hub-welcome {
+  grid-column: 1 / -1;
+  padding: 23px;
+  border-radius: 22px;
+  border: 1px solid rgba(212,175,55,.16);
+  background:
+    radial-gradient(circle at 90% 20%, rgba(212,175,55,.14), transparent 16rem),
+    rgba(255,255,255,.035);
+}
+
+.performance-hub-welcome span {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: .65rem;
+  font-weight: 900;
+}
+
+.performance-hub-welcome h3 {
+  margin: 9px 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 3vw, 3.15rem);
+  line-height: .92;
+  letter-spacing: -.045em;
+}
+
+.performance-hub-welcome p {
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.performance-hub-card {
+  position: relative;
+  min-height: 180px;
+  padding: 19px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 21px;
+  background: rgba(255,255,255,.032);
+  overflow: hidden;
+}
+
+.performance-hub-card-label {
+  display: block;
+  margin-bottom: 11px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: .61rem;
+  font-weight: 900;
+}
+
+.performance-hub-card h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.55rem;
+  line-height: .95;
+  letter-spacing: -.035em;
+  margin-bottom: 10px;
+}
+
+.performance-hub-card p {
+  color: var(--muted);
+  font-size: .75rem;
+  line-height: 1.55;
+}
+
+.performance-hub-ai-card {
+  min-height: 230px;
+  background:
+    radial-gradient(circle at top right, rgba(212,175,55,.13), transparent 15rem),
+    rgba(255,255,255,.04);
+}
+
+.performance-hub-ai-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 18px;
+  color: var(--gold-2);
+  font-size: .65rem;
+  font-weight: 800;
+}
+
+.performance-hub-ai-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #76e09b;
+  box-shadow: 0 0 14px rgba(118,224,155,.7);
+}
+
+.performance-hub-question {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border: 1px solid rgba(212,175,55,.18);
+  border-radius: 14px;
+  background: rgba(0,0,0,.3);
+  color: rgba(248,243,231,.62);
+  font-size: .71rem;
+}
+
+.performance-hub-progress {
+  margin-top: 18px;
+}
+
+.performance-hub-progress-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+  color: var(--soft);
+  font-size: .69rem;
+  font-weight: 800;
+}
+
+.performance-hub-progress-bar {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+}
+
+.performance-hub-progress-bar span {
+  display: block;
+  width: 72%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-2));
+  box-shadow: 0 0 18px rgba(212,175,55,.25);
+}
+
+.performance-hub-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.performance-hub-mini {
+  padding: 13px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 15px;
+  background: rgba(0,0,0,.22);
+}
+
+.performance-hub-mini strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--white);
+  font-size: .68rem;
+}
+
+.performance-hub-mini span {
+  color: var(--muted);
+  font-size: .62rem;
+}
+
+/* Performance Hub responsiveness */
+
+@media (max-width: 1120px) {
+  .performance-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-hub-preview {
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .performance-hub-features {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-hub-preview {
+    padding: 8px;
+    border-radius: 27px;
+  }
+
+  .performance-hub-screen {
+    min-height: auto;
+    border-radius: 21px;
+  }
+
+  .performance-hub-dashboard {
+    grid-template-columns: 1fr;
+    padding: 11px;
+  }
+
+  .performance-hub-welcome {
+    grid-column: auto;
+  }
+
+  .performance-hub-topbar {
+    padding: 15px;
+  }
+
+  .performance-hub-profile {
+    font-size: 0;
+  }
+
+  .performance-hub-card,
+  .performance-hub-ai-card {
+    min-height: auto;
+  }
+}
     /* =========================
        RESPONSIVE
     ========================= */
@@ -1904,6 +2347,7 @@
           <a href="#about">About</a>
           <a href="#pathway">Pathway</a>
           <a href="#services">Services</a>
+          <a href="#performance-hub">Performance Hub</a>
           <a href="#pricing">Book</a>
           <a href="#reviews">Reviews</a>
           <a href="#shop">Shop</a>
@@ -1927,6 +2371,7 @@
         <a href="#about">About</a>
         <a href="#pathway">Pathway</a>
         <a href="#services">Services</a>
+        <a href="#performance-hub">Performance Hub</a>
         <a href="#pricing">Book</a>
         <a href="#reviews">Reviews</a>
         <a href="#team">Team</a>
@@ -2000,6 +2445,221 @@
         </div>
       </div>
 
+      
+<!-- JT PERFORMANCE HUB -->
+<section class="section performance-hub-section" id="performance-hub">
+  <div class="section-inner">
+    <div class="performance-hub-grid">
+
+      <!-- LEFT: SALES MESSAGE -->
+      <div class="performance-hub-copy reveal-left">
+        <div class="eyebrow">Introducing JT Performance Hub</div>
+
+        <div class="performance-hub-trial">
+          30-Day Free Trial
+        </div>
+
+        <h2 class="section-title">
+          Your Complete
+          <span class="gold-text">Football Development</span>
+          System.
+        </h2>
+
+        <p class="performance-hub-intro">
+          Personalised football training, nutrition guidance, mindset support
+          and access to your own JT AI Performance Coach — all inside one
+          elite digital performance centre.
+        </p>
+
+        <div class="performance-hub-features">
+
+          <div class="performance-hub-feature">
+            <strong>JT AI Performance Coach</strong>
+            <span>
+              Ask questions about training, recovery, confidence,
+              nutrition and match preparation.
+            </span>
+          </div>
+
+          <div class="performance-hub-feature">
+            <strong>Personalised Development</strong>
+            <span>
+              Recommendations based on the player’s age, position,
+              goals and current focus.
+            </span>
+          </div>
+
+          <div class="performance-hub-feature">
+            <strong>Nutrition Centre</strong>
+            <span>
+              Practical guidance for match days, recovery,
+              training and everyday performance.
+            </span>
+          </div>
+
+          <div class="performance-hub-feature">
+            <strong>Player Progress</strong>
+            <span>
+              Track development goals, coach feedback,
+              current missions and areas of improvement.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="btn-row">
+          <!-- We will connect this to Stripe later -->
+          <a class="btn btn-primary" href="#performance-hub-signup">
+            Start Free Trial
+          </a>
+
+          <!-- We will connect this to the member login later -->
+          <a class="btn btn-outline" href="#performance-hub-login">
+            Member Login
+          </a>
+        </div>
+
+        <p class="performance-hub-note">
+          Cancel anytime. Parent-supported accounts available for younger players.
+        </p>
+      </div>
+
+      <!-- RIGHT: DASHBOARD PREVIEW -->
+      <div class="performance-hub-preview scale-in" aria-label="JT Performance Hub dashboard preview">
+        <div class="performance-hub-screen">
+
+          <div class="performance-hub-topbar">
+            <div class="performance-hub-logo">
+              <div class="performance-hub-logo-mark">JT</div>
+
+              <div>
+                <strong>JT Performance Hub</strong>
+                <span>One Mind. One Body. One Mission.</span>
+              </div>
+            </div>
+
+            <div class="performance-hub-profile">
+              Welcome, James
+
+              <div class="performance-hub-avatar">
+                J
+              </div>
+            </div>
+          </div>
+
+          <div class="performance-hub-dashboard">
+
+            <div class="performance-hub-welcome">
+              <span>Your Current Mission</span>
+
+              <h3>
+                Become More Explosive.
+              </h3>
+
+              <p>
+                Your focus this week is acceleration, movement quality
+                and arriving prepared for match day.
+              </p>
+            </div>
+
+            <div class="performance-hub-card performance-hub-ai-card">
+              <span class="performance-hub-card-label">
+                JT AI Performance Coach
+              </span>
+
+              <div class="performance-hub-ai-status">
+                Online and ready
+              </div>
+
+              <h4>
+                What can I help you improve today?
+              </h4>
+
+              <p>
+                Get support with football development, mindset,
+                nutrition, recovery and preparation.
+              </p>
+
+              <div class="performance-hub-question">
+                Ask JT: “I have a match tomorrow. How should I prepare?”
+              </div>
+            </div>
+
+            <div class="performance-hub-card">
+              <span class="performance-hub-card-label">
+                Weekly Progress
+              </span>
+
+              <h4>
+                Acceleration Mission
+              </h4>
+
+              <p>
+                Complete your weekly development targets and track your progress.
+              </p>
+
+              <div class="performance-hub-progress">
+                <div class="performance-hub-progress-head">
+                  <span>Progress</span>
+                  <span>72%</span>
+                </div>
+
+                <div class="performance-hub-progress-bar">
+                  <span></span>
+                </div>
+              </div>
+
+              <div class="performance-hub-mini-grid">
+                <div class="performance-hub-mini">
+                  <strong>3 Sessions</strong>
+                  <span>Completed</span>
+                </div>
+
+                <div class="performance-hub-mini">
+                  <strong>2 Days</strong>
+                  <span>Until match day</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="performance-hub-card">
+              <span class="performance-hub-card-label">
+                Recommended Today
+              </span>
+
+              <h4>
+                Pre-Match Nutrition
+              </h4>
+
+              <p>
+                Your guide to fuelling, hydration and preparation
+                during the 24 hours before a game.
+              </p>
+            </div>
+
+            <div class="performance-hub-card">
+              <span class="performance-hub-card-label">
+                Current Football Focus
+              </span>
+
+              <h4>
+                First Touch Under Pressure
+              </h4>
+
+              <p>
+                Position-specific exercises and coaching guidance
+                chosen around your development goals.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+      
       <!-- ABOUT -->
       <section class="section" id="about">
         <div class="section-inner">
