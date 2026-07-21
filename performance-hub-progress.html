@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Progress Centre | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Track weekly football development inside the JT Performance Hub."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #111111;
+      --gold: #d4af37;
+      --gold-light: #f5e6b3;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --green: #87d99a;
+      --blue: #91c7eb;
+      --purple: #bfa6ef;
+      --error: #ff9898;
+      --line: rgba(212, 175, 55, 0.18);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 88% 5%,
+          rgba(212, 175, 55, 0.16),
+          transparent 38rem
+        ),
+        radial-gradient(
+          circle at 8% 92%,
+          rgba(135, 217, 154, 0.07),
+          transparent 30rem
+        ),
+        linear-gradient(
+          145deg,
+          var(--black),
+          var(--charcoal) 52%,
+          var(--black)
+        );
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    textarea,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .topbar {
+      width: min(1380px, calc(100% - 42px));
+      min-height: 88px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border: 1px solid rgba(212, 175, 55, 0.23);
+      border-radius: 17px;
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.77rem;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.61rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-link,
+    .signout-button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.61rem;
+      font-weight: 900;
+    }
+
+    .top-link:hover,
+    .signout-button:hover {
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .main {
+      width: min(1380px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 56px 0 82px;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 22px;
+      border: 3px solid rgba(212, 175, 55, 0.14);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .state-copy {
+      max-width: 500px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .state-button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      padding: 0 23px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .progress-content {
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      min-height: 500px;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(320px, 0.55fr);
+      gap: 34px;
+      padding: clamp(30px, 5vw, 62px);
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 38px;
+      background:
+        radial-gradient(
+          circle at 82% 12%,
+          rgba(135, 217, 154, 0.13),
+          transparent 27rem
+        ),
+        radial-gradient(
+          circle at 64% 90%,
+          rgba(212, 175, 55, 0.12),
+          transparent 26rem
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.08),
+          rgba(255, 255, 255, 0.018)
+        ),
+        #080808;
+      box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.62);
+    }
+
+    .hero-copy {
+      align-self: end;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.4rem, 9vw, 10rem);
+      line-height: 0.78;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .gold-text {
+      display: block;
+      color: var(--gold);
+    }
+
+    .hero-intro {
+      max-width: 720px;
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      line-height: 1.8;
+    }
+
+    .score-card {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(212, 175, 55, 0.17);
+      border-radius: 27px;
+      background: rgba(0, 0, 0, 0.32);
+    }
+
+    .score-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.65rem;
+      font-weight: 900;
+    }
+
+    .score-number {
+      margin-top: 25px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(5rem, 9vw, 9rem);
+      line-height: 0.8;
+      letter-spacing: -0.07em;
+      color: var(--gold);
+    }
+
+    .score-number span {
+      color: var(--muted);
+      font-size: 0.24em;
+      letter-spacing: 0;
+    }
+
+    .score-card p {
+      margin-top: 24px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .week-badge {
+      align-self: flex-start;
+      margin-top: 28px;
+      padding: 10px 15px;
+      border: 1px solid rgba(135, 217, 154, 0.26);
+      border-radius: 999px;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 42px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      line-height: 0.86;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+    }
+
+    .section-heading p {
+      max-width: 500px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .tracker-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .tracker-card {
+      min-height: 350px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 27px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(212, 175, 55, 0.1),
+          transparent 18rem
+        ),
+        linear-gradient(
+          150deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.015)
+        );
+    }
+
+    .tracker-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      font-size: 0.66rem;
+      font-weight: 900;
+    }
+
+    .tracker-card h3 {
+      margin: 25px 0 14px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.4rem, 3.5vw, 4.2rem);
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .tracker-card p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .counter {
+      display: grid;
+      grid-template-columns: 58px 1fr 58px;
+      gap: 12px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .counter-button {
+      width: 58px;
+      height: 58px;
+      border: 1px solid rgba(212, 175, 55, 0.27);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.28);
+      color: var(--gold);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .counter-button:hover {
+      background: rgba(212, 175, 55, 0.12);
+    }
+
+    .counter-value {
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .counter-value small {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .reflection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 30px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .panel-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.67rem;
+      font-weight: 900;
+    }
+
+    .panel h3 {
+      margin-top: 17px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .field {
+      margin-top: 25px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.67rem;
+      font-weight: 900;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      padding: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 17px;
+      outline: none;
+      background: rgba(0, 0, 0, 0.27);
+      color: var(--white);
+      line-height: 1.65;
+    }
+
+    textarea:focus {
+      border-color: rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
+
+    textarea::placeholder {
+      color: #777164;
+    }
+
+    .save-panel {
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.08),
+          rgba(255, 255, 255, 0.02)
+        );
+    }
+
+    .save-copy strong {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+    }
+
+    .save-copy span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.78rem;
+    }
+
+    .save-button {
+      min-height: 54px;
+      min-width: 220px;
+      padding: 0 26px;
+      border: 0;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .save-message {
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .save-message.success {
+      color: var(--green);
+    }
+
+    .save-message.error {
+      color: var(--error);
+    }
+
+    .goal-box {
+      padding: 22px 24px;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 20px 20px 0;
+      background: rgba(0, 0, 0, 0.26);
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .goal-box strong {
+      color: var(--gold-light);
+    }
+
+    .footer {
+      width: min(1380px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1050px) {
+      .hero,
+      .reflection-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tracker-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .topbar {
+        width: min(100% - 28px, 1380px);
+      }
+
+      .brand-copy,
+      .top-actions .top-link {
+        display: none;
+      }
+
+      .main,
+      .footer {
+        width: min(100% - 28px, 1380px);
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 27px 20px;
+        border-radius: 27px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 21vw, 6.5rem);
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 18px;
+      }
+
+      .save-panel {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .save-button {
+        width: 100%;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/performance-hub-dashboard.html"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>Progress Centre</span>
+        </span>
+      </a>
+
+      <div class="top-actions">
+        <a
+          class="top-link"
+          href="/performance-hub-training.html"
+        >
+          Training
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-nutrition.html"
+        >
+          Nutrition
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-mindset.html"
+        >
+          Mindset
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-dashboard.html"
+        >
+          Dashboard
+        </a>
+
+        <button
+          class="signout-button"
+          id="signOutButton"
+          type="button"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <section
+        class="loading-state"
+        id="loadingState"
+      >
+        <div>
+          <div class="spinner"></div>
+
+          <h1 class="state-title">
+            Loading Progress Centre.
+          </h1>
+
+          <p class="state-copy">
+            Preparing your current weekly development record.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="error-state hidden"
+        id="errorState"
+      >
+        <div>
+          <h1 class="state-title">
+            Progress Unavailable.
+          </h1>
+
+          <p
+            class="state-copy"
+            id="errorText"
+          ></p>
+
+          <a
+            class="state-button"
+            href="/performance-hub-login.html"
+          >
+            Member Login
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="progress-content hidden"
+        id="progressContent"
+      >
+
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              Personalised Progress Centre
+            </div>
+
+            <h1>
+              Track The
+              <span class="gold-text">Work.</span>
+            </h1>
+
+            <p class="hero-intro">
+              Welcome, <strong id="playerName"></strong>. Record the habits
+              behind your performance and build confidence from real evidence
+              of consistent work.
+            </p>
+          </div>
+
+          <aside class="score-card">
+            <div>
+              <div class="score-label">
+                Weekly Completion
+              </div>
+
+              <div class="score-number">
+                <span id="completionScore">0</span><span>%</span>
+              </div>
+
+              <p id="scoreMessage">
+                Start recording this week’s actions.
+              </p>
+            </div>
+
+            <div
+              class="week-badge"
+              id="weekBadge"
+            ></div>
+          </aside>
+        </section>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">
+              Weekly Habits
+            </div>
+
+            <h2>
+              Record The Reps.
+            </h2>
+          </div>
+
+          <p>
+            Track completed actions honestly. This is not about chasing a
+            perfect score—it is about understanding your habits and building
+            consistency over time.
+          </p>
+        </div>
+
+        <section class="tracker-grid">
+
+          <article class="tracker-card">
+            <div>
+              <div class="tracker-label">
+                Football Development
+              </div>
+
+              <h3>
+                Training Sessions.
+              </h3>
+
+              <p>
+                Count completed football, gym or position-specific development
+                sessions this week.
+              </p>
+            </div>
+
+            <div class="counter">
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="training"
+                data-change="-1"
+                aria-label="Reduce training sessions"
+              >
+                −
+              </button>
+
+              <div class="counter-value">
+                <span id="trainingValue">0</span>
+                <small>Out of 7</small>
+              </div>
+
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="training"
+                data-change="1"
+                aria-label="Increase training sessions"
+              >
+                +
+              </button>
+            </div>
+          </article>
+
+          <article class="tracker-card">
+            <div>
+              <div class="tracker-label">
+                Performance Fuel
+              </div>
+
+              <h3>
+                Nutrition Habits.
+              </h3>
+
+              <p>
+                Count days where you ate regularly, hydrated well and supported
+                your training or recovery.
+              </p>
+            </div>
+
+            <div class="counter">
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="nutrition"
+                data-change="-1"
+                aria-label="Reduce nutrition habits"
+              >
+                −
+              </button>
+
+              <div class="counter-value">
+                <span id="nutritionValue">0</span>
+                <small>Out of 7</small>
+              </div>
+
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="nutrition"
+                data-change="1"
+                aria-label="Increase nutrition habits"
+              >
+                +
+              </button>
+            </div>
+          </article>
+
+          <article class="tracker-card">
+            <div>
+              <div class="tracker-label">
+                Mental Performance
+              </div>
+
+              <h3>
+                Mindset Sessions.
+              </h3>
+
+              <p>
+                Count completed reflection, visualisation, confidence or reset
+                exercises this week.
+              </p>
+            </div>
+
+            <div class="counter">
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="mindset"
+                data-change="-1"
+                aria-label="Reduce mindset sessions"
+              >
+                −
+              </button>
+
+              <div class="counter-value">
+                <span id="mindsetValue">0</span>
+                <small>Out of 7</small>
+              </div>
+
+              <button
+                class="counter-button"
+                type="button"
+                data-counter="mindset"
+                data-change="1"
+                aria-label="Increase mindset sessions"
+              >
+                +
+              </button>
+            </div>
+          </article>
+
+        </section>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">
+              Weekly Reflection
+            </div>
+
+            <h2>
+              Learn And Adjust.
+            </h2>
+          </div>
+
+          <p>
+            Progress becomes more useful when you identify what worked and
+            choose one clear action for the week ahead.
+          </p>
+        </div>
+
+        <section class="reflection-grid">
+          <article class="panel">
+            <div class="panel-label">
+              Recognise Progress
+            </div>
+
+            <h3>
+              Your Weekly Win.
+            </h3>
+
+            <div class="field">
+              <label for="weeklyWin">
+                What went well?
+              </label>
+
+              <textarea
+                id="weeklyWin"
+                maxlength="1000"
+                placeholder="Example: I completed both speed sessions and felt sharper during Saturday’s match."
+              ></textarea>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-label">
+              Choose The Next Action
+            </div>
+
+            <h3>
+              Your Next Focus.
+            </h3>
+
+            <div class="field">
+              <label for="nextFocus">
+                What will you improve next?
+              </label>
+
+              <textarea
+                id="nextFocus"
+                maxlength="1000"
+                placeholder="Example: I will complete my ball work earlier in the week and protect my sleep before match day."
+              ></textarea>
+            </div>
+          </article>
+        </section>
+
+        <div class="goal-box">
+          <strong>Your player-development goal:</strong>
+          <span id="developmentGoal"></span>
+        </div>
+
+        <section class="save-panel">
+          <div class="save-copy">
+            <strong>
+              Save This Week’s Progress.
+            </strong>
+
+            <span
+              class="save-message"
+              id="saveMessage"
+              role="status"
+            >
+              Your record is private and linked securely to your JT account.
+            </span>
+          </div>
+
+          <button
+            class="save-button"
+            id="saveButton"
+            type="button"
+          >
+            Save Weekly Progress
+          </button>
+        </section>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>JT Mind & Body Balance</strong>
+      </div>
+
+      <div>
+        Football • Gym • Nutrition • Mentoring
+      </div>
+
+      <div>
+        Bristol, United Kingdom
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const progressContent =
+      document.getElementById("progressContent");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const playerName =
+      document.getElementById("playerName");
+
+    const developmentGoal =
+      document.getElementById("developmentGoal");
+
+    const completionScore =
+      document.getElementById("completionScore");
+
+    const scoreMessage =
+      document.getElementById("scoreMessage");
+
+    const weekBadge =
+      document.getElementById("weekBadge");
+
+    const weeklyWin =
+      document.getElementById("weeklyWin");
+
+    const nextFocus =
+      document.getElementById("nextFocus");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const saveMessage =
+      document.getElementById("saveMessage");
+
+    const values = {
+      training: 0,
+      nutrition: 0,
+      mindset: 0
+    };
+
+    let currentUser = null;
+    let currentWeekStart = "";
+
+    function showOnly(element) {
+      loadingState.classList.add("hidden");
+      errorState.classList.add("hidden");
+      progressContent.classList.add("hidden");
+
+      element.classList.remove("hidden");
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      showOnly(errorState);
+    }
+
+    function getCurrentMondayUtc() {
+      const date = new Date();
+
+      const day =
+        date.getUTCDay();
+
+      const difference =
+        day === 0
+          ? -6
+          : 1 - day;
+
+      date.setUTCDate(
+        date.getUTCDate() + difference
+      );
+
+      return [
+        date.getUTCFullYear(),
+        String(
+          date.getUTCMonth() + 1
+        ).padStart(2, "0"),
+        String(
+          date.getUTCDate()
+        ).padStart(2, "0")
+      ].join("-");
+    }
+
+    function formatWeekDate(value) {
+      const date =
+        new Date(`${value}T12:00:00Z`);
+
+      return new Intl.DateTimeFormat(
+        "en-GB",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC"
+        }
+      ).format(date);
+    }
+
+    function updateCounterDisplay() {
+      document
+        .getElementById("trainingValue")
+        .textContent =
+          values.training;
+
+      document
+        .getElementById("nutritionValue")
+        .textContent =
+          values.nutrition;
+
+      document
+        .getElementById("mindsetValue")
+        .textContent =
+          values.mindset;
+
+      const total =
+        values.training +
+        values.nutrition +
+        values.mindset;
+
+      const percentage =
+        Math.round(
+          (total / 21) * 100
+        );
+
+      completionScore.textContent =
+        percentage;
+
+      if (percentage === 0) {
+        scoreMessage.textContent =
+          "Start recording this week’s actions.";
+      } else if (percentage < 35) {
+        scoreMessage.textContent =
+          "A start has been made. Keep building your rhythm.";
+      } else if (percentage < 70) {
+        scoreMessage.textContent =
+          "Good momentum. Consistency is beginning to show.";
+      } else if (percentage < 100) {
+        scoreMessage.textContent =
+          "Strong week. Finish with the same intent.";
+      } else {
+        scoreMessage.textContent =
+          "Outstanding consistency across all three performance areas.";
+      }
+    }
+
+    function updateValue(
+      counter,
+      change
+    ) {
+      const nextValue =
+        values[counter] + change;
+
+      values[counter] =
+        Math.max(
+          0,
+          Math.min(7, nextValue)
+        );
+
+      updateCounterDisplay();
+    }
+
+    function setSaveMessage(
+      message,
+      type = ""
+    ) {
+      saveMessage.textContent =
+        message;
+
+      saveMessage.className =
+        `save-message ${type}`.trim();
+    }
+
+    async function loadProgress() {
+      const {
+        data,
+        error
+      } = await supabase
+        .from("player_progress")
+        .select(
+          [
+            "training_sessions",
+            "nutrition_habits",
+            "mindset_sessions",
+            "weekly_win",
+            "next_focus",
+            "updated_at"
+          ].join(",")
+        )
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .eq(
+          "week_start",
+          currentWeekStart
+        )
+        .maybeSingle();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        updateCounterDisplay();
+        return;
+      }
+
+      values.training =
+        data.training_sessions || 0;
+
+      values.nutrition =
+        data.nutrition_habits || 0;
+
+      values.mindset =
+        data.mindset_sessions || 0;
+
+      weeklyWin.value =
+        data.weekly_win || "";
+
+      nextFocus.value =
+        data.next_focus || "";
+
+      updateCounterDisplay();
+
+      if (data.updated_at) {
+        const savedDate =
+          new Intl.DateTimeFormat(
+            "en-GB",
+            {
+              dateStyle: "medium",
+              timeStyle: "short"
+            }
+          ).format(
+            new Date(data.updated_at)
+          );
+
+        setSaveMessage(
+          `Last saved ${savedDate}.`,
+          "success"
+        );
+      }
+    }
+
+    async function saveProgress() {
+      saveButton.disabled = true;
+      saveButton.textContent =
+        "Saving Progress...";
+
+      setSaveMessage(
+        "Securely saving your weekly record."
+      );
+
+      try {
+        const {
+          error
+        } = await supabase
+          .from("player_progress")
+          .upsert(
+            {
+              user_id:
+                currentUser.id,
+
+              week_start:
+                currentWeekStart,
+
+              training_sessions:
+                values.training,
+
+              nutrition_habits:
+                values.nutrition,
+
+              mindset_sessions:
+                values.mindset,
+
+              weekly_win:
+                weeklyWin.value.trim() ||
+                null,
+
+              next_focus:
+                nextFocus.value.trim() ||
+                null
+            },
+            {
+              onConflict:
+                "user_id,week_start"
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        setSaveMessage(
+          "Weekly progress saved successfully.",
+          "success"
+        );
+      } catch (error) {
+        console.error(
+          "Progress save error:",
+          error
+        );
+
+        setSaveMessage(
+          "Your progress could not be saved. Please try again.",
+          "error"
+        );
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent =
+          "Save Weekly Progress";
+      }
+    }
+
+    async function initialiseProgressCentre() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in to enter the JT Progress Centre."
+          );
+
+          return;
+        }
+
+        currentUser =
+          sessionData.session.user;
+
+        const {
+          data: membership,
+          error: membershipError
+        } = await supabase
+          .from("memberships")
+          .select("subscription_status")
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+        if (membershipError) {
+          throw membershipError;
+        }
+
+        if (
+          !membership ||
+          !["trialing", "active"].includes(
+            membership.subscription_status
+          )
+        ) {
+          showError(
+            "Your JT Performance Hub membership is not currently active."
+          );
+
+          return;
+        }
+
+        const {
+          data: profile,
+          error: profileError
+        } = await supabase
+          .from("profiles")
+          .select(
+            [
+              "player_name",
+              "development_goal",
+              "onboarding_complete"
+            ].join(",")
+          )
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+        if (profileError) {
+          throw profileError;
+        }
+
+        if (
+          !profile ||
+          !profile.onboarding_complete
+        ) {
+          window.location.replace(
+            "/performance-hub-profile.html"
+          );
+
+          return;
+        }
+
+        currentWeekStart =
+          getCurrentMondayUtc();
+
+        playerName.textContent =
+          profile.player_name ||
+          "JT Player";
+
+        developmentGoal.textContent =
+          profile.development_goal ||
+          "Continue developing as a complete football player.";
+
+        weekBadge.textContent =
+          `Week beginning ${formatWeekDate(
+            currentWeekStart
+          )}`;
+
+        await loadProgress();
+
+        showOnly(progressContent);
+      } catch (error) {
+        console.error(
+          "Progress Centre error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading your weekly progress."
+        );
+      }
+    }
+
+    document
+      .querySelectorAll(
+        "[data-counter]"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            const counter =
+              button.dataset.counter;
+
+            const change =
+              Number(
+                button.dataset.change
+              );
+
+            updateValue(
+              counter,
+              change
+            );
+          }
+        );
+      });
+
+    saveButton.addEventListener(
+      "click",
+      saveProgress
+    );
+
+    document
+      .getElementById("signOutButton")
+      .addEventListener(
+        "click",
+        async () => {
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/performance-hub-login.html";
+        }
+      );
+
+    initialiseProgressCentre();
+  </script>
+</body>
+</html>
