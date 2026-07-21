@@ -184,9 +184,16 @@
   Edit Player Profile
 </a>
 
-      <button id="signOutButton" type="button">
-        Sign out
-      </button>
+<button
+  id="manageMembershipButton"
+  type="button"
+>
+  Manage Membership
+</button>
+
+<button id="signOutButton" type="button">
+  Sign out
+</button>
     </section>
 
     <section id="errorState" class="hidden">
@@ -382,7 +389,79 @@ profileStatus.textContent =
         );
       }
     }
+document
+  .getElementById("manageMembershipButton")
+  .addEventListener(
+    "click",
+    async () => {
+      const button =
+        document.getElementById(
+          "manageMembershipButton"
+        );
 
+      button.disabled = true;
+      button.textContent =
+        "Opening Billing Portal...";
+
+      try {
+        const {
+          data,
+          error
+        } = await supabase.auth.getSession();
+
+        if (
+          error ||
+          !data?.session?.access_token
+        ) {
+          throw new Error(
+            "Your login session has expired. Please sign in again."
+          );
+        }
+
+        const response = await fetch(
+          "/api/create-portal-session",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+              Authorization:
+                `Bearer ${data.session.access_token}`
+            }
+          }
+        );
+
+        const body = await response.json();
+
+        if (
+          !response.ok ||
+          !body?.created ||
+          !body?.url
+        ) {
+          throw new Error(
+            body?.error ||
+              "The billing portal could not be opened."
+          );
+        }
+
+        window.location.href = body.url;
+      } catch (error) {
+        console.error(
+          "Billing portal error:",
+          error
+        );
+
+        alert(
+          error?.message ||
+            "The billing portal could not be opened."
+        );
+
+        button.disabled = false;
+        button.textContent =
+          "Manage Membership";
+      }
+    }
+  );
     document
       .getElementById("signOutButton")
       .addEventListener(
