@@ -1,1 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>JT AI Performance Coach | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Personalised football-development support from the JT AI Performance Coach."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #111111;
+      --panel: #151515;
+      --gold: #d4af37;
+      --gold-light: #f5e6b3;
+      --white: #f8f3e7;
+      --muted: #bfb7a5;
+      --green: #87d99a;
+      --blue: #91c7eb;
+      --purple: #bfa6ef;
+      --error: #ff9898;
+      --line: rgba(212, 175, 55, 0.18);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 88% 5%,
+          rgba(191, 166, 239, 0.14),
+          transparent 38rem
+        ),
+        radial-gradient(
+          circle at 7% 90%,
+          rgba(212, 175, 55, 0.08),
+          transparent 32rem
+        ),
+        linear-gradient(
+          145deg,
+          var(--black),
+          var(--charcoal) 52%,
+          var(--black)
+        );
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .topbar {
+      width: min(1380px, calc(100% - 42px));
+      min-height: 88px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border: 1px solid rgba(212, 175, 55, 0.23);
+      border-radius: 17px;
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.77rem;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.61rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-link,
+    .signout-button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.61rem;
+      font-weight: 900;
+    }
+
+    .top-link:hover,
+    .signout-button:hover {
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .main {
+      width: min(1380px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 48px 0 76px;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: 650px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 22px;
+      border: 3px solid rgba(212, 175, 55, 0.14);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .state-copy {
+      max-width: 520px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .state-button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      padding: 0 23px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .coach-content {
+      display: grid;
+      grid-template-columns:
+        minmax(280px, 0.38fr)
+        minmax(0, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .coach-sidebar {
+      min-height: 760px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 32px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(191, 166, 239, 0.13),
+          transparent 22rem
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.07),
+          rgba(255, 255, 255, 0.018)
+        );
+      box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.48);
+    }
+
+    .coach-status {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid rgba(135, 217, 154, 0.22);
+      border-radius: 999px;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.61rem;
+      font-weight: 900;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow:
+        0 0 16px rgba(135, 217, 154, 0.7);
+    }
+
+    .eyebrow {
+      margin-top: 28px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2.4px;
+      font-size: 0.65rem;
+      font-weight: 900;
+    }
+
+    .coach-sidebar h1 {
+      margin-top: 16px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3.7rem, 5vw, 6.4rem);
+      line-height: 0.8;
+      letter-spacing: -0.07em;
+      text-transform: uppercase;
+    }
+
+    .gold-text {
+      display: block;
+      color: var(--gold);
+    }
+
+    .coach-intro {
+      margin-top: 25px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.86rem;
+    }
+
+    .profile-card {
+      margin-top: 28px;
+      padding: 19px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .profile-card span {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.6rem;
+      font-weight: 900;
+    }
+
+    .profile-card strong {
+      display: block;
+      margin-top: 10px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .profile-card p {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.55;
+    }
+
+    .quick-title {
+      margin-top: 30px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .quick-prompts {
+      display: grid;
+      gap: 9px;
+      margin-top: 13px;
+    }
+
+    .quick-prompt {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.22);
+      color: var(--muted);
+      text-align: left;
+      font-size: 0.7rem;
+      line-height: 1.5;
+      transition:
+        transform 0.25s var(--ease),
+        border-color 0.25s ease,
+        color 0.25s ease;
+    }
+
+    .quick-prompt:hover {
+      transform: translateX(4px);
+      color: var(--white);
+      border-color: rgba(212, 175, 55, 0.42);
+    }
+
+    .sidebar-note {
+      margin-top: auto;
+      padding-top: 25px;
+      color: #8f8879;
+      font-size: 0.61rem;
+      line-height: 1.65;
+    }
+
+    .chat-shell {
+      min-height: 760px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.21);
+      border-radius: 32px;
+      background:
+        radial-gradient(
+          circle at 75% 0%,
+          rgba(212, 175, 55, 0.08),
+          transparent 28rem
+        ),
+        rgba(8, 8, 8, 0.92);
+      box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.55);
+    }
+
+    .chat-header {
+      min-height: 92px;
+      padding: 22px 27px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chat-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .coach-avatar {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 17px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.2),
+          rgba(191, 166, 239, 0.11)
+        );
+      color: var(--gold);
+      font-family: "Playfair Display", serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .chat-identity strong {
+      display: block;
+      font-size: 0.83rem;
+    }
+
+    .chat-identity span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.64rem;
+    }
+
+    .clear-button {
+      min-height: 39px;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.17);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.58rem;
+      font-weight: 900;
+    }
+
+    .clear-button:hover {
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.45);
+    }
+
+    .messages {
+      min-height: 0;
+      max-height: 630px;
+      overflow-y: auto;
+      padding: 30px 27px;
+      scroll-behavior: smooth;
+    }
+
+    .message-row {
+      display: flex;
+      margin-bottom: 22px;
+    }
+
+    .message-row.user {
+      justify-content: flex-end;
+    }
+
+    .message-bubble {
+      max-width: min(720px, 86%);
+      padding: 17px 19px;
+      border-radius: 21px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 0.8rem;
+      line-height: 1.72;
+    }
+
+    .message-row.assistant .message-bubble {
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-top-left-radius: 6px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.065),
+          rgba(255, 255, 255, 0.018)
+        );
+      color: var(--white);
+    }
+
+    .message-row.user .message-bubble {
+      border-top-right-radius: 6px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    .message-row.urgent .message-bubble {
+      border-color: rgba(255, 152, 152, 0.45);
+      background: rgba(255, 152, 152, 0.08);
+    }
+
+    .message-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.55rem;
+      font-weight: 900;
+    }
+
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      padding: 16px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 20px;
+      border-top-left-radius: 6px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: typing 1.2s infinite ease-in-out;
+    }
+
+    .typing span:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .typing span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes typing {
+      0%,
+      70%,
+      100% {
+        opacity: 0.25;
+        transform: translateY(0);
+      }
+
+      35% {
+        opacity: 1;
+        transform: translateY(-4px);
+      }
+    }
+
+    .composer-wrap {
+      padding: 18px;
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.26);
+    }
+
+    .form-message {
+      min-height: 20px;
+      margin: 0 4px 9px;
+      color: var(--error);
+      font-size: 0.66rem;
+      line-height: 1.4;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+      padding: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 23px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      max-height: 150px;
+      resize: none;
+      padding: 13px 12px;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--white);
+      line-height: 1.55;
+      font-size: 0.8rem;
+    }
+
+    textarea::placeholder {
+      color: #777164;
+    }
+
+    .send-button {
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 17px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .send-button:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .composer-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 9px;
+      padding: 0 5px;
+      color: #817a6d;
+      font-size: 0.56rem;
+      line-height: 1.5;
+    }
+
+    .footer {
+      width: min(1380px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1050px) {
+      .coach-content {
+        grid-template-columns: 1fr;
+      }
+
+      .coach-sidebar {
+        min-height: auto;
+      }
+
+      .quick-prompts {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .sidebar-note {
+        margin-top: 25px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        width: min(100% - 28px, 1380px);
+      }
+
+      .brand-copy,
+      .top-actions .top-link {
+        display: none;
+      }
+
+      .main,
+      .footer {
+        width: min(100% - 28px, 1380px);
+      }
+
+      .main {
+        padding-top: 26px;
+      }
+
+      .coach-sidebar,
+      .chat-shell {
+        border-radius: 25px;
+      }
+
+      .quick-prompts {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-header {
+        padding: 18px;
+      }
+
+      .messages {
+        max-height: 560px;
+        padding: 22px 16px;
+      }
+
+      .message-bubble {
+        max-width: 92%;
+      }
+
+      .composer-wrap {
+        padding: 12px;
+      }
+
+      .composer-meta span:first-child {
+        display: none;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/performance-hub-dashboard.html"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>AI Performance Coach</span>
+        </span>
+      </a>
+
+      <div class="top-actions">
+        <a
+          class="top-link"
+          href="/performance-hub-training.html"
+        >
+          Training
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-progress.html"
+        >
+          Progress
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-dashboard.html"
+        >
+          Dashboard
+        </a>
+
+        <button
+          class="signout-button"
+          id="signOutButton"
+          type="button"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <section
+        class="loading-state"
+        id="loadingState"
+      >
+        <div>
+          <div class="spinner"></div>
+
+          <h1 class="state-title">
+            Loading Your Coach.
+          </h1>
+
+          <p class="state-copy">
+            Connecting your player profile to the JT AI Performance Coach.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="error-state hidden"
+        id="errorState"
+      >
+        <div>
+          <h1 class="state-title">
+            Coach Unavailable.
+          </h1>
+
+          <p
+            class="state-copy"
+            id="errorText"
+          ></p>
+
+          <a
+            class="state-button"
+            href="/performance-hub-login.html"
+          >
+            Member Login
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="coach-content hidden"
+        id="coachContent"
+      >
+
+        <aside class="coach-sidebar">
+          <div class="coach-status">
+            <span class="status-dot"></span>
+            Online And Ready
+          </div>
+
+          <div class="eyebrow">
+            Personalised Support
+          </div>
+
+          <h1>
+            Ask Your
+            <span class="gold-text">Coach.</span>
+          </h1>
+
+          <p class="coach-intro">
+            Get practical support with football development, training,
+            recovery, nutrition, confidence and match preparation.
+          </p>
+
+          <div class="profile-card">
+            <span>Coaching Profile</span>
+
+            <strong id="playerName">
+              JT Player
+            </strong>
+
+            <p id="profileSummary"></p>
+          </div>
+
+          <div class="quick-title">
+            Quick Questions
+          </div>
+
+          <div class="quick-prompts">
+            <button
+              class="quick-prompt"
+              type="button"
+              data-prompt="I have a match tomorrow. How should I prepare?"
+            >
+              I have a match tomorrow. How should I prepare?
+            </button>
+
+            <button
+              class="quick-prompt"
+              type="button"
+              data-prompt="Give me a short training session for my position."
+            >
+              Give me a short training session for my position.
+            </button>
+
+            <button
+              class="quick-prompt"
+              type="button"
+              data-prompt="How can I become more confident during matches?"
+            >
+              How can I become more confident during matches?
+            </button>
+
+            <button
+              class="quick-prompt"
+              type="button"
+              data-prompt="What should I eat before and after football?"
+            >
+              What should I eat before and after football?
+            </button>
+          </div>
+
+          <p class="sidebar-note">
+            The JT AI Performance Coach provides general education and
+            support. It does not replace your parent, guardian, football
+            coach or a qualified healthcare professional.
+          </p>
+        </aside>
+
+        <section class="chat-shell">
+          <header class="chat-header">
+            <div class="chat-identity">
+              <div class="coach-avatar">
+                JT
+              </div>
+
+              <div>
+                <strong>
+                  JT AI Performance Coach
+                </strong>
+
+                <span>
+                  Football • Training • Nutrition • Mindset
+                </span>
+              </div>
+            </div>
+
+            <button
+              class="clear-button"
+              id="clearButton"
+              type="button"
+            >
+              Clear Chat
+            </button>
+          </header>
+
+          <div
+            class="messages"
+            id="messages"
+            aria-live="polite"
+          ></div>
+
+          <div class="composer-wrap">
+            <div
+              class="form-message"
+              id="formMessage"
+              role="alert"
+            ></div>
+
+            <form
+              class="composer"
+              id="coachForm"
+            >
+              <textarea
+                id="messageInput"
+                maxlength="1600"
+                rows="1"
+                placeholder="Ask about football, training, recovery, nutrition or mindset..."
+                aria-label="Message the JT AI Performance Coach"
+                required
+              ></textarea>
+
+              <button
+                class="send-button"
+                id="sendButton"
+                type="submit"
+                aria-label="Send message"
+              >
+                ↑
+              </button>
+            </form>
+
+            <div class="composer-meta">
+              <span>
+                Press Enter to send. Use Shift + Enter for a new line.
+              </span>
+
+              <span id="characterCount">
+                0 / 1600
+              </span>
+            </div>
+          </div>
+        </section>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>JT Mind & Body Balance</strong>
+      </div>
+
+      <div>
+        Football • Gym • Nutrition • Mentoring
+      </div>
+
+      <div>
+        Bristol, United Kingdom
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const coachContent =
+      document.getElementById("coachContent");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const playerName =
+      document.getElementById("playerName");
+
+    const profileSummary =
+      document.getElementById("profileSummary");
+
+    const messages =
+      document.getElementById("messages");
+
+    const coachForm =
+      document.getElementById("coachForm");
+
+    const messageInput =
+      document.getElementById("messageInput");
+
+    const sendButton =
+      document.getElementById("sendButton");
+
+    const clearButton =
+      document.getElementById("clearButton");
+
+    const formMessage =
+      document.getElementById("formMessage");
+
+    const characterCount =
+      document.getElementById("characterCount");
+
+    let currentUser = null;
+    let conversationHistory = [];
+    let requestInProgress = false;
+
+    function showOnly(element) {
+      loadingState.classList.add("hidden");
+      errorState.classList.add("hidden");
+      coachContent.classList.add("hidden");
+
+      element.classList.remove("hidden");
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      showOnly(errorState);
+    }
+
+    function formatValue(value) {
+      return String(value || "")
+        .replaceAll("-", " ")
+        .replace(/\b\w/g, (letter) =>
+          letter.toUpperCase()
+        );
+    }
+
+    function scrollMessages() {
+      requestAnimationFrame(() => {
+        messages.scrollTop =
+          messages.scrollHeight;
+      });
+    }
+
+    function addMessage(
+      role,
+      text,
+      options = {}
+    ) {
+      const row =
+        document.createElement("div");
+
+      row.className =
+        `message-row ${role}`;
+
+      if (options.urgent) {
+        row.classList.add("urgent");
+      }
+
+      const bubble =
+        document.createElement("div");
+
+      bubble.className =
+        "message-bubble";
+
+      if (role === "assistant") {
+        const label =
+          document.createElement("span");
+
+        label.className =
+          "message-label";
+
+        label.textContent =
+          options.urgent
+            ? "Important Support"
+            : "JT Performance Coach";
+
+        bubble.appendChild(label);
+      }
+
+      const content =
+        document.createElement("div");
+
+      content.textContent = text;
+
+      bubble.appendChild(content);
+      row.appendChild(bubble);
+      messages.appendChild(row);
+
+      scrollMessages();
+
+      return row;
+    }
+
+    function addTypingIndicator() {
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "message-row assistant";
+
+      row.id =
+        "typingIndicator";
+
+      const typing =
+        document.createElement("div");
+
+      typing.className =
+        "typing";
+
+      typing.innerHTML =
+        "<span></span><span></span><span></span>";
+
+      row.appendChild(typing);
+      messages.appendChild(row);
+
+      scrollMessages();
+    }
+
+    function removeTypingIndicator() {
+      document
+        .getElementById("typingIndicator")
+        ?.remove();
+    }
+
+    function setFormMessage(message) {
+      formMessage.textContent =
+        message;
+    }
+
+    function setSending(sending) {
+      requestInProgress =
+        sending;
+
+      sendButton.disabled =
+        sending;
+
+      messageInput.disabled =
+        sending;
+
+      sendButton.textContent =
+        sending
+          ? "…"
+          : "↑";
+    }
+
+    function updateCharacterCount() {
+      characterCount.textContent =
+        `${messageInput.value.length} / 1600`;
+    }
+
+    function resizeTextarea() {
+      messageInput.style.height =
+        "auto";
+
+      messageInput.style.height =
+        `${Math.min(
+          messageInput.scrollHeight,
+          150
+        )}px`;
+    }
+
+    function showInitialMessage(name) {
+      messages.innerHTML = "";
+
+      addMessage(
+        "assistant",
+        `Welcome, ${name}. I’m ready to help with your football development, training, recovery, nutrition or mindset. What would you like to work on today?`
+      );
+    }
+
+    async function sendCoachMessage(
+      message
+    ) {
+      if (requestInProgress) {
+        return;
+      }
+
+      const cleanMessage =
+        String(message || "").trim();
+
+      if (!cleanMessage) {
+        setFormMessage(
+          "Enter a question for the JT Performance Coach."
+        );
+
+        return;
+      }
+
+      setFormMessage("");
+      setSending(true);
+
+      addMessage(
+        "user",
+        cleanMessage
+      );
+
+      messageInput.value = "";
+      updateCharacterCount();
+      resizeTextarea();
+      addTypingIndicator();
+
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        const accessToken =
+          sessionData?.session
+            ?.access_token;
+
+        if (
+          sessionError ||
+          !accessToken
+        ) {
+          throw new Error(
+            "Your session has expired. Please sign in again."
+          );
+        }
+
+        const response =
+          await fetch(
+            "/api/performance-coach",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${accessToken}`
+              },
+              body: JSON.stringify({
+                message:
+                  cleanMessage,
+
+                history:
+                  conversationHistory
+                    .slice(-8)
+              })
+            }
+          );
+
+        const body =
+          await response.json();
+
+        removeTypingIndicator();
+
+        if (
+          !response.ok ||
+          !body?.answered ||
+          !body?.answer
+        ) {
+          throw new Error(
+            body?.error ||
+            "The JT Performance Coach could not respond."
+          );
+        }
+
+        addMessage(
+          "assistant",
+          body.answer,
+          {
+            urgent:
+              Boolean(body.urgent)
+          }
+        );
+
+        conversationHistory.push(
+          {
+            role: "user",
+            content: cleanMessage
+          },
+          {
+            role: "assistant",
+            content: body.answer
+          }
+        );
+
+        conversationHistory =
+          conversationHistory
+            .slice(-8);
+      } catch (error) {
+        removeTypingIndicator();
+
+        console.error(
+          "Coach message error:",
+          error
+        );
+
+        addMessage(
+          "assistant",
+          error.message ||
+          "Something went wrong while contacting the JT Performance Coach."
+        );
+      } finally {
+        setSending(false);
+        messageInput.focus();
+      }
+    }
+
+    async function initialiseCoach() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in to use the JT AI Performance Coach."
+          );
+
+          return;
+        }
+
+        currentUser =
+          sessionData.session.user;
+
+        const {
+          data: membership,
+          error: membershipError
+        } = await supabase
+          .from("memberships")
+          .select("subscription_status")
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+        if (membershipError) {
+          throw membershipError;
+        }
+
+        if (
+          !membership ||
+          !["trialing", "active"].includes(
+            membership.subscription_status
+          )
+        ) {
+          showError(
+            "Your JT Performance Hub membership is not currently active."
+          );
+
+          return;
+        }
+
+        const {
+          data: profile,
+          error: profileError
+        } = await supabase
+          .from("profiles")
+          .select(
+            [
+              "player_name",
+              "age_group",
+              "primary_position",
+              "playing_level",
+              "onboarding_complete"
+            ].join(",")
+          )
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+        if (profileError) {
+          throw profileError;
+        }
+
+        if (
+          !profile ||
+          !profile.onboarding_complete
+        ) {
+          window.location.replace(
+            "/performance-hub-profile.html"
+          );
+
+          return;
+        }
+
+        const name =
+          profile.player_name ||
+          "JT Player";
+
+        playerName.textContent =
+          name;
+
+        profileSummary.textContent =
+          [
+            formatValue(
+              profile.primary_position
+            ),
+            formatValue(
+              profile.playing_level
+            ),
+            formatValue(
+              profile.age_group
+            )
+          ]
+            .filter(Boolean)
+            .join(" • ");
+
+        showInitialMessage(name);
+        showOnly(coachContent);
+
+        messageInput.focus();
+      } catch (error) {
+        console.error(
+          "Coach initialisation error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading the JT AI Performance Coach."
+        );
+      }
+    }
+
+    coachForm.addEventListener(
+      "submit",
+      (event) => {
+        event.preventDefault();
+
+        sendCoachMessage(
+          messageInput.value
+        );
+      }
+    );
+
+    messageInput.addEventListener(
+      "input",
+      () => {
+        setFormMessage("");
+        updateCharacterCount();
+        resizeTextarea();
+      }
+    );
+
+    messageInput.addEventListener(
+      "keydown",
+      (event) => {
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
+          event.preventDefault();
+
+          coachForm.requestSubmit();
+        }
+      }
+    );
+
+    document
+      .querySelectorAll(
+        "[data-prompt]"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            sendCoachMessage(
+              button.dataset.prompt
+            );
+          }
+        );
+      });
+
+    clearButton.addEventListener(
+      "click",
+      () => {
+        conversationHistory = [];
+
+        showInitialMessage(
+          playerName.textContent ||
+          "JT Player"
+        );
+
+        messageInput.focus();
+      }
+    );
+
+    document
+      .getElementById("signOutButton")
+      .addEventListener(
+        "click",
+        async () => {
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/performance-hub-login.html";
+        }
+      );
+
+    updateCharacterCount();
+    initialiseCoach();
+  </script>
+</body>
+</html>
