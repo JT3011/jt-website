@@ -184,6 +184,52 @@ async function getSupabaseRow({
     : null;
 }
 
+async function consumeDailyAllowance({
+  supabaseUrl,
+  supabaseKey,
+  accessToken
+}) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/rpc/consume_coach_message`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        Authorization:
+          `Bearer ${accessToken}`,
+        "Content-Type":
+          "application/json",
+        Accept:
+          "application/json"
+      },
+      body: JSON.stringify({
+        daily_limit: 20
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const errorBody =
+      await response.text();
+
+    console.error(
+      "Coach usage check failed:",
+      response.status,
+      errorBody
+    );
+
+    throw new Error(
+      "The daily message allowance could not be checked."
+    );
+  }
+
+  const payload =
+    await response.json();
+
+  return Array.isArray(payload)
+    ? payload[0] || null
+    : payload;
+}
 async function moderateMessage({
   apiKey,
   message
