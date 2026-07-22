@@ -642,6 +642,30 @@ export default async function handler(
       );
     }
 
+const allowance =
+  await consumeDailyAllowance({
+    supabaseUrl:
+      SUPABASE_URL,
+
+    supabaseKey:
+      SUPABASE_PUBLISHABLE_KEY,
+
+    accessToken
+  });
+
+if (!allowance?.allowed) {
+  return sendJson(
+    response,
+    429,
+    {
+      answered: false,
+      limitReached: true,
+      error:
+        "You have reached today’s 20-message JT Performance Coach limit. Your allowance resets tomorrow."
+    }
+  );
+}
+    
     const input = [
       ...history,
       {
