@@ -725,6 +725,55 @@
       color: #777164;
     }
 
+.reflection-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.save-reflection-button {
+  min-height: 52px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold),
+      var(--gold-light)
+    );
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.save-reflection-button:hover {
+  transform: translateY(-2px);
+}
+
+.save-reflection-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
+.reflection-status {
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.reflection-status.success {
+  color: var(--green);
+}
+
+.reflection-status.error {
+  color: var(--red);
+}
+    
     .goal-box {
       padding: 22px 24px;
       border-left: 3px solid var(--gold);
@@ -1382,6 +1431,22 @@
           </div>
         </section>
 
+<div class="reflection-actions">
+  <button
+    class="save-reflection-button"
+    id="saveReflectionButton"
+    type="button"
+  >
+    Save Match Reflection
+  </button>
+
+  <p
+    class="reflection-status"
+    id="reflectionStatus"
+    aria-live="polite"
+  ></p>
+</div>
+        
         <div class="goal-box">
           <strong>Your player-development goal:</strong>
           <span id="developmentGoal"></span>
@@ -1653,6 +1718,14 @@ const matchLesson =
 const nextAction =
   document.getElementById("nextAction");
 
+    const saveReflectionButton =
+  document.getElementById("saveReflectionButton");
+
+const reflectionStatus =
+  document.getElementById("reflectionStatus");
+
+let currentUserId = null;
+
     function showOnly(element) {
       loadingState.classList.add("hidden");
       errorState.classList.add("hidden");
@@ -1763,6 +1836,132 @@ const nextAction =
           .join("");
     }
 
+function getTodayDate() {
+  return new Date()
+    .toISOString()
+    .slice(0, 10);
+}
+
+function setReflectionStatus(
+  message,
+  type = ""
+) {
+  reflectionStatus.textContent =
+    message;
+
+  reflectionStatus.classList.remove(
+    "success",
+    "error"
+  );
+
+  if (type) {
+    reflectionStatus.classList.add(
+      type
+    );
+  }
+}
+
+async function loadMatchReflection() {
+  const {
+    data,
+    error
+  } = await supabase
+    .from("matchday_reflections")
+    .select(
+      "match_win, match_lesson, next_action"
+    )
+    .eq("user_id", currentUserId)
+    .eq("match_date", getTodayDate())
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    return;
+  }
+
+  matchWin.value =
+    data.match_win || "";
+
+  matchLesson.value =
+    data.match_lesson || "";
+
+  nextAction.value =
+    data.next_action || "";
+
+  setReflectionStatus(
+    "Today’s saved reflection has been loaded.",
+    "success"
+  );
+}
+
+async function saveMatchReflection() {
+  if (!currentUserId) {
+    setReflectionStatus(
+      "Your account session could not be confirmed.",
+      "error"
+    );
+
+    return;
+  }
+
+  saveReflectionButton.disabled =
+    true;
+
+  setReflectionStatus(
+    "Saving your reflection..."
+  );
+
+  try {
+    const {
+      error
+    } = await supabase
+      .from("matchday_reflections")
+      .upsert(
+        {
+          user_id: currentUserId,
+          match_date: getTodayDate(),
+          match_win:
+            matchWin.value.trim(),
+          match_lesson:
+            matchLesson.value.trim(),
+          next_action:
+            nextAction.value.trim(),
+          updated_at:
+            new Date().toISOString()
+        },
+        {
+          onConflict:
+            "user_id,match_date"
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    setReflectionStatus(
+      "Match reflection saved successfully.",
+      "success"
+    );
+  } catch (error) {
+    console.error(
+      "Reflection save error:",
+      error
+    );
+
+    setReflectionStatus(
+      "Your reflection could not be saved. Please try again.",
+      "error"
+    );
+  } finally {
+    saveReflectionButton.disabled =
+      false;
+  }
+}
+    
     async function initialiseMatchdayCentre() {
       try {
         const {
@@ -1783,6 +1982,9 @@ const nextAction =
 
         const user =
           sessionData.session.user;
+        
+currentUserId =
+  user.id;
 
         const {
           data: membership,
@@ -1882,6 +2084,8 @@ const nextAction =
           programme.warmup
         );
 
+await loadMatchReflection();
+        
         showOnly(matchdayContent);
       } catch (error) {
         console.error(
@@ -1895,6 +2099,11 @@ const nextAction =
       }
     }
 
+saveReflectionButton.addEventListener(
+  "click",
+  saveMatchReflection
+);
+    
     document
       .getElementById("signOutButton")
       .addEventListener(
