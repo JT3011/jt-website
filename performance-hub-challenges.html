@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Performance Challenges | JT Performance Hub
+  </title>
+
+  <meta
+    name="description"
+    content="Complete daily and weekly football performance challenges, earn points and unlock player rewards."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --panel: #111111;
+      --panel-soft: #171717;
+      --gold: #d4af37;
+      --gold-light: #f4d876;
+      --white: #f8f4e9;
+      --muted: #aaa69b;
+      --line: rgba(212, 175, 55, 0.18);
+      --green: #77d598;
+      --red: #ff8f8f;
+      --shadow: 0 26px 80px rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 85% 5%,
+          rgba(212, 175, 55, 0.12),
+          transparent 28rem
+        ),
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(212, 175, 55, 0.06),
+          transparent 30rem
+        ),
+        var(--black);
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      width: min(1500px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--gold);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 3px;
+    }
+
+    .brand-copy strong {
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.73rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .top-link,
+    .signout-button {
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .top-link:hover,
+    .signout-button:hover {
+      color: var(--gold-light);
+      border-color: var(--line);
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .main {
+      width: min(1500px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 55px 0 80px;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: 65vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 24px;
+      border: 3px solid rgba(212, 175, 55, 0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-title {
+      margin: 0 0 14px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 7vw, 5.4rem);
+      line-height: 0.95;
+    }
+
+    .state-copy {
+      max-width: 620px;
+      margin: 0 auto;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .state-button {
+      display: inline-flex;
+      margin-top: 24px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.75rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(30px, 5vw, 64px);
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.045),
+          rgba(255, 255, 255, 0.01)
+        ),
+        #0c0c0c;
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      right: -170px;
+      top: -190px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      box-shadow:
+        0 0 0 70px rgba(212, 175, 55, 0.025),
+        0 0 0 140px rgba(212, 175, 55, 0.015);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.8fr);
+      gap: 42px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Playfair Display", serif;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(4rem, 9vw, 8.5rem);
+      line-height: 0.82;
+      letter-spacing: -4px;
+    }
+
+    .gold-text {
+      color: var(--gold);
+    }
+
+    .hero-copy p {
+      max-width: 700px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .metric-card {
+      min-height: 122px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(0, 0, 0, 0.32);
+    }
+
+    .metric-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .metric-card strong {
+      display: block;
+      margin-top: 12px;
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: 2.4rem;
+      line-height: 1;
+    }
+
+    .progress-shell {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .progress-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .progress-head span:last-child {
+      color: var(--gold-light);
+    }
+
+    .progress-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-track span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #9d7b17,
+          var(--gold-light)
+        );
+      transition: width 0.45s ease;
+    }
+
+    .challenge-section {
+      margin-top: 52px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2.6rem, 5vw, 4.8rem);
+      line-height: 0.95;
+    }
+
+    .section-heading p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .challenge-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 285px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.012)
+        ),
+        var(--panel);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.24);
+    }
+
+    .challenge-card.completed {
+      border-color: rgba(119, 213, 152, 0.4);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(119, 213, 152, 0.08),
+          rgba(255, 255, 255, 0.01)
+        ),
+        var(--panel);
+    }
+
+    .challenge-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .challenge-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      border: 1px solid var(--line);
+      background: rgba(212, 175, 55, 0.07);
+      font-size: 1.45rem;
+    }
+
+    .points-pill {
+      height: fit-content;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-light);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .challenge-category {
+      margin-top: 24px;
+      color: var(--gold);
+      font-size: 0.67rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .challenge-card h3 {
+      margin: 8px 0 12px;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .challenge-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.9rem;
+    }
+
+    .challenge-bottom {
+      margin-top: auto;
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .challenge-button {
+      min-width: 150px;
+      padding: 13px 17px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .challenge-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .challenge-button:disabled {
+      cursor: default;
+      border-color: rgba(119, 213, 152, 0.4);
+      background: rgba(119, 213, 152, 0.12);
+      color: var(--green);
+      opacity: 1;
+    }
+
+    .challenge-status {
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 24px;
+      padding: 0 4px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .message.success {
+      color: var(--green);
+    }
+
+    .message.error {
+      color: var(--red);
+    }
+
+    .footer {
+      width: min(1500px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1050px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        max-width: 650px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .topbar,
+      .main,
+      .footer {
+        width: min(100% - 28px, 1500px);
+      }
+
+      .brand-copy,
+      .top-actions .top-link {
+        display: none;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 20vw, 6.8rem);
+      }
+
+      .hero {
+        padding: 28px 21px;
+        border-radius: 26px;
+      }
+
+      .metrics,
+      .progress-shell,
+      .challenge-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 16px;
+      }
+
+      .challenge-bottom {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .challenge-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/performance-hub-dashboard.html"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>Performance Challenges</span>
+        </span>
+      </a>
+
+      <div class="top-actions">
+        <a
+          class="top-link"
+          href="/performance-hub-dashboard.html"
+        >
+          Dashboard
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-progress.html"
+        >
+          Progress
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-matchday.html"
+        >
+          Matchday
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-avatar.html"
+        >
+          Player Locker
+        </a>
+
+        <button
+          class="signout-button"
+          id="signOutButton"
+          type="button"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <section
+        class="loading-state"
+        id="loadingState"
+      >
+        <div>
+          <div class="spinner"></div>
+
+          <h1 class="state-title">
+            Preparing Your Challenges.
+          </h1>
+
+          <p class="state-copy">
+            Loading today’s performance habits, weekly targets
+            and your latest points balance.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="error-state hidden"
+        id="errorState"
+      >
+        <div>
+          <h1 class="state-title">
+            Challenges Unavailable.
+          </h1>
+
+          <p
+            class="state-copy"
+            id="errorText"
+          ></p>
+
+          <a
+            class="state-button"
+            href="/performance-hub-login.html"
+          >
+            Member Login
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="challenge-content hidden"
+        id="challengeContent"
+      >
+        <section class="hero">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <div class="eyebrow">
+                Consistency Creates Players
+              </div>
+
+              <h1>
+                Performance
+                <span class="gold-text">Challenges.</span>
+              </h1>
+
+              <p>
+                Complete the right habits, earn Performance Points
+                and unlock new equipment inside your Player Locker.
+                Honest consistency matters more than chasing perfection.
+              </p>
+            </div>
+
+            <div class="metrics">
+              <article class="metric-card">
+                <span>Points Balance</span>
+                <strong id="pointsBalance">0</strong>
+              </article>
+
+              <article class="metric-card">
+                <span>Lifetime Points</span>
+                <strong id="lifetimePoints">0</strong>
+              </article>
+
+              <article class="metric-card">
+                <span>Current Streak</span>
+                <strong id="currentStreak">0</strong>
+              </article>
+
+              <article class="metric-card">
+                <span>Best Streak</span>
+                <strong id="bestStreak">0</strong>
+              </article>
+            </div>
+          </div>
+
+          <div class="progress-shell">
+            <article class="progress-card">
+              <div class="progress-head">
+                <span>Today’s Challenges</span>
+                <span id="dailyProgressText">0 / 0</span>
+              </div>
+
+              <div class="progress-track">
+                <span id="dailyProgressBar"></span>
+              </div>
+            </article>
+
+            <article class="progress-card">
+              <div class="progress-head">
+                <span>This Week</span>
+                <span id="weeklyProgressText">0 / 0</span>
+              </div>
+
+              <div class="progress-track">
+                <span id="weeklyProgressBar"></span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="challenge-section">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">
+                Reset Every Day
+              </div>
+
+              <h2>
+                Daily
+                <span class="gold-text">Standards.</span>
+              </h2>
+            </div>
+
+            <p>
+              Small actions that support training quality, recovery,
+              confidence and readiness. Only complete a challenge
+              after doing the activity.
+            </p>
+          </div>
+
+          <div
+            class="challenge-grid"
+            id="dailyChallengeGrid"
+          ></div>
+        </section>
+
+        <section class="challenge-section">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">
+                Reset Every Monday
+              </div>
+
+              <h2>
+                Weekly
+                <span class="gold-text">Targets.</span>
+              </h2>
+            </div>
+
+            <p>
+              Review the bigger picture, record your progress and
+              turn each week of football into useful development.
+            </p>
+          </div>
+
+          <div
+            class="challenge-grid"
+            id="weeklyChallengeGrid"
+          ></div>
+
+          <p
+            class="message"
+            id="challengeMessage"
+            aria-live="polite"
+          ></p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>JT Performance Hub</strong>
+
+      <span>
+        One Mind. One Body. One Mission.
+      </span>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const challengeContent =
+      document.getElementById("challengeContent");
+
+    const dailyChallengeGrid =
+      document.getElementById("dailyChallengeGrid");
+
+    const weeklyChallengeGrid =
+      document.getElementById("weeklyChallengeGrid");
+
+    const challengeMessage =
+      document.getElementById("challengeMessage");
+
+    const pointsBalance =
+      document.getElementById("pointsBalance");
+
+    const lifetimePoints =
+      document.getElementById("lifetimePoints");
+
+    const currentStreak =
+      document.getElementById("currentStreak");
+
+    const bestStreak =
+      document.getElementById("bestStreak");
+
+    const dailyProgressText =
+      document.getElementById("dailyProgressText");
+
+    const weeklyProgressText =
+      document.getElementById("weeklyProgressText");
+
+    const dailyProgressBar =
+      document.getElementById("dailyProgressBar");
+
+    const weeklyProgressBar =
+      document.getElementById("weeklyProgressBar");
+
+    let currentUserId = null;
+    let challenges = [];
+    let completions = [];
+    let performanceAccount = {};
+
+    const categoryIcons = {
+      nutrition: "💧",
+      recovery: "🧘",
+      mindset: "🧠",
+      training: "⚽",
+      progress: "📈",
+      matchday: "🏟️"
+    };
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showOnly(element) {
+      loadingState.classList.add("hidden");
+      errorState.classList.add("hidden");
+      challengeContent.classList.add("hidden");
+
+      element.classList.remove("hidden");
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      showOnly(errorState);
+    }
+
+    function setMessage(
+      message = "",
+      type = ""
+    ) {
+      challengeMessage.textContent = message;
+      challengeMessage.className =
+        `message ${type}`.trim();
+    }
+
+    function localDateKey(date = new Date()) {
+      const year =
+        date.getFullYear();
+
+      const month =
+        String(
+          date.getMonth() + 1
+        ).padStart(2, "0");
+
+      const day =
+        String(
+          date.getDate()
+        ).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function weeklyPeriodKey() {
+      const date =
+        new Date();
+
+      date.setHours(
+        12,
+        0,
+        0,
+        0
+      );
+
+      const daysSinceMonday =
+        (date.getDay() + 6) % 7;
+
+      date.setDate(
+        date.getDate() -
+        daysSinceMonday
+      );
+
+      return localDateKey(date);
+    }
+
+    function challengeIsCompleted(
+      challenge
+    ) {
+      const expectedPeriod =
+        challenge.cadence === "weekly"
+          ? weeklyPeriodKey()
+          : localDateKey();
+
+      return completions.some(
+        (completion) =>
+          completion.challenge_id ===
+            challenge.id &&
+          completion.period_key ===
+            expectedPeriod
+      );
+    }
+
+    function renderChallengeCard(
+      challenge
+    ) {
+      const completed =
+        challengeIsCompleted(
+          challenge
+        );
+
+      const icon =
+        categoryIcons[
+          challenge.challenge_category
+        ] || "⭐";
+
+      const article =
+        document.createElement("article");
+
+      article.className =
+        completed
+          ? "challenge-card completed"
+          : "challenge-card";
+
+      article.innerHTML = `
+        <div class="challenge-top">
+          <div class="challenge-icon">
+            ${icon}
+          </div>
+
+          <div class="points-pill">
+            +${Number(
+              challenge.points_awarded || 0
+            )} Points
+          </div>
+        </div>
+
+        <div class="challenge-category">
+          ${escapeHtml(
+            challenge.challenge_category
+          )}
+        </div>
+
+        <h3>
+          ${escapeHtml(
+            challenge.challenge_title
+          )}
+        </h3>
+
+        <p>
+          ${escapeHtml(
+            challenge.challenge_description
+          )}
+        </p>
+
+        <div class="challenge-bottom">
+          <span class="challenge-status">
+            ${
+              completed
+                ? "Completed for this period"
+                : challenge.cadence === "weekly"
+                  ? "Available this week"
+                  : "Available today"
+            }
+          </span>
+
+          <button
+            class="challenge-button"
+            type="button"
+            data-challenge-code="${escapeHtml(
+              challenge.challenge_code
+            )}"
+            ${completed ? "disabled" : ""}
+          >
+            ${
+              completed
+                ? "✓ Completed"
+                : "Complete Challenge"
+            }
+          </button>
+        </div>
+      `;
+
+      const button =
+        article.querySelector(
+          ".challenge-button"
+        );
+
+      if (!completed) {
+        button.addEventListener(
+          "click",
+          () =>
+            completeChallenge(
+              challenge,
+              button
+            )
+        );
+      }
+
+      return article;
+    }
+
+    function updateProgress() {
+      const daily =
+        challenges.filter(
+          (challenge) =>
+            challenge.cadence === "daily"
+        );
+
+      const weekly =
+        challenges.filter(
+          (challenge) =>
+            challenge.cadence === "weekly"
+        );
+
+      const dailyDone =
+        daily.filter(
+          challengeIsCompleted
+        ).length;
+
+      const weeklyDone =
+        weekly.filter(
+          challengeIsCompleted
+        ).length;
+
+      dailyProgressText.textContent =
+        `${dailyDone} / ${daily.length}`;
+
+      weeklyProgressText.textContent =
+        `${weeklyDone} / ${weekly.length}`;
+
+      dailyProgressBar.style.width =
+        daily.length
+          ? `${(
+              dailyDone /
+              daily.length
+            ) * 100}%`
+          : "0%";
+
+      weeklyProgressBar.style.width =
+        weekly.length
+          ? `${(
+              weeklyDone /
+              weekly.length
+            ) * 100}%`
+          : "0%";
+    }
+
+    function renderChallenges() {
+      dailyChallengeGrid.innerHTML = "";
+      weeklyChallengeGrid.innerHTML = "";
+
+      challenges.forEach(
+        (challenge) => {
+          const card =
+            renderChallengeCard(
+              challenge
+            );
+
+          if (
+            challenge.cadence ===
+            "weekly"
+          ) {
+            weeklyChallengeGrid.appendChild(
+              card
+            );
+          } else {
+            dailyChallengeGrid.appendChild(
+              card
+            );
+          }
+        }
+      );
+
+      pointsBalance.textContent =
+        String(
+          performanceAccount
+            .points_balance || 0
+        );
+
+      lifetimePoints.textContent =
+        String(
+          performanceAccount
+            .lifetime_points || 0
+        );
+
+      currentStreak.textContent =
+        String(
+          performanceAccount
+            .current_streak || 0
+        );
+
+      bestStreak.textContent =
+        String(
+          performanceAccount
+            .best_streak || 0
+        );
+
+      updateProgress();
+    }
+
+    async function loadChallengeData() {
+      const [
+        challengeResult,
+        completionResult,
+        accountResult
+      ] = await Promise.all([
+        supabase
+          .from(
+            "performance_challenges"
+          )
+          .select("*")
+          .eq("is_active", true)
+          .order(
+            "sort_order",
+            {
+              ascending: true
+            }
+          ),
+
+        supabase
+          .from(
+            "player_challenge_completions"
+          )
+          .select(
+            "challenge_id, period_key, points_awarded, completed_at"
+          ),
+
+        supabase
+          .from(
+            "player_performance_accounts"
+          )
+          .select("*")
+          .eq(
+            "user_id",
+            currentUserId
+          )
+          .maybeSingle()
+      ]);
+
+      if (challengeResult.error) {
+        throw challengeResult.error;
+      }
+
+      if (completionResult.error) {
+        throw completionResult.error;
+      }
+
+      if (accountResult.error) {
+        throw accountResult.error;
+      }
+
+      challenges =
+        challengeResult.data || [];
+
+      completions =
+        completionResult.data || [];
+
+      performanceAccount =
+        accountResult.data || {};
+
+      renderChallenges();
+    }
+
+    async function completeChallenge(
+      challenge,
+      button
+    ) {
+      const originalText =
+        button.textContent;
+
+      button.disabled = true;
+      button.textContent =
+        "Awarding Points...";
+
+      setMessage(
+        `Completing ${challenge.challenge_title}...`
+      );
+
+      try {
+        const {
+          data,
+          error
+        } = await supabase.rpc(
+          "complete_performance_challenge",
+          {
+            selected_challenge_code:
+              challenge.challenge_code
+          }
+        );
+
+        if (error) {
+          throw error;
+        }
+
+        const result =
+          Array.isArray(data)
+            ? data[0]
+            : data;
+
+        if (!result?.completed) {
+          setMessage(
+            "That challenge has already been completed for this period.",
+            "success"
+          );
+        } else {
+          const unlocked =
+            Array.isArray(
+              result.newly_unlocked
+            ) &&
+            result.newly_unlocked.length
+              ? ` New Player Locker reward unlocked: ${result.newly_unlocked.join(", ")}.`
+              : "";
+
+          setMessage(
+            `Challenge completed. You earned ${result.points_awarded || challenge.points_awarded} Performance Points.${unlocked}`,
+            "success"
+          );
+        }
+
+        await loadChallengeData();
+      } catch (error) {
+        console.error(
+          "Challenge completion error:",
+          error
+        );
+
+        button.disabled = false;
+        button.textContent =
+          originalText;
+
+        setMessage(
+          error?.message ||
+          "That challenge could not be completed. Please try again.",
+          "error"
+        );
+      }
+    }
+
+    async function initialiseChallenges() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in to access your Performance Challenges."
+          );
+
+          return;
+        }
+
+        currentUserId =
+          sessionData.session.user.id;
+
+        const {
+          error: initialiseError
+        } = await supabase.rpc(
+          "initialise_my_performance_profile"
+        );
+
+        if (initialiseError) {
+          throw initialiseError;
+        }
+
+        await loadChallengeData();
+
+        showOnly(
+          challengeContent
+        );
+      } catch (error) {
+        console.error(
+          "Performance Challenge error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading your challenges and Performance Points."
+        );
+      }
+    }
+
+    document
+      .getElementById(
+        "signOutButton"
+      )
+      .addEventListener(
+        "click",
+        async () => {
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/performance-hub-login.html";
+        }
+      );
+
+    initialiseChallenges();
+  </script>
+</body>
+</html>
