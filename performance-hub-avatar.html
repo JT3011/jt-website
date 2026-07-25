@@ -2438,19 +2438,40 @@
     const capLayer =
       document.getElementById("capLayer");
 
-    const hairGroups = {
-      short:
-        document.getElementById("hairShort"),
+  const hairGroups = {
+  short:
+    document.getElementById("hairShort"),
 
-      fade:
-        document.getElementById("hairFade"),
+  fade:
+    document.getElementById("hairFade"),
 
-      curly:
-        document.getElementById("hairCurly"),
+  curly:
+    document.getElementById("hairCurly"),
 
-      long:
-        document.getElementById("hairLong")
-    };
+  long:
+    document.getElementById("hairLong"),
+
+  buzz:
+    document.getElementById("hairBuzz"),
+
+  afro:
+    document.getElementById("hairAfro"),
+
+  braids:
+    document.getElementById("hairBraids"),
+
+  locs:
+    document.getElementById("hairLocs"),
+
+  ponytail:
+    document.getElementById("hairPonytail"),
+
+  bun:
+    document.getElementById("hairBun"),
+
+  shaved:
+    document.getElementById("hairShaved")
+};
 
     const colourBindings = [
       {
@@ -2617,40 +2638,73 @@
           : "none";
     }
 
-    function applyHairStyle() {
-      Object.entries(
-        hairGroups
-      ).forEach(
-        ([styleName, group]) => {
-          setGroupVisibility(
-            group,
-            styleName === hairStyle.value
-          );
+   function applyHairStyle() {
+  const selectedStyle =
+    hairStyle.value;
 
-          group
-            .querySelectorAll(
-              "path, circle"
-            )
-            .forEach((shape) => {
-              shape.setAttribute(
-                "fill",
-                hairColour.value
-              );
+  Object.entries(
+    hairGroups
+  ).forEach(
+    ([styleName, group]) => {
+      if (!group) {
+        return;
+      }
 
-              if (
-                shape.hasAttribute(
-                  "stroke"
-                )
-              ) {
-                shape.setAttribute(
-                  "stroke",
-                  hairColour.value
-                );
-              }
-            });
-        }
+      setGroupVisibility(
+        group,
+        styleName === selectedStyle
       );
+
+      group
+        .querySelectorAll(
+          "path, circle"
+        )
+        .forEach((shape) => {
+          const currentFill =
+            (
+              shape.getAttribute("fill") ||
+              ""
+            ).toLowerCase();
+
+          const currentStroke =
+            (
+              shape.getAttribute("stroke") ||
+              ""
+            ).toLowerCase();
+
+          const protectedColours = [
+            "#ffffff",
+            "#d4af37",
+            "none"
+          ];
+
+          if (
+            currentFill &&
+            !protectedColours.includes(
+              currentFill
+            )
+          ) {
+            shape.setAttribute(
+              "fill",
+              hairColour.value
+            );
+          }
+
+          if (
+            currentStroke &&
+            !protectedColours.includes(
+              currentStroke
+            )
+          ) {
+            shape.setAttribute(
+              "stroke",
+              hairColour.value
+            );
+          }
+        });
     }
+  );
+}
 
     function getEquippedVisual(
       slot
