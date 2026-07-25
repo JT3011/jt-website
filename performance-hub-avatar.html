@@ -1,0 +1,3247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Player Locker | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Customise your JT player avatar, football kit, boots and unlocked performance rewards."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #040404;
+      --charcoal: #0d0d0d;
+      --panel: #111111;
+      --panel-light: #181818;
+      --gold: #d4af37;
+      --gold-light: #f6e5aa;
+      --white: #f8f4e9;
+      --muted: #aca697;
+      --green: #8ce29d;
+      --red: #ff9494;
+      --blue: #90c8ef;
+      --line: rgba(212, 175, 55, 0.18);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 86% 4%,
+          rgba(212, 175, 55, 0.13),
+          transparent 38rem
+        ),
+        radial-gradient(
+          circle at 8% 92%,
+          rgba(62, 102, 129, 0.13),
+          transparent 34rem
+        ),
+        linear-gradient(
+          145deg,
+          var(--black),
+          #101010 52%,
+          var(--black)
+        );
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .topbar {
+      width: min(1500px, calc(100% - 42px));
+      min-height: 88px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 17px;
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.77rem;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.61rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .top-link,
+    .signout-button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.59rem;
+      font-weight: 900;
+    }
+
+    .top-link:hover,
+    .signout-button:hover {
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .main {
+      width: min(1500px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 48px 0 82px;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: 650px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 22px;
+      border: 3px solid rgba(212, 175, 55, 0.14);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .state-copy {
+      max-width: 540px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .state-button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      padding: 0 23px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .locker-content {
+      display: grid;
+      gap: 22px;
+    }
+
+    .locker-header {
+      padding: 24px 0 30px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.69rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.2rem, 8vw, 9rem);
+      line-height: 0.78;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .gold-text {
+      color: var(--gold);
+    }
+
+    .locker-header p {
+      max-width: 570px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .elite-badge {
+      min-width: 230px;
+      padding: 18px 21px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .elite-badge span {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.6rem;
+      font-weight: 900;
+    }
+
+    .elite-badge strong {
+      display: block;
+      margin-top: 8px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .locker-shell {
+      display: grid;
+      grid-template-columns:
+        minmax(360px, 0.8fr)
+        minmax(470px, 1.2fr);
+      gap: 20px;
+    }
+
+    .avatar-stage {
+      min-height: 850px;
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 34px;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        ),
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(212, 175, 55, 0.1),
+          transparent 25rem
+        ),
+        linear-gradient(
+          150deg,
+          #131313,
+          #080808
+        );
+      background-size:
+        35px 35px,
+        35px 35px,
+        auto,
+        auto;
+      box-shadow:
+        0 40px 90px rgba(0, 0, 0, 0.55);
+    }
+
+    .changing-room-light {
+      position: absolute;
+      top: -65px;
+      left: 50%;
+      width: 330px;
+      height: 150px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(255, 244, 196, 0.11);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+
+    .stage-heading {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .stage-heading span {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.62rem;
+      font-weight: 900;
+    }
+
+    .stage-heading h2 {
+      margin-top: 9px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.1rem, 4vw, 3.6rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .shirt-identity {
+      min-width: 74px;
+      text-align: center;
+    }
+
+    .shirt-identity strong {
+      display: block;
+      color: var(--white);
+      font-family: "Playfair Display", serif;
+      font-size: 2.5rem;
+      line-height: 0.8;
+    }
+
+    .shirt-identity small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.52rem;
+      font-weight: 900;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      margin-top: 10px;
+    }
+
+    .avatar-svg {
+      width: min(100%, 430px);
+      height: auto;
+      overflow: visible;
+      filter:
+        drop-shadow(0 34px 28px rgba(0, 0, 0, 0.55));
+    }
+
+    .avatar-shadow {
+      position: absolute;
+      bottom: 31px;
+      left: 50%;
+      width: 72%;
+      height: 38px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.75);
+      filter: blur(10px);
+    }
+
+    .stage-footer {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .stage-stat {
+      padding: 13px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.32);
+    }
+
+    .stage-stat span {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.52rem;
+      font-weight: 900;
+    }
+
+    .stage-stat strong {
+      display: block;
+      margin-top: 7px;
+      color: var(--gold-light);
+      font-size: 1rem;
+    }
+
+    .locker-controls {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 28px;
+      border: 1px solid rgba(212, 175, 55, 0.17);
+      border-radius: 29px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.015)
+        );
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .panel-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .panel-heading h2 {
+      margin-top: 11px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .points-card {
+      min-width: 155px;
+      padding: 15px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 17px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .points-card span {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.54rem;
+      font-weight: 900;
+    }
+
+    .points-card strong {
+      display: block;
+      margin-top: 7px;
+      color: var(--gold);
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      line-height: 0.9;
+    }
+
+    .customisation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 9px;
+    }
+
+    .field label {
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.59rem;
+      font-weight: 900;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 49px;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 14px;
+      outline: none;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--white);
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(212, 175, 55, 0.7);
+    }
+
+    .colour-field {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 9px;
+    }
+
+    .colour-field input[type="color"] {
+      width: 54px;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .colour-value {
+      min-height: 49px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.22);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .save-row {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .primary-button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.66rem;
+      font-weight: 900;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary-button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+      transform: none;
+    }
+
+    .status-message {
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .status-message.success {
+      color: var(--green);
+    }
+
+    .status-message.error {
+      color: var(--red);
+    }
+
+    .wardrobe-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .wardrobe-tab {
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.22);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.56rem;
+      font-weight: 900;
+    }
+
+    .wardrobe-tab.active,
+    .wardrobe-tab:hover {
+      border-color: rgba(212, 175, 55, 0.65);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .wardrobe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .item-card {
+      min-height: 205px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      border-radius: 20px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(212, 175, 55, 0.06),
+          transparent 15rem
+        ),
+        rgba(0, 0, 0, 0.21);
+      transition:
+        transform 0.25s var(--ease),
+        border-color 0.25s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.42);
+    }
+
+    .item-card.equipped {
+      border-color: rgba(140, 226, 157, 0.65);
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(140, 226, 157, 0.1),
+          transparent 15rem
+        ),
+        rgba(0, 0, 0, 0.25);
+    }
+
+    .item-card.locked {
+      opacity: 0.72;
+    }
+
+    .item-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .item-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 1.6rem;
+    }
+
+    .item-status {
+      padding: 7px 9px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 999px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.49rem;
+      font-weight: 900;
+    }
+
+    .item-status.unlocked {
+      color: var(--green);
+      border-color: rgba(140, 226, 157, 0.28);
+    }
+
+    .item-status.equipped {
+      color: var(--black);
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .item-card h3 {
+      margin-top: 17px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.65rem;
+      line-height: 0.92;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+    }
+
+    .item-card p {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.69rem;
+      line-height: 1.55;
+    }
+
+    .physical-badge {
+      display: inline-flex;
+      align-self: flex-start;
+      margin-top: 10px;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.51rem;
+      font-weight: 900;
+    }
+
+    .item-footer {
+      margin-top: 18px;
+      padding-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .item-points {
+      color: var(--gold-light);
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .equip-button {
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.26);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.52rem;
+      font-weight: 900;
+    }
+
+    .equip-button:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .equip-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .reward-notice {
+      margin-top: 20px;
+      padding: 19px;
+      border: 1px solid rgba(145, 200, 239, 0.19);
+      border-radius: 18px;
+      background: rgba(145, 200, 239, 0.045);
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.65;
+    }
+
+    .reward-notice strong {
+      color: var(--blue);
+    }
+
+    .empty-items {
+      grid-column: 1 / -1;
+      min-height: 170px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 1px dashed rgba(212, 175, 55, 0.18);
+      border-radius: 20px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footer {
+      width: min(1500px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1120px) {
+      .locker-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .avatar-stage {
+        position: relative;
+        top: auto;
+        min-height: 760px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .topbar {
+        width: min(100% - 28px, 1500px);
+      }
+
+      .brand-copy,
+      .top-actions .top-link {
+        display: none;
+      }
+
+      .main,
+      .footer {
+        width: min(100% - 28px, 1500px);
+      }
+
+      .locker-header,
+      .panel-heading {
+        display: block;
+      }
+
+      .locker-header p,
+      .elite-badge,
+      .points-card {
+        margin-top: 18px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 20vw, 6.5rem);
+      }
+
+      .avatar-stage {
+        min-height: 670px;
+        padding: 21px;
+        border-radius: 26px;
+      }
+
+      .avatar-wrap {
+        min-height: 500px;
+      }
+
+      .customisation-grid,
+      .wardrobe-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <a
+        class="brand"
+        href="/performance-hub-dashboard.html"
+      >
+        <img
+          src="images/logo.jpeg"
+          alt="JT Mind and Body Balance logo"
+        >
+
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>Player Locker</span>
+        </span>
+      </a>
+
+      <div class="top-actions">
+        <a
+          class="top-link"
+          href="/performance-hub-training.html"
+        >
+          Training
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-progress.html"
+        >
+          Progress
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-matchday.html"
+        >
+          Matchday
+        </a>
+
+        <a
+          class="top-link"
+          href="/performance-hub-dashboard.html"
+        >
+          Dashboard
+        </a>
+
+        <button
+          class="signout-button"
+          id="signOutButton"
+          type="button"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <section
+        class="loading-state"
+        id="loadingState"
+      >
+        <div>
+          <div class="spinner"></div>
+
+          <h1 class="state-title">
+            Opening Player Locker.
+          </h1>
+
+          <p class="state-copy">
+            Preparing your avatar, unlocked kit and performance equipment.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="error-state hidden"
+        id="errorState"
+      >
+        <div>
+          <h1 class="state-title">
+            Locker Unavailable.
+          </h1>
+
+          <p
+            class="state-copy"
+            id="errorText"
+          ></p>
+
+          <a
+            class="state-button"
+            href="/performance-hub-login.html"
+          >
+            Member Login
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="locker-content hidden"
+        id="lockerContent"
+      >
+
+        <section class="locker-header">
+          <div>
+            <div class="eyebrow">
+              Elite Player Environment
+            </div>
+
+            <h1>
+              Your Player
+              <span class="gold-text">Locker.</span>
+            </h1>
+          </div>
+
+          <div>
+            <p>
+              Customise your player identity, wear the kit you have earned and
+              unlock new equipment through consistent performance habits.
+            </p>
+
+            <div class="elite-badge">
+              <span>Player Profile</span>
+
+              <strong id="playerIdentity">
+                JT Player
+              </strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="locker-shell">
+
+          <aside class="avatar-stage">
+            <div class="changing-room-light"></div>
+
+            <div class="stage-heading">
+              <div>
+                <span>Selected Player</span>
+
+                <h2 id="avatarPlayerName">
+                  JT Player
+                </h2>
+              </div>
+
+              <div class="shirt-identity">
+                <strong id="displayShirtNumber">
+                  10
+                </strong>
+
+                <small>Squad Number</small>
+              </div>
+            </div>
+
+            <div class="avatar-wrap">
+              <div class="avatar-shadow"></div>
+
+              <svg
+                class="avatar-svg"
+                viewBox="0 0 420 720"
+                role="img"
+                aria-label="Customisable football player avatar"
+              >
+                <defs>
+                  <linearGradient
+                    id="kitShine"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stop-color="#ffffff"
+                      stop-opacity="0.22"
+                    />
+
+                    <stop
+                      offset="52%"
+                      stop-color="#ffffff"
+                      stop-opacity="0"
+                    />
+
+                    <stop
+                      offset="100%"
+                      stop-color="#000000"
+                      stop-opacity="0.22"
+                    />
+                  </linearGradient>
+
+                  <linearGradient
+                    id="skinShade"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stop-color="#ffffff"
+                      stop-opacity="0.12"
+                    />
+
+                    <stop
+                      offset="100%"
+                      stop-color="#000000"
+                      stop-opacity="0.15"
+                    />
+                  </linearGradient>
+                </defs>
+
+                <g id="avatarBody">
+
+                  <path
+                    id="leftLeg"
+                    d="M148 430 L203 430 L195 607 L151 607 Z"
+                    fill="#C68642"
+                  />
+
+                  <path
+                    id="rightLeg"
+                    d="M217 430 L272 430 L269 607 L225 607 Z"
+                    fill="#C68642"
+                  />
+
+                  <path
+                    id="leftSock"
+                    d="M151 555 L195 555 L193 641 L147 641 Z"
+                    fill="#FFFFFF"
+                  />
+
+                  <path
+                    id="rightSock"
+                    d="M225 555 L269 555 L273 641 L227 641 Z"
+                    fill="#FFFFFF"
+                  />
+
+                  <g id="gripSockDetails">
+                    <path
+                      d="M150 573 L194 573"
+                      stroke="#D4AF37"
+                      stroke-width="5"
+                    />
+
+                    <path
+                      d="M226 573 L270 573"
+                      stroke="#D4AF37"
+                      stroke-width="5"
+                    />
+
+                    <circle
+                      cx="166"
+                      cy="607"
+                      r="3"
+                      fill="#111111"
+                    />
+
+                    <circle
+                      cx="179"
+                      cy="607"
+                      r="3"
+                      fill="#111111"
+                    />
+
+                    <circle
+                      cx="241"
+                      cy="607"
+                      r="3"
+                      fill="#111111"
+                    />
+
+                    <circle
+                      cx="254"
+                      cy="607"
+                      r="3"
+                      fill="#111111"
+                    />
+                  </g>
+
+                  <path
+                    id="leftBoot"
+                    d="M144 625
+                       C158 619 179 620 194 627
+                       L204 652
+                       C190 665 151 664 133 653
+                       Z"
+                    fill="#111111"
+                  />
+
+                  <path
+                    id="rightBoot"
+                    d="M226 627
+                       C243 620 264 620 276 628
+                       L291 651
+                       C277 664 238 665 218 653
+                       Z"
+                    fill="#111111"
+                  />
+
+                  <path
+                    id="shorts"
+                    d="M131 377
+                       L287 377
+                       L275 475
+                       L220 475
+                       L209 422
+                       L198 475
+                       L142 475
+                       Z"
+                    fill="#111111"
+                  />
+
+                  <path
+                    id="leftArm"
+                    d="M117 242
+                       C93 279 82 330 87 378
+                       C89 397 102 405 116 394
+                       C125 385 129 370 128 351
+                       L143 269
+                       Z"
+                    fill="#C68642"
+                  />
+
+                  <path
+                    id="rightArm"
+                    d="M301 242
+                       C325 279 336 330 331 378
+                       C329 397 316 405 302 394
+                       C293 385 289 370 290 351
+                       L275 269
+                       Z"
+                    fill="#C68642"
+                  />
+
+                  <path
+                    id="shirt"
+                    d="M142 222
+                       C164 211 182 205 209 205
+                       C236 205 255 211 276 222
+                       L310 271
+                       L279 294
+                       L270 385
+                       L148 385
+                       L139 294
+                       L108 271
+                       Z"
+                    fill="#111111"
+                  />
+
+                  <path
+                    id="shirtSecondary"
+                    d="M142 222
+                       C164 211 182 205 209 205
+                       C236 205 255 211 276 222
+                       L268 249
+                       C231 234 187 234 150 249
+                       Z"
+                    fill="#D4AF37"
+                  />
+
+                  <path
+                    d="M142 222
+                       C164 211 182 205 209 205
+                       C236 205 255 211 276 222
+                       L310 271
+                       L279 294
+                       L270 385
+                       L148 385
+                       L139 294
+                       L108 271
+                       Z"
+                    fill="url(#kitShine)"
+                  />
+
+                  <g id="hoodieLayer">
+                    <path
+                      d="M142 218
+                         C162 199 183 191 209 191
+                         C236 191 257 199 276 218
+                         L314 271
+                         L281 300
+                         L274 390
+                         L144 390
+                         L137 300
+                         L104 271
+                         Z"
+                      fill="#111111"
+                    />
+
+                    <path
+                      d="M170 214
+                         C178 184 192 173 209 173
+                         C227 173 240 184 249 214
+                         C233 203 188 203 170 214
+                         Z"
+                      fill="#242424"
+                    />
+
+                    <path
+                      d="M188 246 L182 321"
+                      stroke="#D4AF37"
+                      stroke-width="4"
+                    />
+
+                    <path
+                      d="M230 246 L236 321"
+                      stroke="#D4AF37"
+                      stroke-width="4"
+                    />
+                  </g>
+
+                  <g id="tshirtLayer">
+                    <path
+                      d="M142 222
+                         C164 211 182 205 209 205
+                         C236 205 255 211 276 222
+                         L306 264
+                         L279 286
+                         L271 385
+                         L147 385
+                         L139 286
+                         L112 264
+                         Z"
+                      fill="#171717"
+                    />
+
+                    <path
+                      d="M188 224
+                         C195 237 222 237 230 224"
+                      fill="none"
+                      stroke="#D4AF37"
+                      stroke-width="6"
+                    />
+                  </g>
+
+                  <circle
+                    id="shirtBadge"
+                    cx="247"
+                    cy="266"
+                    r="14"
+                    fill="#D4AF37"
+                  />
+
+                  <text
+                    x="247"
+                    y="271"
+                    text-anchor="middle"
+                    fill="#050505"
+                    font-family="Montserrat, sans-serif"
+                    font-size="10"
+                    font-weight="900"
+                  >
+                    JT
+                  </text>
+
+                  <text
+                    id="avatarNumber"
+                    x="209"
+                    y="338"
+                    text-anchor="middle"
+                    fill="#F8F4E9"
+                    font-family="Playfair Display, serif"
+                    font-size="65"
+                    font-weight="900"
+                  >
+                    10
+                  </text>
+
+                  <ellipse
+                    id="neck"
+                    cx="209"
+                    cy="203"
+                    rx="29"
+                    ry="36"
+                    fill="#C68642"
+                  />
+
+                  <ellipse
+                    id="head"
+                    cx="209"
+                    cy="137"
+                    rx="69"
+                    ry="79"
+                    fill="#C68642"
+                  />
+
+                  <ellipse
+                    cx="209"
+                    cy="137"
+                    rx="69"
+                    ry="79"
+                    fill="url(#skinShade)"
+                  />
+
+                  <ellipse
+                    id="leftEar"
+                    cx="140"
+                    cy="141"
+                    rx="11"
+                    ry="22"
+                    fill="#C68642"
+                  />
+
+                  <ellipse
+                    id="rightEar"
+                    cx="278"
+                    cy="141"
+                    rx="11"
+                    ry="22"
+                    fill="#C68642"
+                  />
+
+                  <ellipse
+                    id="leftEye"
+                    cx="183"
+                    cy="135"
+                    rx="7"
+                    ry="5"
+                    fill="#4B3621"
+                  />
+
+                  <ellipse
+                    id="rightEye"
+                    cx="235"
+                    cy="135"
+                    rx="7"
+                    ry="5"
+                    fill="#4B3621"
+                  />
+
+                  <path
+                    d="M184 174
+                       Q209 190 234 174"
+                    fill="none"
+                    stroke="#7d4435"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                  />
+
+                  <path
+                    d="M208 139
+                       L202 158
+                       Q209 164 217 158"
+                    fill="none"
+                    stroke="rgba(90,45,32,0.55)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+
+                  <g id="hairShort">
+                    <path
+                      d="M144 119
+                         C143 73 169 52 209 52
+                         C252 52 278 77 275 121
+                         C256 97 234 88 209 88
+                         C183 88 162 98 144 119
+                         Z"
+                      fill="#24170F"
+                    />
+                  </g>
+
+                  <g id="hairFade">
+                    <path
+                      d="M146 113
+                         C151 69 174 53 209 53
+                         C244 53 269 71 273 113
+                         C247 89 173 89 146 113
+                         Z"
+                      fill="#24170F"
+                    />
+
+                    <path
+                      d="M148 111
+                         C141 133 143 156 151 172"
+                      fill="none"
+                      stroke="#24170F"
+                      stroke-width="9"
+                      stroke-linecap="round"
+                    />
+
+                    <path
+                      d="M271 111
+                         C278 133 275 156 268 172"
+                      fill="none"
+                      stroke="#24170F"
+                      stroke-width="9"
+                      stroke-linecap="round"
+                    />
+                  </g>
+
+                  <g id="hairCurly">
+                    <circle
+                      cx="159"
+                      cy="90"
+                      r="25"
+                      fill="#24170F"
+                    />
+
+                    <circle
+                      cx="181"
+                      cy="69"
+                      r="28"
+                      fill="#24170F"
+                    />
+
+                    <circle
+                      cx="210"
+                      cy="65"
+                      r="30"
+                      fill="#24170F"
+                    />
+
+                    <circle
+                      cx="239"
+                      cy="71"
+                      r="28"
+                      fill="#24170F"
+                    />
+
+                    <circle
+                      cx="262"
+                      cy="94"
+                      r="25"
+                      fill="#24170F"
+                    />
+                  </g>
+
+                  <g id="hairLong">
+                    <path
+                      d="M144 118
+                         C139 71 167 48 209 48
+                         C252 48 280 74 275 121
+                         L276 206
+                         C261 191 253 173 251 152
+                         C229 99 185 98 165 151
+                         C163 174 155 192 142 207
+                         Z"
+                      fill="#24170F"
+                    />
+                  </g>
+
+                  <g id="capLayer">
+                    <path
+                      d="M151 101
+                         C162 61 185 47 211 47
+                         C242 47 263 66 271 102
+                         C237 86 185 86 151 101
+                         Z"
+                      fill="#111111"
+                    />
+
+                    <path
+                      d="M210 91
+                         C245 84 278 91 299 107
+                         C265 112 236 110 210 101
+                         Z"
+                      fill="#D4AF37"
+                    />
+
+                    <text
+                      x="211"
+                      y="78"
+                      text-anchor="middle"
+                      fill="#D4AF37"
+                      font-family="Montserrat, sans-serif"
+                      font-size="18"
+                      font-weight="900"
+                    >
+                      JT
+                    </text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <div class="stage-footer">
+              <div class="stage-stat">
+                <span>Position</span>
+                <strong id="displayPosition">
+                  Player
+                </strong>
+              </div>
+
+              <div class="stage-stat">
+                <span>Playing Level</span>
+                <strong id="displayLevel">
+                  Developing
+                </strong>
+              </div>
+
+              <div class="stage-stat">
+                <span>Current Streak</span>
+                <strong id="displayStreak">
+                  0 Days
+                </strong>
+              </div>
+            </div>
+          </aside>
+
+          <div class="locker-controls">
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-label">
+                    Avatar Studio
+                  </div>
+
+                  <h2>
+                    Build Your Player.
+                  </h2>
+                </div>
+
+                <div class="points-card">
+                  <span>Lifetime Performance Points</span>
+
+                  <strong id="lifetimePoints">
+                    0
+                  </strong>
+                </div>
+              </div>
+
+              <div class="customisation-grid">
+
+                <div class="field">
+                  <label for="skinTone">
+                    Skin Tone
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="skinTone"
+                      type="color"
+                      value="#C68642"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="skinToneValue"
+                    >
+                      #C68642
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="hairColour">
+                    Hair Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="hairColour"
+                      type="color"
+                      value="#24170F"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="hairColourValue"
+                    >
+                      #24170F
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="eyeColour">
+                    Eye Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="eyeColour"
+                      type="color"
+                      value="#4B3621"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="eyeColourValue"
+                    >
+                      #4B3621
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="hairStyle">
+                    Hair Style
+                  </label>
+
+                  <select id="hairStyle">
+                    <option value="short">
+                      Short
+                    </option>
+
+                    <option value="fade">
+                      Fade
+                    </option>
+
+                    <option value="curly">
+                      Curly
+                    </option>
+
+                    <option value="long">
+                      Long
+                    </option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="kitPrimaryColour">
+                    Primary Kit Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="kitPrimaryColour"
+                      type="color"
+                      value="#111111"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="kitPrimaryColourValue"
+                    >
+                      #111111
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="kitSecondaryColour">
+                    Secondary Kit Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="kitSecondaryColour"
+                      type="color"
+                      value="#D4AF37"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="kitSecondaryColourValue"
+                    >
+                      #D4AF37
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="shortsColour">
+                    Shorts Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="shortsColour"
+                      type="color"
+                      value="#111111"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="shortsColourValue"
+                    >
+                      #111111
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="socksColour">
+                    Socks Colour
+                  </label>
+
+                  <div class="colour-field">
+                    <input
+                      id="socksColour"
+                      type="color"
+                      value="#FFFFFF"
+                    >
+
+                    <div
+                      class="colour-value"
+                      id="socksColourValue"
+                    >
+                      #FFFFFF
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="shirtNumber">
+                    Shirt Number
+                  </label>
+
+                  <input
+                    id="shirtNumber"
+                    type="number"
+                    min="1"
+                    max="99"
+                    value="10"
+                  >
+                </div>
+
+              </div>
+
+              <div class="save-row">
+                <button
+                  class="primary-button"
+                  id="saveAvatarButton"
+                  type="button"
+                >
+                  Save Avatar
+                </button>
+
+                <p
+                  class="status-message"
+                  id="avatarStatus"
+                  aria-live="polite"
+                ></p>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-label">
+                    Performance Wardrobe
+                  </div>
+
+                  <h2>
+                    Wear What You Earn.
+                  </h2>
+                </div>
+
+                <div class="points-card">
+                  <span>Available Points</span>
+
+                  <strong id="pointsBalance">
+                    0
+                  </strong>
+                </div>
+              </div>
+
+              <div
+                class="wardrobe-tabs"
+                id="wardrobeTabs"
+              >
+                <button
+                  class="wardrobe-tab active"
+                  type="button"
+                  data-slot="all"
+                >
+                  All
+                </button>
+
+                <button
+                  class="wardrobe-tab"
+                  type="button"
+                  data-slot="kit"
+                >
+                  Kits
+                </button>
+
+                <button
+                  class="wardrobe-tab"
+                  type="button"
+                  data-slot="boots"
+                >
+                  Boots
+                </button>
+
+                <button
+                  class="wardrobe-tab"
+                  type="button"
+                  data-slot="socks"
+                >
+                  Socks
+                </button>
+
+                <button
+                  class="wardrobe-tab"
+                  type="button"
+                  data-slot="top"
+                >
+                  Tops
+                </button>
+
+                <button
+                  class="wardrobe-tab"
+                  type="button"
+                  data-slot="headwear"
+                >
+                  Headwear
+                </button>
+              </div>
+
+              <div
+                class="wardrobe-grid"
+                id="wardrobeGrid"
+              ></div>
+
+              <div class="reward-notice">
+                <strong>Physical rewards:</strong>
+                JT grip socks, T-shirts, caps and hoodies can also become
+                real-world prizes. Physical reward claims will require JT
+                approval and parent or guardian involvement for younger players.
+              </div>
+            </section>
+
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>JT Mind & Body Balance</strong>
+      </div>
+
+      <div>
+        Elite Habits • Performance Points • Player Rewards
+      </div>
+
+      <div>
+        Bristol, United Kingdom
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const lockerContent =
+      document.getElementById("lockerContent");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const playerIdentity =
+      document.getElementById("playerIdentity");
+
+    const avatarPlayerName =
+      document.getElementById("avatarPlayerName");
+
+    const displayPosition =
+      document.getElementById("displayPosition");
+
+    const displayLevel =
+      document.getElementById("displayLevel");
+
+    const displayStreak =
+      document.getElementById("displayStreak");
+
+    const displayShirtNumber =
+      document.getElementById("displayShirtNumber");
+
+    const lifetimePoints =
+      document.getElementById("lifetimePoints");
+
+    const pointsBalance =
+      document.getElementById("pointsBalance");
+
+    const wardrobeGrid =
+      document.getElementById("wardrobeGrid");
+
+    const saveAvatarButton =
+      document.getElementById("saveAvatarButton");
+
+    const avatarStatus =
+      document.getElementById("avatarStatus");
+
+    const skinTone =
+      document.getElementById("skinTone");
+
+    const hairStyle =
+      document.getElementById("hairStyle");
+
+    const hairColour =
+      document.getElementById("hairColour");
+
+    const eyeColour =
+      document.getElementById("eyeColour");
+
+    const kitPrimaryColour =
+      document.getElementById("kitPrimaryColour");
+
+    const kitSecondaryColour =
+      document.getElementById("kitSecondaryColour");
+
+    const shortsColour =
+      document.getElementById("shortsColour");
+
+    const socksColour =
+      document.getElementById("socksColour");
+
+    const shirtNumber =
+      document.getElementById("shirtNumber");
+
+    const avatarNumber =
+      document.getElementById("avatarNumber");
+
+    const head =
+      document.getElementById("head");
+
+    const neck =
+      document.getElementById("neck");
+
+    const leftEar =
+      document.getElementById("leftEar");
+
+    const rightEar =
+      document.getElementById("rightEar");
+
+    const leftArm =
+      document.getElementById("leftArm");
+
+    const rightArm =
+      document.getElementById("rightArm");
+
+    const leftLeg =
+      document.getElementById("leftLeg");
+
+    const rightLeg =
+      document.getElementById("rightLeg");
+
+    const leftEye =
+      document.getElementById("leftEye");
+
+    const rightEye =
+      document.getElementById("rightEye");
+
+    const shirt =
+      document.getElementById("shirt");
+
+    const shirtSecondary =
+      document.getElementById("shirtSecondary");
+
+    const shirtBadge =
+      document.getElementById("shirtBadge");
+
+    const shorts =
+      document.getElementById("shorts");
+
+    const leftSock =
+      document.getElementById("leftSock");
+
+    const rightSock =
+      document.getElementById("rightSock");
+
+    const leftBoot =
+      document.getElementById("leftBoot");
+
+    const rightBoot =
+      document.getElementById("rightBoot");
+
+    const gripSockDetails =
+      document.getElementById("gripSockDetails");
+
+    const hoodieLayer =
+      document.getElementById("hoodieLayer");
+
+    const tshirtLayer =
+      document.getElementById("tshirtLayer");
+
+    const capLayer =
+      document.getElementById("capLayer");
+
+    const hairGroups = {
+      short:
+        document.getElementById("hairShort"),
+
+      fade:
+        document.getElementById("hairFade"),
+
+      curly:
+        document.getElementById("hairCurly"),
+
+      long:
+        document.getElementById("hairLong")
+    };
+
+    const colourBindings = [
+      {
+        input: skinTone,
+        value:
+          document.getElementById("skinToneValue")
+      },
+      {
+        input: hairColour,
+        value:
+          document.getElementById("hairColourValue")
+      },
+      {
+        input: eyeColour,
+        value:
+          document.getElementById("eyeColourValue")
+      },
+      {
+        input: kitPrimaryColour,
+        value:
+          document.getElementById("kitPrimaryColourValue")
+      },
+      {
+        input: kitSecondaryColour,
+        value:
+          document.getElementById("kitSecondaryColourValue")
+      },
+      {
+        input: shortsColour,
+        value:
+          document.getElementById("shortsColourValue")
+      },
+      {
+        input: socksColour,
+        value:
+          document.getElementById("socksColourValue")
+      }
+    ];
+
+    const itemVisuals = {
+      default_black_kit: {
+        primary: "#111111",
+        secondary: "#D4AF37"
+      },
+
+      blue_performance_kit: {
+        primary: "#135EA8",
+        secondary: "#8ED8FF"
+      },
+
+      red_performance_kit: {
+        primary: "#A71825",
+        secondary: "#FFFFFF"
+      },
+
+      green_performance_kit: {
+        primary: "#087A54",
+        secondary: "#B8FFCC"
+      },
+
+      gold_elite_kit: {
+        primary: "#D4AF37",
+        secondary: "#111111"
+      },
+
+      default_black_boots: {
+        bootColour: "#111111"
+      },
+
+      white_speed_boots: {
+        bootColour: "#F2F2F2"
+      },
+
+      gold_elite_boots: {
+        bootColour: "#D4AF37"
+      },
+
+      default_white_socks: {
+        sockColour: "#FFFFFF",
+        grip: false
+      },
+
+      jt_grip_socks: {
+        sockColour: "#FFFFFF",
+        grip: true
+      },
+
+      jt_tshirt: {
+        top: "tshirt"
+      },
+
+      jt_hoodie: {
+        top: "hoodie"
+      },
+
+      jt_cap: {
+        headwear: "cap"
+      }
+    };
+
+    const itemIcons = {
+      kit: "👕",
+      boots: "👟",
+      socks: "🧦",
+      top: "🧥",
+      headwear: "🧢",
+      accessory: "⭐"
+    };
+
+    let currentUserId = null;
+    let avatarItems = [];
+    let unlockedItemCodes = new Set();
+    let equippedItems = {};
+    let activeWardrobeSlot = "all";
+    let currentAccount = null;
+
+    function showOnly(element) {
+      loadingState.classList.add("hidden");
+      errorState.classList.add("hidden");
+      lockerContent.classList.add("hidden");
+
+      element.classList.remove("hidden");
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      showOnly(errorState);
+    }
+
+    function formatValue(value) {
+      return String(value || "")
+        .replaceAll("-", " ")
+        .replace(/\b\w/g, (letter) =>
+          letter.toUpperCase()
+        );
+    }
+
+    function setAvatarStatus(
+      message,
+      type = ""
+    ) {
+      avatarStatus.textContent =
+        message;
+
+      avatarStatus.classList.remove(
+        "success",
+        "error"
+      );
+
+      if (type) {
+        avatarStatus.classList.add(
+          type
+        );
+      }
+    }
+
+    function setGroupVisibility(
+      element,
+      visible
+    ) {
+      element.style.display =
+        visible
+          ? ""
+          : "none";
+    }
+
+    function applyHairStyle() {
+      Object.entries(
+        hairGroups
+      ).forEach(
+        ([styleName, group]) => {
+          setGroupVisibility(
+            group,
+            styleName === hairStyle.value
+          );
+
+          group
+            .querySelectorAll(
+              "path, circle"
+            )
+            .forEach((shape) => {
+              shape.setAttribute(
+                "fill",
+                hairColour.value
+              );
+
+              if (
+                shape.hasAttribute(
+                  "stroke"
+                )
+              ) {
+                shape.setAttribute(
+                  "stroke",
+                  hairColour.value
+                );
+              }
+            });
+        }
+      );
+    }
+
+    function getEquippedVisual(
+      slot
+    ) {
+      const itemCode =
+        equippedItems[slot];
+
+      return itemVisuals[itemCode] || {};
+    }
+
+    function updateAvatarPreview() {
+      const safeNumber =
+        Math.max(
+          1,
+          Math.min(
+            99,
+            Number(shirtNumber.value) || 10
+          )
+        );
+
+      const skin =
+        skinTone.value;
+
+      [
+        head,
+        neck,
+        leftEar,
+        rightEar,
+        leftArm,
+        rightArm,
+        leftLeg,
+        rightLeg
+      ].forEach((element) => {
+        element.setAttribute(
+          "fill",
+          skin
+        );
+      });
+
+      leftEye.setAttribute(
+        "fill",
+        eyeColour.value
+      );
+
+      rightEye.setAttribute(
+        "fill",
+        eyeColour.value
+      );
+
+      applyHairStyle();
+
+      const equippedKit =
+        getEquippedVisual("kit");
+
+      const equippedBoots =
+        getEquippedVisual("boots");
+
+      const equippedSocks =
+        getEquippedVisual("socks");
+
+      const equippedTop =
+        getEquippedVisual("top");
+
+      const equippedHeadwear =
+        getEquippedVisual("headwear");
+
+      const primaryKit =
+        equippedKit.primary ||
+        kitPrimaryColour.value;
+
+      const secondaryKit =
+        equippedKit.secondary ||
+        kitSecondaryColour.value;
+
+      shirt.setAttribute(
+        "fill",
+        primaryKit
+      );
+
+      shirtSecondary.setAttribute(
+        "fill",
+        secondaryKit
+      );
+
+      shirtBadge.setAttribute(
+        "fill",
+        secondaryKit
+      );
+
+      shorts.setAttribute(
+        "fill",
+        shortsColour.value
+      );
+
+      const selectedSockColour =
+        equippedSocks.sockColour ||
+        socksColour.value;
+
+      leftSock.setAttribute(
+        "fill",
+        selectedSockColour
+      );
+
+      rightSock.setAttribute(
+        "fill",
+        selectedSockColour
+      );
+
+      setGroupVisibility(
+        gripSockDetails,
+        Boolean(equippedSocks.grip)
+      );
+
+      const selectedBootColour =
+        equippedBoots.bootColour ||
+        "#111111";
+
+      leftBoot.setAttribute(
+        "fill",
+        selectedBootColour
+      );
+
+      rightBoot.setAttribute(
+        "fill",
+        selectedBootColour
+      );
+
+      setGroupVisibility(
+        tshirtLayer,
+        equippedTop.top === "tshirt"
+      );
+
+      setGroupVisibility(
+        hoodieLayer,
+        equippedTop.top === "hoodie"
+      );
+
+      setGroupVisibility(
+        capLayer,
+        equippedHeadwear.headwear === "cap"
+      );
+
+      avatarNumber.textContent =
+        String(safeNumber);
+
+      displayShirtNumber.textContent =
+        String(safeNumber);
+
+      colourBindings.forEach(
+        ({ input, value }) => {
+          value.textContent =
+            input.value.toUpperCase();
+        }
+      );
+    }
+
+    function applyAvatarProfile(profile) {
+      skinTone.value =
+        profile.skin_tone ||
+        "#C68642";
+
+      hairStyle.value =
+        profile.hair_style ||
+        "short";
+
+      hairColour.value =
+        profile.hair_colour ||
+        "#24170F";
+
+      eyeColour.value =
+        profile.eye_colour ||
+        "#4B3621";
+
+      kitPrimaryColour.value =
+        profile.kit_primary_colour ||
+        "#111111";
+
+      kitSecondaryColour.value =
+        profile.kit_secondary_colour ||
+        "#D4AF37";
+
+      shortsColour.value =
+        profile.shorts_colour ||
+        "#111111";
+
+      socksColour.value =
+        profile.socks_colour ||
+        "#FFFFFF";
+
+      shirtNumber.value =
+        String(
+          profile.shirt_number || 10
+        );
+
+      updateAvatarPreview();
+    }
+
+    function renderWardrobe() {
+      wardrobeGrid.innerHTML = "";
+
+      const visibleItems =
+        avatarItems.filter((item) =>
+          activeWardrobeSlot === "all"
+            ? true
+            : item.slot === activeWardrobeSlot
+        );
+
+      if (visibleItems.length === 0) {
+        const empty =
+          document.createElement("div");
+
+        empty.className =
+          "empty-items";
+
+        empty.textContent =
+          "No items are available in this category yet.";
+
+        wardrobeGrid.appendChild(
+          empty
+        );
+
+        return;
+      }
+
+      visibleItems.forEach((item) => {
+        const isUnlocked =
+          unlockedItemCodes.has(
+            item.item_code
+          );
+
+        const isEquipped =
+          equippedItems[item.slot] ===
+          item.item_code;
+
+        const article =
+          document.createElement("article");
+
+        article.className =
+          "item-card";
+
+        if (!isUnlocked) {
+          article.classList.add(
+            "locked"
+          );
+        }
+
+        if (isEquipped) {
+          article.classList.add(
+            "equipped"
+          );
+        }
+
+        const top =
+          document.createElement("div");
+
+        top.className =
+          "item-top";
+
+        const icon =
+          document.createElement("div");
+
+        icon.className =
+          "item-icon";
+
+        icon.textContent =
+          itemIcons[item.slot] || "⭐";
+
+        const status =
+          document.createElement("span");
+
+        status.className =
+          "item-status";
+
+        if (isEquipped) {
+          status.textContent =
+            "Equipped";
+
+          status.classList.add(
+            "equipped"
+          );
+        } else if (isUnlocked) {
+          status.textContent =
+            "Unlocked";
+
+          status.classList.add(
+            "unlocked"
+          );
+        } else {
+          status.textContent =
+            "Locked";
+        }
+
+        top.append(
+          icon,
+          status
+        );
+
+        const content =
+          document.createElement("div");
+
+        const heading =
+          document.createElement("h3");
+
+        heading.textContent =
+          item.item_name;
+
+        const description =
+          document.createElement("p");
+
+        description.textContent =
+          item.item_description;
+
+        content.append(
+          heading,
+          description
+        );
+
+        if (item.is_physical_reward) {
+          const rewardBadge =
+            document.createElement("span");
+
+          rewardBadge.className =
+            "physical-badge";
+
+          rewardBadge.textContent =
+            "Digital + Physical Reward";
+
+          content.appendChild(
+            rewardBadge
+          );
+        }
+
+        const footer =
+          document.createElement("div");
+
+        footer.className =
+          "item-footer";
+
+        const requiredPoints =
+          document.createElement("span");
+
+        requiredPoints.className =
+          "item-points";
+
+        requiredPoints.textContent =
+          item.points_required === 0
+            ? "Starter Item"
+            : `${item.points_required} Lifetime Points`;
+
+        const button =
+          document.createElement("button");
+
+        button.className =
+          "equip-button";
+
+        button.type =
+          "button";
+
+        button.disabled =
+          !isUnlocked ||
+          isEquipped;
+
+        button.textContent =
+          isEquipped
+            ? "Wearing"
+            : isUnlocked
+              ? "Equip"
+              : "Locked";
+
+        button.addEventListener(
+          "click",
+          () => {
+            equipAvatarItem(
+              item.item_code
+            );
+          }
+        );
+
+        footer.append(
+          requiredPoints,
+          button
+        );
+
+        article.append(
+          top,
+          content,
+          footer
+        );
+
+        wardrobeGrid.appendChild(
+          article
+        );
+      });
+    }
+
+    async function saveAvatarProfile() {
+      const safeNumber =
+        Math.max(
+          1,
+          Math.min(
+            99,
+            Number(shirtNumber.value) || 10
+          )
+        );
+
+      saveAvatarButton.disabled =
+        true;
+
+      setAvatarStatus(
+        "Saving your avatar..."
+      );
+
+      try {
+        const {
+          error
+        } = await supabase
+          .from("player_avatar_profiles")
+          .upsert(
+            {
+              user_id:
+                currentUserId,
+
+              skin_tone:
+                skinTone.value,
+
+              hair_style:
+                hairStyle.value,
+
+              hair_colour:
+                hairColour.value,
+
+              eye_colour:
+                eyeColour.value,
+
+              kit_primary_colour:
+                kitPrimaryColour.value,
+
+              kit_secondary_colour:
+                kitSecondaryColour.value,
+
+              shorts_colour:
+                shortsColour.value,
+
+              socks_colour:
+                socksColour.value,
+
+              shirt_number:
+                safeNumber,
+
+              updated_at:
+                new Date().toISOString()
+            },
+            {
+              onConflict:
+                "user_id"
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        shirtNumber.value =
+          String(safeNumber);
+
+        updateAvatarPreview();
+
+        setAvatarStatus(
+          "Avatar saved successfully.",
+          "success"
+        );
+      } catch (error) {
+        console.error(
+          "Avatar save error:",
+          error
+        );
+
+        setAvatarStatus(
+          "Your avatar could not be saved. Please try again.",
+          "error"
+        );
+      } finally {
+        saveAvatarButton.disabled =
+          false;
+      }
+    }
+
+    async function equipAvatarItem(
+      itemCode
+    ) {
+      setAvatarStatus(
+        "Updating your equipment..."
+      );
+
+      try {
+        const {
+          error
+        } = await supabase.rpc(
+          "equip_avatar_item",
+          {
+            selected_item_code:
+              itemCode
+          }
+        );
+
+        if (error) {
+          throw error;
+        }
+
+        const selectedItem =
+          avatarItems.find(
+            (item) =>
+              item.item_code === itemCode
+          );
+
+        if (selectedItem) {
+          equippedItems[
+            selectedItem.slot
+          ] = itemCode;
+        }
+
+        updateAvatarPreview();
+        renderWardrobe();
+
+        setAvatarStatus(
+          "Equipment updated successfully.",
+          "success"
+        );
+      } catch (error) {
+        console.error(
+          "Equipment update error:",
+          error
+        );
+
+        setAvatarStatus(
+          "That item could not be equipped.",
+          "error"
+        );
+      }
+    }
+
+    async function initialisePlayerLocker() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in to enter the JT Player Locker."
+          );
+
+          return;
+        }
+
+        const user =
+          sessionData.session.user;
+
+        currentUserId =
+          user.id;
+
+        const {
+          data: membership,
+          error: membershipError
+        } = await supabase
+          .from("memberships")
+          .select("subscription_status")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (membershipError) {
+          throw membershipError;
+        }
+
+        if (
+          !membership ||
+          !["trialing", "active"].includes(
+            membership.subscription_status
+          )
+        ) {
+          showError(
+            "Your JT Performance Hub membership is not currently active."
+          );
+
+          return;
+        }
+
+        const {
+          error: initialiseError
+        } = await supabase.rpc(
+          "initialise_my_performance_profile"
+        );
+
+        if (initialiseError) {
+          throw initialiseError;
+        }
+
+        const [
+          profileResult,
+          avatarResult,
+          accountResult,
+          itemResult,
+          unlockResult,
+          equipmentResult
+        ] = await Promise.all([
+          supabase
+            .from("profiles")
+            .select(
+              [
+                "player_name",
+                "primary_position",
+                "playing_level",
+                "onboarding_complete"
+              ].join(",")
+            )
+            .eq("id", user.id)
+            .maybeSingle(),
+
+          supabase
+            .from("player_avatar_profiles")
+            .select("*")
+            .eq("user_id", user.id)
+            .maybeSingle(),
+
+          supabase
+            .from("player_performance_accounts")
+            .select(
+              [
+                "points_balance",
+                "lifetime_points",
+                "current_streak",
+                "best_streak"
+              ].join(",")
+            )
+            .eq("user_id", user.id)
+            .maybeSingle(),
+
+          supabase
+            .from("avatar_items")
+            .select(
+              [
+                "item_code",
+                "item_name",
+                "slot",
+                "item_description",
+                "points_required",
+                "is_default",
+                "is_physical_reward",
+                "sort_order"
+              ].join(",")
+            )
+            .eq("is_active", true)
+            .order(
+              "sort_order",
+              {
+                ascending: true
+              }
+            ),
+
+          supabase
+            .from("player_avatar_unlocks")
+            .select("item_code")
+            .eq("user_id", user.id),
+
+          supabase
+            .from("player_avatar_equipment")
+            .select(
+              "slot, item_code"
+            )
+            .eq("user_id", user.id)
+        ]);
+
+        if (profileResult.error) {
+          throw profileResult.error;
+        }
+
+        if (avatarResult.error) {
+          throw avatarResult.error;
+        }
+
+        if (accountResult.error) {
+          throw accountResult.error;
+        }
+
+        if (itemResult.error) {
+          throw itemResult.error;
+        }
+
+        if (unlockResult.error) {
+          throw unlockResult.error;
+        }
+
+        if (equipmentResult.error) {
+          throw equipmentResult.error;
+        }
+
+        const profile =
+          profileResult.data;
+
+        if (
+          !profile ||
+          !profile.onboarding_complete
+        ) {
+          window.location.replace(
+            "/performance-hub-profile.html"
+          );
+
+          return;
+        }
+
+        currentAccount =
+          accountResult.data || {
+            points_balance: 0,
+            lifetime_points: 0,
+            current_streak: 0,
+            best_streak: 0
+          };
+
+        avatarItems =
+          Array.isArray(
+            itemResult.data
+          )
+            ? itemResult.data
+            : [];
+
+        unlockedItemCodes =
+          new Set(
+            (
+              unlockResult.data || []
+            ).map(
+              (item) =>
+                item.item_code
+            )
+          );
+
+        equippedItems = {};
+
+        (
+          equipmentResult.data || []
+        ).forEach((equipment) => {
+          equippedItems[
+            equipment.slot
+          ] = equipment.item_code;
+        });
+
+        const displayName =
+          profile.player_name ||
+          "JT Player";
+
+        playerIdentity.textContent =
+          `${formatValue(
+            profile.primary_position
+          )} • ${formatValue(
+            profile.playing_level
+          )}`;
+
+        avatarPlayerName.textContent =
+          displayName;
+
+        displayPosition.textContent =
+          formatValue(
+            profile.primary_position
+          ) || "Player";
+
+        displayLevel.textContent =
+          formatValue(
+            profile.playing_level
+          ) || "Developing";
+
+        displayStreak.textContent =
+          `${currentAccount.current_streak || 0} ${
+            currentAccount.current_streak === 1
+              ? "Day"
+              : "Days"
+          }`;
+
+        lifetimePoints.textContent =
+          String(
+            currentAccount.lifetime_points || 0
+          );
+
+        pointsBalance.textContent =
+          String(
+            currentAccount.points_balance || 0
+          );
+
+        applyAvatarProfile(
+          avatarResult.data || {}
+        );
+
+        renderWardrobe();
+
+        showOnly(
+          lockerContent
+        );
+      } catch (error) {
+        console.error(
+          "Player Locker error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading your avatar and equipment."
+        );
+      }
+    }
+
+    colourBindings.forEach(
+      ({ input }) => {
+        input.addEventListener(
+          "input",
+          updateAvatarPreview
+        );
+      }
+    );
+
+    hairStyle.addEventListener(
+      "change",
+      updateAvatarPreview
+    );
+
+    shirtNumber.addEventListener(
+      "input",
+      updateAvatarPreview
+    );
+
+    saveAvatarButton.addEventListener(
+      "click",
+      saveAvatarProfile
+    );
+
+    document
+      .querySelectorAll(
+        ".wardrobe-tab"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            document
+              .querySelectorAll(
+                ".wardrobe-tab"
+              )
+              .forEach((tab) => {
+                tab.classList.remove(
+                  "active"
+                );
+              });
+
+            button.classList.add(
+              "active"
+            );
+
+            activeWardrobeSlot =
+              button.dataset.slot;
+
+            renderWardrobe();
+          }
+        );
+      });
+
+    document
+      .getElementById("signOutButton")
+      .addEventListener(
+        "click",
+        async () => {
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/performance-hub-login.html";
+        }
+      );
+
+    initialisePlayerLocker();
+  </script>
+</body>
+</html>
