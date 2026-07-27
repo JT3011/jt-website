@@ -2,30 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Nutrition Centre | JT Performance Hub</title>
 
   <meta
     name="description"
-    content="Personalised football nutrition guidance inside the JT Performance Hub."
+    content="Build practical performance plates, learn about food choices and unlock a personal nutrition programme inside the JT Performance Hub."
   >
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
@@ -34,17 +21,26 @@
   <style>
     :root {
       --black: #050505;
-      --charcoal: #111111;
+      --charcoal: #101010;
       --panel: #151515;
+      --panel-soft: #111111;
       --gold: #d4af37;
       --gold-light: #f5e6b3;
       --white: #f8f3e7;
       --muted: #bfb7a5;
+      --muted-dark: #817b6f;
       --green: #87d99a;
-      --orange: #f1b76b;
       --blue: #91c7eb;
-      --error: #ff9898;
+      --red: #ff9898;
+      --protein: #b96865;
+      --carbohydrate: #d69f4f;
+      --fat: #7fb88b;
+      --fruit: #b979a6;
+      --vegetable: #68a86f;
+      --hydration: #76b8dc;
       --line: rgba(212, 175, 55, 0.18);
+      --white-line: rgba(255, 255, 255, 0.075);
+      --shadow: 0 36px 110px rgba(0, 0, 0, 0.58);
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
 
@@ -57,22 +53,24 @@
     html {
       min-height: 100%;
       background: var(--black);
+      scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
+      overflow-x: hidden;
       color: var(--white);
       font-family: "Montserrat", sans-serif;
       background:
         radial-gradient(
-          circle at 88% 5%,
+          circle at 88% 3%,
           rgba(212, 175, 55, 0.16),
           transparent 38rem
         ),
         radial-gradient(
-          circle at 6% 88%,
-          rgba(135, 217, 154, 0.07),
-          transparent 30rem
+          circle at 7% 76%,
+          rgba(104, 168, 111, 0.07),
+          transparent 34rem
         ),
         linear-gradient(
           145deg,
@@ -83,6 +81,31 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 1px
+        );
+      background-size: 54px 54px;
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 82%
+        );
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -90,23 +113,38 @@
 
     button {
       font: inherit;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .page {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
     }
 
     .topbar {
-      width: min(1380px, calc(100% - 42px));
-      min-height: 88px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      background: rgba(5, 5, 5, 0.84);
+      backdrop-filter: blur(22px);
+    }
+
+    .topbar-inner {
+      width: min(1480px, calc(100% - 42px));
+      min-height: 84px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 24px;
-      border-bottom: 1px solid var(--line);
     }
 
     .brand {
@@ -116,11 +154,12 @@
     }
 
     .brand img {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       object-fit: cover;
-      border: 1px solid rgba(212, 175, 55, 0.23);
+      border: 1px solid rgba(212, 175, 55, 0.36);
       border-radius: 17px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
     }
 
     .brand-copy strong {
@@ -143,49 +182,66 @@
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 9px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .top-link,
     .signout-button {
-      min-height: 42px;
+      min-height: 41px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0 17px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.025);
+      background: rgba(255, 255, 255, 0.022);
       color: var(--muted);
-      cursor: pointer;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.64rem;
+      letter-spacing: 0.9px;
+      font-size: 0.59rem;
       font-weight: 900;
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
     }
 
     .top-link:hover,
     .signout-button:hover {
-      color: var(--gold);
-      border-color: rgba(212, 175, 55, 0.55);
+      color: var(--gold-light);
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-1px);
     }
 
     .main {
-      width: min(1380px, calc(100% - 42px));
+      width: min(1480px, calc(100% - 42px));
       margin: 0 auto;
-      padding: 56px 0 82px;
+      padding: 42px 0 88px;
     }
 
     .loading-state,
     .error-state {
-      min-height: 620px;
+      min-height: 650px;
       display: grid;
       place-items: center;
       text-align: center;
     }
 
-    .hidden {
-      display: none !important;
+    .state-shell {
+      width: min(100%, 720px);
+      padding: 44px 32px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.008)
+        ),
+        rgba(9, 9, 9, 0.94);
+      box-shadow: var(--shadow);
     }
 
     .spinner {
@@ -213,7 +269,7 @@
     }
 
     .state-copy {
-      max-width: 500px;
+      max-width: 540px;
       margin: 18px auto 0;
       color: var(--muted);
       line-height: 1.7;
@@ -242,18 +298,27 @@
 
     .nutrition-content {
       display: grid;
-      gap: 24px;
+      gap: 25px;
+    }
+
+    .eyebrow {
+      margin-bottom: 17px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2.7px;
+      font-size: 0.68rem;
+      font-weight: 900;
     }
 
     .hero {
       position: relative;
-      min-height: 510px;
+      min-height: 520px;
       display: grid;
       grid-template-columns:
-        minmax(0, 1.15fr)
-        minmax(320px, 0.55fr);
-      gap: 34px;
-      padding: clamp(30px, 5vw, 62px);
+        minmax(0, 1.17fr)
+        minmax(340px, 0.58fr);
+      gap: 36px;
+      padding: clamp(31px, 5vw, 64px);
       overflow: hidden;
       border: 1px solid rgba(212, 175, 55, 0.25);
       border-radius: 38px;
@@ -264,7 +329,7 @@
           transparent 27rem
         ),
         radial-gradient(
-          circle at 64% 90%,
+          circle at 63% 91%,
           rgba(212, 175, 55, 0.12),
           transparent 26rem
         ),
@@ -274,27 +339,33 @@
           rgba(255, 255, 255, 0.018)
         ),
         #080808;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 580px;
+      height: 580px;
+      right: -260px;
+      top: -290px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 50%;
       box-shadow:
-        0 40px 100px rgba(0, 0, 0, 0.62);
+        0 0 0 85px rgba(212, 175, 55, 0.026),
+        0 0 0 170px rgba(212, 175, 55, 0.012);
     }
 
     .hero-copy {
       align-self: end;
     }
 
-    .eyebrow {
-      margin-bottom: 18px;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 0.7rem;
-      font-weight: 900;
-    }
-
     h1 {
-      max-width: 900px;
+      max-width: 930px;
       font-family: "Playfair Display", serif;
-      font-size: clamp(4.4rem, 9vw, 10rem);
+      font-size: clamp(4.5rem, 9vw, 10rem);
       line-height: 0.78;
       letter-spacing: -0.075em;
       text-transform: uppercase;
@@ -306,22 +377,29 @@
     }
 
     .hero-intro {
-      max-width: 720px;
-      margin-top: 28px;
+      max-width: 735px;
+      margin-top: 29px;
       color: var(--muted);
-      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      font-size: clamp(0.95rem, 1.3vw, 1.08rem);
       line-height: 1.8;
     }
 
     .focus-card {
       align-self: stretch;
-      padding: 28px;
+      padding: 29px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       border: 1px solid rgba(212, 175, 55, 0.17);
       border-radius: 27px;
-      background: rgba(0, 0, 0, 0.32);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(127, 184, 139, 0.06),
+          rgba(212, 175, 55, 0.04),
+          rgba(0, 0, 0, 0.22)
+        ),
+        rgba(0, 0, 0, 0.32);
       backdrop-filter: blur(12px);
     }
 
@@ -356,7 +434,7 @@
       color: var(--green);
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       font-weight: 900;
     }
 
@@ -365,8 +443,8 @@
       align-items: end;
       justify-content: space-between;
       gap: 30px;
-      margin-top: 42px;
-      padding-top: 28px;
+      margin-top: 41px;
+      padding-top: 29px;
       border-top: 1px solid var(--line);
     }
 
@@ -379,82 +457,852 @@
     }
 
     .section-heading p {
-      max-width: 500px;
+      max-width: 540px;
       color: var(--muted);
       line-height: 1.7;
     }
 
-    .meal-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 17px;
-    }
-
-    .meal-card {
-      min-height: 380px;
-      padding: 27px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid rgba(212, 175, 55, 0.16);
+    .scenario-panel {
+      padding: 25px;
+      border: 1px solid var(--line);
       border-radius: 27px;
       background:
-        radial-gradient(
-          circle at top right,
-          rgba(212, 175, 55, 0.1),
-          transparent 18rem
-        ),
         linear-gradient(
-          150deg,
-          rgba(255, 255, 255, 0.06),
-          rgba(255, 255, 255, 0.015)
-        );
-      transition:
-        transform 0.35s var(--ease),
-        border-color 0.3s ease;
+          145deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.008)
+        ),
+        rgba(10, 10, 10, 0.82);
     }
 
-    .meal-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(212, 175, 55, 0.48);
+    .scenario-intro {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 20px;
     }
 
-    .meal-label {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 1.6px;
-      font-size: 0.66rem;
-      font-weight: 900;
-    }
-
-    .meal-card h3 {
-      margin: 30px 0 16px;
+    .scenario-intro strong {
+      display: block;
       font-family: "Playfair Display", serif;
-      font-size: clamp(2.2rem, 3.2vw, 3.8rem);
+      font-size: clamp(2rem, 3vw, 3.1rem);
+      line-height: 0.95;
+    }
+
+    .scenario-intro span {
+      max-width: 500px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.65;
+      text-align: right;
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scenario-button {
+      min-height: 98px;
+      padding: 15px;
+      border: 1px solid var(--white-line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.018);
+      color: var(--muted);
+      text-align: left;
+      transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s var(--ease);
+    }
+
+    .scenario-button strong {
+      display: block;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 0.67rem;
+    }
+
+    .scenario-button span {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.64rem;
+      line-height: 1.45;
+    }
+
+    .scenario-button:hover,
+    .scenario-button.selected {
+      transform: translateY(-3px);
+      border-color: rgba(212, 175, 55, 0.58);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.11),
+          rgba(255, 255, 255, 0.02)
+        );
+      color: var(--gold-light);
+    }
+
+    .builder-shell {
+      display: grid;
+      grid-template-columns:
+        minmax(360px, 0.82fr)
+        minmax(0, 1.18fr);
+      gap: 19px;
+    }
+
+    .visual-panel,
+    .choice-panel {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.007)
+        ),
+        rgba(9, 9, 9, 0.9);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.27);
+    }
+
+    .visual-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+    }
+
+    .visual-panel::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -140px;
+      bottom: -145px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 45px rgba(212, 175, 55, 0.02),
+        0 0 0 90px rgba(212, 175, 55, 0.01);
+    }
+
+    .visual-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .visual-top h3,
+    .choice-header h3,
+    .insight-panel h3,
+    .programme-copy h3 {
+      margin-top: 10px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 4vw, 4.3rem);
       line-height: 0.9;
       letter-spacing: -0.05em;
       text-transform: uppercase;
     }
 
-    .meal-card p {
+    .readiness-pill {
+      flex: 0 0 auto;
+      min-width: 105px;
+      padding: 11px 13px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 18px;
+      background: rgba(212, 175, 55, 0.055);
+      text-align: center;
+    }
+
+    .readiness-pill strong {
+      display: block;
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .readiness-pill span {
+      display: block;
+      margin-top: 5px;
       color: var(--muted);
-      line-height: 1.7;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 0.51rem;
+      font-weight: 900;
     }
 
-    .food-list {
+    .plate-stage {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 430px);
+      aspect-ratio: 1;
+      margin: 30px auto 24px;
       display: grid;
-      gap: 8px;
-      margin-top: 24px;
+      place-items: center;
     }
 
-    .food-item {
-      padding: 10px 12px;
-      border: 1px solid rgba(212, 175, 55, 0.12);
-      border-radius: 13px;
+    .plate-ring {
+      position: relative;
+      width: 88%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle,
+          #0e0e0e 0 36%,
+          transparent 37%
+        ),
+        conic-gradient(
+          from -90deg,
+          rgba(185, 104, 101, 0.94) 0deg 60deg,
+          rgba(214, 159, 79, 0.94) 60deg 120deg,
+          rgba(127, 184, 139, 0.94) 120deg 180deg,
+          rgba(185, 121, 166, 0.94) 180deg 240deg,
+          rgba(104, 168, 111, 0.94) 240deg 300deg,
+          rgba(118, 184, 220, 0.94) 300deg 360deg
+        );
+      box-shadow:
+        inset 0 0 0 15px rgba(5, 5, 5, 0.8),
+        inset 0 0 60px rgba(0, 0, 0, 0.55),
+        0 30px 80px rgba(0, 0, 0, 0.42);
+      transition: transform 0.42s var(--ease);
+    }
+
+    .plate-ring.pulse {
+      transform: scale(1.025);
+    }
+
+    .plate-centre {
+      position: absolute;
+      inset: 29%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.26);
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          rgba(212, 175, 55, 0.11),
+          transparent 65%
+        ),
+        #090909;
+      text-align: center;
+      box-shadow: 0 0 45px rgba(0, 0, 0, 0.46);
+    }
+
+    .plate-centre strong {
+      display: block;
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 0.8;
+    }
+
+    .plate-centre span {
+      display: block;
+      margin-top: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      font-size: 0.52rem;
+      font-weight: 900;
+    }
+
+    .plate-label {
+      position: absolute;
+      width: 112px;
+      padding: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      background: rgba(8, 8, 8, 0.86);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      box-shadow: 0 11px 28px rgba(0, 0, 0, 0.26);
+    }
+
+    .plate-label span {
+      display: block;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 0.48rem;
+      font-weight: 900;
+    }
+
+    .plate-label strong {
+      display: block;
+      overflow: hidden;
+      color: var(--white);
+      font-size: 0.62rem;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .plate-label.protein {
+      top: 1%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .plate-label.carbohydrate {
+      top: 22%;
+      right: -2%;
+    }
+
+    .plate-label.fat {
+      right: 1%;
+      bottom: 18%;
+    }
+
+    .plate-label.fruit {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .plate-label.vegetable {
+      bottom: 18%;
+      left: 1%;
+    }
+
+    .plate-label.hydration {
+      top: 22%;
+      left: -2%;
+    }
+
+    .plate-label.protein span { color: var(--protein); }
+    .plate-label.carbohydrate span { color: var(--carbohydrate); }
+    .plate-label.fat span { color: var(--fat); }
+    .plate-label.fruit span { color: var(--fruit); }
+    .plate-label.vegetable span { color: var(--vegetable); }
+    .plate-label.hydration span { color: var(--hydration); }
+
+    .plate-feedback {
+      position: relative;
+      z-index: 2;
+      padding: 18px;
+      border: 1px solid var(--white-line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .plate-feedback strong {
+      display: block;
       color: var(--gold-light);
       font-size: 0.72rem;
-      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .plate-feedback p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.65;
+    }
+
+    .choice-panel {
+      padding: 28px;
+    }
+
+    .choice-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 25px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--white-line);
+    }
+
+    .choice-header p {
+      max-width: 470px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.65;
+      text-align: right;
+    }
+
+    .category-tabs {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .category-tab {
+      --category-colour: var(--gold);
+      min-height: 76px;
+      padding: 11px 8px;
+      border: 1px solid var(--white-line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.017);
+      color: var(--muted);
+      text-align: center;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s var(--ease);
+    }
+
+    .category-tab[data-category="protein"] {
+      --category-colour: var(--protein);
+    }
+
+    .category-tab[data-category="carbohydrate"] {
+      --category-colour: var(--carbohydrate);
+    }
+
+    .category-tab[data-category="fat"] {
+      --category-colour: var(--fat);
+    }
+
+    .category-tab[data-category="fruit"] {
+      --category-colour: var(--fruit);
+    }
+
+    .category-tab[data-category="vegetable"] {
+      --category-colour: var(--vegetable);
+    }
+
+    .category-tab[data-category="hydration"] {
+      --category-colour: var(--hydration);
+    }
+
+    .category-tab::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      display: block;
+      margin: 0 auto 9px;
+      border-radius: 50%;
+      background: var(--category-colour);
+      box-shadow: 0 0 18px color-mix(in srgb, var(--category-colour) 60%, transparent);
+    }
+
+    .category-tab strong {
+      display: block;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.55px;
+      font-size: 0.55rem;
+    }
+
+    .category-tab span {
+      display: block;
+      margin-top: 5px;
+      font-size: 0.52rem;
+    }
+
+    .category-tab:hover,
+    .category-tab.active {
+      transform: translateY(-2px);
+      border-color: var(--category-colour);
+      background: color-mix(in srgb, var(--category-colour) 10%, transparent);
+      color: var(--category-colour);
+    }
+
+    .category-tab.complete {
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--category-colour) 30%, transparent);
+    }
+
+    .category-heading {
+      margin-top: 22px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .category-heading strong {
+      color: var(--white);
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+    }
+
+    .category-heading span {
+      color: var(--muted);
+      font-size: 0.67rem;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    .food-options {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .food-option {
+      --option-colour: var(--gold);
+      position: relative;
+      min-height: 116px;
+      padding: 15px;
+      overflow: hidden;
+      border: 1px solid var(--white-line);
+      border-radius: 17px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.025),
+          rgba(255, 255, 255, 0.006)
+        );
+      color: var(--muted);
+      text-align: left;
+      transition:
+        transform 0.25s var(--ease),
+        border-color 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .food-option::after {
+      content: "";
+      position: absolute;
+      width: 85px;
+      height: 85px;
+      right: -38px;
+      top: -40px;
+      border-radius: 50%;
+      background: var(--option-colour);
+      filter: blur(34px);
+      opacity: 0.18;
+    }
+
+    .food-option:hover,
+    .food-option.selected {
+      transform: translateY(-4px);
+      border-color: var(--option-colour);
+      background: color-mix(in srgb, var(--option-colour) 9%, rgba(255, 255, 255, 0.018));
+    }
+
+    .food-option.selected {
+      box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--option-colour) 30%, transparent),
+        0 14px 34px rgba(0, 0, 0, 0.25);
+    }
+
+    .food-monogram {
+      position: relative;
+      z-index: 1;
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--option-colour) 45%, transparent);
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--option-colour) 10%, transparent);
+      color: var(--option-colour);
+      font-family: "Playfair Display", serif;
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .food-option strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-top: 14px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.55px;
+      font-size: 0.65rem;
+    }
+
+    .food-option span {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-top: 6px;
+      font-size: 0.61rem;
       line-height: 1.45;
+    }
+
+    .insight-panel {
+      margin-top: 18px;
+      padding: 21px;
+      border: 1px solid var(--white-line);
+      border-radius: 20px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.055),
+          rgba(255, 255, 255, 0.012)
+        );
+    }
+
+    .insight-panel h3 {
+      font-size: clamp(2rem, 3vw, 3.2rem);
+    }
+
+    .insight-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .insight-item {
+      padding: 15px;
+      border: 1px solid var(--white-line);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.21);
+    }
+
+    .insight-item strong {
+      display: block;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 0.65px;
+      font-size: 0.55rem;
+    }
+
+    .insight-item p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.65rem;
+      line-height: 1.55;
+    }
+
+    .builder-actions {
+      margin-top: 19px;
+      padding-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      border-top: 1px solid var(--white-line);
+    }
+
+    .save-status {
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.55;
+    }
+
+    .save-status.success {
+      color: var(--green);
+    }
+
+    .save-status.error {
+      color: var(--red);
+    }
+
+    .save-plate-button {
+      min-height: 51px;
+      padding: 0 23px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      font-size: 0.66rem;
+      font-weight: 900;
+      box-shadow: 0 15px 38px rgba(212, 175, 55, 0.12);
+      transition:
+        transform 0.22s var(--ease),
+        opacity 0.22s ease;
+    }
+
+    .save-plate-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .save-plate-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .programme-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 350px;
+      padding: clamp(28px, 4vw, 48px);
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(310px, 0.7fr);
+      gap: 32px;
+      align-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 32px;
+      background:
+        radial-gradient(
+          circle at 88% 12%,
+          rgba(212, 175, 55, 0.18),
+          transparent 24rem
+        ),
+        radial-gradient(
+          circle at 16% 88%,
+          rgba(118, 184, 220, 0.07),
+          transparent 25rem
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.01)
+        ),
+        #090909;
+      box-shadow: 0 32px 100px rgba(0, 0, 0, 0.38);
+    }
+
+    .programme-card::after {
+      content: "JT";
+      position: absolute;
+      right: -22px;
+      bottom: -48px;
+      color: rgba(212, 175, 55, 0.035);
+      font-family: "Playfair Display", serif;
+      font-size: 15rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .programme-copy,
+    .programme-progress {
+      position: relative;
+      z-index: 2;
+    }
+
+    .programme-copy p {
+      max-width: 690px;
+      margin-top: 20px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .programme-badge {
+      width: fit-content;
+      min-height: 31px;
+      margin-top: 22px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.055);
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      font-size: 0.56rem;
+      font-weight: 900;
+    }
+
+    .programme-badge.unlocked {
+      border-color: rgba(135, 217, 154, 0.28);
+      background: rgba(135, 217, 154, 0.055);
+      color: var(--green);
+    }
+
+    .programme-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .programme-progress {
+      padding: 24px;
+      border: 1px solid var(--white-line);
+      border-radius: 23px;
+      background: rgba(0, 0, 0, 0.29);
+    }
+
+    .programme-number {
+      display: flex;
+      align-items: end;
+      gap: 8px;
+    }
+
+    .programme-number strong {
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.2rem, 7vw, 7rem);
+      line-height: 0.75;
+      letter-spacing: -0.06em;
+    }
+
+    .programme-number span {
+      margin-bottom: 5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 0.57rem;
+      font-weight: 900;
+    }
+
+    .progress-track {
+      height: 10px;
+      margin-top: 23px;
+      overflow: hidden;
+      border: 1px solid var(--white-line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #7e641e,
+          var(--gold-light)
+        );
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.24);
+      transition: width 0.6s var(--ease);
+    }
+
+    .progress-meta {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.59rem;
+      font-weight: 700;
+    }
+
+    .programme-button {
+      width: 100%;
+      min-height: 49px;
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.85px;
+      font-size: 0.64rem;
+      font-weight: 900;
+    }
+
+    .programme-button.locked {
+      cursor: not-allowed;
+      border-color: var(--white-line);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
     }
 
     .timing-grid {
@@ -468,7 +1316,12 @@
       padding: 24px;
       border: 1px solid rgba(212, 175, 55, 0.15);
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.025);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.007)
+        );
     }
 
     .timing-number {
@@ -480,20 +1333,20 @@
 
     .timing-card h3 {
       margin: 18px 0 11px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.1px;
     }
 
     .timing-card p {
       color: var(--muted);
-      font-size: 0.77rem;
+      font-size: 0.75rem;
       line-height: 1.65;
     }
 
     .lower-grid {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
 
@@ -501,7 +1354,13 @@
       padding: 30px;
       border: 1px solid rgba(212, 175, 55, 0.16);
       border-radius: 28px;
-      background: rgba(255, 255, 255, 0.025);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.006)
+        ),
+        rgba(255, 255, 255, 0.018);
     }
 
     .panel-label {
@@ -521,46 +1380,46 @@
       text-transform: uppercase;
     }
 
-    .hydration-list,
-    .standards-list {
+    .quick-list {
       display: grid;
-      gap: 12px;
-      margin-top: 26px;
+      gap: 11px;
+      margin-top: 25px;
     }
 
-    .hydration-item,
-    .standard-item {
-      padding: 17px;
-      border: 1px solid rgba(212, 175, 55, 0.12);
-      border-radius: 17px;
-      background: rgba(0, 0, 0, 0.22);
+    .quick-item {
+      padding: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.11);
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.21);
     }
 
-    .hydration-item strong,
-    .standard-item strong {
+    .quick-item strong {
       display: block;
       margin-bottom: 6px;
       color: var(--white);
-      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
+      font-size: 0.7rem;
     }
 
-    .hydration-item span,
-    .standard-item span {
+    .quick-item span {
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       line-height: 1.55;
     }
 
     .goal-box {
-      margin-top: 26px;
-      padding: 20px;
+      margin-top: 24px;
+      padding: 19px;
       border-left: 3px solid var(--gold);
       border-radius: 0 18px 18px 0;
-      background: rgba(0, 0, 0, 0.26);
+      background: rgba(0, 0, 0, 0.25);
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.65;
+    }
+
+    .goal-box strong {
+      color: var(--gold-light);
     }
 
     .notice {
@@ -569,7 +1428,7 @@
       border-radius: 20px;
       background: rgba(145, 199, 235, 0.045);
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       line-height: 1.7;
     }
 
@@ -578,7 +1437,7 @@
     }
 
     .footer {
-      width: min(1380px, calc(100% - 42px));
+      width: min(1480px, calc(100% - 42px));
       margin: 0 auto;
       padding: 28px 0;
       display: flex;
@@ -587,7 +1446,7 @@
       flex-wrap: wrap;
       border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
     }
 
     .footer strong {
@@ -596,67 +1455,137 @@
       letter-spacing: 1px;
     }
 
-    @media (max-width: 1050px) {
+    @media (max-width: 1180px) {
       .hero,
-      .lower-grid {
+      .builder-shell,
+      .programme-card {
         grid-template-columns: 1fr;
       }
 
-      .meal-grid {
-        grid-template-columns: 1fr;
+      .focus-card,
+      .programme-progress {
+        max-width: 700px;
+      }
+
+      .scenario-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 930px) {
+      .category-tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .food-options,
+      .insight-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .timing-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .meal-card {
-        min-height: 310px;
+      .lower-grid {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 700px) {
-      .topbar {
-        width: min(100% - 28px, 1380px);
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .main,
+      .footer {
+        width: min(100% - 28px, 1480px);
       }
 
-      .brand-copy {
-        display: none;
-      }
-
+      .brand-copy,
       .top-actions .top-link {
         display: none;
       }
 
-      .main,
-      .footer {
-        width: min(100% - 28px, 1380px);
-      }
-
       .hero {
         min-height: auto;
-        padding: 27px 20px;
-        border-radius: 27px;
+        padding: 28px 21px;
+        border-radius: 28px;
       }
 
       h1 {
         font-size: clamp(4rem, 21vw, 6.5rem);
       }
 
-      .section-heading {
+      .section-heading,
+      .scenario-intro,
+      .choice-header,
+      .category-heading {
         display: block;
       }
 
-      .section-heading p {
-        margin-top: 18px;
+      .section-heading p,
+      .scenario-intro span,
+      .choice-header p,
+      .category-heading span {
+        margin-top: 15px;
+        text-align: left;
       }
 
+      .scenario-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .builder-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .save-plate-button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .scenario-grid,
+      .food-options,
+      .insight-grid,
       .timing-grid {
         grid-template-columns: 1fr;
       }
 
+      .category-tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .visual-panel,
+      .choice-panel,
+      .panel {
+        padding: 21px;
+      }
+
+      .plate-label {
+        width: 94px;
+      }
+
+      .plate-label.carbohydrate,
+      .plate-label.fat {
+        right: -6%;
+      }
+
+      .plate-label.vegetable,
+      .plate-label.hydration {
+        left: -6%;
+      }
+
       .footer {
         flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -664,55 +1593,47 @@
 
 <body>
   <div class="page">
-
     <header class="topbar">
-      <a
-        class="brand"
-        href="/performance-hub-dashboard.html"
-      >
-        <img
-          src="images/logo.jpeg"
-          alt="JT Mind and Body Balance logo"
-        >
+      <div class="topbar-inner">
+        <a class="brand" href="/performance-hub-dashboard.html">
+          <img
+            src="images/logo.jpeg"
+            alt="JT Mind and Body Balance logo"
+          >
 
-        <span class="brand-copy">
-          <strong>JT Performance Hub</strong>
-          <span>Nutrition Centre</span>
-        </span>
-      </a>
-
-      <div class="top-actions">
-        <a
-          class="top-link"
-          href="/performance-hub-training.html"
-        >
-          Training Centre
+          <span class="brand-copy">
+            <strong>JT Performance Hub</strong>
+            <span>Nutrition Centre</span>
+          </span>
         </a>
 
-        <a
-          class="top-link"
-          href="/performance-hub-dashboard.html"
-        >
-          Dashboard
-        </a>
+        <nav class="top-actions" aria-label="Performance Hub navigation">
+          <a class="top-link" href="/performance-hub-dashboard.html">
+            Dashboard
+          </a>
 
-        <button
-          class="signout-button"
-          id="signOutButton"
-          type="button"
-        >
-          Sign Out
-        </button>
+          <a class="top-link" href="/performance-hub-training.html">
+            Training
+          </a>
+
+          <a class="top-link" href="/performance-hub-progress.html">
+            Progress
+          </a>
+
+          <a class="top-link" href="/performance-hub-rewards.html">
+            Rewards
+          </a>
+
+          <button class="signout-button" id="signOutButton" type="button">
+            Sign Out
+          </button>
+        </nav>
       </div>
     </header>
 
     <main class="main">
-
-      <section
-        class="loading-state"
-        id="loadingState"
-      >
-        <div>
+      <section class="loading-state" id="loadingState">
+        <div class="state-shell">
           <div class="spinner"></div>
 
           <h1 class="state-title">
@@ -720,39 +1641,26 @@
           </h1>
 
           <p class="state-copy">
-            Preparing practical guidance around your football profile.
+            Preparing your interactive performance plate and personal nutrition progress.
           </p>
         </div>
       </section>
 
-      <section
-        class="error-state hidden"
-        id="errorState"
-      >
-        <div>
+      <section class="error-state hidden" id="errorState">
+        <div class="state-shell">
           <h1 class="state-title">
             Nutrition Unavailable.
           </h1>
 
-          <p
-            class="state-copy"
-            id="errorText"
-          ></p>
+          <p class="state-copy" id="errorText"></p>
 
-          <a
-            class="state-button"
-            href="/performance-hub-login.html"
-          >
+          <a class="state-button" href="/performance-hub-login.html">
             Member Login
           </a>
         </div>
       </section>
 
-      <section
-        class="nutrition-content hidden"
-        id="nutritionContent"
-      >
-
+      <section class="nutrition-content hidden" id="nutritionContent">
         <section class="hero">
           <div class="hero-copy">
             <div class="eyebrow">
@@ -760,14 +1668,14 @@
             </div>
 
             <h1>
-              Fuel The
-              <span class="gold-text">Performance.</span>
+              Build The
+              <span class="gold-text">Fuel.</span>
             </h1>
 
             <p class="hero-intro">
-              Welcome, <strong id="playerName"></strong>. Build reliable
-              habits that support training quality, match preparation,
-              recovery and everyday energy.
+              Welcome, <strong id="playerName"></strong>. Build a performance plate,
+              explore practical food choices and learn how different options can support
+              training, match preparation and recovery.
             </p>
           </div>
 
@@ -780,138 +1688,316 @@
               <p id="nutritionFocus"></p>
             </div>
 
-            <div
-              class="profile-badge"
-              id="profileBadge"
-            ></div>
+            <div class="profile-badge" id="profileBadge"></div>
           </aside>
         </section>
 
         <div class="section-heading">
           <div>
             <div class="eyebrow">
-              Simple Performance Meals
+              Interactive Performance Plate
             </div>
 
             <h2>
-              Build Your Plate.
+              Choose. Learn.
+              <span class="gold-text">Build.</span>
             </h2>
           </div>
 
           <p>
-            Food does not need to be complicated. Aim for regular meals,
-            enough energy and a balanced mix of carbohydrates, protein,
-            fruit, vegetables and fluids.
+            Pick one option from each category. The aim is not a perfect meal—it is
+            learning how different foods can combine to support the demands of football.
           </p>
         </div>
 
-        <section
-          class="meal-grid"
-          id="mealGrid"
-        ></section>
+        <section class="scenario-panel">
+          <div class="scenario-intro">
+            <div>
+              <div class="eyebrow">Step One</div>
+              <strong>Choose The Moment.</strong>
+            </div>
+
+            <span>
+              Your guidance changes depending on whether you are building an everyday,
+              training, matchday or recovery plate.
+            </span>
+          </div>
+
+          <div class="scenario-grid" id="scenarioGrid"></div>
+        </section>
+
+        <section class="builder-shell">
+          <article class="visual-panel">
+            <div class="visual-top">
+              <div>
+                <div class="eyebrow">Your Selection</div>
+                <h3>Performance Plate.</h3>
+              </div>
+
+              <div class="readiness-pill">
+                <strong id="readinessScore">0%</strong>
+                <span>Plate Readiness</span>
+              </div>
+            </div>
+
+            <div class="plate-stage">
+              <div class="plate-ring" id="plateRing">
+                <div class="plate-centre">
+                  <div>
+                    <strong id="selectedCount">0/6</strong>
+                    <span>Choices Complete</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="plate-label protein">
+                <span>Protein</span>
+                <strong id="plateProtein">Choose One</strong>
+              </div>
+
+              <div class="plate-label carbohydrate">
+                <span>Carbohydrate</span>
+                <strong id="plateCarbohydrate">Choose One</strong>
+              </div>
+
+              <div class="plate-label fat">
+                <span>Healthy Fat</span>
+                <strong id="plateFat">Choose One</strong>
+              </div>
+
+              <div class="plate-label fruit">
+                <span>Fruit</span>
+                <strong id="plateFruit">Choose One</strong>
+              </div>
+
+              <div class="plate-label vegetable">
+                <span>Vegetable</span>
+                <strong id="plateVegetable">Choose One</strong>
+              </div>
+
+              <div class="plate-label hydration">
+                <span>Hydration</span>
+                <strong id="plateHydration">Choose One</strong>
+              </div>
+            </div>
+
+            <div class="plate-feedback">
+              <strong id="plateFeedbackTitle">Begin Your Plate</strong>
+              <p id="plateFeedbackText">
+                Choose a meal scenario, then work through each food category.
+              </p>
+            </div>
+          </article>
+
+          <article class="choice-panel">
+            <div class="choice-header">
+              <div>
+                <div class="eyebrow">Step Two</div>
+                <h3>Build Your Choices.</h3>
+              </div>
+
+              <p>
+                Open each category, choose an item and use the short insight panel to
+                understand where it may fit into a footballer’s routine.
+              </p>
+            </div>
+
+            <div class="category-tabs" id="categoryTabs"></div>
+
+            <div class="category-heading">
+              <strong id="categoryTitle">Protein</strong>
+              <span id="categoryPrompt">Choose a practical protein source.</span>
+            </div>
+
+            <div class="food-options" id="foodOptions"></div>
+
+            <section class="insight-panel">
+              <div class="eyebrow" id="insightEyebrow">Food Insight</div>
+              <h3 id="insightTitle">Choose An Item.</h3>
+
+              <div class="insight-grid">
+                <div class="insight-item">
+                  <strong>What It Supports</strong>
+                  <p id="insightSupports">
+                    Select a food to reveal a short performance-focused explanation.
+                  </p>
+                </div>
+
+                <div class="insight-item">
+                  <strong>When It May Fit</strong>
+                  <p id="insightTiming">
+                    Guidance will change based on the food and meal scenario.
+                  </p>
+                </div>
+
+                <div class="insight-item">
+                  <strong>Simple Pairing</strong>
+                  <p id="insightPairing">
+                    You will receive one practical meal-building idea.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <div class="builder-actions">
+              <p class="save-status" id="saveStatus" aria-live="polite">
+                Complete all six categories to save your plate and earn 5 Performance Points once today.
+              </p>
+
+              <button
+                class="save-plate-button"
+                id="savePlateButton"
+                type="button"
+                disabled
+              >
+                Save Performance Plate
+              </button>
+            </div>
+          </article>
+        </section>
 
         <div class="section-heading">
           <div>
             <div class="eyebrow">
-              Training And Match Timing
+              Earned Access
             </div>
 
             <h2>
-              Fuel At The Right Time.
+              Your Nutrition
+              <span class="gold-text">Programme.</span>
             </h2>
           </div>
 
           <p>
-            Familiar foods usually work best before football. Avoid making
-            match day the moment you experiment with something completely new.
+            Consistent use of the Performance Hub builds lifetime points. Reach the
+            target to unlock your detailed personal nutrition-programme questionnaire.
+          </p>
+        </div>
+
+        <section class="programme-card">
+          <div class="programme-copy">
+            <div class="eyebrow">JT Personal Nutrition Programme</div>
+            <h3 id="programmeTitle">Earn The Next Level.</h3>
+
+            <p id="programmeDescription">
+              Keep completing meaningful activities across the Hub. When your lifetime
+              total reaches the target, access to the professional nutrition intake form
+              unlocks automatically.
+            </p>
+
+            <div class="programme-badge" id="programmeBadge">
+              Programme Locked
+            </div>
+          </div>
+
+          <div class="programme-progress">
+            <div class="programme-number">
+              <strong id="programmeLifetimePoints">0</strong>
+              <span>Lifetime Points</span>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-fill" id="programmeProgressFill"></div>
+            </div>
+
+            <div class="progress-meta">
+              <span id="programmeProgressText">0 of 2,500</span>
+              <span id="programmeRemainingText">2,500 remaining</span>
+            </div>
+
+            <a
+              class="programme-button locked"
+              id="programmeButton"
+              href="#"
+              aria-disabled="true"
+            >
+              Keep Earning Points
+            </a>
+          </div>
+        </section>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">
+              Football Fuel Timing
+            </div>
+
+            <h2>
+              Keep It
+              <span class="gold-text">Practical.</span>
+            </h2>
+          </div>
+
+          <p>
+            Familiar foods and regular habits usually beat complicated plans. Use these
+            four checkpoints as a simple match and training framework.
           </p>
         </div>
 
         <section class="timing-grid">
           <article class="timing-card">
             <div class="timing-number">01</div>
-
             <h3>Earlier In The Day</h3>
-
             <p>
-              Eat a balanced meal containing carbohydrates, protein and
-              familiar foods that feel comfortable.
+              Build a familiar meal with carbohydrate, protein, colour and fluids rather
+              than trying to catch up immediately before football.
             </p>
           </article>
 
           <article class="timing-card">
             <div class="timing-number">02</div>
-
             <h3>Before Football</h3>
-
             <p>
-              Choose an easy-to-digest snack when needed, such as fruit,
-              toast, yoghurt or a simple cereal option.
+              Choose comfortable foods you know you tolerate. A simple carbohydrate-rich
+              snack may be useful when there is a long gap between meals and activity.
             </p>
           </article>
 
           <article class="timing-card">
             <div class="timing-number">03</div>
-
             <h3>During Activity</h3>
-
             <p>
-              Drink regularly and use breaks as a reminder rather than
-              waiting until you feel very thirsty.
+              Use breaks as a reminder to drink. Longer sessions, warmer conditions and
+              heavier sweating increase the importance of regular fluids.
             </p>
           </article>
 
           <article class="timing-card">
             <div class="timing-number">04</div>
-
             <h3>After Football</h3>
-
             <p>
-              Follow training or matches with fluids and a meal or snack
-              containing carbohydrates and protein.
+              Follow activity with fluids and a meal or snack containing carbohydrate
+              and protein, then return to your normal eating pattern.
             </p>
           </article>
         </section>
 
         <section class="lower-grid">
           <article class="panel">
-            <div class="panel-label">
-              Hydration Habits
-            </div>
+            <div class="panel-label">Professional Standards</div>
+            <h3>Small Habits. Often.</h3>
 
-            <h3>
-              Arrive Ready.
-            </h3>
-
-            <div class="hydration-list">
-              <div class="hydration-item">
-                <strong>Start Early</strong>
+            <div class="quick-list">
+              <div class="quick-item">
+                <strong>Eat Regularly</strong>
                 <span>
-                  Drink across the day rather than trying to catch up
-                  immediately before football.
+                  Regular meals and snacks can make it easier to arrive at training with
+                  energy and concentration.
                 </span>
               </div>
 
-              <div class="hydration-item">
-                <strong>Bring A Bottle</strong>
+              <div class="quick-item">
+                <strong>Use Variety</strong>
                 <span>
-                  Keep water available at school, work, training and matches.
+                  Rotate food choices across the week instead of chasing one supposedly
+                  perfect meal or ingredient.
                 </span>
               </div>
 
-              <div class="hydration-item">
-                <strong>Use Conditions</strong>
+              <div class="quick-item">
+                <strong>Prepare Early</strong>
                 <span>
-                  Hot weather, long sessions and heavy sweating increase the
-                  importance of regular fluids.
-                </span>
-              </div>
-
-              <div class="hydration-item">
-                <strong>Recover Afterwards</strong>
-                <span>
-                  Continue drinking after the session instead of stopping
-                  when football finishes.
+                  Pack food, bottles and matchday options before the schedule becomes busy.
                 </span>
               </div>
             </div>
@@ -923,44 +2009,31 @@
           </article>
 
           <article class="panel">
-            <div class="panel-label">
-              Everyday Standards
-            </div>
+            <div class="panel-label">Hydration Check</div>
+            <h3>Arrive Ready.</h3>
 
-            <h3>
-              Consistency Wins.
-            </h3>
-
-            <div class="standards-list">
-              <div class="standard-item">
-                <strong>Eat Regularly</strong>
+            <div class="quick-list">
+              <div class="quick-item">
+                <strong>Start Across The Day</strong>
                 <span>
-                  Skipping meals can make it harder to train with energy
-                  and concentration.
+                  Drinking steadily is usually more practical than trying to consume a
+                  large amount just before training or kick-off.
                 </span>
               </div>
 
-              <div class="standard-item">
-                <strong>Include Carbohydrates</strong>
+              <div class="quick-item">
+                <strong>Bring Your Bottle</strong>
                 <span>
-                  Foods such as rice, pasta, potatoes, bread, oats and fruit
-                  help provide energy for football.
+                  Keep fluids available at school, work, training and matches so the habit
+                  does not depend on memory alone.
                 </span>
               </div>
 
-              <div class="standard-item">
-                <strong>Include Protein</strong>
+              <div class="quick-item">
+                <strong>Continue Afterwards</strong>
                 <span>
-                  Foods such as eggs, yoghurt, milk, beans, fish, meat and
-                  tofu can support growth and recovery.
-                </span>
-              </div>
-
-              <div class="standard-item">
-                <strong>Choose Variety</strong>
-                <span>
-                  Use different fruits, vegetables and meal choices across
-                  the week rather than chasing one perfect food.
+                  Recovery continues after the final whistle. Resume normal drinking and
+                  eating rather than stopping when the session ends.
                 </span>
               </div>
             </div>
@@ -969,19 +2042,17 @@
 
         <div class="notice">
           <strong>Important:</strong>
-          This page provides general sports-nutrition education, not medical
-          advice or an individual diet prescription. Young players should
-          make nutrition decisions with a parent or guardian. Anyone with
-          allergies, medical conditions, eating concerns or specialist needs
-          should speak with an appropriately qualified healthcare professional.
+          This page provides general sports-nutrition education, not medical advice or an
+          individual diet prescription. Young players should make nutrition decisions with
+          a parent or guardian. Anyone with allergies, medical conditions, eating concerns
+          or specialist needs should speak with an appropriately qualified healthcare professional.
         </div>
-
       </section>
     </main>
 
     <footer class="footer">
       <div>
-        <strong>JT Mind & Body Balance</strong>
+        <strong>JT Mind &amp; Body Balance</strong>
       </div>
 
       <div>
@@ -1020,33 +2091,28 @@
       goalkeeper: {
         title: "Stay Sharp And Ready.",
         focus:
-          "Support concentration, explosive actions and recovery with regular meals, fluids and reliable match-day habits."
+          "Support concentration, explosive actions and recovery with regular meals, fluids and reliable matchday habits."
       },
-
       defender: {
         title: "Fuel Strength And Focus.",
         focus:
           "Support repeated defensive actions, concentration and physical recovery across the full match."
       },
-
       midfielder: {
         title: "Fuel The Engine.",
         focus:
           "Build steady energy for high movement demands, repeated efforts and decision-making throughout the game."
       },
-
       winger: {
         title: "Fuel Explosive Actions.",
         focus:
           "Support speed, repeated sprints and recovery with consistent carbohydrates, protein and hydration."
       },
-
       striker: {
         title: "Stay Fast And Clinical.",
         focus:
           "Support explosive movement, concentration and finishing quality by arriving properly fuelled."
       },
-
       versatile: {
         title: "Build Reliable Habits.",
         focus:
@@ -1054,43 +2120,433 @@
       }
     };
 
-    const MEAL_GUIDANCE = [
+    const SCENARIOS = [
       {
-        label: "Breakfast",
-        title: "Start With Energy.",
-        description:
-          "Combine a carbohydrate source with protein, fruit and fluids.",
-        examples: [
-          "Porridge, fruit and yoghurt",
-          "Eggs on toast with fruit",
-          "Wholegrain cereal, milk and banana"
-        ]
+        key: "everyday_meal",
+        label: "Everyday Meal",
+        short: "Reliable daily balance",
+        feedback:
+          "Build a practical mix you could repeat consistently across a normal day."
       },
-
       {
-        label: "Main Meal",
-        title: "Build A Balanced Plate.",
-        description:
-          "Use carbohydrates for energy, protein for recovery and colourful foods for variety.",
-        examples: [
-          "Rice, chicken or tofu and vegetables",
-          "Pasta with a protein-rich sauce",
-          "Potatoes, fish or beans and salad"
-        ]
+        key: "pre_training",
+        label: "Pre-Training",
+        short: "Familiar fuel before work",
+        feedback:
+          "Prioritise familiar foods and a carbohydrate source that feels comfortable before activity."
       },
-
       {
-        label: "Snack",
-        title: "Keep It Practical.",
-        description:
-          "Choose simple foods that help bridge the gap between meals and football.",
-        examples: [
-          "Fruit and yoghurt",
-          "Toast with a suitable topping",
-          "Milk, cereal or a simple sandwich"
-        ]
+        key: "post_training",
+        label: "Post-Training",
+        short: "Refuel and recover",
+        feedback:
+          "Include carbohydrate, protein and fluids to support the return to your normal routine."
+      },
+      {
+        key: "matchday_meal",
+        label: "Matchday Meal",
+        short: "Calm, familiar preparation",
+        feedback:
+          "Choose familiar foods. Matchday is rarely the best time to test something completely new."
+      },
+      {
+        key: "recovery_day",
+        label: "Recovery Day",
+        short: "Rebuild and reset",
+        feedback:
+          "Use regular meals, protein, colourful foods and fluids while overall activity may be lower."
       }
     ];
+
+    const CATEGORY_META = {
+      protein: {
+        label: "Protein",
+        prompt: "Choose a practical protein source.",
+        colour: "#b96865"
+      },
+      carbohydrate: {
+        label: "Carbohydrate",
+        prompt: "Choose a source of football energy.",
+        colour: "#d69f4f"
+      },
+      fat: {
+        label: "Healthy Fat",
+        prompt: "Choose an option that adds energy and variety.",
+        colour: "#7fb88b"
+      },
+      fruit: {
+        label: "Fruit",
+        prompt: "Add an easy source of colour and variety.",
+        colour: "#b979a6"
+      },
+      vegetable: {
+        label: "Vegetable",
+        prompt: "Add colour, texture and variety to the plate.",
+        colour: "#68a86f"
+      },
+      hydration: {
+        label: "Hydration",
+        prompt: "Choose a suitable drink for the moment.",
+        colour: "#76b8dc"
+      }
+    };
+
+    const FOOD_DATA = {
+      protein: [
+        {
+          key: "chicken",
+          label: "Chicken",
+          note: "Lean and versatile",
+          supports: "Provides protein that can contribute to normal growth, repair and recovery.",
+          timing: "Works well in everyday, post-training and matchday meals when it is familiar.",
+          pairing: "Try with rice or potatoes, vegetables and water.",
+          colour: "#b56b5f"
+        },
+        {
+          key: "turkey",
+          label: "Turkey",
+          note: "Practical lean choice",
+          supports: "A protein-rich option that can help complete a balanced meal.",
+          timing: "Useful in sandwiches, wraps or main meals across a normal training day.",
+          pairing: "Pair with bread, salad and fruit for a portable meal.",
+          colour: "#b98463"
+        },
+        {
+          key: "lean_beef",
+          label: "Lean Beef",
+          note: "Rich, substantial option",
+          supports: "Provides protein and nutrients including iron as part of a varied diet.",
+          timing: "Often suits an everyday or post-training main meal rather than a last-minute snack.",
+          pairing: "Try with potatoes, peppers and a familiar sauce.",
+          colour: "#914b4b"
+        },
+        {
+          key: "salmon",
+          label: "Salmon",
+          note: "Protein plus oily fish",
+          supports: "Provides protein and omega-3 fats as part of a varied eating pattern.",
+          timing: "Fits well into an everyday or recovery meal when you have time for a full plate.",
+          pairing: "Pair with rice, broccoli and water.",
+          colour: "#d17d6f"
+        },
+        {
+          key: "tuna",
+          label: "Tuna",
+          note: "Quick and portable",
+          supports: "A convenient protein source for sandwiches, pasta or rice dishes.",
+          timing: "Useful when you need a simple meal after school, work or training.",
+          pairing: "Try with pasta, sweetcorn and mixed salad.",
+          colour: "#6f91aa"
+        },
+        {
+          key: "eggs",
+          label: "Eggs",
+          note: "Flexible meal option",
+          supports: "Provide protein and can work across breakfast, snacks or main meals.",
+          timing: "Useful at breakfast, after training or whenever a familiar quick meal is needed.",
+          pairing: "Pair with toast, fruit and water or milk.",
+          colour: "#d3ad63"
+        },
+        {
+          key: "greek_yoghurt",
+          label: "Greek Yoghurt",
+          note: "Simple chilled option",
+          supports: "Provides protein and calcium and can be easy to combine with carbohydrate and fruit.",
+          timing: "Useful at breakfast, as a snack or after activity when it feels comfortable.",
+          pairing: "Add oats, berries and a small handful of nuts.",
+          colour: "#d6c9ad"
+        },
+        {
+          key: "beans",
+          label: "Beans",
+          note: "Plant-based staple",
+          supports: "Provide plant protein, carbohydrate and fibre as part of a varied meal.",
+          timing: "Often works well in everyday meals, wraps, rice bowls or jacket potatoes.",
+          pairing: "Try with rice, peppers and avocado.",
+          colour: "#8d5d48"
+        },
+        {
+          key: "tofu",
+          label: "Tofu",
+          note: "Versatile plant protein",
+          supports: "A plant-based protein option that takes on the flavour of the meal around it.",
+          timing: "Useful in everyday, post-training or recovery meals when it is familiar to you.",
+          pairing: "Pair with noodles or rice and mixed vegetables.",
+          colour: "#c9b88f"
+        }
+      ],
+      carbohydrate: [
+        {
+          key: "rice",
+          label: "Rice",
+          note: "Simple and adaptable",
+          supports: "Provides carbohydrate that can help fuel football activity and refill energy stores.",
+          timing: "Useful in everyday, pre-training, post-training and matchday meals.",
+          pairing: "Combine with chicken or tofu, vegetables and fluids.",
+          colour: "#d7bc78"
+        },
+        {
+          key: "pasta",
+          label: "Pasta",
+          note: "Familiar football fuel",
+          supports: "A carbohydrate-rich base that can make it easier to build a substantial meal.",
+          timing: "Often useful earlier on training or match days when it is familiar and comfortable.",
+          pairing: "Add a protein-rich sauce and vegetables.",
+          colour: "#cf9f52"
+        },
+        {
+          key: "potatoes",
+          label: "Potatoes",
+          note: "Flexible main-meal base",
+          supports: "Provide carbohydrate and can be baked, mashed or boiled to suit the meal.",
+          timing: "Useful for everyday, recovery and post-training meals.",
+          pairing: "Pair with fish or beans and colourful vegetables.",
+          colour: "#b98f4e"
+        },
+        {
+          key: "bread",
+          label: "Bread",
+          note: "Portable and quick",
+          supports: "A practical carbohydrate option for toast, sandwiches and snacks.",
+          timing: "Useful before or after football when a full meal is not practical.",
+          pairing: "Use with eggs or turkey and add fruit.",
+          colour: "#b87943"
+        },
+        {
+          key: "oats",
+          label: "Oats",
+          note: "Reliable breakfast base",
+          supports: "Provide carbohydrate and fibre and combine easily with milk, yoghurt and fruit.",
+          timing: "Often useful at breakfast or several hours before activity.",
+          pairing: "Add yoghurt, banana and seeds.",
+          colour: "#c6a36e"
+        },
+        {
+          key: "couscous",
+          label: "Couscous",
+          note: "Fast meal-builder",
+          supports: "A quick carbohydrate source that works in warm meals or cold lunch bowls.",
+          timing: "Useful for everyday meals, packed lunches or post-training food.",
+          pairing: "Combine with chicken, peppers and olive oil.",
+          colour: "#d1ad65"
+        },
+        {
+          key: "cereal",
+          label: "Cereal",
+          note: "Quick and familiar",
+          supports: "A convenient carbohydrate source that can be combined with milk and fruit.",
+          timing: "Useful at breakfast or as a simple snack when time is limited.",
+          pairing: "Add milk or yoghurt and banana or berries.",
+          colour: "#c4914d"
+        }
+      ],
+      fat: [
+        {
+          key: "avocado",
+          label: "Avocado",
+          note: "Creamy plant option",
+          supports: "Adds unsaturated fat, energy and texture to a balanced meal.",
+          timing: "Often fits everyday or recovery meals rather than immediately before intense activity.",
+          pairing: "Add to toast, rice bowls or wraps with protein.",
+          colour: "#6f9d62"
+        },
+        {
+          key: "olive_oil",
+          label: "Olive Oil",
+          note: "Simple meal addition",
+          supports: "Adds unsaturated fat and can help make vegetables, pasta and salads more satisfying.",
+          timing: "Useful in everyday and recovery meals in an amount that feels comfortable.",
+          pairing: "Drizzle over vegetables, pasta or couscous.",
+          colour: "#819451"
+        },
+        {
+          key: "nuts",
+          label: "Nuts",
+          note: "Compact energy source",
+          supports: "Provide unsaturated fats, some protein and useful energy in a small portion.",
+          timing: "Useful in snacks or recovery meals, but may feel heavy immediately before football.",
+          pairing: "Add to yoghurt, oats or fruit.",
+          colour: "#967153"
+        },
+        {
+          key: "seeds",
+          label: "Seeds",
+          note: "Easy topping",
+          supports: "Add unsaturated fats, texture and variety to meals and snacks.",
+          timing: "Useful at breakfast, in snacks or on recovery days.",
+          pairing: "Sprinkle over oats, yoghurt or salads.",
+          colour: "#887453"
+        },
+        {
+          key: "peanut_butter",
+          label: "Peanut Butter",
+          note: "Practical spread",
+          supports: "Adds energy, unsaturated fat and some protein to toast, oats or fruit.",
+          timing: "Useful in everyday snacks when tolerated; keep portions comfortable before activity.",
+          pairing: "Try on toast with banana.",
+          colour: "#a97849"
+        },
+        {
+          key: "cheese",
+          label: "Cheese",
+          note: "Protein and calcium",
+          supports: "Adds flavour, protein, calcium and fat as part of a varied meal.",
+          timing: "Useful in sandwiches, pasta or everyday meals when it feels comfortable.",
+          pairing: "Use with bread, turkey and salad.",
+          colour: "#c59f52"
+        }
+      ],
+      fruit: [
+        {
+          key: "banana",
+          label: "Banana",
+          note: "Portable carbohydrate",
+          supports: "Provides carbohydrate and is easy to carry as part of a snack.",
+          timing: "Often useful before or after football when it is familiar and comfortable.",
+          pairing: "Pair with yoghurt, cereal or toast.",
+          colour: "#c9af55"
+        },
+        {
+          key: "berries",
+          label: "Berries",
+          note: "Colour and variety",
+          supports: "Add colour, flavour, carbohydrate and a range of micronutrients.",
+          timing: "Useful at breakfast, in snacks or as part of a recovery meal.",
+          pairing: "Add to yoghurt, oats or cereal.",
+          colour: "#9d547f"
+        },
+        {
+          key: "apple",
+          label: "Apple",
+          note: "Simple everyday fruit",
+          supports: "Adds carbohydrate, fluid and variety to meals or snacks.",
+          timing: "Useful across the day or alongside a portable snack.",
+          pairing: "Pair with yoghurt, cheese or a sandwich.",
+          colour: "#a85d59"
+        },
+        {
+          key: "orange",
+          label: "Orange",
+          note: "Fresh citrus option",
+          supports: "Provides fluid, carbohydrate and vitamin C as part of a varied diet.",
+          timing: "Useful with breakfast or as part of an everyday snack.",
+          pairing: "Add alongside toast, eggs or cereal.",
+          colour: "#c97c3e"
+        },
+        {
+          key: "grapes",
+          label: "Grapes",
+          note: "Quick bite-sized option",
+          supports: "Provide carbohydrate and fluid in a portable form.",
+          timing: "Useful in packed lunches or snacks before and after activity.",
+          pairing: "Pair with yoghurt or a sandwich.",
+          colour: "#765b8f"
+        },
+        {
+          key: "mango",
+          label: "Mango",
+          note: "Sweet colourful choice",
+          supports: "Adds carbohydrate, colour and variety to meals and snacks.",
+          timing: "Useful at breakfast, in smoothies or after training.",
+          pairing: "Combine with yoghurt, rice dishes or oats.",
+          colour: "#d18e45"
+        }
+      ],
+      vegetable: [
+        {
+          key: "broccoli",
+          label: "Broccoli",
+          note: "Reliable green option",
+          supports: "Adds fibre, colour and micronutrient variety to a main meal.",
+          timing: "Often fits everyday, post-training and recovery meals.",
+          pairing: "Serve with rice, salmon or chicken.",
+          colour: "#4f8f5a"
+        },
+        {
+          key: "spinach",
+          label: "Spinach",
+          note: "Easy leafy addition",
+          supports: "Adds colour and micronutrient variety without dominating the meal.",
+          timing: "Useful in eggs, pasta, wraps or recovery meals.",
+          pairing: "Add to omelettes, pasta or rice bowls.",
+          colour: "#4f8553"
+        },
+        {
+          key: "peppers",
+          label: "Peppers",
+          note: "Colour and crunch",
+          supports: "Add colour, flavour and vitamin variety to hot or cold meals.",
+          timing: "Useful in everyday meals, wraps and packed lunches.",
+          pairing: "Combine with couscous, chicken or tofu.",
+          colour: "#b75d45"
+        },
+        {
+          key: "carrots",
+          label: "Carrots",
+          note: "Practical cooked or raw",
+          supports: "Add colour, texture and micronutrient variety.",
+          timing: "Useful across everyday meals, snacks and packed lunches.",
+          pairing: "Serve with potatoes and protein or add to a snack box.",
+          colour: "#c17b3f"
+        },
+        {
+          key: "peas",
+          label: "Peas",
+          note: "Easy freezer staple",
+          supports: "Add colour, carbohydrate, fibre and some plant protein.",
+          timing: "Useful when you need a quick vegetable option after training.",
+          pairing: "Add to rice, pasta or potatoes with protein.",
+          colour: "#6d9d55"
+        },
+        {
+          key: "mixed_salad",
+          label: "Mixed Salad",
+          note: "Fresh varied option",
+          supports: "Adds several colours and textures to sandwiches, wraps and main meals.",
+          timing: "Useful in everyday and recovery meals; keep choices familiar before matches.",
+          pairing: "Use with bread, potatoes, tuna or chicken.",
+          colour: "#5e9d72"
+        }
+      ],
+      hydration: [
+        {
+          key: "water",
+          label: "Water",
+          note: "Everyday foundation",
+          supports: "Supports normal hydration across the day and around football activity.",
+          timing: "Suitable throughout the day, during most sessions and alongside meals.",
+          pairing: "Keep a bottle available and drink regularly rather than all at once.",
+          colour: "#75b7d8"
+        },
+        {
+          key: "milk",
+          label: "Milk",
+          note: "Fluid plus nutrients",
+          supports: "Provides fluid, carbohydrate, protein and calcium.",
+          timing: "Can fit at breakfast or after activity when it is tolerated and practical.",
+          pairing: "Use with cereal, oats or alongside a snack.",
+          colour: "#b9d2df"
+        },
+        {
+          key: "electrolyte_drink",
+          label: "Electrolyte Drink",
+          note: "For selected demands",
+          supports: "Can provide fluid and electrolytes during longer, hotter or high-sweat situations.",
+          timing: "Most relevant for extended activity, warm conditions or heavy sweating—not every short session.",
+          pairing: "Use alongside a normal eating and drinking plan, not instead of meals.",
+          colour: "#65a7ce"
+        },
+        {
+          key: "diluted_juice",
+          label: "Diluted Juice",
+          note: "Flavoured fluid option",
+          supports: "Can make drinking easier while providing some carbohydrate and fluid.",
+          timing: "Useful across the day or around activity when water alone is less appealing.",
+          pairing: "Dilute to preference and use alongside normal meals and snacks.",
+          colour: "#8fb8c8"
+        }
+      ]
+    };
 
     const loadingState =
       document.getElementById("loadingState");
@@ -1119,14 +2575,113 @@
     const developmentGoal =
       document.getElementById("developmentGoal");
 
-    const mealGrid =
-      document.getElementById("mealGrid");
+    const scenarioGrid =
+      document.getElementById("scenarioGrid");
+
+    const categoryTabs =
+      document.getElementById("categoryTabs");
+
+    const categoryTitle =
+      document.getElementById("categoryTitle");
+
+    const categoryPrompt =
+      document.getElementById("categoryPrompt");
+
+    const foodOptions =
+      document.getElementById("foodOptions");
+
+    const insightEyebrow =
+      document.getElementById("insightEyebrow");
+
+    const insightTitle =
+      document.getElementById("insightTitle");
+
+    const insightSupports =
+      document.getElementById("insightSupports");
+
+    const insightTiming =
+      document.getElementById("insightTiming");
+
+    const insightPairing =
+      document.getElementById("insightPairing");
+
+    const readinessScore =
+      document.getElementById("readinessScore");
+
+    const selectedCount =
+      document.getElementById("selectedCount");
+
+    const plateRing =
+      document.getElementById("plateRing");
+
+    const plateFeedbackTitle =
+      document.getElementById("plateFeedbackTitle");
+
+    const plateFeedbackText =
+      document.getElementById("plateFeedbackText");
+
+    const saveStatus =
+      document.getElementById("saveStatus");
+
+    const savePlateButton =
+      document.getElementById("savePlateButton");
+
+    const programmeTitle =
+      document.getElementById("programmeTitle");
+
+    const programmeDescription =
+      document.getElementById("programmeDescription");
+
+    const programmeBadge =
+      document.getElementById("programmeBadge");
+
+    const programmeLifetimePoints =
+      document.getElementById("programmeLifetimePoints");
+
+    const programmeProgressFill =
+      document.getElementById("programmeProgressFill");
+
+    const programmeProgressText =
+      document.getElementById("programmeProgressText");
+
+    const programmeRemainingText =
+      document.getElementById("programmeRemainingText");
+
+    const programmeButton =
+      document.getElementById("programmeButton");
+
+    const plateLabels = {
+      protein:
+        document.getElementById("plateProtein"),
+      carbohydrate:
+        document.getElementById("plateCarbohydrate"),
+      fat:
+        document.getElementById("plateFat"),
+      fruit:
+        document.getElementById("plateFruit"),
+      vegetable:
+        document.getElementById("plateVegetable"),
+      hydration:
+        document.getElementById("plateHydration")
+    };
+
+    let currentUser = null;
+    let activeScenario = "everyday_meal";
+    let activeCategory = "protein";
+
+    const selections = {
+      protein: null,
+      carbohydrate: null,
+      fat: null,
+      fruit: null,
+      vegetable: null,
+      hydration: null
+    };
 
     function showOnly(element) {
       loadingState.classList.add("hidden");
       errorState.classList.add("hidden");
       nutritionContent.classList.add("hidden");
-
       element.classList.remove("hidden");
     }
 
@@ -1138,6 +2693,7 @@
     function formatValue(value) {
       return String(value || "")
         .replaceAll("-", " ")
+        .replaceAll("_", " ")
         .replace(/\b\w/g, (letter) =>
           letter.toUpperCase()
         );
@@ -1173,41 +2729,561 @@
       return "versatile";
     }
 
-    function renderMeals() {
-      mealGrid.innerHTML = "";
+    function getTodayDate() {
+      return new Date()
+        .toISOString()
+        .slice(0, 10);
+    }
 
-      MEAL_GUIDANCE.forEach((meal) => {
-        const article =
-          document.createElement("article");
+    function findFood(category, key) {
+      return FOOD_DATA[category]
+        .find((item) => item.key === key) || null;
+    }
 
-        article.className = "meal-card";
+    function clearSelections() {
+      Object.keys(selections).forEach((category) => {
+        selections[category] = null;
+      });
+    }
 
-        const foodItems =
-          meal.examples
-            .map(
-              (example) =>
-                `<div class="food-item">${example}</div>`
-            )
-            .join("");
+    function setSaveStatus(message, type = "") {
+      saveStatus.textContent = message;
+      saveStatus.className = type
+        ? `save-status ${type}`
+        : "save-status";
+    }
 
-        article.innerHTML = `
-          <div>
-            <div class="meal-label">
-              ${meal.label}
-            </div>
+    function renderScenarios() {
+      scenarioGrid.innerHTML = "";
 
-            <h3>${meal.title}</h3>
+      SCENARIOS.forEach((scenario) => {
+        const button =
+          document.createElement("button");
 
-            <p>${meal.description}</p>
-          </div>
+        button.type = "button";
+        button.className =
+          `scenario-button${scenario.key === activeScenario ? " selected" : ""}`;
 
-          <div class="food-list">
-            ${foodItems}
-          </div>
+        button.innerHTML = `
+          <strong>${scenario.label}</strong>
+          <span>${scenario.short}</span>
         `;
 
-        mealGrid.appendChild(article);
+        button.addEventListener("click", async () => {
+          if (activeScenario === scenario.key) {
+            return;
+          }
+
+          activeScenario = scenario.key;
+          clearSelections();
+          renderScenarios();
+          renderCategoryTabs();
+          renderFoodOptions();
+          updatePlate();
+
+          setSaveStatus(
+            "Loading any saved plate for this meal scenario..."
+          );
+
+          try {
+            await loadSavedPlate();
+          } catch (error) {
+            console.error("Saved plate loading error:", error);
+
+            setSaveStatus(
+              "This plate could not be loaded. You can still build and save a new one.",
+              "error"
+            );
+          }
+        });
+
+        scenarioGrid.appendChild(button);
       });
+    }
+
+    function renderCategoryTabs() {
+      categoryTabs.innerHTML = "";
+
+      Object.entries(CATEGORY_META)
+        .forEach(([category, meta]) => {
+          const button =
+            document.createElement("button");
+
+          button.type = "button";
+          button.dataset.category = category;
+          button.className = "category-tab";
+
+          if (category === activeCategory) {
+            button.classList.add("active");
+          }
+
+          if (selections[category]) {
+            button.classList.add("complete");
+          }
+
+          button.innerHTML = `
+            <strong>${meta.label}</strong>
+            <span>${selections[category] ? "Selected" : "Choose"}</span>
+          `;
+
+          button.addEventListener("click", () => {
+            activeCategory = category;
+            renderCategoryTabs();
+            renderFoodOptions();
+          });
+
+          categoryTabs.appendChild(button);
+        });
+    }
+
+    function renderFoodOptions() {
+      const meta =
+        CATEGORY_META[activeCategory];
+
+      categoryTitle.textContent =
+        meta.label;
+
+      categoryPrompt.textContent =
+        meta.prompt;
+
+      foodOptions.innerHTML = "";
+
+      FOOD_DATA[activeCategory]
+        .forEach((item) => {
+          const button =
+            document.createElement("button");
+
+          button.type = "button";
+          button.className = "food-option";
+          button.style.setProperty(
+            "--option-colour",
+            item.colour || meta.colour
+          );
+
+          if (selections[activeCategory] === item.key) {
+            button.classList.add("selected");
+          }
+
+          button.innerHTML = `
+            <span class="food-monogram">
+              ${item.label.charAt(0)}
+            </span>
+            <strong>${item.label}</strong>
+            <span>${item.note}</span>
+          `;
+
+          button.addEventListener("click", () => {
+            selections[activeCategory] = item.key;
+            showInsight(activeCategory, item);
+            renderCategoryTabs();
+            renderFoodOptions();
+            updatePlate();
+          });
+
+          foodOptions.appendChild(button);
+        });
+
+      const selectedItem =
+        findFood(
+          activeCategory,
+          selections[activeCategory]
+        );
+
+      if (selectedItem) {
+        showInsight(activeCategory, selectedItem);
+      } else {
+        showEmptyInsight(meta);
+      }
+    }
+
+    function showEmptyInsight(meta) {
+      insightEyebrow.textContent =
+        `${meta.label} Insight`;
+
+      insightTitle.textContent =
+        "Choose An Item.";
+
+      insightSupports.textContent =
+        "Select a food to reveal a short performance-focused explanation.";
+
+      insightTiming.textContent =
+        "Guidance will reflect how the food may fit around football.";
+
+      insightPairing.textContent =
+        "You will receive one practical meal-building idea.";
+    }
+
+    function showInsight(category, item) {
+      insightEyebrow.textContent =
+        `${CATEGORY_META[category].label} Insight`;
+
+      insightTitle.textContent =
+        item.label;
+
+      insightSupports.textContent =
+        item.supports;
+
+      insightTiming.textContent =
+        item.timing;
+
+      insightPairing.textContent =
+        item.pairing;
+    }
+
+    function updatePlate() {
+      let completed = 0;
+
+      Object.keys(selections).forEach((category) => {
+        const item =
+          findFood(
+            category,
+            selections[category]
+          );
+
+        plateLabels[category].textContent =
+          item?.label || "Choose One";
+
+        if (item) {
+          completed += 1;
+        }
+      });
+
+      const percentage =
+        Math.round(
+          (completed / 6) * 100
+        );
+
+      readinessScore.textContent =
+        `${percentage}%`;
+
+      selectedCount.textContent =
+        `${completed}/6`;
+
+      plateRing.classList.add("pulse");
+
+      window.setTimeout(() => {
+        plateRing.classList.remove("pulse");
+      }, 260);
+
+      const scenario =
+        SCENARIOS.find(
+          (item) => item.key === activeScenario
+        );
+
+      if (completed === 0) {
+        plateFeedbackTitle.textContent =
+          scenario?.label || "Begin Your Plate";
+
+        plateFeedbackText.textContent =
+          scenario?.feedback ||
+          "Choose one option from each food category.";
+      } else if (completed < 3) {
+        plateFeedbackTitle.textContent =
+          "A Strong Start.";
+
+        plateFeedbackText.textContent =
+          "Keep working through the categories. A useful plate combines several roles rather than relying on one food.";
+      } else if (completed < 6) {
+        plateFeedbackTitle.textContent =
+          "The Plate Is Taking Shape.";
+
+        plateFeedbackText.textContent =
+          `You have completed ${completed} of 6 categories. Add the remaining choices to finish this performance plate.`;
+      } else {
+        plateFeedbackTitle.textContent =
+          "Performance Plate Complete.";
+
+        plateFeedbackText.textContent =
+          `${scenario?.feedback || "You have created a balanced selection."} Save it to record today’s activity.`;
+      }
+
+      savePlateButton.disabled =
+        completed !== 6;
+
+      if (completed === 6) {
+        setSaveStatus(
+          "Plate complete. Save it to record today’s activity and earn up to 5 Performance Points.",
+          "success"
+        );
+      } else {
+        setSaveStatus(
+          "Complete all six categories to save your plate and earn 5 Performance Points once today."
+        );
+      }
+    }
+
+    async function loadSavedPlate() {
+      const {
+        data,
+        error
+      } = await supabase
+        .from("player_nutrition_plates")
+        .select(
+          [
+            "scenario",
+            "protein_choice",
+            "carbohydrate_choice",
+            "fat_choice",
+            "fruit_choice",
+            "vegetable_choice",
+            "hydration_choice",
+            "updated_at"
+          ].join(",")
+        )
+        .eq("user_id", currentUser.id)
+        .eq("plate_date", getTodayDate())
+        .eq("scenario", activeScenario)
+        .maybeSingle();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        renderCategoryTabs();
+        renderFoodOptions();
+        updatePlate();
+        return;
+      }
+
+      selections.protein =
+        data.protein_choice;
+
+      selections.carbohydrate =
+        data.carbohydrate_choice;
+
+      selections.fat =
+        data.fat_choice;
+
+      selections.fruit =
+        data.fruit_choice;
+
+      selections.vegetable =
+        data.vegetable_choice;
+
+      selections.hydration =
+        data.hydration_choice;
+
+      renderCategoryTabs();
+      renderFoodOptions();
+      updatePlate();
+
+      setSaveStatus(
+        "Today’s saved plate for this scenario has been loaded. You can update it without earning duplicate points.",
+        "success"
+      );
+    }
+
+    async function loadProgrammeAccess() {
+      const {
+        data,
+        error
+      } = await supabase.rpc(
+        "get_my_nutrition_program_access"
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      const result =
+        Array.isArray(data)
+          ? data[0]
+          : data;
+
+      const lifetime =
+        Number(
+          result?.lifetime_points || 0
+        );
+
+      const required =
+        Number(
+          result?.points_required || 2500
+        );
+
+      const remaining =
+        Number(
+          result?.points_remaining || 0
+        );
+
+      const unlocked =
+        Boolean(result?.unlocked);
+
+      const percentage =
+        required > 0
+          ? Math.min(
+              100,
+              Math.round(
+                (lifetime / required) * 100
+              )
+            )
+          : 100;
+
+      programmeLifetimePoints.textContent =
+        lifetime.toLocaleString("en-GB");
+
+      programmeProgressText.textContent =
+        `${lifetime.toLocaleString("en-GB")} of ${required.toLocaleString("en-GB")}`;
+
+      programmeRemainingText.textContent =
+        unlocked
+          ? "Target reached"
+          : `${remaining.toLocaleString("en-GB")} remaining`;
+
+      programmeProgressFill.style.width =
+        `${percentage}%`;
+
+      if (unlocked && result?.programme_url) {
+        programmeTitle.textContent =
+          "Your Programme Is Unlocked.";
+
+        programmeDescription.textContent =
+          "You have earned access to the JT personal nutrition-programme questionnaire. Complete it carefully so your current routine, goals and practical needs can be reviewed.";
+
+        programmeBadge.textContent =
+          "Programme Unlocked";
+
+        programmeBadge.classList.add("unlocked");
+
+        programmeButton.textContent =
+          "Open Nutrition Questionnaire";
+
+        programmeButton.classList.remove("locked");
+
+        programmeButton.href =
+          result.programme_url;
+
+        programmeButton.target =
+          "_blank";
+
+        programmeButton.rel =
+          "noopener noreferrer";
+
+        programmeButton.removeAttribute(
+          "aria-disabled"
+        );
+      } else {
+        programmeTitle.textContent =
+          "Earn The Next Level.";
+
+        programmeBadge.textContent =
+          "Programme Locked";
+
+        programmeBadge.classList.remove("unlocked");
+
+        programmeButton.textContent =
+          "Keep Earning Points";
+
+        programmeButton.classList.add("locked");
+
+        programmeButton.href = "#";
+        programmeButton.setAttribute(
+          "aria-disabled",
+          "true"
+        );
+      }
+    }
+
+    async function savePerformancePlate() {
+      const allComplete =
+        Object.values(selections)
+          .every(Boolean);
+
+      if (!allComplete) {
+        setSaveStatus(
+          "Choose one option from every category before saving.",
+          "error"
+        );
+
+        return;
+      }
+
+      savePlateButton.disabled = true;
+      savePlateButton.textContent =
+        "Saving Plate...";
+
+      setSaveStatus(
+        "Securely saving your performance plate..."
+      );
+
+      try {
+        const {
+          data,
+          error
+        } = await supabase.rpc(
+          "save_nutrition_plate",
+          {
+            selected_scenario:
+              activeScenario,
+            selected_protein:
+              selections.protein,
+            selected_carbohydrate:
+              selections.carbohydrate,
+            selected_fat:
+              selections.fat,
+            selected_fruit:
+              selections.fruit,
+            selected_vegetable:
+              selections.vegetable,
+            selected_hydration:
+              selections.hydration
+          }
+        );
+
+        if (error) {
+          throw error;
+        }
+
+        const result =
+          Array.isArray(data)
+            ? data[0]
+            : data;
+
+        if (Number(result?.points_awarded || 0) > 0) {
+          let message =
+            `Performance plate saved — ${result.points_awarded} Performance Points earned.`;
+
+          if (result?.nutrition_program_unlocked) {
+            message +=
+              " Your personal Nutrition Programme is now unlocked.";
+          }
+
+          if (
+            Array.isArray(result?.newly_unlocked) &&
+            result.newly_unlocked.length
+          ) {
+            message +=
+              " You also unlocked a new Player Locker or reward item.";
+          }
+
+          setSaveStatus(
+            message,
+            "success"
+          );
+        } else {
+          setSaveStatus(
+            "Performance plate updated successfully. Today’s 5 Performance Points have already been awarded.",
+            "success"
+          );
+        }
+
+        await loadProgrammeAccess();
+      } catch (error) {
+        console.error(
+          "Nutrition plate save error:",
+          error
+        );
+
+        setSaveStatus(
+          error?.message ||
+          "Your performance plate could not be saved. Please try again.",
+          "error"
+        );
+      } finally {
+        savePlateButton.disabled = false;
+        savePlateButton.textContent =
+          "Save Performance Plate";
+      }
     }
 
     async function initialiseNutritionCentre() {
@@ -1228,21 +3304,48 @@
           return;
         }
 
-        const user =
+        currentUser =
           sessionData.session.user;
 
-        const {
-          data: membership,
-          error: membershipError
-        } = await supabase
-          .from("memberships")
-          .select("subscription_status")
-          .eq("user_id", user.id)
-          .maybeSingle();
+        const [
+          membershipResult,
+          profileResult
+        ] = await Promise.all([
+          supabase
+            .from("memberships")
+            .select("subscription_status")
+            .eq("user_id", currentUser.id)
+            .maybeSingle(),
 
-        if (membershipError) {
-          throw membershipError;
+          supabase
+            .from("profiles")
+            .select(
+              [
+                "player_name",
+                "age_group",
+                "primary_position",
+                "playing_level",
+                "development_goal",
+                "onboarding_complete"
+              ].join(",")
+            )
+            .eq("id", currentUser.id)
+            .maybeSingle()
+        ]);
+
+        if (membershipResult.error) {
+          throw membershipResult.error;
         }
+
+        if (profileResult.error) {
+          throw profileResult.error;
+        }
+
+        const membership =
+          membershipResult.data;
+
+        const profile =
+          profileResult.data;
 
         if (
           !membership ||
@@ -1255,28 +3358,6 @@
           );
 
           return;
-        }
-
-        const {
-          data: profile,
-          error: profileError
-        } = await supabase
-          .from("profiles")
-          .select(
-            [
-              "player_name",
-              "age_group",
-              "primary_position",
-              "playing_level",
-              "development_goal",
-              "onboarding_complete"
-            ].join(",")
-          )
-          .eq("id", user.id)
-          .maybeSingle();
-
-        if (profileError) {
-          throw profileError;
         }
 
         if (
@@ -1300,7 +3381,8 @@
           NUTRITION_PROGRAMMES.versatile;
 
         playerName.textContent =
-          profile.player_name || "JT Player";
+          profile.player_name ||
+          "JT Player";
 
         nutritionTitle.textContent =
           programme.title;
@@ -1319,7 +3401,28 @@
           profile.development_goal ||
           "Continue developing as a complete football player.";
 
-        renderMeals();
+        const {
+          error: initialiseError
+        } = await supabase.rpc(
+          "initialise_my_performance_profile"
+        );
+
+        if (initialiseError) {
+          console.warn(
+            "Performance profile initialisation:",
+            initialiseError
+          );
+        }
+
+        renderScenarios();
+        renderCategoryTabs();
+        renderFoodOptions();
+        updatePlate();
+
+        await Promise.all([
+          loadSavedPlate(),
+          loadProgrammeAccess()
+        ]);
 
         showOnly(nutritionContent);
       } catch (error) {
@@ -1329,10 +3432,28 @@
         );
 
         showError(
-          "Something went wrong while loading your personalised nutrition guidance."
+          "Something went wrong while loading your personalised Nutrition Centre."
         );
       }
     }
+
+    savePlateButton.addEventListener(
+      "click",
+      savePerformancePlate
+    );
+
+    programmeButton.addEventListener(
+      "click",
+      (event) => {
+        if (
+          programmeButton.getAttribute(
+            "aria-disabled"
+          ) === "true"
+        ) {
+          event.preventDefault();
+        }
+      }
+    );
 
     document
       .getElementById("signOutButton")
