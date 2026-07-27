@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Physical Rewards | JT Performance Hub
+  </title>
+
+  <meta
+    name="description"
+    content="Unlock, claim and track official JT Performance Hub physical rewards."
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #050505;
+      --black-soft: #090909;
+      --panel: #101010;
+      --panel-light: #171717;
+      --gold: #d4af37;
+      --gold-light: #f3dc8d;
+      --white: #f8f4e9;
+      --muted: #aaa69b;
+      --muted-light: #d0cabd;
+      --green: #78d99a;
+      --blue: #8bc8ee;
+      --orange: #f1ae72;
+      --red: #ff9292;
+      --line: rgba(212, 175, 55, 0.16);
+      --line-strong: rgba(212, 175, 55, 0.3);
+      --white-line: rgba(255, 255, 255, 0.08);
+      --shadow: 0 30px 100px rgba(0, 0, 0, 0.52);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(
+          circle at 87% 4%,
+          rgba(212, 175, 55, 0.14),
+          transparent 31rem
+        ),
+        radial-gradient(
+          circle at 5% 78%,
+          rgba(212, 175, 55, 0.055),
+          transparent 32rem
+        ),
+        linear-gradient(
+          180deg,
+          #050505,
+          #090909 48%,
+          #050505
+        );
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 1px
+        );
+      background-size: 54px 54px;
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 78%
+        );
+    }
+
+    button,
+    input,
+    select,
+    textarea,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      background: rgba(5, 5, 5, 0.84);
+      backdrop-filter: blur(22px);
+    }
+
+    .topbar-inner {
+      width: min(1560px, calc(100% - 42px));
+      min-height: 82px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(212, 175, 55, 0.48);
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow:
+        0 0 0 5px rgba(212, 175, 55, 0.045),
+        0 10px 34px rgba(0, 0, 0, 0.44);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 3px;
+    }
+
+    .brand-copy strong {
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 1.15px;
+      text-transform: uppercase;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .top-link,
+    .signout-button {
+      min-height: 40px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted-light);
+      text-decoration: none;
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .top-link:hover,
+    .signout-button:hover {
+      color: var(--gold-light);
+      border-color: var(--line);
+      background: rgba(212, 175, 55, 0.055);
+      transform: translateY(-1px);
+    }
+
+    .main {
+      width: min(1560px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 38px 0 82px;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: calc(100vh - 180px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .state-shell {
+      width: min(100%, 760px);
+      padding: 48px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.008)
+        ),
+        rgba(9, 9, 9, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .spinner {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 25px;
+      border: 3px solid rgba(212, 175, 55, 0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .state-title {
+      margin: 17px 0 15px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: -2px;
+    }
+
+    .state-copy {
+      max-width: 610px;
+      margin: 0 auto;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .state-button {
+      min-height: 48px;
+      margin-top: 26px;
+      padding: 0 21px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+    }
+
+    .rewards-content {
+      display: grid;
+      gap: 30px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 460px;
+      padding: clamp(30px, 5vw, 64px);
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(340px, 0.85fr);
+      gap: 48px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 38px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.01) 55%,
+          rgba(212, 175, 55, 0.04)
+        ),
+        #0a0a0a;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 650px;
+      height: 650px;
+      right: -250px;
+      top: -300px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 95px rgba(212, 175, 55, 0.025),
+        0 0 0 190px rgba(212, 175, 55, 0.014);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      margin: 22px 0 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.7rem, 8.4vw, 9rem);
+      line-height: 0.78;
+      letter-spacing: -5px;
+    }
+
+    .gold-text {
+      color: var(--gold);
+    }
+
+    .hero-copy p {
+      max-width: 720px;
+      margin: 29px 0 0;
+      color: var(--muted-light);
+      line-height: 1.82;
+      font-size: 1rem;
+    }
+
+    .hero-note {
+      margin-top: 30px;
+      padding-top: 22px;
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--white-line);
+    }
+
+    .hero-note div {
+      max-width: 220px;
+    }
+
+    .hero-note span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.59rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero-note strong {
+      color: var(--white);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .points-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      border: 1px solid var(--white-line);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.08),
+          rgba(255, 255, 255, 0.012)
+        ),
+        #0d0d0d;
+      box-shadow:
+        inset 0 0 80px rgba(0, 0, 0, 0.3),
+        0 24px 70px rgba(0, 0, 0, 0.3);
+    }
+
+    .points-panel::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      right: -110px;
+      bottom: -115px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 45px rgba(212, 175, 55, 0.025),
+        0 0 0 90px rgba(212, 175, 55, 0.012);
+    }
+
+    .points-label {
+      position: relative;
+      z-index: 2;
+      color: var(--muted);
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .points-total {
+      position: relative;
+      z-index: 2;
+      display: block;
+      margin-top: 14px;
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(5rem, 9vw, 8rem);
+      line-height: 0.82;
+      letter-spacing: -5px;
+    }
+
+    .points-caption {
+      position: relative;
+      z-index: 2;
+      margin-top: 15px;
+      color: var(--muted-light);
+      line-height: 1.7;
+      font-size: 0.84rem;
+    }
+
+    .next-reward {
+      position: relative;
+      z-index: 2;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--white-line);
+    }
+
+    .next-reward-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted-light);
+      font-size: 0.67rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .next-reward-head span:last-child {
+      color: var(--gold-light);
+    }
+
+    .progress-track {
+      height: 9px;
+      margin-top: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-track span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #8d6b12,
+          var(--gold-light)
+        );
+      transition: width 0.5s var(--ease);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      margin: 9px 0 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      line-height: 0.88;
+      letter-spacing: -3px;
+    }
+
+    .section-heading p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    .rewards-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .reward-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 430px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--white-line);
+      border-radius: 27px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.008)
+        ),
+        var(--panel);
+      box-shadow:
+        0 20px 65px rgba(0, 0, 0, 0.24);
+      transition:
+        transform 0.32s var(--ease),
+        border-color 0.32s ease,
+        box-shadow 0.32s ease;
+    }
+
+    .reward-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--line-strong);
+      box-shadow:
+        0 30px 82px rgba(0, 0, 0, 0.38);
+    }
+
+    .reward-card.unlocked {
+      border-color: rgba(120, 217, 154, 0.32);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(120, 217, 154, 0.07),
+          rgba(255, 255, 255, 0.008)
+        ),
+        var(--panel);
+    }
+
+    .reward-card.claimed {
+      border-color: rgba(139, 200, 238, 0.32);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(139, 200, 238, 0.07),
+          rgba(255, 255, 255, 0.008)
+        ),
+        var(--panel);
+    }
+
+    .reward-visual {
+      position: relative;
+      min-height: 190px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--white-line);
+      border-radius: 21px;
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(212, 175, 55, 0.11),
+          transparent 63%
+        ),
+        #0a0a0a;
+    }
+
+    .reward-visual::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 34px rgba(212, 175, 55, 0.022),
+        0 0 0 68px rgba(212, 175, 55, 0.012);
+    }
+
+    .reward-icon {
+      position: relative;
+      z-index: 2;
+      width: 92px;
+      height: 92px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(212, 175, 55, 0.16),
+          rgba(212, 175, 55, 0.04)
+        );
+      color: var(--gold-light);
+    }
+
+    .reward-icon svg {
+      width: 49px;
+      height: 49px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .reward-status {
+      position: absolute;
+      z-index: 3;
+      top: 14px;
+      right: 14px;
+      min-height: 29px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(5, 5, 5, 0.84);
+      color: var(--muted-light);
+      font-size: 0.56rem;
+      font-weight: 900;
+      letter-spacing: 0.75px;
+      text-transform: uppercase;
+    }
+
+    .reward-status.unlocked {
+      color: var(--green);
+      border-color: rgba(120, 217, 154, 0.28);
+    }
+
+    .reward-status.claimed {
+      color: var(--blue);
+      border-color: rgba(139, 200, 238, 0.28);
+    }
+
+    .reward-copy {
+      margin-top: 23px;
+    }
+
+    .reward-copy span {
+      color: var(--gold);
+      font-size: 0.61rem;
+      font-weight: 900;
+      letter-spacing: 1.25px;
+      text-transform: uppercase;
+    }
+
+    .reward-copy h3 {
+      margin: 8px 0 11px;
+      font-family: "Playfair Display", serif;
+      font-size: 2.15rem;
+      line-height: 0.96;
+    }
+
+    .reward-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.79rem;
+      line-height: 1.65;
+    }
+
+    .reward-footer {
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .reward-points-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 0.61rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .reward-points-row strong {
+      color: var(--gold-light);
+      font-size: 0.67rem;
+    }
+
+    .reward-progress {
+      height: 7px;
+      margin-top: 11px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    .reward-progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #8d6b12,
+          var(--gold-light)
+        );
+    }
+
+    .reward-button {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 18px;
+      padding: 0 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.07);
+      color: var(--gold-light);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition:
+        transform 0.22s var(--ease),
+        background 0.22s ease,
+        color 0.22s ease;
+    }
+
+    .reward-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .reward-button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    .reward-button.claimed {
+      border-color: rgba(139, 200, 238, 0.26);
+      background: rgba(139, 200, 238, 0.07);
+      color: var(--blue);
+      opacity: 1;
+    }
+
+    .claims-section {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.008)
+        ),
+        var(--black-soft);
+    }
+
+    .claims-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .claim-row {
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+      gap: 18px;
+      align-items: center;
+      border: 1px solid var(--white-line);
+      border-radius: 19px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .claim-row h3 {
+      margin: 0 0 5px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.35rem;
+    }
+
+    .claim-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .claim-status {
+      min-height: 34px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--gold-light);
+      font-size: 0.58rem;
+      font-weight: 900;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      padding: 30px;
+      border: 1px dashed var(--line);
+      border-radius: 19px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.65;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      padding: 22px;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(14px);
+    }
+
+    .modal-card {
+      width: min(100%, 790px);
+      max-height: calc(100vh - 44px);
+      overflow-y: auto;
+      border: 1px solid var(--line-strong);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.008)
+        ),
+        #0b0b0b;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      padding: 28px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 22px;
+      border-bottom: 1px solid var(--white-line);
+    }
+
+    .modal-header h2 {
+      margin: 9px 0 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.4rem, 5vw, 4.3rem);
+      line-height: 0.92;
+    }
+
+    .modal-close {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--white-line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--white);
+      font-size: 1.2rem;
+    }
+
+    .claim-form {
+      padding: 28px;
+      display: grid;
+      gap: 19px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--muted-light);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--white-line);
+      border-radius: 15px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--white);
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .field input,
+    .field select {
+      min-height: 51px;
+      padding: 0 15px;
+    }
+
+    .field textarea {
+      min-height: 115px;
+      padding: 14px 15px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--line-strong);
+      background: rgba(212, 175, 55, 0.035);
+    }
+
+    .field option {
+      background: #111111;
+      color: var(--white);
+    }
+
+    .field-note {
+      color: var(--muted);
+      font-size: 0.67rem;
+      line-height: 1.5;
+    }
+
+    .confirmation {
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(212, 175, 55, 0.035);
+      color: var(--muted-light);
+      font-size: 0.72rem;
+      line-height: 1.6;
+    }
+
+    .confirmation input {
+      margin-top: 3px;
+      accent-color: var(--gold);
+    }
+
+    .form-message {
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.5;
+    }
+
+    .form-message.error {
+      color: var(--red);
+    }
+
+    .form-message.success {
+      color: var(--green);
+    }
+
+    .submit-button {
+      min-height: 51px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.85px;
+      text-transform: uppercase;
+      transition:
+        transform 0.22s var(--ease),
+        opacity 0.22s ease;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      cursor: wait;
+      opacity: 0.62;
+    }
+
+    .footer {
+      width: min(1560px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 28px 0 34px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+      color: var(--muted);
+      font-size: 0.68rem;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1180px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .points-panel {
+        max-width: 650px;
+      }
+
+      .rewards-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 780px) {
+      .topbar-inner,
+      .main,
+      .footer {
+        width: min(100% - 28px, 1560px);
+      }
+
+      .brand-copy,
+      .top-actions .top-link {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 29px 21px;
+        border-radius: 29px;
+      }
+
+      .hero h1 {
+        font-size: clamp(4.1rem, 18vw, 6.8rem);
+        letter-spacing: -4px;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 15px;
+        text-align: left;
+      }
+
+      .rewards-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .claim-row {
+        grid-template-columns: 1fr;
+      }
+
+      .claim-status {
+        width: fit-content;
+      }
+
+      .modal {
+        padding: 12px;
+      }
+
+      .modal-card {
+        max-height: calc(100vh - 24px);
+        border-radius: 24px;
+      }
+
+      .modal-header,
+      .claim-form {
+        padding: 21px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .rewards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reward-card {
+        min-height: 410px;
+      }
+
+      .hero-note {
+        display: grid;
+      }
+
+      .state-shell {
+        padding: 31px 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a
+          class="brand"
+          href="/performance-hub-dashboard.html"
+        >
+          <img
+            src="images/logo.jpeg"
+            alt="JT Mind and Body Balance logo"
+          >
+
+          <span class="brand-copy">
+            <strong>JT Performance Hub</strong>
+            <span>Official Player Rewards</span>
+          </span>
+        </a>
+
+        <nav
+          class="top-actions"
+          aria-label="Performance Hub navigation"
+        >
+          <a
+            class="top-link"
+            href="/performance-hub-dashboard.html"
+          >
+            Dashboard
+          </a>
+
+          <a
+            class="top-link"
+            href="/performance-hub-challenges.html"
+          >
+            Challenges
+          </a>
+
+          <a
+            class="top-link"
+            href="/performance-hub-avatar.html"
+          >
+            Player Locker
+          </a>
+
+          <button
+            class="signout-button"
+            id="signOutButton"
+            type="button"
+          >
+            Sign Out
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <section
+        class="loading-state"
+        id="loadingState"
+      >
+        <div class="state-shell">
+          <div class="spinner"></div>
+
+          <div class="eyebrow">
+            Official JT Rewards
+          </div>
+
+          <h1 class="state-title">
+            Opening the Reward Room.
+          </h1>
+
+          <p class="state-copy">
+            Checking your membership, Performance Points,
+            unlocked rewards and existing claims.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="error-state hidden"
+        id="errorState"
+      >
+        <div class="state-shell">
+          <div class="eyebrow">
+            Reward Room Unavailable
+          </div>
+
+          <h1 class="state-title">
+            Access Restricted.
+          </h1>
+
+          <p
+            class="state-copy"
+            id="errorText"
+          ></p>
+
+          <a
+            class="state-button"
+            href="/performance-hub-login.html"
+          >
+            Member Login
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="rewards-content hidden"
+        id="rewardsContent"
+      >
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              Earned Through Performance
+            </div>
+
+            <h1>
+              Official
+              <span class="gold-text">
+                JT Rewards.
+              </span>
+            </h1>
+
+            <p>
+              Build consistent performance habits, earn points
+              and unlock physical rewards you can use beyond
+              the digital Player Locker.
+            </p>
+
+            <div class="hero-note">
+              <div>
+                <span>Player</span>
+
+                <strong id="heroPlayerName">
+                  JT Player
+                </strong>
+              </div>
+
+              <div>
+                <span>How It Works</span>
+
+                <strong>
+                  Earn, unlock, claim and track
+                </strong>
+              </div>
+
+              <div>
+                <span>Claim Safety</span>
+
+                <strong>
+                  Adult or guardian confirmation required
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <aside class="points-panel">
+            <span class="points-label">
+              Lifetime Performance Points
+            </span>
+
+            <strong
+              class="points-total"
+              id="lifetimePoints"
+            >
+              0
+            </strong>
+
+            <p class="points-caption">
+              Physical rewards unlock through your total
+              performance activity across the Hub.
+            </p>
+
+            <div class="next-reward">
+              <div class="next-reward-head">
+                <span id="nextRewardName">
+                  Next Reward
+                </span>
+
+                <span id="nextRewardPoints">
+                  0 points remaining
+                </span>
+              </div>
+
+              <div class="progress-track">
+                <span id="nextRewardProgress"></span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section>
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">
+                Official Collection
+              </div>
+
+              <h2>
+                Reward
+                <span class="gold-text">
+                  Room.
+                </span>
+              </h2>
+            </div>
+
+            <p>
+              Rewards remain locked until the required
+              Performance Points have been earned. Each
+              physical reward can only be claimed once.
+            </p>
+          </div>
+
+          <div
+            class="rewards-grid"
+            id="rewardsGrid"
+          ></div>
+        </section>
+
+        <section class="claims-section">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">
+                Fulfilment Tracking
+              </div>
+
+              <h2>
+                Your
+                <span class="gold-text">
+                  Claims.
+                </span>
+              </h2>
+            </div>
+
+            <p>
+              Track each submitted reward from review
+              through preparation, collection or dispatch.
+            </p>
+          </div>
+
+          <div
+            class="claims-list"
+            id="claimsList"
+          ></div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>
+        JT Performance Hub
+      </strong>
+
+      <span>
+        One Mind. One Body. One Mission.
+      </span>
+    </footer>
+  </div>
+
+  <section
+    class="modal hidden"
+    id="claimModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="claimModalTitle"
+  >
+    <div class="modal-card">
+      <header class="modal-header">
+        <div>
+          <div class="eyebrow">
+            Submit Physical Reward Claim
+          </div>
+
+          <h2 id="claimModalTitle">
+            Claim Your Reward.
+          </h2>
+        </div>
+
+        <button
+          class="modal-close"
+          id="closeModalButton"
+          type="button"
+          aria-label="Close reward claim form"
+        >
+          ×
+        </button>
+      </header>
+
+      <form
+        class="claim-form"
+        id="claimForm"
+      >
+        <div class="form-grid">
+          <div class="field">
+            <label for="selectedReward">
+              Selected reward
+            </label>
+
+            <input
+              id="selectedReward"
+              type="text"
+              readonly
+            >
+          </div>
+
+          <div class="field">
+            <label for="recipientName">
+              Recipient name
+            </label>
+
+            <input
+              id="recipientName"
+              type="text"
+              maxlength="120"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="contactEmail">
+              Contact email
+            </label>
+
+            <input
+              id="contactEmail"
+              type="email"
+              maxlength="320"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="sizePreference">
+              Size preference
+            </label>
+
+            <select
+              id="sizePreference"
+              required
+            ></select>
+
+            <span class="field-note">
+              Final sizing and availability may be confirmed
+              before fulfilment.
+            </span>
+          </div>
+
+          <div class="field">
+            <label for="deliveryMethod">
+              Delivery method
+            </label>
+
+            <select
+              id="deliveryMethod"
+              required
+            >
+              <option value="collection">
+                Collection
+              </option>
+
+              <option value="shipping">
+                Shipping
+              </option>
+            </select>
+          </div>
+
+          <div
+            class="field full hidden"
+            id="deliveryDetailsField"
+          >
+            <label for="deliveryDetails">
+              Shipping details
+            </label>
+
+            <textarea
+              id="deliveryDetails"
+              maxlength="1000"
+              placeholder="Enter the full delivery address, including postcode."
+            ></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="playerMessage">
+              Message or important notes
+            </label>
+
+            <textarea
+              id="playerMessage"
+              maxlength="1000"
+              placeholder="Optional sizing information, collection notes or anything JT should know."
+            ></textarea>
+          </div>
+        </div>
+
+        <label class="confirmation">
+          <input
+            id="guardianConfirmation"
+            type="checkbox"
+            required
+          >
+
+          <span>
+            I confirm that I am aged 18 or over, or I am the
+            parent or legal guardian responsible for this
+            young player’s account and approve this reward claim.
+          </span>
+        </label>
+
+        <p
+          class="form-message"
+          id="formMessage"
+          aria-live="polite"
+        ></p>
+
+        <button
+          class="submit-button"
+          id="submitClaimButton"
+          type="submit"
+        >
+          Submit Reward Claim
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <script type="module">
+    import {
+      createClient
+    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL =
+      "https://hunrekcnmtabowiivmrk.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      }
+    );
+
+    const loadingState =
+      document.getElementById(
+        "loadingState"
+      );
+
+    const errorState =
+      document.getElementById(
+        "errorState"
+      );
+
+    const errorText =
+      document.getElementById(
+        "errorText"
+      );
+
+    const rewardsContent =
+      document.getElementById(
+        "rewardsContent"
+      );
+
+    const rewardsGrid =
+      document.getElementById(
+        "rewardsGrid"
+      );
+
+    const claimsList =
+      document.getElementById(
+        "claimsList"
+      );
+
+    const lifetimePoints =
+      document.getElementById(
+        "lifetimePoints"
+      );
+
+    const heroPlayerName =
+      document.getElementById(
+        "heroPlayerName"
+      );
+
+    const nextRewardName =
+      document.getElementById(
+        "nextRewardName"
+      );
+
+    const nextRewardPoints =
+      document.getElementById(
+        "nextRewardPoints"
+      );
+
+    const nextRewardProgress =
+      document.getElementById(
+        "nextRewardProgress"
+      );
+
+    const claimModal =
+      document.getElementById(
+        "claimModal"
+      );
+
+    const claimForm =
+      document.getElementById(
+        "claimForm"
+      );
+
+    const selectedReward =
+      document.getElementById(
+        "selectedReward"
+      );
+
+    const recipientName =
+      document.getElementById(
+        "recipientName"
+      );
+
+    const contactEmail =
+      document.getElementById(
+        "contactEmail"
+      );
+
+    const sizePreference =
+      document.getElementById(
+        "sizePreference"
+      );
+
+    const deliveryMethod =
+      document.getElementById(
+        "deliveryMethod"
+      );
+
+    const deliveryDetailsField =
+      document.getElementById(
+        "deliveryDetailsField"
+      );
+
+    const deliveryDetails =
+      document.getElementById(
+        "deliveryDetails"
+      );
+
+    const playerMessage =
+      document.getElementById(
+        "playerMessage"
+      );
+
+    const guardianConfirmation =
+      document.getElementById(
+        "guardianConfirmation"
+      );
+
+    const formMessage =
+      document.getElementById(
+        "formMessage"
+      );
+
+    const submitClaimButton =
+      document.getElementById(
+        "submitClaimButton"
+      );
+
+    let currentUser = null;
+    let currentPlayerName = "";
+    let currentLifetimePoints = 0;
+    let rewardItems = [];
+    let rewardUnlocks = [];
+    let rewardClaims = [];
+    let selectedRewardItem = null;
+
+    const rewardIcons = {
+      jt_grip_socks: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 3v10c0 2.8-2 4-4 4.8V21h7c3.3 0 5-1.8 5-4.2V3Z"></path>
+          <path d="M8 8h8M8 11h8"></path>
+        </svg>
+      `,
+
+      jt_tshirt: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m8 4-5 3 3 5 3-2v11h6V10l3 2 3-5-5-3c-.6 1.5-2 2.5-4 2.5S8.6 5.5 8 4Z"></path>
+        </svg>
+      `,
+
+      jt_cap: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 13c0-5 3.5-9 8-9s8 4 8 9"></path>
+          <path d="M4 13h16M12 13c3.5 0 6.8 1 9 3-3.2 1-6.2 1.2-9 0"></path>
+        </svg>
+      `,
+
+      jt_hoodie: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5c.8-2 2-3 4-3s3.2 1 4 3l4 3-2 5-2-1v9H8v-9l-2 1-2-5Z"></path>
+          <path d="M8 5c1 2 2.3 3 4 3s3-1 4-3M9 16h6"></path>
+        </svg>
+      `
+    };
+
+    const statusLabels = {
+      pending: "Pending Review",
+      approved: "Approved",
+      preparing: "Being Prepared",
+      ready_for_collection:
+        "Ready for Collection",
+      dispatched: "Dispatched",
+      fulfilled: "Fulfilled",
+      rejected: "Not Approved"
+    };
+
+    function showOnly(element) {
+      loadingState.classList.add(
+        "hidden"
+      );
+
+      errorState.classList.add(
+        "hidden"
+      );
+
+      rewardsContent.classList.add(
+        "hidden"
+      );
+
+      element.classList.remove(
+        "hidden"
+      );
+    }
+
+    function showError(message) {
+      errorText.textContent =
+        message;
+
+      showOnly(
+        errorState
+      );
+    }
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatDate(value) {
+      if (!value) {
+        return "";
+      }
+
+      return new Intl.DateTimeFormat(
+        "en-GB",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }
+      ).format(
+        new Date(value)
+      );
+    }
+
+    function getClaimForReward(
+      itemCode
+    ) {
+      return rewardClaims.find(
+        (claim) =>
+          claim.item_code ===
+          itemCode
+      );
+    }
+
+    function rewardIsUnlocked(
+      reward
+    ) {
+      return (
+        rewardUnlocks.some(
+          (unlock) =>
+            unlock.item_code ===
+            reward.item_code
+        ) ||
+        currentLifetimePoints >=
+          Number(
+            reward.points_required || 0
+          )
+      );
+    }
+
+    function getSizeOptions(
+      itemCode
+    ) {
+      if (
+        itemCode ===
+        "jt_grip_socks"
+      ) {
+        return [
+          "Junior 12–3",
+          "Adult 4–7",
+          "Adult 8–11",
+          "Adult 12+",
+          "Contact me to confirm"
+        ];
+      }
+
+      if (
+        itemCode ===
+        "jt_cap"
+      ) {
+        return [
+          "Junior",
+          "Adult",
+          "One size / contact me"
+        ];
+      }
+
+      return [
+        "Youth XS",
+        "Youth S",
+        "Youth M",
+        "Youth L",
+        "Adult XS",
+        "Adult S",
+        "Adult M",
+        "Adult L",
+        "Adult XL",
+        "Adult XXL",
+        "Contact me to confirm"
+      ];
+    }
+
+    function renderRewards() {
+      rewardsGrid.innerHTML = "";
+
+      rewardItems.forEach(
+        (reward) => {
+          const unlocked =
+            rewardIsUnlocked(
+              reward
+            );
+
+          const claim =
+            getClaimForReward(
+              reward.item_code
+            );
+
+          const required =
+            Number(
+              reward.points_required || 0
+            );
+
+          const progress =
+            required > 0
+              ? Math.min(
+                  100,
+                  Math.round(
+                    (
+                      currentLifetimePoints /
+                      required
+                    ) * 100
+                  )
+                )
+              : 100;
+
+          const pointsRemaining =
+            Math.max(
+              0,
+              required -
+              currentLifetimePoints
+            );
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+          card.className =
+            claim
+              ? "reward-card claimed"
+              : unlocked
+                ? "reward-card unlocked"
+                : "reward-card";
+
+          let statusText =
+            `${pointsRemaining} Points Remaining`;
+
+          let statusClass = "";
+
+          if (unlocked) {
+            statusText =
+              "Reward Unlocked";
+
+            statusClass =
+              "unlocked";
+          }
+
+          if (claim) {
+            statusText =
+              statusLabels[
+                claim.status
+              ] || "Claim Submitted";
+
+            statusClass =
+              "claimed";
+          }
+
+          card.innerHTML = `
+            <div class="reward-visual">
+              <span class="reward-status ${statusClass}">
+                ${escapeHtml(statusText)}
+              </span>
+
+              <div class="reward-icon">
+                ${
+                  rewardIcons[
+                    reward.item_code
+                  ] ||
+                  rewardIcons.jt_tshirt
+                }
+              </div>
+            </div>
+
+            <div class="reward-copy">
+              <span>
+                Official Physical Reward
+              </span>
+
+              <h3>
+                ${escapeHtml(
+                  reward.item_name
+                )}
+              </h3>
+
+              <p>
+                ${escapeHtml(
+                  reward.item_description
+                )}
+              </p>
+            </div>
+
+            <div class="reward-footer">
+              <div class="reward-points-row">
+                <span>
+                  Unlock Progress
+                </span>
+
+                <strong>
+                  ${currentLifetimePoints.toLocaleString(
+                    "en-GB"
+                  )}
+                  /
+                  ${required.toLocaleString(
+                    "en-GB"
+                  )}
+                </strong>
+              </div>
+
+              <div class="reward-progress">
+                <span
+                  style="width: ${progress}%"
+                ></span>
+              </div>
+
+              <button
+                class="reward-button ${
+                  claim
+                    ? "claimed"
+                    : ""
+                }"
+                type="button"
+                ${
+                  !unlocked || claim
+                    ? "disabled"
+                    : ""
+                }
+              >
+                ${
+                  claim
+                    ? statusLabels[
+                        claim.status
+                      ] ||
+                      "Claim Submitted"
+                    : unlocked
+                      ? "Claim Reward"
+                      : `Unlock at ${required.toLocaleString(
+                          "en-GB"
+                        )} Points`
+                }
+              </button>
+            </div>
+          `;
+
+          const button =
+            card.querySelector(
+              ".reward-button"
+            );
+
+          if (
+            unlocked &&
+            !claim
+          ) {
+            button.addEventListener(
+              "click",
+              () =>
+                openClaimModal(
+                  reward
+                )
+            );
+          }
+
+          rewardsGrid.appendChild(
+            card
+          );
+        }
+      );
+
+      renderNextReward();
+    }
+
+    function renderNextReward() {
+      const lockedRewards =
+        rewardItems
+          .filter(
+            (reward) =>
+              !rewardIsUnlocked(
+                reward
+              )
+          )
+          .sort(
+            (a, b) =>
+              Number(
+                a.points_required
+              ) -
+              Number(
+                b.points_required
+              )
+          );
+
+      if (!lockedRewards.length) {
+        nextRewardName.textContent =
+          "All Physical Rewards Unlocked";
+
+        nextRewardPoints.textContent =
+          "Elite collection complete";
+
+        nextRewardProgress.style.width =
+          "100%";
+
+        return;
+      }
+
+      const next =
+        lockedRewards[0];
+
+      const required =
+        Number(
+          next.points_required || 0
+        );
+
+      const remaining =
+        Math.max(
+          0,
+          required -
+          currentLifetimePoints
+        );
+
+      const progress =
+        required
+          ? Math.min(
+              100,
+              (
+                currentLifetimePoints /
+                required
+              ) * 100
+            )
+          : 100;
+
+      nextRewardName.textContent =
+        next.item_name;
+
+      nextRewardPoints.textContent =
+        `${remaining.toLocaleString(
+          "en-GB"
+        )} points remaining`;
+
+      nextRewardProgress.style.width =
+        `${progress}%`;
+    }
+
+    function renderClaims() {
+      claimsList.innerHTML = "";
+
+      if (!rewardClaims.length) {
+        claimsList.innerHTML = `
+          <div class="empty-state">
+            No physical reward claims have been submitted yet.
+            Unlocked rewards will show a Claim Reward option above.
+          </div>
+        `;
+
+        return;
+      }
+
+      const sortedClaims =
+        [...rewardClaims].sort(
+          (a, b) =>
+            new Date(
+              b.created_at
+            ) -
+            new Date(
+              a.created_at
+            )
+        );
+
+      sortedClaims.forEach(
+        (claim) => {
+          const reward =
+            rewardItems.find(
+              (item) =>
+                item.item_code ===
+                claim.item_code
+            );
+
+          const row =
+            document.createElement(
+              "article"
+            );
+
+          row.className =
+            "claim-row";
+
+          const details = [
+            formatDate(
+              claim.created_at
+            ),
+            claim.size_preference,
+            claim.delivery_method ===
+            "shipping"
+              ? "Shipping"
+              : "Collection"
+          ]
+            .filter(Boolean)
+            .join(" • ");
+
+          row.innerHTML = `
+            <div>
+              <h3>
+                ${escapeHtml(
+                  reward?.item_name ||
+                  claim.item_code
+                )}
+              </h3>
+
+              <p>
+                ${escapeHtml(details)}
+              </p>
+            </div>
+
+            <span class="claim-status">
+              ${escapeHtml(
+                statusLabels[
+                  claim.status
+                ] ||
+                claim.status
+              )}
+            </span>
+          `;
+
+          claimsList.appendChild(
+            row
+          );
+        }
+      );
+    }
+
+    function openClaimModal(
+      reward
+    ) {
+      selectedRewardItem =
+        reward;
+
+      selectedReward.value =
+        reward.item_name;
+
+      recipientName.value =
+        currentPlayerName;
+
+      contactEmail.value =
+        currentUser?.email || "";
+
+      sizePreference.innerHTML =
+        "";
+
+      getSizeOptions(
+        reward.item_code
+      ).forEach(
+        (size) => {
+          const option =
+            document.createElement(
+              "option"
+            );
+
+          option.value =
+            size;
+
+          option.textContent =
+            size;
+
+          sizePreference.appendChild(
+            option
+          );
+        }
+      );
+
+      deliveryMethod.value =
+        "collection";
+
+      deliveryDetails.value =
+        "";
+
+      deliveryDetailsField.classList.add(
+        "hidden"
+      );
+
+      playerMessage.value =
+        "";
+
+      guardianConfirmation.checked =
+        false;
+
+      formMessage.textContent =
+        "";
+
+      formMessage.className =
+        "form-message";
+
+      claimModal.classList.remove(
+        "hidden"
+      );
+
+      document.body.style.overflow =
+        "hidden";
+    }
+
+    function closeClaimModal() {
+      claimModal.classList.add(
+        "hidden"
+      );
+
+      document.body.style.overflow =
+        "";
+
+      selectedRewardItem =
+        null;
+    }
+
+    async function loadRewardData() {
+      const [
+        accountResult,
+        rewardsResult,
+        unlocksResult,
+        claimsResult
+      ] = await Promise.all([
+        supabase
+          .from(
+            "player_performance_accounts"
+          )
+          .select(
+            "lifetime_points, points_balance"
+          )
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle(),
+
+        supabase
+          .from(
+            "avatar_items"
+          )
+          .select(
+            "item_code, item_name, item_description, points_required, slot, sort_order"
+          )
+          .eq(
+            "is_active",
+            true
+          )
+          .eq(
+            "is_physical_reward",
+            true
+          )
+          .order(
+            "sort_order",
+            {
+              ascending: true
+            }
+          ),
+
+        supabase
+          .from(
+            "player_avatar_unlocks"
+          )
+          .select(
+            "item_code, unlocked_at"
+          )
+          .eq(
+            "user_id",
+            currentUser.id
+          ),
+
+        supabase
+          .from(
+            "physical_reward_claims"
+          )
+          .select(
+            [
+              "id",
+              "item_code",
+              "status",
+              "recipient_name",
+              "contact_email",
+              "size_preference",
+              "delivery_method",
+              "delivery_details",
+              "player_message",
+              "admin_notes",
+              "created_at",
+              "updated_at"
+            ].join(",")
+          )
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+      ]);
+
+      if (accountResult.error) {
+        throw accountResult.error;
+      }
+
+      if (rewardsResult.error) {
+        throw rewardsResult.error;
+      }
+
+      if (unlocksResult.error) {
+        throw unlocksResult.error;
+      }
+
+      if (claimsResult.error) {
+        throw claimsResult.error;
+      }
+
+      currentLifetimePoints =
+        Number(
+          accountResult.data
+            ?.lifetime_points || 0
+        );
+
+      rewardItems =
+        rewardsResult.data || [];
+
+      rewardUnlocks =
+        unlocksResult.data || [];
+
+      rewardClaims =
+        claimsResult.data || [];
+
+      lifetimePoints.textContent =
+        currentLifetimePoints.toLocaleString(
+          "en-GB"
+        );
+
+      renderRewards();
+      renderClaims();
+    }
+
+    async function initialiseRewards() {
+      try {
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await supabase.auth.getSession();
+
+        if (
+          sessionError ||
+          !sessionData?.session?.user
+        ) {
+          showError(
+            "You must be signed in to access official JT rewards."
+          );
+
+          return;
+        }
+
+        currentUser =
+          sessionData.session.user;
+
+        const [
+          membershipResult,
+          profileResult
+        ] = await Promise.all([
+          supabase
+            .from(
+              "memberships"
+            )
+            .select(
+              "subscription_status"
+            )
+            .eq(
+              "user_id",
+              currentUser.id
+            )
+            .maybeSingle(),
+
+          supabase
+            .from(
+              "profiles"
+            )
+            .select(
+              "player_name, onboarding_complete"
+            )
+            .eq(
+              "id",
+              currentUser.id
+            )
+            .maybeSingle()
+        ]);
+
+        if (
+          membershipResult.error
+        ) {
+          throw membershipResult.error;
+        }
+
+        if (
+          profileResult.error
+        ) {
+          throw profileResult.error;
+        }
+
+        const allowedStatuses = [
+          "trialing",
+          "active"
+        ];
+
+        if (
+          !membershipResult.data ||
+          !allowedStatuses.includes(
+            membershipResult.data
+              .subscription_status
+          )
+        ) {
+          showError(
+            "Your JT Performance Hub membership is not currently active."
+          );
+
+          return;
+        }
+
+        if (
+          !profileResult.data
+            ?.onboarding_complete
+        ) {
+          window.location.replace(
+            "/performance-hub-profile.html"
+          );
+
+          return;
+        }
+
+        currentPlayerName =
+          profileResult.data
+            ?.player_name ||
+          "JT Player";
+
+        heroPlayerName.textContent =
+          currentPlayerName;
+
+        const {
+          error: initialiseError
+        } = await supabase.rpc(
+          "initialise_my_performance_profile"
+        );
+
+        if (initialiseError) {
+          console.warn(
+            "Performance profile initialisation:",
+            initialiseError
+          );
+        }
+
+        await loadRewardData();
+
+        showOnly(
+          rewardsContent
+        );
+      } catch (error) {
+        console.error(
+          "Rewards loading error:",
+          error
+        );
+
+        showError(
+          "Something went wrong while loading your official JT rewards."
+        );
+      }
+    }
+
+    deliveryMethod.addEventListener(
+      "change",
+      () => {
+        const shipping =
+          deliveryMethod.value ===
+          "shipping";
+
+        deliveryDetailsField
+          .classList.toggle(
+            "hidden",
+            !shipping
+          );
+
+        deliveryDetails.required =
+          shipping;
+      }
+    );
+
+    claimForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+
+        formMessage.textContent =
+          "";
+
+        formMessage.className =
+          "form-message";
+
+        if (!selectedRewardItem) {
+          return;
+        }
+
+        if (
+          deliveryMethod.value ===
+            "shipping" &&
+          !deliveryDetails.value.trim()
+        ) {
+          formMessage.textContent =
+            "Enter the full shipping address.";
+
+          formMessage.className =
+            "form-message error";
+
+          return;
+        }
+
+        if (
+          !guardianConfirmation.checked
+        ) {
+          formMessage.textContent =
+            "Adult or parent/guardian confirmation is required.";
+
+          formMessage.className =
+            "form-message error";
+
+          return;
+        }
+
+        submitClaimButton.disabled =
+          true;
+
+        submitClaimButton.textContent =
+          "Submitting Claim...";
+
+        try {
+          const {
+            data,
+            error
+          } = await supabase.rpc(
+            "claim_physical_reward",
+            {
+              selected_item_code:
+                selectedRewardItem
+                  .item_code,
+
+              selected_recipient_name:
+                recipientName.value,
+
+              selected_contact_email:
+                contactEmail.value,
+
+              selected_size_preference:
+                sizePreference.value,
+
+              selected_delivery_method:
+                deliveryMethod.value,
+
+              selected_delivery_details:
+                deliveryDetails.value,
+
+              selected_player_message:
+                playerMessage.value,
+
+              confirmation_accepted:
+                guardianConfirmation
+                  .checked
+            }
+          );
+
+          if (error) {
+            throw error;
+          }
+
+          const result =
+            Array.isArray(data)
+              ? data[0]
+              : data;
+
+          formMessage.textContent =
+            `${result?.item_name || selectedRewardItem.item_name} claim submitted successfully.`;
+
+          formMessage.className =
+            "form-message success";
+
+          await loadRewardData();
+
+          window.setTimeout(
+            () => {
+              closeClaimModal();
+            },
+            1100
+          );
+        } catch (error) {
+          console.error(
+            "Reward claim error:",
+            error
+          );
+
+          formMessage.textContent =
+            error?.message ||
+            "The reward claim could not be submitted.";
+
+          formMessage.className =
+            "form-message error";
+        } finally {
+          submitClaimButton.disabled =
+            false;
+
+          submitClaimButton.textContent =
+            "Submit Reward Claim";
+        }
+      }
+    );
+
+    document
+      .getElementById(
+        "closeModalButton"
+      )
+      .addEventListener(
+        "click",
+        closeClaimModal
+      );
+
+    claimModal.addEventListener(
+      "click",
+      (event) => {
+        if (
+          event.target ===
+          claimModal
+        ) {
+          closeClaimModal();
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        if (
+          event.key === "Escape" &&
+          !claimModal.classList
+            .contains("hidden")
+        ) {
+          closeClaimModal();
+        }
+      }
+    );
+
+    document
+      .getElementById(
+        "signOutButton"
+      )
+      .addEventListener(
+        "click",
+        async () => {
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/";
+        }
+      );
+
+    initialiseRewards();
+  </script>
+</body>
+</html>
