@@ -1386,75 +1386,119 @@
       }
     }
 
-    async function saveProgress() {
-      saveButton.disabled = true;
-      saveButton.textContent =
-        "Saving Progress...";
+async function saveProgress() {
+  const cleanWeeklyWin =
+    weeklyWin.value.trim();
+
+  const cleanNextFocus =
+    nextFocus.value.trim();
+
+  if (!cleanWeeklyWin) {
+    setSaveMessage(
+      "Please record your weekly win before saving.",
+      "error"
+    );
+
+    weeklyWin.focus();
+    return;
+  }
+
+  if (!cleanNextFocus) {
+    setSaveMessage(
+      "Please record your next focus before saving.",
+      "error"
+    );
+
+    nextFocus.focus();
+    return;
+  }
+
+  saveButton.disabled = true;
+
+  saveButton.textContent =
+    "Saving Progress...";
+
+  setSaveMessage(
+    "Securely saving your weekly record."
+  );
+
+  try {
+    const {
+      data,
+      error
+    } = await supabase.rpc(
+      "save_weekly_progress",
+      {
+        selected_training_sessions:
+          values.training,
+
+        selected_nutrition_habits:
+          values.nutrition,
+
+        selected_mindset_sessions:
+          values.mindset,
+
+        selected_weekly_win:
+          cleanWeeklyWin,
+
+        selected_next_focus:
+          cleanNextFocus
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    const result =
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+    if (
+      result?.challenge_completed
+    ) {
+      let message =
+        `Weekly progress saved — ${result.points_awarded} Performance Points earned.`;
+
+      if (
+        Array.isArray(
+          result.newly_unlocked
+        ) &&
+        result.newly_unlocked.length
+      ) {
+        message +=
+          " You also unlocked a new Player Locker reward.";
+      }
 
       setSaveMessage(
-        "Securely saving your weekly record."
+        message,
+        "success"
       );
-
-      try {
-        const {
-          error
-        } = await supabase
-          .from("player_progress")
-          .upsert(
-            {
-              user_id:
-                currentUser.id,
-
-              week_start:
-                currentWeekStart,
-
-              training_sessions:
-                values.training,
-
-              nutrition_habits:
-                values.nutrition,
-
-              mindset_sessions:
-                values.mindset,
-
-              weekly_win:
-                weeklyWin.value.trim() ||
-                null,
-
-              next_focus:
-                nextFocus.value.trim() ||
-                null
-            },
-            {
-              onConflict:
-                "user_id,week_start"
-            }
-          );
-
-        if (error) {
-          throw error;
-        }
-
-        setSaveMessage(
-          "Weekly progress saved successfully.",
-          "success"
-        );
-      } catch (error) {
-        console.error(
-          "Progress save error:",
-          error
-        );
-
-        setSaveMessage(
-          "Your progress could not be saved. Please try again.",
-          "error"
-        );
-      } finally {
-        saveButton.disabled = false;
-        saveButton.textContent =
-          "Save Weekly Progress";
-      }
+    } else {
+      setSaveMessage(
+        "Weekly progress updated successfully. This week’s Performance Points have already been awarded.",
+        "success"
+      );
     }
+  } catch (error) {
+    console.error(
+      "Progress save error:",
+      error
+    );
+
+    setSaveMessage(
+      error?.message ||
+      "Your progress could not be saved. Please try again.",
+      "error"
+    );
+  } finally {
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+      "Save Weekly Progress";
+  }
+}
 
     async function initialiseProgressCentre() {
       try {
