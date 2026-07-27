@@ -1907,45 +1907,108 @@ async function saveMatchReflection() {
     return;
   }
 
+  const cleanMatchWin =
+    matchWin.value.trim();
+
+  const cleanMatchLesson =
+    matchLesson.value.trim();
+
+  const cleanNextAction =
+    nextAction.value.trim();
+
+  if (!cleanMatchWin) {
+    setReflectionStatus(
+      "Please record one match win before saving.",
+      "error"
+    );
+
+    matchWin.focus();
+    return;
+  }
+
+  if (!cleanMatchLesson) {
+    setReflectionStatus(
+      "Please record one match lesson before saving.",
+      "error"
+    );
+
+    matchLesson.focus();
+    return;
+  }
+
+  if (!cleanNextAction) {
+    setReflectionStatus(
+      "Please record one next action before saving.",
+      "error"
+    );
+
+    nextAction.focus();
+    return;
+  }
+
   saveReflectionButton.disabled =
     true;
 
+  saveReflectionButton.textContent =
+    "Saving Reflection...";
+
   setReflectionStatus(
-    "Saving your reflection..."
+    "Securely saving your match reflection..."
   );
 
   try {
     const {
+      data,
       error
-    } = await supabase
-      .from("matchday_reflections")
-      .upsert(
-        {
-          user_id: currentUserId,
-          match_date: getTodayDate(),
-          match_win:
-            matchWin.value.trim(),
-          match_lesson:
-            matchLesson.value.trim(),
-          next_action:
-            nextAction.value.trim(),
-          updated_at:
-            new Date().toISOString()
-        },
-        {
-          onConflict:
-            "user_id,match_date"
-        }
-      );
+    } = await supabase.rpc(
+      "save_matchday_reflection",
+      {
+        selected_match_win:
+          cleanMatchWin,
+
+        selected_match_lesson:
+          cleanMatchLesson,
+
+        selected_next_action:
+          cleanNextAction
+      }
+    );
 
     if (error) {
       throw error;
     }
 
-    setReflectionStatus(
-      "Match reflection saved successfully.",
-      "success"
-    );
+    const result =
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+    if (
+      result?.challenge_completed
+    ) {
+      let message =
+        `Match reflection saved — ${result.points_awarded} Performance Points earned.`;
+
+      if (
+        Array.isArray(
+          result.newly_unlocked
+        ) &&
+        result.newly_unlocked.length
+      ) {
+        message +=
+          " You also unlocked a new Player Locker reward.";
+      }
+
+      setReflectionStatus(
+        message,
+        "success"
+      );
+    } else {
+      setReflectionStatus(
+        "Match reflection updated successfully. This week’s Performance Points have already been awarded.",
+        "success"
+      );
+    }
   } catch (error) {
     console.error(
       "Reflection save error:",
@@ -1953,12 +2016,16 @@ async function saveMatchReflection() {
     );
 
     setReflectionStatus(
+      error?.message ||
       "Your reflection could not be saved. Please try again.",
       "error"
     );
   } finally {
     saveReflectionButton.disabled =
       false;
+
+    saveReflectionButton.textContent =
+      "Save Match Reflection";
   }
 }
     
