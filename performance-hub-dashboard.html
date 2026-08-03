@@ -1490,6 +1490,49 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    .avatar-dashboard-card {
+  position: relative;
+  padding: 0;
+  isolation: isolate;
+  background: #070707;
+}
+
+.avatar-dashboard-card::before {
+  display: none;
+}
+
+.dashboard-avatar-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #070707;
+  pointer-events: none;
+}
+
+.avatar-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.avatar-dashboard-footer {
+  z-index: 3;
+  padding: 15px 18px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  background: rgba(4, 4, 4, 0.82);
+  backdrop-filter: blur(14px);
+  pointer-events: auto;
+}
+
+.avatar-dashboard-footer .locker-link {
+  position: relative;
+  z-index: 4;
+}
   </style>
 </head>
 
@@ -1539,7 +1582,7 @@
 
           <a
             class="top-link"
-            href="/performance-hub-avatar.html"
+            href="/performance-hub-avatar-premium.html"
           >
             Player Locker
           </a>
@@ -1699,52 +1742,33 @@
           </div>
 
           <aside
-            class="hero-locker"
-            aria-label="Your Player Locker preview"
-          >
-            <div
-              class="locker-plaque"
-              id="lockerPlayerName"
-            >
-              JT Player
-            </div>
+  class="hero-locker avatar-dashboard-card"
+  aria-label="Your live 3D athlete preview"
+>
+  <iframe
+    class="dashboard-avatar-frame"
+    src="/performance-hub-avatar-premium.html?embed=dashboard"
+    title="Your live JT 3D athlete"
+    loading="eager"
+  ></iframe>
 
-            <div class="hanger"></div>
+  <a
+    class="avatar-card-link"
+    href="/performance-hub-avatar-premium.html"
+    aria-label="Open your full 3D athlete page"
+  ></a>
 
-            <div
-              class="jersey"
-              id="dashboardJersey"
-            >
-              <div class="jersey-content">
-                <span
-                  class="jersey-name"
-                  id="jerseyPlayerName"
-                >
-                  JT PLAYER
-                </span>
+  <div class="locker-bottom avatar-dashboard-footer">
+    <span>Live Athlete Readiness</span>
 
-                <span
-                  class="jersey-number"
-                  id="jerseyNumber"
-                >
-                  10
-                </span>
-              </div>
-            </div>
-
-            <div class="locker-bottom">
-              <span>
-                Player Identity
-              </span>
-
-              <a
-                class="locker-link"
-                href="/performance-hub-avatar.html"
-              >
-                Open Locker →
-              </a>
-            </div>
-          </aside>
+    <a
+      class="locker-link"
+      href="/performance-hub-avatar-premium.html"
+    >
+      Open Athlete →
+    </a>
+  </div>
+</aside>
         </section>
 
         <div class="overview-grid">
@@ -2557,7 +2581,7 @@
           <div class="account-actions">
             <a
               class="account-link"
-              href="/performance-hub-avatar.html"
+              href="/performance-hub-avatar-premium.html"
             >
               Player Locker
             </a>
@@ -2705,26 +2729,6 @@
     const dailyChallengeProgress =
       document.getElementById(
         "dailyChallengeProgress"
-      );
-
-    const lockerPlayerName =
-      document.getElementById(
-        "lockerPlayerName"
-      );
-
-    const jerseyPlayerName =
-      document.getElementById(
-        "jerseyPlayerName"
-      );
-
-    const jerseyNumber =
-      document.getElementById(
-        "jerseyNumber"
-      );
-
-    const dashboardJersey =
-      document.getElementById(
-        "dashboardJersey"
       );
 
     const accountInitials =
@@ -2992,27 +2996,6 @@
 
       dailyChallengeProgress.textContent =
         `${completedDaily}/${dailyChallenges.length}`;
-
-      jerseyNumber.textContent =
-        String(
-          avatar.shirt_number || 10
-        );
-
-      dashboardJersey.style.setProperty(
-        "--kit-primary",
-        safeHex(
-          avatar.kit_primary_colour,
-          "#111111"
-        )
-      );
-
-      dashboardJersey.style.setProperty(
-        "--kit-secondary",
-        safeHex(
-          avatar.kit_secondary_colour,
-          "#d4af37"
-        )
-      );
     }
 
     async function initialiseDashboard() {
@@ -3163,12 +3146,6 @@
         memberEmail.textContent =
           user.email ||
           "JT member";
-
-        lockerPlayerName.textContent =
-          fullPlayerName;
-
-        jerseyPlayerName.textContent =
-          fullPlayerName.toUpperCase();
 
         accountInitials.textContent =
           getInitials(
