@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Your Athlete | JT Performance Hub</title>
+
+  <meta
+    name="description"
+    content="Create a realistic personal athlete avatar for the JT Performance Hub."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --black: #040404;
+      --gold: #d4af37;
+      --gold-light: #f5e6ad;
+      --white: #f8f3e8;
+      --muted: #aaa396;
+      --line: rgba(212, 175, 55, 0.18);
+      --white-line: rgba(255, 255, 255, 0.08);
+      --green: #82dfa3;
+      --red: #ff9b9b;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--white);
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(circle at 84% 7%, rgba(212, 175, 55, 0.13), transparent 34rem),
+        radial-gradient(circle at 5% 92%, rgba(212, 175, 55, 0.05), transparent 28rem),
+        linear-gradient(145deg, #030303, #0b0b0b 52%, #040404);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .hidden { display: none !important; }
+
+    .topbar {
+      position: relative;
+      z-index: 20;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      background: rgba(4, 4, 4, 0.82);
+      backdrop-filter: blur(20px);
+    }
+
+    .topbar-inner {
+      width: min(1460px, calc(100% - 42px));
+      min-height: 78px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.46);
+      border-radius: 15px;
+      color: var(--gold-light);
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.16), rgba(255, 255, 255, 0.015));
+      box-shadow: inset 0 0 24px rgba(212, 175, 55, 0.05);
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+    }
+
+    .brand-copy strong,
+    .brand-copy span {
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .brand-copy strong {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-copy span {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.57rem;
+      letter-spacing: 1px;
+    }
+
+    .dashboard-link {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border: 1px solid var(--white-line);
+      border-radius: 999px;
+      color: var(--gold-light);
+      background: rgba(255, 255, 255, 0.02);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.61rem;
+      font-weight: 900;
+    }
+
+    .main {
+      width: min(1460px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 26px 0 34px;
+    }
+
+    .intro-shell {
+      min-height: calc(100vh - 140px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.004)),
+        rgba(7, 7, 7, 0.96);
+      box-shadow: 0 42px 120px rgba(0, 0, 0, 0.58);
+    }
+
+    .intro-copy {
+      padding: clamp(34px, 5vw, 76px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2.2px;
+      font-size: 0.62rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4.4rem, 7vw, 8.8rem);
+      line-height: 0.79;
+      letter-spacing: -0.065em;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--gold);
+    }
+
+    .intro {
+      max-width: 670px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.78;
+    }
+
+    .steps {
+      margin-top: 28px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      padding: 15px 16px;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--white-line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.016);
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.36);
+      border-radius: 11px;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.07);
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      font-size: 0.66rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .step span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.65rem;
+      line-height: 1.5;
+    }
+
+    .consent {
+      margin-top: 24px;
+      padding: 17px;
+      border: 1px solid rgba(143, 201, 239, 0.17);
+      border-radius: 17px;
+      background: rgba(143, 201, 239, 0.035);
+    }
+
+    .consent label {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      align-items: start;
+      gap: 11px;
+      color: #cec7bb;
+      font-size: 0.68rem;
+      line-height: 1.62;
+    }
+
+    .consent input {
+      width: 17px;
+      height: 17px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+    }
+
+    .start-button {
+      width: fit-content;
+      min-height: 52px;
+      margin-top: 19px;
+      padding: 0 25px;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      border-radius: 999px;
+      color: #050505;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      box-shadow: 0 14px 35px rgba(212, 175, 55, 0.17);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      font-size: 0.66rem;
+      font-weight: 900;
+      transition: transform 220ms var(--ease), opacity 220ms ease;
+    }
+
+    .start-button:hover:not(:disabled) { transform: translateY(-2px); }
+    .start-button:disabled { cursor: not-allowed; opacity: 0.36; }
+
+    .visual {
+      position: relative;
+      min-height: 760px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.09), transparent 20rem),
+        linear-gradient(180deg, #171717, #090909 54%, #040404);
+    }
+
+    .visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 38%, transparent 66%, rgba(0, 0, 0, 0.28)),
+        repeating-linear-gradient(90deg, transparent 0, transparent 110px, rgba(255, 255, 255, 0.025) 111px, transparent 112px);
+    }
+
+    .visual-mark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(72%, 470px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      color: rgba(212, 175, 55, 0.16);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(7rem, 14vw, 13rem);
+      font-weight: 900;
+      box-shadow: 0 0 0 34px rgba(212, 175, 55, 0.02), 0 0 100px rgba(212, 175, 55, 0.05);
+    }
+
+    .visual-card {
+      position: absolute;
+      right: 26px;
+      bottom: 26px;
+      left: 26px;
+      padding: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 20px;
+      background: rgba(4, 4, 4, 0.77);
+      backdrop-filter: blur(18px);
+    }
+
+    .visual-card strong {
+      display: block;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.66rem;
+    }
+
+    .visual-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 1.58;
+    }
+
+    .creator-shell {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: #050505;
+    }
+
+    .creator-toolbar {
+      min-height: 64px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+      background: #080808;
+    }
+
+    .creator-toolbar-copy strong,
+    .creator-toolbar-copy span { display: block; }
+
+    .creator-toolbar-copy strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.68rem;
+    }
+
+    .creator-toolbar-copy span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.6rem;
+    }
+
+    .close-button {
+      min-height: 40px;
+      padding: 0 15px;
+      border: 1px solid var(--white-line);
+      border-radius: 999px;
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.025);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.58rem;
+      font-weight: 900;
+    }
+
+    #avaturn-sdk-container {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border: 0;
+      background: #111;
+    }
+
+    .avaturn-frame {
+      width: 100% !important;
+      height: 100% !important;
+      border: 0 !important;
+    }
+
+    .creator-loading,
+    .export-success {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 130;
+      width: min(430px, calc(100% - 38px));
+      padding: 27px;
+      transform: translate(-50%, -50%);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(5, 5, 5, 0.94);
+      box-shadow: 0 34px 100px rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(20px);
+      text-align: center;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 17px;
+      border: 2px solid rgba(212, 175, 55, 0.14);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    .creator-loading strong,
+    .export-success strong {
+      display: block;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.72rem;
+    }
+
+    .creator-loading p,
+    .export-success p {
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 0.69rem;
+      line-height: 1.62;
+    }
+
+    .success-mark {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(130, 223, 163, 0.35);
+      border-radius: 50%;
+      color: var(--green);
+      background: rgba(130, 223, 163, 0.07);
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .success-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .success-actions a,
+    .success-actions button {
+      min-height: 43px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-size: 0.59rem;
+      font-weight: 900;
+    }
+
+    .success-actions a {
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      color: #050505;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+
+    .success-actions button {
+      border: 1px solid var(--white-line);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .error-message {
+      margin-top: 14px;
+      color: var(--red);
+      font-size: 0.68rem;
+      line-height: 1.55;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 980px) {
+      .intro-shell { grid-template-columns: 1fr; }
+      .visual { min-height: 500px; }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner,
+      .main { width: min(100% - 24px, 1460px); }
+      .brand-copy { display: none; }
+      .intro-shell { border-radius: 26px; }
+      .intro-copy { padding: 30px 21px; }
+      h1 { font-size: clamp(4rem, 20vw, 6.4rem); }
+      .visual { min-height: 420px; }
+      .creator-toolbar-copy span { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/performance-hub-dashboard.html" aria-label="Return to JT Performance Hub dashboard">
+        <span class="brand-mark">JT</span>
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>Personal Athlete Creator</span>
+        </span>
+      </a>
+
+      <a class="dashboard-link" href="/performance-hub-dashboard.html">Dashboard</a>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="intro-shell">
+      <div class="intro-copy">
+        <div class="eyebrow">Build Your Digital Athlete</div>
+
+        <h1>Create Your<span>Player.</span></h1>
+
+        <p class="intro">
+          Create a realistic avatar that represents you inside the JT Performance Hub.
+          Avaturn will guide you through the face scan and customisation process.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <div>
+              <strong>Scan or build</strong>
+              <span>Follow Avaturn’s guided creation process.</span>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-number">2</span>
+            <div>
+              <strong>Customise your look</strong>
+              <span>Choose hair, body, clothing and accessories.</span>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-number">3</span>
+            <div>
+              <strong>Finish your athlete</strong>
+              <span>Press Next in Avaturn to return the completed 3D model to JT.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="consent">
+          <label>
+            <input id="consentCheckbox" type="checkbox">
+            <span>
+              I understand that photos may be processed by Avaturn to create the avatar.
+              Players under 18 should complete this step with permission from a parent or guardian.
+            </span>
+          </label>
+        </div>
+
+        <button class="start-button" id="startCreatorButton" type="button" disabled>
+          Create My Athlete
+        </button>
+
+        <div class="error-message hidden" id="pageError" role="alert"></div>
+      </div>
+
+      <div class="visual" aria-hidden="true">
+        <div class="visual-mark">JT</div>
+        <div class="visual-card">
+          <strong>Your identity. Your athlete.</strong>
+          <p>
+            This first version tests the free Avaturn creator and export connection.
+            Personal JT storage and dashboard replacement come next.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="creator-shell hidden" id="creatorShell" aria-label="Avaturn athlete creator">
+    <div class="creator-toolbar">
+      <div class="creator-toolbar-copy">
+        <strong>JT Athlete Creator</strong>
+        <span>Complete the steps, then press Next to export your player.</span>
+      </div>
+      <button class="close-button" id="closeCreatorButton" type="button">Close</button>
+    </div>
+
+    <div id="avaturn-sdk-container"></div>
+  </section>
+
+  <div class="creator-loading hidden" id="creatorLoading" role="status" aria-live="polite">
+    <div class="spinner"></div>
+    <strong>Opening Athlete Creator</strong>
+    <p>Connecting securely to the JT Performance Hub Avaturn project.</p>
+  </div>
+
+  <div class="export-success hidden" id="exportSuccess" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <div class="success-mark">✓</div>
+    <strong id="successTitle">Athlete Created</strong>
+    <p id="successMessage">
+      Your avatar was returned successfully. The next build step will save it privately
+      to your JT account and load it on your dashboard.
+    </p>
+
+    <div class="success-actions">
+      <a href="/performance-hub-dashboard.html">Return to Dashboard</a>
+      <button id="createAgainButton" type="button">Create Again</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { AvaturnSDK } from "https://cdn.jsdelivr.net/npm/@avaturn/sdk/dist/index.js";
+
+    const AVATURN_URL = "https://jt-performance-hub.avaturn.dev";
+
+    const consentCheckbox = document.getElementById("consentCheckbox");
+    const startCreatorButton = document.getElementById("startCreatorButton");
+    const closeCreatorButton = document.getElementById("closeCreatorButton");
+    const createAgainButton = document.getElementById("createAgainButton");
+    const creatorShell = document.getElementById("creatorShell");
+    const creatorLoading = document.getElementById("creatorLoading");
+    const exportSuccess = document.getElementById("exportSuccess");
+    const pageError = document.getElementById("pageError");
+    const container = document.getElementById("avaturn-sdk-container");
+
+    let sdk = null;
+    let creatorStarted = false;
+
+    function showError(message) {
+      pageError.textContent = message;
+      pageError.classList.remove("hidden");
+    }
+
+    function clearError() {
+      pageError.textContent = "";
+      pageError.classList.add("hidden");
+    }
+
+    function closeCreator() {
+      creatorShell.classList.add("hidden");
+      creatorLoading.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function storeExportResult(data) {
+      const safeResult = {
+        url: data?.url || "",
+        urlType: data?.urlType || "",
+        avatarId: data?.avatarId || "",
+        sessionId: data?.sessionId || "",
+        avatarSupportsFaceAnimations: Boolean(data?.avatarSupportsFaceAnimations),
+        bodyId: data?.bodyId || "",
+        gender: data?.gender || "",
+        exportedAt: new Date().toISOString()
+      };
+
+      if (safeResult.urlType === "httpURL") {
+        sessionStorage.setItem("jtAvaturnExport", JSON.stringify(safeResult));
+      }
+
+      return safeResult;
+    }
+
+    async function startCreator() {
+      clearError();
+
+      if (!consentCheckbox.checked) {
+        showError("Please confirm the photo-processing notice before continuing.");
+        return;
+      }
+
+      creatorShell.classList.remove("hidden");
+      creatorLoading.classList.remove("hidden");
+      exportSuccess.classList.add("hidden");
+      document.body.style.overflow = "hidden";
+
+      if (creatorStarted) {
+        creatorLoading.classList.add("hidden");
+        return;
+      }
+
+      try {
+        sdk = new AvaturnSDK();
+
+        await sdk.init(container, {
+          url: AVATURN_URL,
+          iframeClassName: "avaturn-frame"
+        });
+
+        creatorStarted = true;
+        creatorLoading.classList.add("hidden");
+
+        sdk.on("export", (data) => {
+          console.log("JT Avaturn export:", data);
+
+          const result = storeExportResult(data);
+
+          creatorShell.classList.add("hidden");
+          creatorLoading.classList.add("hidden");
+          exportSuccess.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+
+          if (result.urlType !== "httpURL") {
+            document.getElementById("successMessage").textContent =
+              "Your avatar was returned successfully. The next build step will connect this export directly to private JT storage.";
+          }
+        });
+      } catch (error) {
+        console.error("Avaturn creator error:", error);
+        closeCreator();
+        showError("The athlete creator could not be opened. Check the Avaturn project domain and try again.");
+      }
+    }
+
+    consentCheckbox.addEventListener("change", () => {
+      startCreatorButton.disabled = !consentCheckbox.checked;
+      if (consentCheckbox.checked) clearError();
+    });
+
+    startCreatorButton.addEventListener("click", startCreator);
+    closeCreatorButton.addEventListener("click", closeCreator);
+
+    createAgainButton.addEventListener("click", () => {
+      exportSuccess.classList.add("hidden");
+      document.body.style.overflow = "";
+      startCreator();
+    });
+  </script>
+</body>
+</html>
