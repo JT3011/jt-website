@@ -534,6 +534,43 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    body.dashboard-embed .topbar,
+body.dashboard-embed .panel,
+body.dashboard-embed .stage-copy,
+body.dashboard-embed .hint {
+  display: none !important;
+}
+
+body.dashboard-embed .main {
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  display: block;
+}
+
+body.dashboard-embed .stage {
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.dashboard-embed .readiness {
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
+}
+
+body.dashboard-embed .state-copy p {
+  display: none;
+}
+
+body.dashboard-embed .state-row h2 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+}
   </style>
 </head>
 <body>
@@ -652,6 +689,16 @@ import {
 } from "three/addons/libs/meshopt_decoder.module.js";
     import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
+const pageParams =
+  new URLSearchParams(window.location.search);
+
+const dashboardEmbed =
+  pageParams.get("embed") === "dashboard";
+
+if (dashboardEmbed) {
+  document.body.classList.add("dashboard-embed");
+}
+    
    const MODEL_URL = "/models/jt-athlete-animated.glb";
 
     const STATES = {
