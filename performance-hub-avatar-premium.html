@@ -1054,12 +1054,21 @@ import {
     }
 
     function poseBone(key, x, y, z, smoothing = 0.08) {
-      const bone = bones[key];
-      const target = quaternionWithOffsets(key, x, y, z);
-      if (!bone || !target) return;
-      bone.quaternion.slerp(target, smoothing);
-    }
+  const bone = bones[key];
+  if (!bone) return;
 
+  const offset = new THREE.Quaternion().setFromEuler(
+    new THREE.Euler(x, y, z, "XYZ")
+  );
+
+  if (mixer) {
+    // Apply the readiness posture on top of the current idle animation.
+    bone.quaternion.multiply(offset);
+  } else {
+    const target = quaternionWithOffsets(key, x, y, z);
+    if (target) bone.quaternion.slerp(target, smoothing);
+  }
+}
     function applyRigPose(elapsed) {
       if (!modelReady) return;
 
