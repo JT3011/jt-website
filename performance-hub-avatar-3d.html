@@ -22,10 +22,28 @@
   <section class="viewer"><canvas id="canvas"></canvas><div class="vignette"></div><div class="copy"><div class="eyebrow">Elite Athlete Prototype</div><h1>Your Player.<span>Your State.</span></h1><p>Premium three-dimensional identity designed to reflect readiness, energy, mental sharpness and recovery through posture, movement and lighting.</p><div class="model-status" id="modelStatus">Loading athlete environment</div></div><div class="viewer-footer"><div><div class="eyebrow">Current Readiness State</div><div class="state-name" id="stateName">Match Ready</div><div class="state-score" id="stateScore">92 / 100</div><p class="state-description" id="stateDescription"></p></div><div class="hint">Drag to rotate • Scroll to zoom</div></div></section>
   <aside class="panel"><div class="eyebrow">Readiness Simulator</div><h2>Visual State Engine.</h2><p>Preview how future player check-in data will alter posture, movement and scene atmosphere.</p><div class="states" id="states"></div><div class="divider"></div><div class="eyebrow">Production Model Specification</div><div class="specs"><div class="spec"><strong>Web-optimised GLB</strong><span>One high-quality athlete with a rigged body, face and modular JT kit.</span></div><div class="spec"><strong>Facial controls</strong><span>Blinks, eye openness, brow tension, tired eyes and subtle expression changes.</span></div><div class="spec"><strong>State animations</strong><span>Ready, fresh, neutral, low-focus, tired, fatigued and unwell idle clips.</span></div><div class="spec"><strong>Existing unlock integration</strong><span>Current kits, boots, socks, tops and rewards map onto modular 3D meshes.</span></div></div><div class="note"><strong>Prototype:</strong> this page automatically looks for <code>/models/jt-athlete-v1.glb</code>. Until that licensed production asset exists, a premium 3D mannequin demonstrates the camera, lighting and state engine.</div></aside>
 </main>
+  <script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-import {OrbitControls} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js";
-import {GLTFLoader} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "three";
+
+import {
+  OrbitControls
+} from "three/addons/controls/OrbitControls.js";
+
+import {
+  GLTFLoader
+} from "three/addons/loaders/GLTFLoader.js";
+
+import {
+  DRACOLoader
+} from "three/addons/loaders/DRACOLoader.js";
 const S={match_ready:{t:"Match Ready",n:92,c:"#d9bc55",p:0,h:.01,b:1.15,l:1.22,d:"Alert, composed and physically prepared. Upright posture, active breathing and sharper lighting."},fresh:{t:"Fresh",n:81,c:"#79dfa0",p:.025,h:.02,b:.9,l:1.05,d:"Relaxed, recovered and ready to work with calm movement and balanced posture."},energised:{t:"Energised",n:87,c:"#91cfff",p:-.015,h:-.01,b:1.32,l:1.16,d:"High physical energy, quicker idle movement and a more active performance stance."},stable:{t:"Stable",n:66,c:"#d9d2c4",p:.05,h:.035,b:.7,l:.82,d:"A calm neutral baseline. Functional and composed without appearing flat or over-stimulated."},low_focus:{t:"Low Focus",n:54,c:"#c5a9ff",p:.1,h:.11,b:.62,l:.68,d:"Mental sharpness is reduced, shown through quieter movement and a slightly lowered eye-line."},tired:{t:"Tired",n:46,c:"#f0b36d",p:.14,h:.15,b:.54,l:.56,d:"Energy is below normal. Shoulders soften, movement slows and the scene becomes less intense."},fatigued:{t:"Fatigued",n:31,c:"#ff9696",p:.2,h:.19,b:.45,l:.45,d:"Recovery appears limited, with heavier posture and reduced readiness lighting."},under_weather:{t:"Under The Weather",n:22,c:"#91cfff",p:.24,h:.22,b:.37,l:.38,d:"Only shown when the player explicitly reports feeling unwell. It is a wellbeing flag, not a diagnosis."}};
 const canvas=document.querySelector("#canvas"),viewer=canvas.parentElement,states=document.querySelector("#states"),nameEl=document.querySelector("#stateName"),scoreEl=document.querySelector("#stateScore"),descEl=document.querySelector("#stateDescription"),statusEl=document.querySelector("#modelStatus");
 const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x060606,.048);const camera=new THREE.PerspectiveCamera(30,1,.1,100);camera.position.set(0,2.5,8.4);const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor(0x070707);renderer.shadowMap.enabled=true;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.outputColorSpace=THREE.SRGBColorSpace;
