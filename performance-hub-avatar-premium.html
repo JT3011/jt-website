@@ -283,7 +283,15 @@ async function playerModel(){
   }
 }
 
-const model=await playerModel();
+const model=await Promise.race([
+  playerModel(),
+  new Promise(resolve=>{
+    setTimeout(()=>{
+      console.warn("Player model lookup timed out — using JT fallback athlete.");
+      resolve({url:DONOR,personal:false});
+    },4500);
+  })
+]);
 const states={
   match_ready:{t:"Match Ready",n:92,icon:"◎",c:"#d4af37",r:"212,175,55",bg:0x090806,fog:0.032,energy:1.04,exposure:1.12,key:112,rim:92,fill:18,beam:.18,haze:.32,lean:-.014,chest:-.02,head:-.012,yaw:0,shoulder:-.012,breath:1.08,d:"Alert, composed and physically prepared with a confident natural stance."},
   fresh:{t:"Fresh",n:82,icon:"◒",c:"#78d99a",r:"120,217,154",bg:0x050908,fog:0.036,energy:.84,exposure:1.02,key:94,rim:72,fill:16,beam:.14,haze:.25,lean:0,chest:0,head:.008,yaw:0,shoulder:.008,breath:.88,d:"Recovered, balanced and ready to work with calm, open body language."},
@@ -514,25 +522,108 @@ const draco=new DRACOLoader();draco.setDecoderPath("https://cdn.jsdelivr.net/npm
 const ktx=new KTX2Loader();ktx.setTranscoderPath("https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/libs/basis/");ktx.detectSupport(renderer);
 const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.setKTX2Loader(ktx);loader.setMeshoptDecoder(MeshoptDecoder);
 
+function loadWithTimeout(url,label,timeoutMs=18000){
+  let timeoutId;
+
+  const timeoutPromise=new Promise((_,reject)=>{
+    timeoutId=setTimeout(()=>{
+      reject(new Error(`${label} timed out after ${timeoutMs}ms`));
+    },timeoutMs);
+  });
+
+  return Promise.race([
+    loader.loadAsync(url),
+    timeoutPromise
+  ]).finally(()=>clearTimeout(timeoutId));
+}
+
 async function load(){
   try{
-    bar.style.width="22%";
-    const targetPromise=loader.loadAsync(model.url),donorPromise=model.url===DONOR?targetPromise:loader.loadAsync(DONOR);
-    const [targetGltf,donorGltf]=await Promise.all([targetPromise,donorPromise]);
-    bar.style.width="68%";
-    athlete=targetGltf.scene;normalise(athlete);holder.add(athlete);indexBones(athlete);
-    const targetSkin=skin(athlete),sourceSkin=skin(donorGltf.scene),ownClip=clip(targetGltf.animations),idleClip=clip(donorGltf.animations);
+    bar.style.width="14%";
+    loadtext.textContent="Loading the JT animation engine…";
+
+    // Load the dependable donor first so one slow personal file cannot trap the page.
+    const donorGltf=await loadWithTimeout(DONOR,"JT animation model",20000);
+    bar.style.width="45%";
+
+    let targetGltf=donorGltf;
+    let personalLoaded=false;
+
+    if(model.personal&&model.url!==DONOR){
+      loadtext.textContent="Loading your personal athlete…";
+
+      try{
+        targetGltf=await loadWithTimeout(model.url,"Personal athlete model",18000);
+        personalLoaded=true;
+      }catch(personalError){
+        console.warn("Personal athlete load failed — using JT fallback athlete.",personalError);
+        targetGltf=donorGltf;
+      }
+    }
+
+    bar.style.width="72%";
+
+    athlete=targetGltf.scene;
+    normalise(athlete);
+    holder.add(athlete);
+    indexBones(athlete);
+
+    const targetSkin=skin(athlete);
+    const sourceSkin=skin(donorGltf.scene);
+    const ownClip=clip(targetGltf.animations);
+    const idleClip=clip(donorGltf.animations);
+
     let animated=false;
-    if(ownClip){direct(athlete,ownClip);animated=true}
-    else if(targetSkin&&sourceSkin&&idleClip){try{retarget(targetSkin,sourceSkin,idleClip);animated=true}catch(error){console.warn("JT retarget fallback",error)}}
-    else if(!model.personal&&idleClip){direct(athlete,idleClip);animated=true}
-    if(!animated){relaxedFallback();mode="relaxed"}
-    bar.style.width="100%";loadtext.textContent="Your athlete is ready.";
-    status.textContent=model.personal?(animated?"Personal athlete • Cinematic JT idle active":"Personal athlete • Reactive stance active"):"JT animated athlete active";
-    console.log("JT reveal ready",{personal:model.personal,mode});
+
+    if(ownClip){
+      direct(athlete,ownClip);
+      animated=true;
+    }else if(personalLoaded&&targetSkin&&sourceSkin&&idleClip){
+      try{
+        retarget(targetSkin,sourceSkin,idleClip);
+        animated=true;
+      }catch(error){
+        console.warn("JT retarget fallback",error);
+      }
+    }else if(idleClip){
+      direct(athlete,idleClip);
+      animated=true;
+    }
+
+    if(!animated){
+      relaxedFallback();
+      mode="relaxed";
+    }
+
+    bar.style.width="100%";
+    loadtext.textContent="Your athlete is ready.";
+
+    if(personalLoaded){
+      status.textContent=animated
+        ?"Personal athlete • Cinematic JT idle active"
+        :"Personal athlete • Reactive stance active";
+    }else if(model.personal){
+      status.textContent="Personal athlete unavailable • JT athlete active";
+    }else{
+      status.textContent="JT animated athlete active";
+    }
+
+    console.log("JT reveal ready",{
+      personalRequested:model.personal,
+      personalLoaded,
+      mode
+    });
+
     setTimeout(()=>loading.classList.add("hidden"),360);
   }catch(error){
-    console.error("JT athlete reveal load error",error);spin.classList.add("hidden");loadtext.textContent="The athlete could not be loaded. Refresh or recreate the avatar.";status.textContent="Athlete unavailable";
+    console.error("JT athlete reveal load error",error);
+    spin.classList.add("hidden");
+    bar.style.width="100%";
+    loadtext.textContent="The athlete model could not load. The reveal centre is still available.";
+    status.textContent="Athlete temporarily unavailable";
+
+    // Never leave the user trapped behind an endless loading overlay.
+    setTimeout(()=>loading.classList.add("hidden"),1800);
   }
 }
 
