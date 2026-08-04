@@ -1082,19 +1082,95 @@ const MODEL_URL =
     const morphMeshes = [];
 
     const bonePatterns = {
-      hips: ["hips", "pelvis"],
-      spine: ["spine"],
-      chest: ["spine1", "chest"],
-      upperChest: ["spine2", "upperchest"],
-      neck: ["neck"],
-      head: ["head"],
-      leftShoulder: ["leftshoulder", "shoulder_l"],
-      rightShoulder: ["rightshoulder", "shoulder_r"],
-      leftUpperArm: ["leftarm", "upperarm_l", "l_upperarm"],
-      rightUpperArm: ["rightarm", "upperarm_r", "r_upperarm"],
-      leftForeArm: ["leftforearm", "lowerarm_l", "l_forearm"],
-      rightForeArm: ["rightforearm", "lowerarm_r", "r_forearm"]
-    };
+  hips: [
+    "hips",
+    "pelvis",
+    "root"
+  ],
+
+  spine: [
+    "spine",
+    "spine0"
+  ],
+
+  chest: [
+    "spine1",
+    "chest",
+    "spine01"
+  ],
+
+  upperChest: [
+    "spine2",
+    "upperchest",
+    "spine02"
+  ],
+
+  neck: [
+    "neck"
+  ],
+
+  head: [
+    "head"
+  ],
+
+  leftShoulder: [
+    "leftshoulder",
+    "shoulder_l",
+    "lshoulder",
+    "leftclavicle",
+    "clavicle_l",
+    "jbiplshoulder"
+  ],
+
+  rightShoulder: [
+    "rightshoulder",
+    "shoulder_r",
+    "rshoulder",
+    "rightclavicle",
+    "clavicle_r",
+    "jbiprshoulder"
+  ],
+
+  leftUpperArm: [
+    "leftupperarm",
+    "leftarm",
+    "upperarm_l",
+    "l_upperarm",
+    "upperarml",
+    "lupperarm",
+    "jbiplupperarm"
+  ],
+
+  rightUpperArm: [
+    "rightupperarm",
+    "rightarm",
+    "upperarm_r",
+    "r_upperarm",
+    "upperarmr",
+    "rupperarm",
+    "jbiprupperarm"
+  ],
+
+  leftForeArm: [
+    "leftforearm",
+    "leftlowerarm",
+    "lowerarm_l",
+    "l_forearm",
+    "forearml",
+    "jbiplforearm",
+    "jbipllowerarm"
+  ],
+
+  rightForeArm: [
+    "rightforearm",
+    "rightlowerarm",
+    "lowerarm_r",
+    "r_forearm",
+    "forearmr",
+    "jbiprforearm",
+    "jbiprlowerarm"
+  ]
+};
 
     function normaliseName(value) {
       return String(value || "")
@@ -1224,10 +1300,37 @@ const MODEL_URL =
   poseBone("rightUpperArm", 0, 0, -state.shoulderDrop * 0.12, 0.1);
 } else {
   // Only use the large correction for a static T-pose model.
-  poseBone("leftUpperArm", 0.04, 0.03, 1.22 + state.shoulderDrop * 0.5, 0.1);
-  poseBone("rightUpperArm", 0.04, -0.03, -1.22 - state.shoulderDrop * 0.5, 0.1);
-  poseBone("leftForeArm", 0, -0.08, 0.08, 0.1);
-  poseBone("rightForeArm", 0, 0.08, -0.08, 0.1);
+  poseBone(
+  "leftUpperArm",
+  0.08,
+  0.05,
+  1.32 + state.shoulderDrop * 0.5,
+  0.12
+);
+
+poseBone(
+  "rightUpperArm",
+  0.08,
+  -0.05,
+  -1.32 - state.shoulderDrop * 0.5,
+  0.12
+);
+
+poseBone(
+  "leftForeArm",
+  -0.08,
+  -0.12,
+  0.16,
+  0.12
+);
+
+poseBone(
+  "rightForeArm",
+  -0.08,
+  0.12,
+  -0.16,
+  0.12
+);
 }
       if (bones.hips && boneBases.hips) {
         const targetY = boneBases.hips.position.y - state.shoulderDrop * 0.08 + breathWave * 0.0025;
@@ -1361,11 +1464,38 @@ loader.setMeshoptDecoder(
         normaliseModel(athlete);
         athleteContainer.add(athlete);
 
-        if (gltf.animations.length) {
-          mixer = new THREE.AnimationMixer(athlete);
-          const idleClip = gltf.animations.find((clip) => /idle/i.test(clip.name)) || gltf.animations[0];
-          if (idleClip) mixer.clipAction(idleClip).play();
-        }
+       if (gltf.animations.length) {
+  const idleClip =
+    gltf.animations.find((clip) =>
+      /idle|stand|breath/i.test(clip.name)
+    ) ||
+    gltf.animations.find((clip) =>
+      !/t[-_ ]?pose|bind|rest/i.test(clip.name) &&
+      clip.duration > 0.5
+    );
+
+  if (idleClip) {
+    mixer = new THREE.AnimationMixer(athlete);
+
+    const action = mixer.clipAction(idleClip);
+
+    action.reset();
+    action.setLoop(THREE.LoopRepeat, Infinity);
+    action.enabled = true;
+    action.play();
+
+    console.log(
+      "JT avatar animation active:",
+      idleClip.name
+    );
+  } else {
+    mixer = null;
+
+    console.warn(
+      "No usable idle animation found. Using relaxed static athlete pose."
+    );
+  }
+}
 
         indexRig();
         prepareMorphGroups();
