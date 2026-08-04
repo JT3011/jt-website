@@ -647,7 +647,28 @@
   <script type="module">
     import { AvaturnSDK } from "https://cdn.jsdelivr.net/npm/@avaturn/sdk/dist/index.js";
 
+import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    
     const AVATURN_URL = "https://jt-performance-hub.avaturn.dev";
+
+    const SUPABASE_URL =
+  "https://hunrekcnmtabowiivmrk.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true
+    }
+  }
+);
 
     const consentCheckbox = document.getElementById("consentCheckbox");
     const startCreatorButton = document.getElementById("startCreatorButton");
@@ -697,6 +718,130 @@
       return safeResult;
     }
 
+async function saveAvatarToSupabase(result) {
+  const {
+    data: userData,
+    error: userError
+  } = await supabase.auth.getUser();
+
+  const user =
+    userData?.user;
+
+  if (
+    userError ||
+    !user
+  ) {
+    throw new Error(
+      "Please sign in to your JT Performance Hub account before saving an athlete."
+    );
+  }
+
+  if (
+    result.urlType !== "httpURL" ||
+    !result.url
+  ) {
+    throw new Error(
+      "Avaturn did not return a downloadable GLB model."
+    );
+  }
+
+  const response =
+    await fetch(
+      result.url
+    );
+
+  if (
+    !response.ok
+  ) {
+    throw new Error(
+      "The completed Avaturn model could not be downloaded."
+    );
+  }
+
+  const avatarBlob =
+    await response.blob();
+
+  if (
+    !avatarBlob.size
+  ) {
+    throw new Error(
+      "The exported athlete model was empty."
+    );
+  }
+
+  const storagePath =
+    `${user.id}/athlete.glb`;
+
+  const {
+    error: uploadError
+  } = await supabase
+    .storage
+    .from(
+      "player-avatars"
+    )
+    .upload(
+      storagePath,
+      avatarBlob,
+      {
+        contentType:
+          "model/gltf-binary",
+        cacheControl:
+          "3600",
+        upsert:
+          true
+      }
+    );
+
+  if (
+    uploadError
+  ) {
+    throw uploadError;
+  }
+
+  const {
+    error: modelError
+  } = await supabase
+    .from(
+      "player_avatar_models"
+    )
+    .upsert(
+      {
+        user_id:
+          user.id,
+        storage_path:
+          storagePath,
+        avaturn_avatar_id:
+          result.avatarId || null,
+        avaturn_session_id:
+          result.sessionId || null,
+        body_id:
+          result.bodyId || null,
+        gender:
+          result.gender || null,
+        supports_face_animations:
+          Boolean(
+            result.avatarSupportsFaceAnimations
+          ),
+        source:
+          "avaturn",
+        updated_at:
+          new Date().toISOString()
+      },
+      {
+        onConflict:
+          "user_id"
+      }
+    );
+
+  if (
+    modelError
+  ) {
+    throw modelError;
+  }
+
+  return storagePath;
+}
+    
     async function startCreator() {
       clearError();
 
@@ -725,22 +870,71 @@
 
         creatorStarted = true;
         creatorLoading.classList.add("hidden");
+sdk.on(
+  "export",
+  async (data) => {
+    console.log(
+      "JT Avaturn export:",
+      data
+    );
 
-        sdk.on("export", (data) => {
-          console.log("JT Avaturn export:", data);
+    creatorShell.classList.add(
+      "hidden"
+    );
 
-          const result = storeExportResult(data);
+    creatorLoading.classList.remove(
+      "hidden"
+    );
 
-          creatorShell.classList.add("hidden");
-          creatorLoading.classList.add("hidden");
-          exportSuccess.classList.remove("hidden");
-          document.body.style.overflow = "hidden";
+    exportSuccess.classList.add(
+      "hidden"
+    );
 
-          if (result.urlType !== "httpURL") {
-            document.getElementById("successMessage").textContent =
-              "Your avatar was returned successfully. The next build step will connect this export directly to private JT storage.";
-          }
-        });
+    document.body.style.overflow =
+      "hidden";
+
+    try {
+      const result =
+        storeExportResult(
+          data
+        );
+
+      await saveAvatarToSupabase(
+        result
+      );
+
+      creatorLoading.classList.add(
+        "hidden"
+      );
+
+      exportSuccess.classList.remove(
+        "hidden"
+      );
+
+      document.getElementById(
+        "successMessage"
+      ).textContent =
+        "Your personal athlete has been saved securely to your JT Performance Hub account.";
+    } catch (error) {
+      console.error(
+        "Avatar saving error:",
+        error
+      );
+
+      creatorLoading.classList.add(
+        "hidden"
+      );
+
+      document.body.style.overflow =
+        "";
+
+      showError(
+        error?.message ||
+        "Your athlete was created, but it could not be saved to your JT account."
+      );
+    }
+  }
+);
       } catch (error) {
         console.error("Avaturn creator error:", error);
         closeCreator();
