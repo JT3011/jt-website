@@ -718,7 +718,10 @@ const supabase = createClient(
       return safeResult;
     }
 
-async function saveAvatarToSupabase(result) {
+async function saveAvatarToSupabase(
+  result,
+  selectedAnimation
+) {
   const {
     data: userData,
     error: userError
@@ -829,6 +832,27 @@ async function saveAvatarToSupabase(result) {
           ),
         source:
           "avaturn",
+
+active_animation_id:
+  selectedAnimation?.id || null,
+
+active_animation_alias:
+  selectedAnimation?.alias || null,
+
+active_animation_source:
+  "avaturn",
+
+active_animation_metadata: {
+  preview:
+    selectedAnimation?.preview || null,
+
+  captured_at:
+    new Date().toISOString()
+},
+
+animation_updated_at:
+  new Date().toISOString(),
+        
         updated_at:
           new Date().toISOString()
       },
