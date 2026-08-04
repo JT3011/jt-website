@@ -492,7 +492,10 @@ function setState(keyName){
   title.innerHTML=`${current.t} <span class="score-dot"></span>`;desc.textContent=current.d;platformLabel.textContent=current.t;
   scene.background.setHex(current.bg);scene.fog.color.setHex(current.bg);scene.fog.density=current.fog;
   renderer.toneMappingExposure=current.exposure;
-  ringOuter.material.color.set(current.c);ringInner.material.color.set(current.c);logoMat.color.set(current.c);logoMat.opacity=.58+current.energy*.18;
+ ringOuter.material.color.set(current.c);
+ringInner.material.color.set(current.c);
+logoMaterial.color.set(current.c);
+logoMaterial.opacity=.58+current.energy*.18;
   lightStrips.forEach((mesh,index)=>{mesh.material.color.set(current.c);mesh.material.opacity=.56+current.energy*.27+(index%3)*.025});
   reactiveMaterials.forEach(mat=>{if(mat.emissive){mat.emissive.set(current.c);mat.emissiveIntensity=.035+current.energy*.07}});
   key.intensity=current.key;rim.intensity=current.rim;fill.intensity=current.fill;topLight.intensity=32+current.key*.18;
