@@ -41,11 +41,20 @@ button{font:inherit}
 }
 .brand{display:flex;align-items:center;gap:13px}
 .mark{
-  width:48px;height:48px;display:grid;place-items:center;
-  border:1px solid rgba(212,175,55,.52);border-radius:16px;
-  color:var(--gold2);font:900 1.02rem "Playfair Display";
-  background:linear-gradient(145deg,rgba(212,175,55,.16),rgba(255,255,255,.015));
+  width:48px;
+  height:48px;
+  overflow:hidden;
+  border:1px solid rgba(212,175,55,.52);
+  border-radius:16px;
+  background:#050505;
   box-shadow:inset 0 0 25px rgba(212,175,55,.06),0 12px 34px rgba(0,0,0,.42);
+}
+
+.mark img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
 }
 .brand b,.brand small{display:block;text-transform:uppercase}
 .brand b{color:var(--gold);font-size:.7rem;letter-spacing:1.55px}
@@ -185,7 +194,9 @@ body.embed .platform-label{bottom:22px;transform:translateX(-50%) scale(.8)}
 <header class="top">
   <div class="topin">
     <a class="brand" href="/performance-hub-dashboard.html">
-      <span class="mark">JT</span>
+      <span class="mark">
+  <img src="/images/applogo.png" alt="JT">
+</span>
       <div><b>JT Performance Hub</b><small>Elite Athlete Reveal Centre</small></div>
     </a>
     <div class="actions">
@@ -373,16 +384,40 @@ for(const side of[-1,1]){
 const ceilingDisc=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.07,64),new THREE.MeshStandardMaterial({color:0x151515,roughness:.22,metalness:.86,emissive:0xffe6b0,emissiveIntensity:.18}));ceilingDisc.position.set(.7,5.72,-1.15);world.add(ceilingDisc);
 const ceilingGlow=new THREE.Mesh(new THREE.CircleGeometry(.24,64),new THREE.MeshBasicMaterial({color:0xffe5a6,transparent:true,opacity:.75,side:THREE.DoubleSide}));ceilingGlow.rotation.x=Math.PI/2;ceilingGlow.position.set(.7,5.66,-1.15);world.add(ceilingGlow);
 
-function monogramTexture(){
-  const cv=document.createElement("canvas");cv.width=cv.height=1024;const ctx=cv.getContext("2d");
-  ctx.clearRect(0,0,1024,1024);ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.shadowColor="rgba(212,175,55,.55)";ctx.shadowBlur=38;
-  ctx.strokeStyle="rgba(212,175,55,.9)";ctx.lineWidth=18;ctx.strokeRect(120,120,784,784);
-  ctx.shadowBlur=22;ctx.fillStyle="#d4af37";ctx.font="900 440px Georgia";ctx.fillText("JT",512,535);
-  const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;return tex;
-}
-const logoMat=new THREE.MeshBasicMaterial({map:monogramTexture(),transparent:true,opacity:.78,depthWrite:false});
-const logoPlane=new THREE.Mesh(new THREE.PlaneGeometry(3.4,3.4),logoMat);logoPlane.position.set(.7,2.75,-3.93);world.add(logoPlane);
+const brandTextureLoader = new THREE.TextureLoader();
+
+const fullLogoTexture = brandTextureLoader.load("/images/logo.jpeg");
+fullLogoTexture.colorSpace = THREE.SRGBColorSpace;
+
+const logoMaterial = new THREE.MeshBasicMaterial({
+  map: fullLogoTexture,
+  transparent: true,
+  opacity: 0.78,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+  toneMapped: false
+});
+
+const logoPlane = new THREE.Mesh(
+  new THREE.PlaneGeometry(4.35, 4.35),
+  logoMaterial
+);
+
+logoPlane.position.set(0.7, 2.75, -3.93);
+world.add(logoPlane);
+
+const logoGlow = new THREE.Mesh(
+  new THREE.PlaneGeometry(4.7, 4.7),
+  new THREE.MeshBasicMaterial({
+    color: 0xd4af37,
+    transparent: true,
+    opacity: 0.035,
+    depthWrite: false
+  })
+);
+
+logoGlow.position.set(0.7, 2.75, -3.95);
+world.add(logoGlow);
 
 function hazeTexture(){
   const cv=document.createElement("canvas");cv.width=cv.height=256;const ctx=cv.getContext("2d");const g=ctx.createRadialGradient(128,128,0,128,128,128);g.addColorStop(0,"rgba(255,255,255,.5)");g.addColorStop(.35,"rgba(255,255,255,.14)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(0,0,256,256);const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;return tex;
