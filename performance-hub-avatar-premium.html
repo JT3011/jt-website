@@ -685,6 +685,10 @@ body.dashboard-embed .state-row h2 {
     import { KTX2Loader } from "three/addons/loaders/KTX2Loader.js";
 
 import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    
+import {
   MeshoptDecoder
 } from "three/addons/libs/meshopt_decoder.module.js";
     import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -699,8 +703,87 @@ if (dashboardEmbed) {
   document.body.classList.add("dashboard-embed");
 }
     
-   const MODEL_URL = "/models/jt-athlete-animated.glb";
+ const FALLBACK_MODEL_URL =
+  "/models/jt-athlete-animated.glb";
 
+const SUPABASE_URL =
+  "https://hunrekcnmtabowiivmrk.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
+
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true
+    }
+  }
+);
+
+async function getPlayerModelUrl() {
+  try {
+    const {
+      data: sessionData
+    } = await supabase.auth.getSession();
+
+    const user =
+      sessionData?.session?.user;
+
+    if (!user) {
+      return FALLBACK_MODEL_URL;
+    }
+
+    const {
+      data: avatarModel,
+      error: modelError
+    } = await supabase
+      .from("player_avatar_models")
+      .select("storage_path")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (
+      modelError ||
+      !avatarModel?.storage_path
+    ) {
+      return FALLBACK_MODEL_URL;
+    }
+
+    const {
+      data: signedData,
+      error: signedError
+    } = await supabase
+      .storage
+      .from("player-avatars")
+      .createSignedUrl(
+        avatarModel.storage_path,
+        3600
+      );
+
+    if (
+      signedError ||
+      !signedData?.signedUrl
+    ) {
+      return FALLBACK_MODEL_URL;
+    }
+
+    return signedData.signedUrl;
+  } catch (error) {
+    console.error(
+      "Personal avatar loading error:",
+      error
+    );
+
+    return FALLBACK_MODEL_URL;
+  }
+}
+
+const MODEL_URL =
+  await getPlayerModelUrl();
+    
     const STATES = {
       match_ready: {
         title: "Match Ready",
