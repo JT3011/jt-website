@@ -308,7 +308,7 @@ scene.background=new THREE.Color(0x090806);
 scene.fog=new THREE.FogExp2(0x090806,.032);
 
 const camera=new THREE.PerspectiveCamera(29,1,.1,100);
-camera.position.set(embed?0:.45,2.45,8.25);
+camera.position.set(embed?0:.45,embed?2.7:2.45,embed?6.35:8.25);
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -327,7 +327,7 @@ const controls=new OrbitControls(camera,canvas);
 controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.07;
 controls.minDistance=5.3;controls.maxDistance=10;
 controls.minPolarAngle=Math.PI*.33;controls.maxPolarAngle=Math.PI*.58;
-controls.target.set(embed?0:.7,1.85,0);
+controls.target.set(embed?0:.7,embed?2.35:1.85,0);
 
 const hemi=new THREE.HemisphereLight(0xf4e7c4,0x080b10,.64);scene.add(hemi);
 const key=new THREE.SpotLight(0xffe6ab,112,22,Math.PI*.18,.58,1.4);key.position.set(4.8,7.5,4.8);key.target.position.set(.7,1.9,0);key.castShadow=true;key.shadow.mapSize.set(1536,1536);key.shadow.bias=-.0002;scene.add(key,key.target);
