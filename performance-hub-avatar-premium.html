@@ -482,7 +482,7 @@ function clip(anims){return anims.find(x=>/idle|stand|breath|ready/i.test(x.name
 function mapping(t,s){const map=new Map(s.bones.map(b=>[norm(b.name),b.name])),out={};t.bones.forEach(b=>{const x=map.get(norm(b.name));if(x)out[b.name]=x});return out}
 function hip(s){return s.bones.find(b=>["hips","pelvis","chips"].includes(norm(b.name)))?.name||s.bones[0]?.name||"Hips"}
 function normalise(root){
-  root.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(root),size=box.getSize(new THREE.Vector3()),scale=4.125/Math.max(size.y,.001);root.scale.setScalar(scale);root.updateMatrixWorld(true);
+  root.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(root),size=box.getSize(new THREE.Vector3()),scale=5.625/Math.max(size.y,.001);root.scale.setScalar(scale);root.updateMatrixWorld(true);
   const b=new THREE.Box3().setFromObject(root),c=b.getCenter(new THREE.Vector3());root.position.x-=c.x;root.position.z-=c.z;root.position.y-=b.min.y;
   root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;o.frustumCulled=false;const mats=Array.isArray(o.material)?o.material:[o.material];mats.filter(Boolean).forEach(m=>{if("envMapIntensity" in m)m.envMapIntensity=1.2;m.needsUpdate=true})}});
 }
