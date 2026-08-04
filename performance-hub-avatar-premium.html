@@ -340,8 +340,8 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x090806);
 scene.fog=new THREE.FogExp2(0x090806,.032);
 
-const camera=new THREE.PerspectiveCamera(embed?24:29,1,.1,100);
-camera.position.set(embed?.12:.45,embed?3.05:2.45,embed?4.85:8.25);
+const camera=new THREE.PerspectiveCamera(embed?26:29,1,.1,100);
+camera.position.set(embed?.12:.45,embed?4.2:2.45,embed?8.2:8.25);
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -360,7 +360,7 @@ const controls=new OrbitControls(camera,canvas);
 controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.07;
 controls.minDistance=embed?4.2:5.3;controls.maxDistance=embed?7:10;
 controls.minPolarAngle=Math.PI*.33;controls.maxPolarAngle=Math.PI*.58;
-controls.target.set(embed?.12:.7,embed?2.85:1.85,0);
+controls.target.set(embed?.12:.7,embed?4.1:1.85,0);
 
 const hemi=new THREE.HemisphereLight(0xf4e7c4,0x080b10,.64);scene.add(hemi);
 const key=new THREE.SpotLight(0xffe6ab,112,22,Math.PI*.18,.58,1.4);key.position.set(4.8,7.5,4.8);key.target.position.set(.7,1.9,0);key.castShadow=true;key.shadow.mapSize.set(1536,1536);key.shadow.bias=-.0002;scene.add(key,key.target);
@@ -447,6 +447,11 @@ const logoPlane = new THREE.Mesh(
 logoPlane.position.set(0.7, 2.75, -3.93);
 world.add(logoPlane);
 
+if(embed){
+  logoPlane.scale.setScalar(.62);
+  logoPlane.position.y=3.45;
+}
+
 const logoGlow = new THREE.Mesh(
   new THREE.PlaneGeometry(4.7, 4.7),
   new THREE.MeshBasicMaterial({
@@ -519,6 +524,36 @@ function normalise(root){
   const b=new THREE.Box3().setFromObject(root),c=b.getCenter(new THREE.Vector3());root.position.x-=c.x;root.position.z-=c.z;root.position.y-=b.min.y;
   root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;o.frustumCulled=false;const mats=Array.isArray(o.material)?o.material:[o.material];mats.filter(Boolean).forEach(m=>{if("envMapIntensity" in m)m.envMapIntensity=1.2;m.needsUpdate=true})}});
 }
+
+function frameDashboardAthlete(root){
+  if(!embed)return;
+
+  root.updateMatrixWorld(true);
+
+  const box=new THREE.Box3().setFromObject(root);
+  if(box.isEmpty())return;
+
+  const size=box.getSize(new THREE.Vector3());
+  const center=box.getCenter(new THREE.Vector3());
+
+  // Frame the athlete from roughly upper-thigh level to above the head.
+  // This uses the actual avatar dimensions, so different client models remain centred.
+  const focusY=box.min.y+size.y*.68;
+  const visibleHeight=size.y*.72;
+  const halfFov=THREE.MathUtils.degToRad(camera.fov*.5);
+  const distance=(visibleHeight*.5)/Math.tan(halfFov);
+
+  camera.position.set(
+    center.x,
+    focusY+size.y*.015,
+    center.z+distance*1.04
+  );
+
+  controls.target.set(center.x,focusY,center.z);
+  controls.minDistance=distance*.92;
+  controls.maxDistance=distance*1.18;
+  controls.update();
+}
 function direct(root,c){mixer=new THREE.AnimationMixer(root);const action=mixer.clipAction(c.clone());action.setLoop(THREE.LoopRepeat,Infinity);action.play();mode="direct"}
 function retarget(targetSkin,sourceSkin,c){
   const names=mapping(targetSkin.skeleton,sourceSkin.skeleton);if(Object.keys(names).length<12)throw Error("Insufficient matching bones");
@@ -536,7 +571,7 @@ function setState(keyName){
  ringOuter.material.color.set(current.c);
 ringInner.material.color.set(current.c);
 logoMaterial.color.set(current.c);
-logoMaterial.opacity=.58+current.energy*.18;
+logoMaterial.opacity=embed?.16:(.58+current.energy*.18);
   lightStrips.forEach((mesh,index)=>{mesh.material.color.set(current.c);mesh.material.opacity=.56+current.energy*.27+(index%3)*.025});
   reactiveMaterials.forEach(mat=>{if(mat.emissive){mat.emissive.set(current.c);mat.emissiveIntensity=.035+current.energy*.07}});
   key.intensity=current.key;rim.intensity=current.rim;fill.intensity=current.fill;topLight.intensity=32+current.key*.18;
@@ -709,6 +744,7 @@ async function load(){
     athlete=targetGltf.scene;
     normalise(athlete);
     holder.add(athlete);
+    frameDashboardAthlete(athlete);
     indexBones(athlete);
 
     const targetSkin=skin(athlete);
