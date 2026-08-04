@@ -70,74 +70,81 @@ button{font:inherit}
 .pill:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.34)}
 .pill.gold{border-color:var(--state);background:var(--state);color:#080808;box-shadow:0 12px 34px rgba(var(--state-rgb),.14)}
 .main{
-  width:min(1660px,calc(100% - 38px));margin:auto;padding:18px 0 22px;
-  display:grid;grid-template-columns:minmax(0,1fr) 365px;gap:16px;
+  width:min(1740px,calc(100% - 38px));margin:auto;padding:18px 0 26px;
+  display:grid;grid-template-columns:320px minmax(0,1fr) 440px;gap:16px;align-items:stretch;
 }
+.info-panel,.panel{
+  min-height:calc(100vh - 120px);padding:22px;
+  border:1px solid rgba(212,175,55,.18);border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.026),rgba(255,255,255,.006)),rgba(7,7,7,.96);
+  box-shadow:0 46px 130px rgba(0,0,0,.6);
+}
+.info-panel{display:flex;flex-direction:column;gap:18px}
 .stage{
   position:relative;min-height:calc(100vh - 120px);overflow:hidden;
   border:1px solid rgba(212,175,55,.17);border-radius:34px;
-  background:
-    radial-gradient(circle at 62% 35%,rgba(255,255,255,.04),transparent 27rem),
-    #050505;
-  box-shadow:0 46px 130px rgba(0,0,0,.68);
-  isolation:isolate;
+  background:radial-gradient(circle at 52% 34%,rgba(255,255,255,.045),transparent 28rem),#050505;
+  box-shadow:0 46px 130px rgba(0,0,0,.68);isolation:isolate;
 }
 .stage:before{
   content:"";position:absolute;inset:0;z-index:5;pointer-events:none;
-  background:
-    linear-gradient(90deg,rgba(0,0,0,.70) 0%,rgba(0,0,0,.31) 28%,transparent 50%,rgba(0,0,0,.06) 72%,rgba(0,0,0,.23) 100%),
-    linear-gradient(180deg,rgba(0,0,0,.08),transparent 56%,rgba(0,0,0,.48));
+  background:linear-gradient(180deg,rgba(0,0,0,.04),transparent 62%,rgba(0,0,0,.34));
 }
 .stage:after{
   content:"";position:absolute;inset:0;z-index:6;pointer-events:none;
-  box-shadow:inset 0 0 130px rgba(0,0,0,.64);
+  box-shadow:inset 0 0 110px rgba(0,0,0,.58);
 }
 #c{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:none}
-.copy{
-  position:absolute;z-index:12;left:clamp(26px,3.5vw,54px);top:clamp(30px,4vw,56px);
-  width:min(42%,520px);pointer-events:none;
-}
-.eyebrow{color:var(--state);font-size:.59rem;font-weight:900;letter-spacing:2.15px;text-transform:uppercase;transition:color 600ms ease}
+.copy{position:static;width:auto;pointer-events:auto}
 .copy h1{
-  margin:15px 0 0;font:900 clamp(4.1rem,6.7vw,8.2rem)/.77 "Playfair Display";
+  margin:15px 0 0;font:900 clamp(3.45rem,4.6vw,6.4rem)/.79 "Playfair Display";
   letter-spacing:-.065em;text-transform:uppercase;text-shadow:0 8px 42px rgba(0,0,0,.72);
 }
 .copy h1 span{display:block;color:var(--state);transition:color 600ms ease}
-.copy p{max-width:465px;margin:23px 0 0;color:#b9b2a6;font-size:.72rem;line-height:1.72}
+.copy p{margin:20px 0 0;color:#b9b2a6;font-size:.7rem;line-height:1.72}
 .status{
-  width:fit-content;margin-top:18px;padding:10px 13px;
+  width:fit-content;margin-top:16px;padding:10px 13px;
   border:1px solid rgba(255,255,255,.11);border-radius:999px;
   background:rgba(0,0,0,.38);color:#d0c8ba;
-  font-size:.52rem;font-weight:900;letter-spacing:.75px;text-transform:uppercase;
-  backdrop-filter:blur(12px);
+  font-size:.5rem;font-weight:900;letter-spacing:.7px;text-transform:uppercase;
 }
 .status:before{
   content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;
   background:var(--state);box-shadow:0 0 14px var(--state);vertical-align:-1px;
 }
 .readiness-card{
-  position:absolute;z-index:13;left:clamp(24px,3vw,45px);bottom:clamp(24px,3vw,36px);
-  width:min(330px,calc(100% - 48px));padding:18px 20px;
-  border:1px solid rgba(255,255,255,.11);border-radius:20px;
-  background:linear-gradient(145deg,rgba(8,8,8,.86),rgba(5,5,5,.65));
-  box-shadow:0 22px 70px rgba(0,0,0,.5);backdrop-filter:blur(18px);
+  position:static;width:100%;padding:18px;
+  border:1px solid rgba(255,255,255,.1);border-radius:20px;
+  background:linear-gradient(145deg,rgba(var(--state-rgb),.095),rgba(5,5,5,.7));
+  box-shadow:0 22px 70px rgba(0,0,0,.42);
 }
-.readiness-card small{color:var(--muted);font-size:.52rem;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
-.readiness-card h2{margin:9px 0 0;color:var(--state);font:900 clamp(2rem,3.6vw,3.2rem)/.92 "Playfair Display";letter-spacing:-.035em;transition:color 600ms ease}
-.readiness-card p{margin:10px 0 0;color:#d0c8ba;font-size:.64rem;line-height:1.6}
-.score-dot{display:inline-block;width:7px;height:7px;margin-left:9px;border-radius:50%;background:var(--state);box-shadow:0 0 13px var(--state);vertical-align:middle}
+.readiness-card>small,.score-copy small{color:var(--muted);font-size:.5rem;font-weight:900;letter-spacing:1.05px;text-transform:uppercase}
+.score-row{margin-top:12px;display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:center}
+.score-number{
+  min-width:92px;color:var(--state);font:900 4.1rem/.82 "Playfair Display";
+  letter-spacing:-.06em;transition:color 600ms ease;
+}
+.score-copy h2{margin:6px 0 0;color:var(--state);font:900 1.65rem/.9 "Playfair Display";letter-spacing:-.03em;transition:color 600ms ease}
+.score-dot{display:inline-block;width:7px;height:7px;margin-left:7px;border-radius:50%;background:var(--state);box-shadow:0 0 13px var(--state);vertical-align:middle}
+.readiness-card p{margin:14px 0 0;color:#d0c8ba;font-size:.62rem;line-height:1.6}
 .platform-label{
-  position:absolute;z-index:10;left:50%;bottom:56px;transform:translateX(-7%);
-  min-width:220px;padding:10px 28px;text-align:center;
-  border:1px solid rgba(var(--state-rgb),.38);border-radius:6px;
-  background:rgba(4,4,4,.76);color:var(--state);
-  font-size:.62rem;font-weight:900;letter-spacing:5px;text-transform:uppercase;
-  box-shadow:0 12px 40px rgba(0,0,0,.48),inset 0 0 28px rgba(var(--state-rgb),.05);
-  transition:color 600ms ease,border-color 600ms ease;
-  pointer-events:none;
+  width:fit-content;margin-top:14px;padding:8px 11px;
+  border:1px solid rgba(var(--state-rgb),.38);border-radius:999px;
+  background:rgba(4,4,4,.7);color:var(--state);
+  font-size:.49rem;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;
 }
+.centre-title{margin-top:auto}
+.centre-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.centre-link{
+  min-height:72px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+  border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(255,255,255,.014);
+  transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+.centre-link:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.35);background:rgba(212,175,55,.045)}
+.centre-link b{color:var(--gold2);font-size:.54rem;letter-spacing:.7px;text-transform:uppercase}
+.centre-link span{color:var(--muted);font-size:.53rem;line-height:1.4}
 .loading{
-  position:absolute;z-index:30;left:62%;top:50%;transform:translate(-50%,-50%);
+  position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);
   width:min(340px,calc(100% - 44px));padding:25px;text-align:center;
   border:1px solid rgba(212,175,55,.22);border-radius:22px;
   background:rgba(4,4,4,.9);box-shadow:0 32px 90px rgba(0,0,0,.68);backdrop-filter:blur(18px);
@@ -146,48 +153,58 @@ button{font:inherit}
 .loading b{display:block;color:var(--gold2);font-size:.64rem;letter-spacing:1px;text-transform:uppercase}
 .loading p{margin:9px 0 0;color:var(--muted);font-size:.64rem;line-height:1.55}
 .bar{height:4px;margin-top:17px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}.bar i{display:block;width:8%;height:100%;background:linear-gradient(90deg,var(--state),var(--gold2));transition:width .25s}
-.bottom-strip{
-  position:absolute;z-index:12;left:0;right:0;bottom:0;min-height:48px;
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:1px solid rgba(255,255,255,.08);background:rgba(3,3,3,.78);backdrop-filter:blur(18px);
+.panel{overflow:auto}
+.panel h3{margin:10px 0 0;font:900 2.3rem/.92 "Playfair Display";letter-spacing:-.04em;text-transform:uppercase}
+.panel>p{color:var(--muted);font-size:.64rem;line-height:1.62}
+.metrics-grid{margin-top:18px;display:grid;gap:9px}
+.metric{
+  padding:12px 13px;border:1px solid rgba(255,255,255,.075);border-radius:15px;
+  background:linear-gradient(145deg,rgba(255,255,255,.02),rgba(255,255,255,.006));
 }
-.stat{padding:12px 17px;display:flex;align-items:center;gap:10px;border-right:1px solid rgba(255,255,255,.07)}
-.stat:last-child{border-right:0}.stat i{width:28px;height:28px;display:grid;place-items:center;border:1px solid rgba(var(--state-rgb),.3);border-radius:50%;color:var(--state);font-style:normal;font-size:.68rem;transition:color 600ms ease,border-color 600ms ease}.stat b,.stat span{display:block}.stat b{font-size:.49rem;letter-spacing:.8px;text-transform:uppercase}.stat span{margin-top:3px;color:var(--muted);font-size:.49rem}
-.panel{
-  min-height:calc(100vh - 120px);padding:22px;
-  border:1px solid rgba(212,175,55,.18);border-radius:30px;
-  background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.005)),rgba(7,7,7,.96);
-  box-shadow:0 46px 130px rgba(0,0,0,.6);
-}
-.panel h3{margin:10px 0 0;font:900 2.45rem/.9 "Playfair Display";letter-spacing:-.04em;text-transform:uppercase}
-.panel>p{color:var(--muted);font-size:.66rem;line-height:1.62}
-.grid{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.metric-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.metric-name{display:flex;align-items:center;gap:9px}
+.metric-icon{width:29px;height:29px;display:grid;place-items:center;border-radius:10px;background:rgba(212,175,55,.09);color:var(--gold);font-size:.78rem}
+.metric-name b{display:block;font-size:.54rem;letter-spacing:.68px;text-transform:uppercase}
+.metric-name small{display:block;margin-top:4px;color:var(--muted);font-size:.5rem}
+.metric-value{color:var(--gold2);font:900 1.05rem "Playfair Display";white-space:nowrap}
+.metric-control{margin-top:11px;display:grid;grid-template-columns:1fr auto;gap:11px;align-items:center}
+.metric input[type="range"]{width:100%;accent-color:var(--state);cursor:pointer}
+.metric-centre{color:var(--state);font-size:.47rem;font-weight:900;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
+.line{height:1px;margin:20px 0;background:rgba(255,255,255,.07)}
+.state-scale{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .state{
-  min-height:92px;padding:12px;position:relative;overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);border-radius:16px;
-  background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
-  color:var(--muted);text-align:left;cursor:pointer;
-  transition:transform .2s ease,border-color .25s ease,background .25s ease;
+  min-height:76px;padding:11px;position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);border-radius:14px;
+  background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));color:var(--muted);
+  transition:border-color .25s ease,background .25s ease,transform .2s ease;
 }
-.state:hover{transform:translateY(-2px);border-color:rgba(var(--card-rgb),.38)}
-.state.active{border-color:var(--card);color:var(--white);background:linear-gradient(145deg,rgba(var(--card-rgb),.14),rgba(255,255,255,.008));box-shadow:inset 0 0 32px rgba(var(--card-rgb),.05)}
-.state-icon{width:29px;height:29px;display:grid;place-items:center;border-radius:10px;background:rgba(var(--card-rgb),.12);color:var(--card);font-size:.9rem;box-shadow:0 0 18px rgba(var(--card-rgb),.08)}
-.state b{display:block;margin-top:9px;font-size:.53rem;letter-spacing:.75px;text-transform:uppercase}.state strong{display:block;margin-top:7px;color:var(--card);font:900 1.35rem "Playfair Display"}
-.line{height:1px;margin:22px 0;background:rgba(255,255,255,.07)}
-.feature{margin-top:9px;padding:13px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.014)}
-.feature b{font-size:.55rem;letter-spacing:.78px;text-transform:uppercase}.feature span{display:block;margin-top:6px;color:var(--muted);font-size:.62rem;line-height:1.5}
+.state.active{border-color:var(--card);color:var(--white);background:linear-gradient(145deg,rgba(var(--card-rgb),.14),rgba(255,255,255,.008));box-shadow:inset 0 0 32px rgba(var(--card-rgb),.05);transform:translateY(-2px)}
+.state-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.state-icon{width:27px;height:27px;display:grid;place-items:center;border-radius:9px;background:rgba(var(--card-rgb),.12);color:var(--card);font-size:.82rem}
+.state strong{color:var(--card);font:900 1.1rem "Playfair Display"}
+.state b{display:block;margin-top:8px;font-size:.49rem;letter-spacing:.65px;text-transform:uppercase}
+.state small{display:block;margin-top:4px;color:var(--muted);font-size:.46rem}
+.recommendations{display:grid;gap:8px}
+.recommendation{
+  padding:12px;border:1px solid rgba(var(--state-rgb),.2);border-radius:14px;background:rgba(var(--state-rgb),.045)
+}
+.recommendation b{display:block;color:var(--gold2);font-size:.52rem;letter-spacing:.65px;text-transform:uppercase}
+.recommendation span{display:block;margin-top:6px;color:var(--muted);font-size:.55rem;line-height:1.45}
+.recommendation a{display:inline-block;margin-top:8px;color:var(--state);font-size:.48rem;font-weight:900;letter-spacing:.6px;text-transform:uppercase}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:1120px){.main{grid-template-columns:1fr}.stage{min-height:820px}.panel{min-height:auto}.copy{width:min(46%,520px)}}
+@media(max-width:1360px){.main{grid-template-columns:280px minmax(0,1fr) 400px}.copy h1{font-size:3.6rem}}
+@media(max-width:1120px){.main{grid-template-columns:1fr 1fr}.stage{grid-column:1/-1;min-height:720px;grid-row:1}.info-panel,.panel{min-height:auto}.info-panel{grid-row:2}.panel{grid-row:2}}
 @media(max-width:760px){
   .topin,.main{width:calc(100% - 22px)}.brand div,.pill:not(.gold){display:none}
-  .stage{min-height:780px;border-radius:24px}.copy{width:calc(100% - 46px);top:26px}.copy h1{font-size:clamp(3.7rem,17vw,5.8rem)}.copy p{display:none}.status{margin-top:13px}
-  .readiness-card{bottom:58px}.platform-label{display:none}.bottom-strip{display:none}.loading{left:50%;top:58%}
+  .main{grid-template-columns:1fr}.stage{min-height:650px;border-radius:24px}.info-panel,.panel{grid-row:auto}.copy h1{font-size:3.4rem}.state-scale{grid-template-columns:1fr 1fr}
 }
-body.embed .top,body.embed .panel,body.embed .copy,body.embed .bottom-strip{display:none!important}
+body.embed .top,body.embed .info-panel,body.embed .panel{display:none!important}
 body.embed .main{width:100%;height:100vh;padding:0;display:block}
 body.embed .stage{height:100vh;min-height:100vh;border:0;border-radius:0}
-body.embed .readiness-card{left:20px;bottom:20px;transform:scale(.84);transform-origin:left bottom}
-body.embed .platform-label{bottom:22px;transform:translateX(-50%) scale(.8)}
+body.embed .stage:before{background:linear-gradient(180deg,rgba(0,0,0,.015),transparent 70%,rgba(0,0,0,.18))}
+body.embed .loading{width:72px;padding:14px;border-radius:18px}
+body.embed .loading b,body.embed .loading p,body.embed .loading .bar{display:none}
+body.embed .loading .spin{margin:0 auto}
 </style>
 </head>
 <body>
@@ -206,43 +223,59 @@ body.embed .platform-label{bottom:22px;transform:translateX(-50%) scale(.8)}
   </div>
 </header>
 <main class="main">
-  <section class="stage" id="stage">
-    <canvas id="c" aria-label="Interactive JT athlete reveal"></canvas>
+  <aside class="info-panel">
     <div class="copy">
       <div class="eyebrow">JT Elite Athlete System</div>
       <h1>Your Player.<span>Your State.</span></h1>
-      <p>Your personal athlete enters a cinematic performance centre where light, colour, movement and posture react to readiness in real time.</p>
+      <p>Your athlete now responds to the same daily inputs that shape training quality: sleep, hydration, energy, soreness, mood, focus, stress and illness.</p>
       <div class="status" id="status">Preparing personal athlete</div>
     </div>
+
+    <div class="readiness-card">
+      <small>Live Readiness Score</small>
+      <div class="score-row">
+        <div class="score-number" id="scoreValue">76</div>
+        <div class="score-copy">
+          <small>Current athlete state</small>
+          <h2 id="title">Energised <span class="score-dot"></span></h2>
+        </div>
+      </div>
+      <p id="desc">High physical energy, sharper posture and a brighter electric performance atmosphere.</p>
+      <div class="platform-label" id="platformLabel">Energised</div>
+    </div>
+
+    <div class="centre-title eyebrow">Connected JT Centres</div>
+    <div class="centre-grid">
+      <a class="centre-link" href="/performance-hub-training.html"><b>Training Centre</b><span>Use readiness to guide today's workload.</span></a>
+      <a class="centre-link" href="/performance-hub-recovery.html"><b>Recovery Centre</b><span>Improve sleep, soreness and recovery.</span></a>
+      <a class="centre-link" href="/performance-hub-nutrition.html"><b>Nutrition Centre</b><span>Support hydration, fuelling and energy.</span></a>
+      <a class="centre-link" href="/performance-hub-mindset.html"><b>Mindset Centre</b><span>Build focus, mood and stress control.</span></a>
+    </div>
+  </aside>
+
+  <section class="stage" id="stage">
+    <canvas id="c" aria-label="Interactive JT athlete reveal"></canvas>
     <div class="loading" id="loading">
       <div class="spin" id="spin"></div>
       <b>Preparing Your Athlete</b>
       <p id="loadtext">Loading your personal model and activating the JT reveal environment.</p>
       <div class="bar"><i id="bar"></i></div>
     </div>
-    <div class="readiness-card">
-      <small>Current Readiness State</small>
-      <h2 id="title">Match Ready <span class="score-dot"></span></h2>
-      <p id="desc">Alert, composed and physically prepared with a confident natural stance.</p>
-    </div>
-    <div class="platform-label" id="platformLabel">Match Ready</div>
-    <div class="bottom-strip">
-      <div class="stat"><i>JT</i><div><b>Performance Intelligence</b><span>Data-driven athlete-first.</span></div></div>
-      <div class="stat"><i>◒</i><div><b>Animated JT Engine</b><span>Natural • Fluid • Responsive</span></div></div>
-      <div class="stat"><i>△</i><div><b>Real-Time State Preview</b><span>See it. Feel it. Own it.</span></div></div>
-      <div class="stat"><i>◎</i><div><b>Built For Elite Athletes</b><span>Unlock your full potential.</span></div></div>
-    </div>
   </section>
+
   <aside class="panel">
-    <div class="eyebrow">Readiness Simulator</div>
-    <h3>Visual State Engine.</h3>
-    <p>Every state changes the athlete’s movement, posture, lighting, colour, haze and atmosphere.</p>
-    <div class="grid" id="grid"></div>
+    <div class="eyebrow">Daily Readiness Check-In</div>
+    <h3>Build Your Score.</h3>
+    <p>Move each metric from 0 to 10. The score, athlete posture, colour and atmosphere update instantly and remain connected to the dashboard preview.</p>
+    <div class="metrics-grid" id="metricsGrid"></div>
+
     <div class="line"></div>
-    <div class="eyebrow">Elite Environment System</div>
-    <div class="feature"><b>Personal Appearance</b><span>Each client keeps their own private Avaturn face, body, hair and clothing.</span></div>
-    <div class="feature"><b>Reactive Athlete Posture</b><span>Head position, torso lean, shoulders and movement energy respond to readiness.</span></div>
-    <div class="feature"><b>Cinematic State Lighting</b><span>The entire reveal centre transforms through colour, intensity, haze and contrast.</span></div>
+    <div class="eyebrow">Readiness Scale · Highest First</div>
+    <div class="state-scale" id="grid"></div>
+
+    <div class="line"></div>
+    <div class="eyebrow">Recommended Next Actions</div>
+    <div class="recommendations" id="recommendations"></div>
   </aside>
 </main>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
@@ -301,14 +334,14 @@ const states={
   low_focus:{t:"Low Focus",n:53,icon:"◉",c:"#ae8cff",r:"174,140,255",bg:0x07050b,fog:0.06,energy:.5,exposure:.84,key:66,rim:58,fill:11,beam:.1,haze:.54,lean:.065,chest:.06,head:.1,yaw:-.045,shoulder:.07,breath:.62,d:"Mental sharpness is reduced, with a lower eye line and less engaged body language."}
 };
 
-const stage=document.querySelector("#stage"),canvas=document.querySelector("#c"),status=document.querySelector("#status"),loading=document.querySelector("#loading"),spin=document.querySelector("#spin"),bar=document.querySelector("#bar"),loadtext=document.querySelector("#loadtext"),title=document.querySelector("#title"),desc=document.querySelector("#desc"),grid=document.querySelector("#grid"),platformLabel=document.querySelector("#platformLabel");
+const stage=document.querySelector("#stage"),canvas=document.querySelector("#c"),status=document.querySelector("#status"),loading=document.querySelector("#loading"),spin=document.querySelector("#spin"),bar=document.querySelector("#bar"),loadtext=document.querySelector("#loadtext"),title=document.querySelector("#title"),desc=document.querySelector("#desc"),grid=document.querySelector("#grid"),platformLabel=document.querySelector("#platformLabel"),scoreValue=document.querySelector("#scoreValue"),metricsGrid=document.querySelector("#metricsGrid"),recommendations=document.querySelector("#recommendations");
 
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x090806);
 scene.fog=new THREE.FogExp2(0x090806,.032);
 
-const camera=new THREE.PerspectiveCamera(29,1,.1,100);
-camera.position.set(embed?0:.45,embed?2.7:2.45,embed?6.35:8.25);
+const camera=new THREE.PerspectiveCamera(embed?24:29,1,.1,100);
+camera.position.set(embed?.12:.45,embed?3.05:2.45,embed?4.85:8.25);
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -325,9 +358,9 @@ room.dispose();pm.dispose();
 
 const controls=new OrbitControls(camera,canvas);
 controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.07;
-controls.minDistance=5.3;controls.maxDistance=10;
+controls.minDistance=embed?4.2:5.3;controls.maxDistance=embed?7:10;
 controls.minPolarAngle=Math.PI*.33;controls.maxPolarAngle=Math.PI*.58;
-controls.target.set(embed?0:.7,embed?2.35:1.85,0);
+controls.target.set(embed?.12:.7,embed?2.85:1.85,0);
 
 const hemi=new THREE.HemisphereLight(0xf4e7c4,0x080b10,.64);scene.add(hemi);
 const key=new THREE.SpotLight(0xffe6ab,112,22,Math.PI*.18,.58,1.4);key.position.set(4.8,7.5,4.8);key.target.position.set(.7,1.9,0);key.castShadow=true;key.shadow.mapSize.set(1536,1536);key.shadow.bias=-.0002;scene.add(key,key.target);
@@ -436,7 +469,7 @@ for(let i=0;i<18;i++){
   const s=new THREE.Sprite(mat);s.position.set(.7+(Math.random()-.5)*7,.4+Math.random()*2.5,-2.5+Math.random()*3.2);const scale=1.2+Math.random()*2.4;s.scale.set(scale,scale*.56,1);s.userData={speed:.06+Math.random()*.1,phase:Math.random()*Math.PI*2,baseX:s.position.x,baseY:s.position.y};world.add(s);hazeSprites.push(s);
 }
 
-const holder=new THREE.Group();holder.position.set(embed?0:.7,.43,0);world.add(holder);
+const holder=new THREE.Group();holder.position.set(embed?.12:.7,.43,0);world.add(holder);
 let athlete=null,mixer=null,mode="none",current=states.match_ready,bones={};
 
 // Smooth pose values independently from the instant UI/environment state change.
@@ -513,9 +546,119 @@ logoMaterial.opacity=.58+current.energy*.18;
   document.querySelectorAll(".state").forEach(b=>b.classList.toggle("active",b.dataset.k===keyName));
 }
 
-Object.entries(states).forEach(([k,s])=>{
-  const b=document.createElement("button");b.type="button";b.className="state";b.dataset.k=k;b.style.setProperty("--card",s.c);b.style.setProperty("--card-rgb",s.r);
-  b.innerHTML=`<span class="state-icon">${s.icon}</span><b>${s.t}</b><strong>${s.n}</strong>`;b.onclick=()=>setState(k);grid.appendChild(b);
+const stateRanges={match_ready:"85–100",energised:"75–84",fresh:"65–74",low_focus:"Focus-led",tired:"45–64",fatigued:"0–44"};
+Object.entries(states).sort((a,b)=>b[1].n-a[1].n).forEach(([k,s])=>{
+  const card=document.createElement("div");card.className="state";card.dataset.k=k;card.style.setProperty("--card",s.c);card.style.setProperty("--card-rgb",s.r);
+  card.innerHTML=`<div class="state-top"><span class="state-icon">${s.icon}</span><strong>${s.n}</strong></div><b>${s.t}</b><small>${stateRanges[k]}</small>`;
+  grid.appendChild(card);
+});
+
+
+const READINESS_STORAGE_KEY="jt-readiness-metrics-v2";
+const metricDefinitions={
+  sleep:{label:"Sleep Quality",hint:"How well did you sleep?",icon:"◒",weight:.20,default:8,inverse:false,centre:"Recovery Centre",href:"/performance-hub-recovery.html"},
+  hydration:{label:"Hydration",hint:"How hydrated do you feel?",icon:"◉",weight:.15,default:7,inverse:false,centre:"Nutrition Centre",href:"/performance-hub-nutrition.html"},
+  energy:{label:"Energy",hint:"Physical energy right now",icon:"ϟ",weight:.15,default:7,inverse:false,centre:"Training Centre",href:"/performance-hub-training.html"},
+  soreness:{label:"Muscle Soreness",hint:"0 none · 10 very sore",icon:"△",weight:.15,default:3,inverse:true,centre:"Recovery Centre",href:"/performance-hub-recovery.html"},
+  mood:{label:"Mood",hint:"Confidence and emotional state",icon:"◎",weight:.10,default:8,inverse:false,centre:"Mindset Centre",href:"/performance-hub-mindset.html"},
+  focus:{label:"Focus",hint:"Mental sharpness and attention",icon:"◈",weight:.10,default:8,inverse:false,centre:"Mindset Centre",href:"/performance-hub-mindset.html"},
+  stress:{label:"Stress Load",hint:"0 calm · 10 overloaded",icon:"◇",weight:.10,default:3,inverse:true,centre:"Mindset Centre",href:"/performance-hub-mindset.html"},
+  illness:{label:"Illness Symptoms",hint:"0 clear · 10 unwell",icon:"＋",weight:.05,default:0,inverse:true,centre:"Recovery Centre",href:"/performance-hub-recovery.html"}
+};
+
+function defaultMetrics(){return Object.fromEntries(Object.entries(metricDefinitions).map(([key,definition])=>[key,definition.default]))}
+function readStoredMetrics(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(READINESS_STORAGE_KEY)||"null");
+    const defaults=defaultMetrics();
+    if(!saved||typeof saved!=="object")return defaults;
+    Object.keys(defaults).forEach(key=>{const value=Number(saved[key]);defaults[key]=Number.isFinite(value)?THREE.MathUtils.clamp(value,0,10):defaults[key]});
+    return defaults;
+  }catch{return defaultMetrics()}
+}
+let readinessMetrics=readStoredMetrics();
+
+function metricContribution(key,value){const definition=metricDefinitions[key];return(definition.inverse?10-value:value)*definition.weight}
+function calculateReadiness(metrics){
+  const weighted=Object.entries(metrics).reduce((total,[key,value])=>total+metricContribution(key,Number(value)),0);
+  return Math.round(THREE.MathUtils.clamp(weighted*10,0,100));
+}
+function stateFromReadiness(score,metrics){
+  if(metrics.illness>=6||score<35)return"fatigued";
+  if(metrics.focus<=4&&score<75)return"low_focus";
+  if(score>=85)return"match_ready";
+  if(score>=75)return"energised";
+  if(score>=65)return"fresh";
+  if(score>=45)return"tired";
+  return"fatigued";
+}
+function valueLabel(key,value){return metricDefinitions[key].inverse?`${value}/10 load`:`${value}/10`}
+
+function renderMetrics(){
+  if(!metricsGrid)return;
+  metricsGrid.innerHTML="";
+  Object.entries(metricDefinitions).forEach(([key,definition])=>{
+    const item=document.createElement("div");item.className="metric";
+    item.innerHTML=`
+      <div class="metric-head">
+        <div class="metric-name"><span class="metric-icon">${definition.icon}</span><div><b>${definition.label}</b><small>${definition.hint}</small></div></div>
+        <span class="metric-value" id="metric-value-${key}">${valueLabel(key,readinessMetrics[key])}</span>
+      </div>
+      <div class="metric-control">
+        <input id="metric-${key}" type="range" min="0" max="10" step="1" value="${readinessMetrics[key]}" aria-label="${definition.label}">
+        <a class="metric-centre" href="${definition.href}">${definition.centre} →</a>
+      </div>`;
+    metricsGrid.appendChild(item);
+    item.querySelector("input").addEventListener("input",event=>{
+      readinessMetrics[key]=Number(event.target.value);
+      item.querySelector(`#metric-value-${key}`).textContent=valueLabel(key,readinessMetrics[key]);
+      updateReadiness(true);
+    });
+  });
+}
+
+function updateRecommendations(){
+  if(!recommendations)return;
+  const priorities=Object.entries(readinessMetrics).map(([key,value])=>{
+    const definition=metricDefinitions[key];
+    const effective=definition.inverse?10-value:value;
+    return{key,definition,effective,need:(10-effective)*definition.weight};
+  }).sort((a,b)=>b.need-a.need);
+  const seen=new Set();
+  const selected=[];
+  for(const priority of priorities){
+    if(priority.need<=.12||seen.has(priority.definition.href))continue;
+    selected.push(priority);seen.add(priority.definition.href);
+    if(selected.length===3)break;
+  }
+  if(!selected.length){
+    recommendations.innerHTML='<div class="recommendation"><b>Maintain the standard</b><span>Your inputs are balanced. Use the Training Centre to select today’s work and keep the recovery habits consistent.</span><a href="/performance-hub-training.html">Open Training Centre →</a></div>';
+    return;
+  }
+  recommendations.innerHTML=selected.map(({definition,key})=>`<div class="recommendation"><b>${definition.label} priority</b><span>Your ${definition.label.toLowerCase()} input is currently limiting readiness. Use the connected ${definition.centre} for the next action.</span><a href="${definition.href}">Open ${definition.centre} →</a></div>`).join("");
+}
+
+function updateReadiness(save=true){
+  const score=calculateReadiness(readinessMetrics);
+  const stateKey=stateFromReadiness(score,readinessMetrics);
+  if(scoreValue)scoreValue.textContent=score;
+  setState(stateKey);
+  updateRecommendations();
+  if(save){
+    try{localStorage.setItem(READINESS_STORAGE_KEY,JSON.stringify(readinessMetrics))}catch{}
+  }
+  if(window.parent&&window.parent!==window){
+    window.parent.postMessage({type:"jt-readiness-update",score,state:stateKey,metrics:readinessMetrics},location.origin);
+  }
+}
+
+renderMetrics();
+updateReadiness(false);
+window.addEventListener("storage",event=>{
+  if(event.key!==READINESS_STORAGE_KEY)return;
+  readinessMetrics=readStoredMetrics();
+  renderMetrics();
+  updateReadiness(false);
 });
 
 const draco=new DRACOLoader();draco.setDecoderPath("https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/libs/draco/");
@@ -672,7 +815,7 @@ function animate(){
   renderer.render(scene,camera);
 }
 
-setState("match_ready");animate();load();
+updateReadiness(false);animate();load();
 </script>
 </body>
 </html>
