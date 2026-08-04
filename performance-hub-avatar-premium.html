@@ -340,8 +340,8 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x090806);
 scene.fog=new THREE.FogExp2(0x090806,.032);
 
-const camera=new THREE.PerspectiveCamera(embed?26:29,1,.1,100);
-camera.position.set(embed?.12:.45,embed?4.78:2.45,embed?6.3:8.25);
+const camera=new THREE.PerspectiveCamera(embed?30:29,1,.1,100);
+camera.position.set(embed?.12:.45,embed?3.2:2.45,embed?8:8.25);
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -360,7 +360,7 @@ const controls=new OrbitControls(camera,canvas);
 controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.07;controls.enableRotate=!embed;controls.enableZoom=!embed;
 controls.minDistance=embed?4.2:5.3;controls.maxDistance=embed?7:10;
 controls.minPolarAngle=Math.PI*.33;controls.maxPolarAngle=Math.PI*.58;
-controls.target.set(embed?.12:.7,embed?4.62:1.85,0);
+controls.target.set(embed?.12:.7,embed?3:1.85,0);
 
 const hemi=new THREE.HemisphereLight(0xf4e7c4,0x080b10,.64);scene.add(hemi);
 const key=new THREE.SpotLight(0xffe6ab,112,22,Math.PI*.18,.58,1.4);key.position.set(4.8,7.5,4.8);key.target.position.set(.7,1.9,0);key.castShadow=true;key.shadow.mapSize.set(1536,1536);key.shadow.bias=-.0002;scene.add(key,key.target);
@@ -516,10 +516,165 @@ function relaxedFallback(){setFallbackBone("leftArm",.05,.08,1.25);setFallbackBo
 function clip(anims){return anims.find(x=>/idle|stand|breath|ready/i.test(x.name))||anims.find(x=>!/t[-_ ]?pose|bind|rest/i.test(x.name)&&x.duration>.5)||anims[0]||null}
 function mapping(t,s){const map=new Map(s.bones.map(b=>[norm(b.name),b.name])),out={};t.bones.forEach(b=>{const x=map.get(norm(b.name));if(x)out[b.name]=x});return out}
 function hip(s){return s.bones.find(b=>["hips","pelvis","chips"].includes(norm(b.name)))?.name||s.bones[0]?.name||"Hips"}
+function visibleAthleteBox(root){
+  root.updateMatrixWorld(true);
+
+  const box=new THREE.Box3();
+  let found=false;
+
+  // Skinned meshes represent the actual avatar body/clothing. Using these avoids
+  // oversized helper nodes, armatures or hidden export objects corrupting the scale.
+  root.traverse(o=>{
+    if(!o.isSkinnedMesh||!o.visible||!o.geometry)return;
+
+    if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();
+    if(!o.geometry.boundingBox)return;
+
+    const meshBox=o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld);
+
+    if(!found){
+      box.copy(meshBox);
+      found=true;
+    }else{
+      box.union(meshBox);
+    }
+  });
+
+  // Some avatar exports use ordinary meshes for hair/accessories.
+  if(!found){
+    root.traverse(o=>{
+      if(!o.isMesh||!o.visible||!o.geometry)return;
+
+      const mats=Array.isArray(o.material)?o.material:[o.material];
+      if(mats.every(m=>m&&m.transparent&&m.opacity<=.01))return;
+
+      if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();
+      if(!o.geometry.boundingBox)return;
+
+      const meshBox=o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld);
+
+      if(!found){
+        box.copy(meshBox);
+        found=true;
+      }else{
+        box.union(meshBox);
+      }
+    });
+  }
+
+  return found?box:new THREE.Box3().setFromObject(root);
+}
+
 function normalise(root){
-  root.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(root),size=box.getSize(new THREE.Vector3()),scale=5.625/Math.max(size.y,.001);root.scale.setScalar(scale);root.updateMatrixWorld(true);
-  const b=new THREE.Box3().setFromObject(root),c=b.getCenter(new THREE.Vector3());root.position.x-=c.x;root.position.z-=c.z;root.position.y-=b.min.y;
-  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;o.frustumCulled=false;const mats=Array.isArray(o.material)?o.material:[o.material];mats.filter(Boolean).forEach(m=>{if("envMapIntensity" in m)m.envMapIntensity=1.2;m.needsUpdate=true})}});
+  root.position.set(0,0,0);
+  root.scale.setScalar(1);
+  root.updateMatrixWorld(true);
+
+  let box=visibleAthleteBox(root);
+  let size=box.getSize(new THREE.Vector3());
+
+  const targetHeight=5.15;
+  const scale=targetHeight/Math.max(size.y,.001);
+
+  root.scale.setScalar(scale);
+  root.updateMatrixWorld(true);
+
+  box=visibleAthleteBox(root);
+  const center=box.getCenter(new THREE.Vector3());
+
+  root.position.x-=center.x;
+  root.position.z-=center.z;
+  root.position.y-=box.min.y;
+  root.updateMatrixWorld(true);
+
+  root.traverse(o=>{
+    if(!o.isMesh)return;
+
+    o.castShadow=true;
+    o.receiveShadow=true;
+    o.frustumCulled=false;
+
+    const mats=Array.isArray(o.material)?o.material:[o.material];
+    mats.filter(Boolean).forEach(m=>{
+      if("envMapIntensity" in m)m.envMapIntensity=1.2;
+      m.needsUpdate=true;
+    });
+  });
+}
+
+function frameDashboardAthlete(){
+  if(!embed||!athlete)return;
+
+  athlete.updateMatrixWorld(true);
+
+  const head=bones.head?.b;
+  const hips=bones.hips?.b;
+  const leftShoulder=bones.leftShoulder?.b;
+  const rightShoulder=bones.rightShoulder?.b;
+
+  const headPos=new THREE.Vector3();
+  const hipsPos=new THREE.Vector3();
+  const leftPos=new THREE.Vector3();
+  const rightPos=new THREE.Vector3();
+
+  if(head&&hips){
+    head.getWorldPosition(headPos);
+    hips.getWorldPosition(hipsPos);
+
+    const torsoHeight=Math.max(headPos.y-hipsPos.y,.8);
+    const top=headPos.y+torsoHeight*.24;
+    const bottom=hipsPos.y-torsoHeight*.48;
+    const focusY=(top+bottom)*.5;
+    const visibleHeight=(top-bottom)*1.12;
+
+    let visibleWidth=visibleHeight*.62;
+
+    if(leftShoulder&&rightShoulder){
+      leftShoulder.getWorldPosition(leftPos);
+      rightShoulder.getWorldPosition(rightPos);
+      visibleWidth=Math.max(leftPos.distanceTo(rightPos)*1.72,visibleHeight*.54);
+    }
+
+    const halfV=THREE.MathUtils.degToRad(camera.fov*.5);
+    const halfH=Math.atan(Math.tan(halfV)*Math.max(camera.aspect,.2));
+    const distanceV=(visibleHeight*.5)/Math.tan(halfV);
+    const distanceH=(visibleWidth*.5)/Math.tan(Math.max(halfH,.08));
+    const distance=Math.max(distanceV,distanceH)*1.08;
+
+    const focusX=(headPos.x+hipsPos.x)*.5;
+    const focusZ=(headPos.z+hipsPos.z)*.5;
+
+    camera.position.set(focusX,focusY+torsoHeight*.035,focusZ+distance);
+    controls.target.set(focusX,focusY,focusZ);
+    controls.update();
+
+    console.log("JT dashboard camera framed from athlete bones",{
+      head:headPos.toArray(),
+      hips:hipsPos.toArray(),
+      distance
+    });
+
+    return;
+  }
+
+  // Reliable fallback for unusual rigs: visible avatar meshes only.
+  const box=visibleAthleteBox(athlete);
+  const size=box.getSize(new THREE.Vector3());
+  const center=box.getCenter(new THREE.Vector3());
+
+  const top=box.max.y;
+  const bottom=box.min.y+size.y*.24;
+  const visibleHeight=(top-bottom)*1.08;
+  const focusY=(top+bottom)*.5;
+
+  const halfV=THREE.MathUtils.degToRad(camera.fov*.5);
+  const distance=(visibleHeight*.5)/Math.tan(halfV)*1.12;
+
+  camera.position.set(center.x,focusY,center.z+distance);
+  controls.target.set(center.x,focusY,center.z);
+  controls.update();
+
+  console.log("JT dashboard camera used visible-mesh fallback");
 }
 function direct(root,c){mixer=new THREE.AnimationMixer(root);const action=mixer.clipAction(c.clone());action.setLoop(THREE.LoopRepeat,Infinity);action.play();mode="direct"}
 function retarget(targetSkin,sourceSkin,c){
@@ -740,6 +895,10 @@ async function load(){
       mode="relaxed";
     }
 
+    if(mixer)mixer.update(0);
+    athlete.updateMatrixWorld(true);
+    frameDashboardAthlete();
+
     bar.style.width="100%";
     loadtext.textContent="Your athlete is ready.";
 
@@ -803,7 +962,12 @@ function posture(elapsed,delta){
   addAnimatedBone("rightArm",0,0,-pose.shoulder*.10);
 }
 
-const resize=()=>{renderer.setSize(stage.clientWidth,stage.clientHeight,false);camera.aspect=stage.clientWidth/Math.max(stage.clientHeight,1);camera.updateProjectionMatrix()};
+const resize=()=>{
+  renderer.setSize(stage.clientWidth,stage.clientHeight,false);
+  camera.aspect=stage.clientWidth/Math.max(stage.clientHeight,1);
+  camera.updateProjectionMatrix();
+  if(embed&&athlete)frameDashboardAthlete();
+};
 new ResizeObserver(resize).observe(stage);resize();
 const clock=new THREE.Clock();
 function animate(){
