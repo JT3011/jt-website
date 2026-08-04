@@ -737,13 +737,18 @@ async function saveAvatarToSupabase(result) {
   }
 
   if (
-    result.urlType !== "httpURL" ||
-    !result.url
-  ) {
-    throw new Error(
-      "Avaturn did not return a downloadable GLB model."
-    );
-  }
+  ![
+    "httpURL",
+    "dataURL"
+  ].includes(
+    result.urlType
+  ) ||
+  !result.url
+) {
+  throw new Error(
+    "Avaturn did not return a valid GLB model."
+  );
+}
 
   const response =
     await fetch(
