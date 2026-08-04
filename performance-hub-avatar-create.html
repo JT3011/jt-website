@@ -898,15 +898,53 @@ sdk.on(
     document.body.style.overflow =
       "hidden";
 
+let selectedAnimation = null;
+
+try {
+  const activeAnimation =
+    await sdk.getActiveAnimation();
+
+  const animationList =
+    await sdk.getAnimationList();
+
+  const animationDetails =
+    animationList.find(
+      (animation) =>
+        animation.id === activeAnimation?.id
+    );
+
+  selectedAnimation = {
+    id:
+      activeAnimation?.id || null,
+
+    alias:
+      animationDetails?.alias || null,
+
+    preview:
+      animationDetails?.preview || null
+  };
+
+  console.log(
+    "Selected Avaturn animation:",
+    selectedAnimation
+  );
+} catch (animationError) {
+  console.warn(
+    "The selected Avaturn animation could not be read:",
+    animationError
+  );
+}
+    
     try {
       const result =
         storeExportResult(
           data
         );
 
-      await saveAvatarToSupabase(
-        result
-      );
+ await saveAvatarToSupabase(
+  result,
+  selectedAnimation
+);
 
       creatorLoading.classList.add(
         "hidden"
