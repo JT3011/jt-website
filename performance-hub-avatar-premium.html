@@ -396,6 +396,30 @@ for(let i=0;i<18;i++){
 const holder=new THREE.Group();holder.position.set(embed?0:.7,.43,0);world.add(holder);
 let athlete=null,mixer=null,mode="none",current=states.match_ready,bones={};
 
+// Smooth pose values independently from the instant UI/environment state change.
+// This prevents the idle clip and readiness controls from snapping the head
+// between two competing rotations when a new state is selected.
+const pose={
+  lean:current.lean,
+  chest:current.chest,
+  head:current.head,
+  yaw:current.yaw,
+  shoulder:current.shoulder,
+  breath:current.breath,
+  energy:current.energy
+};
+
+function dampPose(delta){
+  const response=4.8;
+  pose.lean=THREE.MathUtils.damp(pose.lean,current.lean,response,delta);
+  pose.chest=THREE.MathUtils.damp(pose.chest,current.chest,response,delta);
+  pose.head=THREE.MathUtils.damp(pose.head,current.head,response,delta);
+  pose.yaw=THREE.MathUtils.damp(pose.yaw,current.yaw,response,delta);
+  pose.shoulder=THREE.MathUtils.damp(pose.shoulder,current.shoulder,response,delta);
+  pose.breath=THREE.MathUtils.damp(pose.breath,current.breath,response,delta);
+  pose.energy=THREE.MathUtils.damp(pose.energy,current.energy,response,delta);
+}
+
 const norm=s=>String(s||"").toLowerCase().replaceAll("mixamorig","").replaceAll("armature","").replaceAll("j_bip_","").replaceAll("jbip","").replace(/[^a-z0-9]/g,"");
 function skin(root){let x=null;root.traverse(o=>{if(!x&&o.isSkinnedMesh&&o.skeleton)x=o});return x}
 function bone(root,names){const q=names.map(norm);let exact=null,partial=null;root.traverse(o=>{if(!o.isBone)return;const n=norm(o.name);q.forEach(a=>{if(!exact&&n===a)exact=o;if(!partial&&(n.includes(a)||a.includes(n)))partial=o})});return exact||partial}
@@ -474,24 +498,35 @@ async function load(){
   }
 }
 
-function posture(elapsed){
+function posture(elapsed,delta){
   if(!athlete)return;
   if(mode==="relaxed")relaxedFallback();
-  const breath=Math.sin(elapsed*(1.15+current.breath*.82));
-  const sway=Math.sin(elapsed*(.38+current.energy*.16))*.006*(.5+current.energy);
-  holder.rotation.x=THREE.MathUtils.lerp(holder.rotation.x,current.lean*.22,.06);
+
+  dampPose(delta);
+
+  const breath=Math.sin(elapsed*(1.15+pose.breath*.82));
+  const sway=Math.sin(elapsed*(.38+pose.energy*.16))*.006*(.5+pose.energy);
+  const microNod=breath*.0022*pose.breath;
+
+  holder.rotation.x=THREE.MathUtils.lerp(holder.rotation.x,pose.lean*.22,.06);
   holder.rotation.z=THREE.MathUtils.lerp(holder.rotation.z,sway,.04);
-  holder.position.y=THREE.MathUtils.lerp(holder.position.y,.43+breath*.0045*current.breath,.08);
-  addAnimatedBone("hips",current.lean*.2,0,sway*.24);
-  addAnimatedBone("spine",current.lean*.34+breath*.0038*current.breath,0,sway*.22);
-  addAnimatedBone("chest",current.chest*.48-breath*.006*current.breath,0,-sway*.18);
-  addAnimatedBone("upperChest",current.chest*.32-breath*.004*current.breath,0,-sway*.12);
-  addAnimatedBone("neck",current.head*.28,current.yaw*.3,0);
-  addAnimatedBone("head",current.head*.72,current.yaw*.7,-sway*.08);
-  addAnimatedBone("leftShoulder",0,0,current.shoulder*.22);
-  addAnimatedBone("rightShoulder",0,0,-current.shoulder*.22);
-  addAnimatedBone("leftArm",0,0,current.shoulder*.10);
-  addAnimatedBone("rightArm",0,0,-current.shoulder*.10);
+  holder.position.y=THREE.MathUtils.lerp(holder.position.y,.43+breath*.0045*pose.breath,.08);
+
+  addAnimatedBone("hips",pose.lean*.2,0,sway*.24);
+  addAnimatedBone("spine",pose.lean*.34+breath*.0038*pose.breath,0,sway*.22);
+  addAnimatedBone("chest",pose.chest*.48-breath*.006*pose.breath,0,-sway*.18);
+  addAnimatedBone("upperChest",pose.chest*.32-breath*.004*pose.breath,0,-sway*.12);
+
+  // The donor idle previously animated these bones while the state engine also
+  // multiplied new offsets onto them. Owning them with an absolute, damped pose
+  // removes the forward/back twitch while retaining subtle breathing movement.
+  setFallbackBone("neck",pose.head*.22+microNod,pose.yaw*.28,0);
+  setFallbackBone("head",pose.head*.46+microNod*.45,pose.yaw*.55,-sway*.025);
+
+  addAnimatedBone("leftShoulder",0,0,pose.shoulder*.22);
+  addAnimatedBone("rightShoulder",0,0,-pose.shoulder*.22);
+  addAnimatedBone("leftArm",0,0,pose.shoulder*.10);
+  addAnimatedBone("rightArm",0,0,-pose.shoulder*.10);
 }
 
 const resize=()=>{renderer.setSize(stage.clientWidth,stage.clientHeight,false);camera.aspect=stage.clientWidth/Math.max(stage.clientHeight,1);camera.updateProjectionMatrix()};
@@ -502,7 +537,7 @@ function animate(){
   const delta=Math.min(clock.getDelta(),.04),elapsed=clock.elapsedTime;
   controls.update();
   if(mixer){mixer.timeScale=THREE.MathUtils.lerp(mixer.timeScale,.58+current.energy*.52,.04);mixer.update(delta)}
-  posture(elapsed);
+  posture(elapsed,delta);
   hazeSprites.forEach((sprite,i)=>{sprite.position.x=sprite.userData.baseX+Math.sin(elapsed*sprite.userData.speed+sprite.userData.phase)*.42;sprite.position.y=sprite.userData.baseY+Math.sin(elapsed*sprite.userData.speed*.7+sprite.userData.phase)*.16;sprite.material.rotation=elapsed*.012*(i%2?1:-1)});
   lightStrips.forEach((mesh,i)=>{mesh.material.opacity+=((.55+current.energy*.26+Math.sin(elapsed*(.55+i*.025))*.05)-mesh.material.opacity)*.035});
   renderer.render(scene,camera);
