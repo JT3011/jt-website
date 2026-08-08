@@ -191,6 +191,72 @@ button{font:inherit}
 .recommendation b{display:block;color:var(--gold2);font-size:.52rem;letter-spacing:.65px;text-transform:uppercase}
 .recommendation span{display:block;margin-top:6px;color:var(--muted);font-size:.55rem;line-height:1.45}
 .recommendation a{display:inline-block;margin-top:8px;color:var(--state);font-size:.48rem;font-weight:900;letter-spacing:.6px;text-transform:uppercase}
+
+.readiness-save{
+  margin-top:14px;
+  padding:15px;
+  border:1px solid rgba(212,175,55,.2);
+  border-radius:17px;
+  background:
+    linear-gradient(145deg,rgba(212,175,55,.07),rgba(255,255,255,.008)),
+    rgba(5,5,5,.72);
+}
+.readiness-save-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.readiness-save-copy b{
+  display:block;
+  color:var(--gold2);
+  font-size:.58rem;
+  letter-spacing:.75px;
+  text-transform:uppercase;
+}
+.readiness-save-copy span{
+  display:block;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:.53rem;
+  line-height:1.5;
+}
+.readiness-submit{
+  min-height:42px;
+  flex:0 0 auto;
+  padding:0 15px;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  color:#070707;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  box-shadow:0 12px 30px rgba(212,175,55,.14);
+  font-size:.52rem;
+  font-weight:900;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease,opacity .2s ease;
+}
+.readiness-submit:hover:not(:disabled){transform:translateY(-2px)}
+.readiness-submit:disabled{cursor:not-allowed;opacity:.45}
+.readiness-save-status{
+  margin-top:11px;
+  color:#a9a297;
+  font-size:.52rem;
+  line-height:1.55;
+}
+.readiness-save-status.success{color:#82dfa3}
+.readiness-save-status.error{color:#ff9b9b}
+.readiness-reward{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.07);
+  color:var(--gold2);
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.55px;
+  text-transform:uppercase;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:1360px){.main{grid-template-columns:280px minmax(0,1fr) 400px}.copy h1{font-size:3.6rem}}
 @media(max-width:1120px){.main{grid-template-columns:1fr 1fr}.stage{grid-column:1/-1;min-height:720px;grid-row:1}.info-panel,.panel{min-height:auto}.info-panel{grid-row:2}.panel{grid-row:2}}
@@ -269,6 +335,20 @@ body.embed .loading .spin{margin:0 auto}
     <p>Move each metric from 0 to 10. The score, athlete posture, colour and atmosphere update instantly and remain connected to the dashboard preview.</p>
     <div class="metrics-grid" id="metricsGrid"></div>
 
+    <div class="readiness-save" id="readinessSavePanel">
+      <div class="readiness-save-head">
+        <div class="readiness-save-copy">
+          <b>Log Today’s Readiness</b>
+          <span>Save today’s score to your JT journal, secure your readiness streak and earn Performance Points.</span>
+        </div>
+        <button class="readiness-submit" id="submitReadinessButton" type="button">Submit Check-In</button>
+      </div>
+      <div class="readiness-save-status" id="readinessSaveStatus" role="status" aria-live="polite">
+        Your sliders are a live preview until you submit.
+      </div>
+      <div class="readiness-reward hidden" id="readinessRewardSummary"></div>
+    </div>
+
     <div class="line"></div>
     <div class="eyebrow">Readiness Scale · Highest First</div>
     <div class="state-scale" id="grid"></div>
@@ -335,6 +415,9 @@ const states={
 };
 
 const stage=document.querySelector("#stage"),canvas=document.querySelector("#c"),status=document.querySelector("#status"),loading=document.querySelector("#loading"),spin=document.querySelector("#spin"),bar=document.querySelector("#bar"),loadtext=document.querySelector("#loadtext"),title=document.querySelector("#title"),desc=document.querySelector("#desc"),grid=document.querySelector("#grid"),platformLabel=document.querySelector("#platformLabel"),scoreValue=document.querySelector("#scoreValue"),metricsGrid=document.querySelector("#metricsGrid"),recommendations=document.querySelector("#recommendations");
+const submitReadinessButton=document.querySelector("#submitReadinessButton");
+const readinessSaveStatus=document.querySelector("#readinessSaveStatus");
+const readinessRewardSummary=document.querySelector("#readinessRewardSummary");
 
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x090806);
@@ -809,8 +892,207 @@ function updateReadiness(save=true){
   }
 }
 
+
+function setReadinessSaveStatus(message,type=""){
+  if(!readinessSaveStatus)return;
+  readinessSaveStatus.textContent=message;
+  readinessSaveStatus.classList.remove("success","error");
+  if(type)readinessSaveStatus.classList.add(type);
+}
+
+function setReadinessRewardSummary(message=""){
+  if(!readinessRewardSummary)return;
+  readinessRewardSummary.textContent=message;
+  readinessRewardSummary.classList.toggle("hidden",!message);
+}
+
+function utcDateString(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function applySavedMetrics(row){
+  if(!row)return;
+  readinessMetrics={
+    sleep:Number(row.sleep_quality),
+    hydration:Number(row.hydration),
+    energy:Number(row.energy),
+    soreness:Number(row.muscle_soreness),
+    mood:Number(row.mood),
+    focus:Number(row.focus),
+    stress:Number(row.stress_load),
+    illness:Number(row.illness_symptoms)
+  };
+  try{localStorage.setItem(READINESS_STORAGE_KEY,JSON.stringify(readinessMetrics))}catch{}
+  renderMetrics();
+  updateReadiness(false);
+
+  if(Number.isFinite(Number(row.readiness_score))){
+    scoreValue.textContent=String(row.readiness_score);
+  }
+  if(row.readiness_state&&states[row.readiness_state]){
+    setState(row.readiness_state);
+  }
+}
+
+async function initialiseReadinessPersistence(){
+  if(!submitReadinessButton)return;
+
+  try{
+    const {data:sessionData,error:sessionError}=await supabase.auth.getSession();
+
+    if(sessionError)throw sessionError;
+
+    const user=sessionData?.session?.user;
+    if(!user){
+      submitReadinessButton.disabled=true;
+      setReadinessSaveStatus("Sign in to your JT Performance Hub account to save today’s readiness.","error");
+      return;
+    }
+
+    const {data,error}=await supabase
+      .from("daily_readiness_checkins")
+      .select([
+        "checkin_date",
+        "sleep_quality",
+        "hydration",
+        "energy",
+        "muscle_soreness",
+        "mood",
+        "focus",
+        "stress_load",
+        "illness_symptoms",
+        "readiness_score",
+        "readiness_state",
+        "points_awarded",
+        "readiness_streak"
+      ].join(","))
+      .eq("user_id",user.id)
+      .eq("checkin_date",utcDateString())
+      .maybeSingle();
+
+    if(error){
+      // 42P01 means the SQL setup has not been installed yet.
+      if(error.code==="42P01"){
+        setReadinessSaveStatus("Readiness database setup is not installed yet. Run the supplied Supabase SQL once, then refresh.","error");
+        return;
+      }
+      throw error;
+    }
+
+    if(data){
+      applySavedMetrics(data);
+      setReadinessSaveStatus(
+        "Today’s readiness is already in your journal. You can update the values and submit again without earning duplicate points.",
+        "success"
+      );
+      setReadinessRewardSummary(
+        `Saved today · ${Number(data.readiness_score)||0}/100 · ${Number(data.readiness_streak)||1} day readiness streak · +${Number(data.points_awarded)||0} pts earned today`
+      );
+    }else{
+      setReadinessSaveStatus("Your sliders are a live preview until you submit. One rewarded readiness check-in is available each day.");
+    }
+  }catch(error){
+    console.warn("JT readiness history could not be loaded",error);
+    setReadinessSaveStatus(
+      error?.message||"Today’s saved readiness could not be loaded. You can still preview your score.",
+      "error"
+    );
+  }
+}
+
+async function submitDailyReadiness(){
+  if(!submitReadinessButton)return;
+
+  submitReadinessButton.disabled=true;
+  submitReadinessButton.textContent="Saving…";
+  setReadinessSaveStatus("Saving your readiness, journal entry and Performance Points…");
+  setReadinessRewardSummary("");
+
+  try{
+    const {data:sessionData,error:sessionError}=await supabase.auth.getSession();
+    if(sessionError)throw sessionError;
+    if(!sessionData?.session?.user)throw new Error("Please sign in before submitting your readiness check-in.");
+
+    const {data,error}=await supabase.rpc(
+      "save_daily_readiness",
+      {
+        p_sleep:Number(readinessMetrics.sleep),
+        p_hydration:Number(readinessMetrics.hydration),
+        p_energy:Number(readinessMetrics.energy),
+        p_soreness:Number(readinessMetrics.soreness),
+        p_mood:Number(readinessMetrics.mood),
+        p_focus:Number(readinessMetrics.focus),
+        p_stress:Number(readinessMetrics.stress),
+        p_illness:Number(readinessMetrics.illness)
+      }
+    );
+
+    if(error)throw error;
+
+    const result=Array.isArray(data)?data[0]:data;
+    if(!result)throw new Error("The readiness check-in was not returned by the server.");
+
+    if(Number.isFinite(Number(result.readiness_score))){
+      scoreValue.textContent=String(result.readiness_score);
+    }
+    if(result.readiness_state&&states[result.readiness_state]){
+      setState(result.readiness_state);
+    }
+
+    const points=Number(result.points_awarded||0);
+    const streak=Number(result.readiness_streak||1);
+    const score=Number(result.readiness_score||calculateReadiness(readinessMetrics));
+    const stateLabel=states[result.readiness_state]?.t||"Readiness Saved";
+
+    if(points>0){
+      setReadinessSaveStatus(
+        `Readiness logged to your journal — +${points} Performance Points earned.`,
+        "success"
+      );
+    }else{
+      setReadinessSaveStatus(
+        "Today’s readiness has been updated in your journal. Today’s Performance Points were already awarded.",
+        "success"
+      );
+    }
+
+    setReadinessRewardSummary(
+      `${score}/100 · ${stateLabel} · ${streak} day readiness streak · ${Number(result.points_balance||0)} pts balance`
+    );
+
+    window.dispatchEvent(new CustomEvent("jt-readiness-saved",{detail:result}));
+
+    if(window.parent&&window.parent!==window){
+      window.parent.postMessage(
+        {
+          type:"jt-readiness-saved",
+          score,
+          state:result.readiness_state,
+          metrics:readinessMetrics,
+          points_awarded:points,
+          readiness_streak:streak
+        },
+        location.origin
+      );
+    }
+  }catch(error){
+    console.error("JT readiness save error",error);
+    setReadinessSaveStatus(
+      error?.message||"Your readiness check-in could not be saved. Please try again.",
+      "error"
+    );
+  }finally{
+    submitReadinessButton.disabled=false;
+    submitReadinessButton.textContent="Submit Check-In";
+  }
+}
+
 renderMetrics();
 updateReadiness(false);
+initialiseReadinessPersistence();
+
+submitReadinessButton?.addEventListener("click",submitDailyReadiness);
+
 window.addEventListener("storage",event=>{
   if(event.key!==READINESS_STORAGE_KEY)return;
   readinessMetrics=readStoredMetrics();
