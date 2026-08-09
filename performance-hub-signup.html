@@ -2,46 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Your Account | JT Performance Hub</title>
+  <meta name="description" content="Create your secure JT Performance Hub account.">
 
-  <meta
-    name="description"
-    content="Create your secure JT Performance Hub account."
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="icon"
-    type="image/png"
-    sizes="192x192"
-    href="images/applogo192.png"
-  >
-
-  <meta
-    name="theme-color"
-    content="#050505"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/applogo192.png">
+  <meta name="theme-color" content="#050505">
 
   <style>
     :root {
@@ -59,78 +28,35 @@
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      min-height: 100%;
-      background: var(--black);
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { min-height: 100%; background: var(--black); }
 
     body {
       min-height: 100vh;
       color: var(--white);
       font-family: "Montserrat", sans-serif;
       background:
-        radial-gradient(
-          circle at 78% 8%,
-          rgba(212, 175, 55, 0.17),
-          transparent 35rem
-        ),
-        radial-gradient(
-          circle at 8% 90%,
-          rgba(212, 175, 55, 0.07),
-          transparent 32rem
-        ),
-        linear-gradient(
-          145deg,
-          #050505,
-          #111111 48%,
-          #050505
-        );
+        radial-gradient(circle at 78% 8%, rgba(212,175,55,.17), transparent 35rem),
+        radial-gradient(circle at 8% 90%, rgba(212,175,55,.07), transparent 32rem),
+        linear-gradient(145deg, #050505, #111111 48%, #050505);
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      border: 0;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { border: 0; }
 
     .grain {
       position: fixed;
       inset: 0;
       z-index: 20;
       pointer-events: none;
-      opacity: 0.1;
+      opacity: .1;
       background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.03) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.025) 1px,
-          transparent 1px
-        );
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
       background-size: 38px 38px;
-      mask-image:
-        radial-gradient(
-          circle at center,
-          black,
-          transparent 92%
-        );
+      mask-image: radial-gradient(circle at center, black, transparent 92%);
     }
 
     .page {
@@ -151,10 +77,10 @@
       top: -260px;
       z-index: -1;
       border-radius: 50%;
-      border: 1px solid rgba(212, 175, 55, 0.13);
+      border: 1px solid rgba(212,175,55,.13);
       box-shadow:
-        0 0 0 90px rgba(212, 175, 55, 0.023),
-        0 0 0 180px rgba(212, 175, 55, 0.014);
+        0 0 0 90px rgba(212,175,55,.023),
+        0 0 0 180px rgba(212,175,55,.014);
     }
 
     .topbar {
@@ -168,21 +94,15 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .brand { display: flex; align-items: center; gap: 14px; }
 
     .brand img {
       width: 58px;
       height: 58px;
       object-fit: cover;
       border-radius: 17px;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      box-shadow:
-        0 14px 40px rgba(0, 0, 0, 0.6),
-        0 0 28px rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212,175,55,.22);
+      box-shadow: 0 14px 40px rgba(0,0,0,.6), 0 0 28px rgba(212,175,55,.08);
     }
 
     .brand-copy strong {
@@ -190,7 +110,7 @@
       color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 1.8px;
-      font-size: 0.78rem;
+      font-size: .78rem;
     }
 
     .brand-copy span {
@@ -199,33 +119,26 @@
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 1.4px;
-      font-size: 0.63rem;
+      font-size: .63rem;
     }
 
     .website-link {
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 1.3px;
-      font-size: 0.7rem;
+      font-size: .7rem;
       font-weight: 800;
-      transition:
-        color 0.25s ease,
-        transform 0.25s ease;
+      transition: color .25s ease, transform .25s ease;
     }
 
-    .website-link:hover {
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
+    .website-link:hover { color: var(--gold); transform: translateY(-2px); }
 
     .main {
       width: min(1280px, calc(100% - 40px));
       margin: 0 auto;
       padding: 70px 0;
       display: grid;
-      grid-template-columns:
-        minmax(0, 0.92fr)
-        minmax(430px, 0.68fr);
+      grid-template-columns: minmax(0,.92fr) minmax(430px,.68fr);
       gap: 76px;
       align-items: center;
     }
@@ -235,7 +148,7 @@
       color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 3.2px;
-      font-size: 0.72rem;
+      font-size: .72rem;
       font-weight: 900;
     }
 
@@ -243,31 +156,21 @@
       max-width: 790px;
       font-family: "Playfair Display", serif;
       font-size: clamp(4.5rem, 9.5vw, 9.5rem);
-      line-height: 0.79;
-      letter-spacing: -0.075em;
+      line-height: .79;
+      letter-spacing: -.075em;
       text-transform: uppercase;
     }
 
     .gold-text {
       display: block;
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold),
-          var(--gold-light),
-          var(--gold)
-        );
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shimmer 5s linear infinite;
     }
 
-    @keyframes shimmer {
-      to {
-        background-position: 200% center;
-      }
-    }
+    @keyframes shimmer { to { background-position: 200% center; } }
 
     .intro {
       max-width: 700px;
@@ -279,7 +182,7 @@
 
     .benefits {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 12px;
       max-width: 710px;
       margin-top: 34px;
@@ -287,23 +190,23 @@
 
     .benefit {
       padding: 18px;
-      border: 1px solid rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212,175,55,.14);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.025);
+      background: rgba(255,255,255,.025);
     }
 
     .benefit strong {
       display: block;
       margin-bottom: 7px;
       color: var(--white);
-      font-size: 0.76rem;
+      font-size: .76rem;
       text-transform: uppercase;
       letter-spacing: 1.1px;
     }
 
     .benefit span {
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: .78rem;
       line-height: 1.5;
     }
 
@@ -311,40 +214,26 @@
       position: relative;
       padding: 14px;
       border-radius: 36px;
-      border: 1px solid rgba(212, 175, 55, 0.27);
+      border: 1px solid rgba(212,175,55,.27);
       background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.085),
-          rgba(255, 255, 255, 0.018)
-        ),
+        linear-gradient(145deg, rgba(255,255,255,.085), rgba(255,255,255,.018)),
         #060606;
       box-shadow:
-        0 45px 110px rgba(0, 0, 0, 0.75),
-        0 0 65px rgba(212, 175, 55, 0.07);
+        0 45px 110px rgba(0,0,0,.75),
+        0 0 65px rgba(212,175,55,.07);
     }
 
     .auth-card {
       min-height: 610px;
-      padding: clamp(25px, 4vw, 42px);
+      padding: clamp(25px,4vw,42px);
       border-radius: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255,255,255,.07);
       background:
-        radial-gradient(
-          circle at 90% 0%,
-          rgba(212, 175, 55, 0.13),
-          transparent 22rem
-        ),
-        linear-gradient(
-          155deg,
-          #141414,
-          #070707 72%
-        );
+        radial-gradient(circle at 90% 0%, rgba(212,175,55,.13), transparent 22rem),
+        linear-gradient(155deg, #141414, #070707 72%);
     }
 
-    .card-header {
-      margin-bottom: 27px;
-    }
+    .card-header { margin-bottom: 27px; }
 
     .card-status {
       display: inline-flex;
@@ -354,7 +243,7 @@
       color: var(--gold-light);
       text-transform: uppercase;
       letter-spacing: 1.35px;
-      font-size: 0.64rem;
+      font-size: .64rem;
       font-weight: 900;
     }
 
@@ -364,34 +253,33 @@
       height: 8px;
       border-radius: 50%;
       background: var(--success);
-      box-shadow:
-        0 0 16px rgba(118, 224, 155, 0.75);
+      box-shadow: 0 0 16px rgba(118,224,155,.75);
     }
 
     .card-header h2 {
       font-family: "Playfair Display", serif;
-      font-size: clamp(2.8rem, 5vw, 4.8rem);
-      line-height: 0.88;
-      letter-spacing: -0.055em;
+      font-size: clamp(2.8rem,5vw,4.8rem);
+      line-height: .88;
+      letter-spacing: -.055em;
       text-transform: uppercase;
     }
 
     .card-header p {
       margin-top: 17px;
       color: var(--muted);
-      font-size: 0.87rem;
+      font-size: .87rem;
       line-height: 1.65;
     }
 
     .tabs {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
       gap: 7px;
       margin-bottom: 24px;
       padding: 6px;
-      border: 1px solid rgba(212, 175, 55, 0.13);
+      border: 1px solid rgba(212,175,55,.13);
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.28);
+      background: rgba(0,0,0,.28);
     }
 
     .tab-button {
@@ -403,11 +291,8 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1.1px;
-      font-size: 0.65rem;
+      font-size: .65rem;
       font-weight: 900;
-      transition:
-        background 0.25s ease,
-        color 0.25s ease;
     }
 
     .tab-button.active {
@@ -429,7 +314,7 @@
       color: var(--soft);
       text-transform: uppercase;
       letter-spacing: 1.1px;
-      font-size: 0.66rem;
+      font-size: .66rem;
       font-weight: 800;
     }
 
@@ -437,50 +322,123 @@
       width: 100%;
       min-height: 52px;
       padding: 0 16px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
+      border: 1px solid rgba(212,175,55,.16);
       border-radius: 15px;
       outline: none;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0,0,0,.35);
       color: var(--white);
-      transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+      transition: border-color .25s ease, box-shadow .25s ease;
     }
 
     .field input:focus {
-      border-color: rgba(212, 175, 55, 0.65);
-      box-shadow:
-        0 0 0 4px rgba(212, 175, 55, 0.08);
+      border-color: rgba(212,175,55,.65);
+      box-shadow: 0 0 0 4px rgba(212,175,55,.08);
     }
 
     .field input[readonly] {
       color: var(--gold-light);
       cursor: not-allowed;
-      background: rgba(212, 175, 55, 0.045);
+      background: rgba(212,175,55,.045);
     }
 
     .field-note {
-      color: rgba(248, 243, 231, 0.5);
-      font-size: 0.68rem;
+      color: rgba(248,243,231,.5);
+      font-size: .68rem;
       line-height: 1.5;
     }
 
-    .consent {
+    .confirmations {
       display: grid;
-      grid-template-columns: 20px 1fr;
-      gap: 11px;
-      align-items: start;
-      margin: 4px 0;
-      color: var(--muted);
-      font-size: 0.73rem;
-      line-height: 1.55;
+      gap: 10px;
+      margin-top: 3px;
     }
 
-    .consent input {
-      width: 17px;
-      height: 17px;
-      margin-top: 2px;
-      accent-color: var(--gold);
+    .confirmation-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 66px;
+      padding: 13px 14px;
+      border: 1px solid rgba(212,175,55,.14);
+      border-radius: 16px;
+      background: rgba(255,255,255,.018);
+      cursor: pointer;
+      user-select: none;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .confirmation-row:hover {
+      border-color: rgba(212,175,55,.34);
+      background: rgba(212,175,55,.035);
+      transform: translateY(-1px);
+    }
+
+    .confirmation-row:has(input:checked) {
+      border-color: rgba(118,224,155,.34);
+      background: rgba(118,224,155,.045);
+    }
+
+    .confirmation-row input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .check-ui {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(212,175,55,.4);
+      border-radius: 9px;
+      background: rgba(0,0,0,.4);
+      color: transparent;
+      font-size: .9rem;
+      font-weight: 900;
+      transition: all .2s ease;
+    }
+
+    .confirmation-row:has(input:checked) .check-ui {
+      border-color: var(--success);
+      background: var(--success);
+      color: #041007;
+      box-shadow: 0 0 18px rgba(118,224,155,.2);
+    }
+
+    .confirmation-copy strong {
+      display: block;
+      color: var(--white);
+      font-size: .7rem;
+      letter-spacing: .35px;
+      line-height: 1.45;
+    }
+
+    .confirmation-copy span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .66rem;
+      line-height: 1.5;
+    }
+
+    .confirmation-copy a {
+      color: var(--gold-light);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 800;
+    }
+
+    .confirmation-progress {
+      min-height: 20px;
+      color: var(--muted);
+      font-size: .64rem;
+      line-height: 1.45;
+    }
+
+    .confirmation-progress.ready {
+      color: var(--success);
     }
 
     .button {
@@ -493,41 +451,33 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1.25px;
-      font-size: 0.7rem;
+      font-size: .7rem;
       font-weight: 900;
-      transition:
-        transform 0.3s var(--ease),
-        box-shadow 0.3s ease,
-        opacity 0.25s ease;
+      transition: transform .3s var(--ease), box-shadow .3s ease, opacity .25s ease;
     }
 
     .button-primary {
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold),
-          var(--gold-light)
-        );
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
       color: var(--black);
-      box-shadow:
-        0 18px 45px rgba(212, 175, 55, 0.16);
+      box-shadow: 0 18px 45px rgba(212,175,55,.16);
     }
 
     .button-outline {
-      border: 1px solid rgba(212, 175, 55, 0.27);
-      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212,175,55,.27);
+      background: rgba(255,255,255,.025);
       color: var(--white);
     }
 
     .button:hover:not(:disabled) {
       transform: translateY(-3px);
-      box-shadow:
-        0 23px 52px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 23px 52px rgba(212,175,55,.2);
     }
 
     .button:disabled {
-      cursor: wait;
-      opacity: 0.62;
+      cursor: not-allowed;
+      opacity: .38;
+      transform: none;
+      box-shadow: none;
     }
 
     .message {
@@ -535,29 +485,27 @@
       margin-bottom: 19px;
       padding: 15px 16px;
       border-radius: 15px;
-      font-size: 0.78rem;
+      font-size: .78rem;
       line-height: 1.55;
     }
 
-    .message.show {
-      display: block;
-    }
+    .message.show { display: block; }
 
     .message-info {
-      border: 1px solid rgba(212, 175, 55, 0.21);
-      background: rgba(212, 175, 55, 0.055);
+      border: 1px solid rgba(212,175,55,.21);
+      background: rgba(212,175,55,.055);
       color: var(--gold-light);
     }
 
     .message-error {
-      border: 1px solid rgba(255, 138, 138, 0.25);
-      background: rgba(255, 138, 138, 0.06);
+      border: 1px solid rgba(255,138,138,.25);
+      background: rgba(255,138,138,.06);
       color: #ffc2c2;
     }
 
     .message-success {
-      border: 1px solid rgba(118, 224, 155, 0.25);
-      background: rgba(118, 224, 155, 0.06);
+      border: 1px solid rgba(118,224,155,.25);
+      background: rgba(118,224,155,.06);
       color: #bdf4cf;
     }
 
@@ -578,17 +526,13 @@
       width: 46px;
       height: 46px;
       margin: 0 auto 22px;
-      border: 3px solid rgba(212, 175, 55, 0.15);
+      border: 3px solid rgba(212,175,55,.15);
       border-top-color: var(--gold);
       border-radius: 50%;
-      animation: spin 0.85s linear infinite;
+      animation: spin .85s linear infinite;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .state-icon {
       width: 68px;
@@ -596,9 +540,9 @@
       display: grid;
       place-items: center;
       margin: 0 auto 22px;
-      border: 1px solid rgba(212, 175, 55, 0.3);
+      border: 1px solid rgba(212,175,55,.3);
       border-radius: 50%;
-      background: rgba(212, 175, 55, 0.08);
+      background: rgba(212,175,55,.08);
       color: var(--gold);
       font-family: "Playfair Display", serif;
       font-size: 2rem;
@@ -608,9 +552,9 @@
     .result-state h2,
     .loading-state h2 {
       font-family: "Playfair Display", serif;
-      font-size: clamp(2.7rem, 5vw, 4.7rem);
-      line-height: 0.9;
-      letter-spacing: -0.05em;
+      font-size: clamp(2.7rem,5vw,4.7rem);
+      line-height: .9;
+      letter-spacing: -.05em;
       text-transform: uppercase;
     }
 
@@ -619,28 +563,20 @@
       max-width: 430px;
       margin: 17px auto 0;
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: .86rem;
       line-height: 1.7;
     }
 
     .result-actions {
       display: grid;
       gap: 11px;
-      width: min(100%, 360px);
+      width: min(100%,360px);
       margin: 27px auto 0;
     }
 
-    .auth-content {
-      display: none;
-    }
-
-    .auth-content.active {
-      display: block;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .auth-content { display: none; }
+    .auth-content.active { display: block; }
+    .hidden { display: none !important; }
 
     footer {
       width: min(1280px, calc(100% - 40px));
@@ -652,7 +588,7 @@
       flex-wrap: wrap;
       border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: .72rem;
     }
 
     footer strong {
@@ -661,68 +597,42 @@
       letter-spacing: 1px;
     }
 
-    @media (max-width: 1000px) {
-      .main {
-        grid-template-columns: 1fr;
-      }
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-      .auth-shell {
-        max-width: 720px;
-        width: 100%;
-      }
+    .footer-links a:hover {
+      color: var(--gold-light);
+    }
+
+    @media (max-width: 1000px) {
+      .main { grid-template-columns: 1fr; }
+      .auth-shell { max-width: 720px; width: 100%; }
     }
 
     @media (max-width: 650px) {
-      .topbar {
-        min-height: 80px;
-      }
-
-      .brand-copy {
-        display: none;
-      }
-
-      .brand img {
-        width: 52px;
-        height: 52px;
-      }
-
-      .main {
-        width: min(100% - 28px, 1280px);
-        padding: 52px 0;
-      }
-
-      h1 {
-        font-size: clamp(4rem, 21vw, 6.5rem);
-      }
-
-      .benefits {
-        grid-template-columns: 1fr;
-      }
-
-      .auth-shell {
-        padding: 8px;
-        border-radius: 27px;
-      }
-
-      .auth-card {
-        min-height: 560px;
-        padding: 24px 18px;
-        border-radius: 21px;
-      }
-
-      footer {
-        width: min(100% - 28px, 1280px);
-        flex-direction: column;
-      }
+      .topbar { min-height: 80px; }
+      .brand-copy { display: none; }
+      .brand img { width: 52px; height: 52px; }
+      .main { width: min(100% - 28px,1280px); padding: 52px 0; }
+      h1 { font-size: clamp(4rem,21vw,6.5rem); }
+      .benefits { grid-template-columns: 1fr; }
+      .auth-shell { padding: 8px; border-radius: 27px; }
+      .auth-card { min-height: 560px; padding: 24px 18px; border-radius: 21px; }
+      footer { width: min(100% - 28px,1280px); flex-direction: column; }
+      .confirmation-row { grid-template-columns: 30px 1fr; padding: 12px; }
+      .check-ui { width: 26px; height: 26px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
-        animation-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: .01ms !important;
       }
     }
   </style>
@@ -732,38 +642,21 @@
   <div class="grain"></div>
 
   <div class="page">
-
     <header class="topbar">
-      <a
-        class="brand"
-        href="/"
-        aria-label="Return to JT Mind and Body Balance"
-      >
-        <img
-          src="images/logo.jpeg"
-          alt="JT Mind and Body Balance logo"
-        >
-
+      <a class="brand" href="/" aria-label="Return to JT Mind and Body Balance">
+        <img src="images/logo.jpeg" alt="JT Mind and Body Balance logo">
         <span class="brand-copy">
           <strong>JT Performance Hub</strong>
           <span>One Mind. One Body. One Mission.</span>
         </span>
       </a>
 
-      <a
-        class="website-link"
-        href="/"
-      >
-        Return to website
-      </a>
+      <a class="website-link" href="/">Return to website</a>
     </header>
 
     <main class="main">
-
       <section>
-        <div class="eyebrow">
-          Secure Member Registration
-        </div>
+        <div class="eyebrow">Secure Member Registration</div>
 
         <h1>
           Build Your
@@ -771,307 +664,159 @@
         </h1>
 
         <p class="intro">
-          Create the secure account that will connect your subscription
-          to your personal JT Performance Hub. Your training, nutrition,
-          mindset support and football development will all live here.
+          Create the secure account that will connect your subscription to your personal JT Performance Hub. Your training, nutrition, mindset support and football development will all live here.
         </p>
 
         <div class="benefits">
           <div class="benefit">
             <strong>Personal Dashboard</strong>
-            <span>
-              Your football profile, goals, current focus and progress.
-            </span>
+            <span>Your football profile, goals, current focus and progress.</span>
           </div>
 
           <div class="benefit">
             <strong>JT AI Performance Coach</strong>
-            <span>
-              Support with training, preparation, recovery and mindset.
-            </span>
+            <span>Support with training, preparation, recovery and mindset.</span>
           </div>
 
           <div class="benefit">
             <strong>Parent-Supported</strong>
-            <span>
-              Young-player profiles can be managed safely by a parent.
-            </span>
+            <span>Young-player profiles can be managed safely by a parent.</span>
           </div>
 
           <div class="benefit">
             <strong>Private and Secure</strong>
-            <span>
-              Your account is connected only to your verified membership.
-            </span>
+            <span>Your account is connected only to your verified membership.</span>
           </div>
         </div>
       </section>
 
-      <section
-        class="auth-shell"
-        aria-label="JT Performance Hub account registration"
-      >
+      <section class="auth-shell" aria-label="JT Performance Hub account registration">
         <div class="auth-card">
-
-          <!-- CHECKING STRIPE REGISTRATION -->
-          <div
-            class="loading-state active"
-            id="loadingState"
-          >
+          <div class="loading-state active" id="loadingState">
             <div>
               <div class="spinner"></div>
-
-              <h2>
-                Verifying Registration.
-              </h2>
-
-              <p>
-                We are securely checking your JT Performance Hub
-                subscription before creating your account.
-              </p>
+              <h2>Verifying Registration.</h2>
+              <p>We are securely checking your JT Performance Hub subscription before creating your account.</p>
             </div>
           </div>
 
-          <!-- CREATE ACCOUNT / SIGN IN -->
-          <div
-            class="auth-content"
-            id="authContent"
-          >
+          <div class="auth-content" id="authContent">
             <div class="card-header">
-              <div class="card-status">
-                Registration verified
-              </div>
-
-              <h2>
-                Secure Your Place.
-              </h2>
-
-              <p>
-                Create a new account or sign in if you already have
-                a JT Performance Hub login.
-              </p>
+              <div class="card-status">Registration verified</div>
+              <h2>Secure Your Place.</h2>
+              <p>Create a new account or sign in if you already have a JT Performance Hub login.</p>
             </div>
 
-            <div
-              class="message"
-              id="formMessage"
-              role="alert"
-            ></div>
+            <div class="message" id="formMessage" role="alert"></div>
 
             <div class="tabs">
-              <button
-                class="tab-button active"
-                id="createTab"
-                type="button"
-              >
-                Create account
-              </button>
-
-              <button
-                class="tab-button"
-                id="signInTab"
-                type="button"
-              >
-                Sign in
-              </button>
+              <button class="tab-button active" id="createTab" type="button">Create account</button>
+              <button class="tab-button" id="signInTab" type="button">Sign in</button>
             </div>
 
-            <!-- CREATE ACCOUNT FORM -->
-            <form
-              class="form"
-              id="createForm"
-              novalidate
-            >
+            <form class="form" id="createForm" novalidate>
               <div class="field">
-                <label for="firstName">
-                  Account holder’s first name
-                </label>
-
-                <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  autocomplete="given-name"
-                  maxlength="60"
-                  required
-                >
+                <label for="firstName">Account holder’s first name</label>
+                <input id="firstName" name="firstName" type="text" autocomplete="given-name" maxlength="60" required>
               </div>
 
               <div class="field">
-                <label for="createEmail">
-                  Checkout email
-                </label>
-
-                <input
-                  id="createEmail"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  readonly
-                  required
-                >
-
-                <span class="field-note">
-                  For security, this must match the email used at checkout.
-                </span>
+                <label for="createEmail">Checkout email</label>
+                <input id="createEmail" name="email" type="email" autocomplete="email" readonly required>
+                <span class="field-note">For security, this must match the email used at checkout.</span>
               </div>
 
               <div class="field">
-                <label for="createPassword">
-                  Create password
-                </label>
-
-                <input
-                  id="createPassword"
-                  name="password"
-                  type="password"
-                  autocomplete="new-password"
-                  minlength="10"
-                  required
-                >
-
-                <span class="field-note">
-                  Use at least 10 characters and avoid reusing an old password.
-                </span>
+                <label for="createPassword">Create password</label>
+                <input id="createPassword" name="password" type="password" autocomplete="new-password" minlength="10" required>
+                <span class="field-note">Use at least 10 characters and avoid reusing an old password.</span>
               </div>
 
               <div class="field">
-                <label for="confirmPassword">
-                  Confirm password
-                </label>
-
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  minlength="10"
-                  required
-                >
+                <label for="confirmPassword">Confirm password</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" required>
               </div>
 
-              <label class="consent">
-                <input
-                  id="adultConsent"
-                  type="checkbox"
-                  required
-                >
+              <div class="confirmations" aria-label="Required confirmations">
+                <label class="confirmation-row" for="adultConsent">
+                  <input id="adultConsent" type="checkbox" required>
+                  <span class="check-ui" aria-hidden="true">✓</span>
+                  <span class="confirmation-copy">
+                    <strong>Adult / parent confirmation</strong>
+                    <span>I confirm I am 18 or over. If this membership is for a young player, I am their parent or legal guardian and will manage the account.</span>
+                  </span>
+                </label>
 
-                <span>
-                  I confirm that I am aged 18 or over. Where this
-                  membership is for a young player, I am their parent
-                  or legal guardian and will manage the account.
-                </span>
-              </label>
+                <label class="confirmation-row" for="legalConsent">
+                  <input id="legalConsent" type="checkbox" required>
+                  <span class="check-ui" aria-hidden="true">✓</span>
+                  <span class="confirmation-copy">
+                    <strong>Terms &amp; privacy</strong>
+                    <span>
+                      I agree to the
+                      <a class="legal-link" href="/terms.html" target="_blank" rel="noopener">Terms of Membership</a>
+                      and acknowledge that I have had the opportunity to read the
+                      <a class="legal-link" href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+                    </span>
+                  </span>
+                </label>
+              </div>
 
-              <button
-                class="button button-primary"
-                id="createButton"
-                type="submit"
-              >
+              <div class="confirmation-progress" id="confirmationProgress" aria-live="polite">
+                Tick both confirmations to continue.
+              </div>
+
+              <button class="button button-primary" id="createButton" type="submit" disabled>
                 Create secure account
               </button>
             </form>
 
-            <!-- SIGN-IN FORM -->
-            <form
-              class="form hidden"
-              id="signInForm"
-              novalidate
-            >
+            <form class="form hidden" id="signInForm" novalidate>
               <div class="field">
-                <label for="signInEmail">
-                  Checkout email
-                </label>
-
-                <input
-                  id="signInEmail"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  readonly
-                  required
-                >
+                <label for="signInEmail">Checkout email</label>
+                <input id="signInEmail" name="email" type="email" autocomplete="email" readonly required>
               </div>
 
               <div class="field">
-                <label for="signInPassword">
-                  Password
-                </label>
-
-                <input
-                  id="signInPassword"
-                  name="password"
-                  type="password"
-                  autocomplete="current-password"
-                  required
-                >
+                <label for="signInPassword">Password</label>
+                <input id="signInPassword" name="password" type="password" autocomplete="current-password" required>
               </div>
 
-              <button
-                class="button button-primary"
-                id="signInButton"
-                type="submit"
-              >
+              <button class="button button-primary" id="signInButton" type="submit">
                 Sign in and connect membership
               </button>
             </form>
           </div>
 
-          <!-- RESULT / ERROR STATE -->
-          <div
-            class="result-state"
-            id="resultState"
-          >
+          <div class="result-state" id="resultState">
             <div>
-              <div
-                class="state-icon"
-                id="resultIcon"
-              >
-                JT
-              </div>
-
-              <h2 id="resultTitle">
-                Account Created.
-              </h2>
-
+              <div class="state-icon" id="resultIcon">JT</div>
+              <h2 id="resultTitle">Account Created.</h2>
               <p id="resultText"></p>
-
-              <div
-                class="result-actions"
-                id="resultActions"
-              ></div>
+              <div class="result-actions" id="resultActions"></div>
             </div>
           </div>
-
         </div>
       </section>
-
     </main>
 
     <footer>
-      <div>
-        <strong>JT Mind & Body Balance</strong>
+      <div><strong>JT Mind &amp; Body Balance</strong></div>
+
+      <div class="footer-links">
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="mailto:info@jtmindbodybalance.com">Support</a>
       </div>
 
-      <div>
-        Football • Gym • Nutrition • Mentoring
-      </div>
-
-      <div>
-        Bristol, United Kingdom
-      </div>
+      <div>Bristol, United Kingdom</div>
     </footer>
   </div>
 
   <script type="module">
-    import {
-      createClient
-    } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    const SUPABASE_URL =
-      "https://hunrekcnmtabowiivmrk.supabase.co";
-
+    const SUPABASE_URL = "https://hunrekcnmtabowiivmrk.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
 
@@ -1087,53 +832,26 @@
       }
     );
 
-    const loadingState =
-      document.getElementById("loadingState");
-
-    const authContent =
-      document.getElementById("authContent");
-
-    const resultState =
-      document.getElementById("resultState");
-
-    const resultIcon =
-      document.getElementById("resultIcon");
-
-    const resultTitle =
-      document.getElementById("resultTitle");
-
-    const resultText =
-      document.getElementById("resultText");
-
-    const resultActions =
-      document.getElementById("resultActions");
-
-    const formMessage =
-      document.getElementById("formMessage");
-
-    const createTab =
-      document.getElementById("createTab");
-
-    const signInTab =
-      document.getElementById("signInTab");
-
-    const createForm =
-      document.getElementById("createForm");
-
-    const signInForm =
-      document.getElementById("signInForm");
-
-    const createEmail =
-      document.getElementById("createEmail");
-
-    const signInEmail =
-      document.getElementById("signInEmail");
-
-    const createButton =
-      document.getElementById("createButton");
-
-    const signInButton =
-      document.getElementById("signInButton");
+    const loadingState = document.getElementById("loadingState");
+    const authContent = document.getElementById("authContent");
+    const resultState = document.getElementById("resultState");
+    const resultIcon = document.getElementById("resultIcon");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText = document.getElementById("resultText");
+    const resultActions = document.getElementById("resultActions");
+    const formMessage = document.getElementById("formMessage");
+    const createTab = document.getElementById("createTab");
+    const signInTab = document.getElementById("signInTab");
+    const createForm = document.getElementById("createForm");
+    const signInForm = document.getElementById("signInForm");
+    const createEmail = document.getElementById("createEmail");
+    const signInEmail = document.getElementById("signInEmail");
+    const createButton = document.getElementById("createButton");
+    const signInButton = document.getElementById("signInButton");
+    const adultConsent = document.getElementById("adultConsent");
+    const legalConsent = document.getElementById("legalConsent");
+    const confirmationProgress =
+      document.getElementById("confirmationProgress");
 
     const query =
       new URLSearchParams(window.location.search);
@@ -1142,6 +860,7 @@
       (query.get("session_id") || "").trim();
 
     let verifiedCheckoutEmail = "";
+    let createIsLoading = false;
 
     function normaliseEmail(value) {
       return typeof value === "string"
@@ -1149,21 +868,11 @@
         : "";
     }
 
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
     function setFormMessage(
       message = "",
       type = "info"
     ) {
       formMessage.textContent = message;
-
       formMessage.className =
         `message message-${type}`;
 
@@ -1176,7 +885,6 @@
       loadingState.classList.remove("active");
       authContent.classList.remove("active");
       resultState.classList.remove("active");
-
       element.classList.add("active");
     }
 
@@ -1192,7 +900,8 @@
       resultActions.innerHTML = "";
 
       for (const action of actions) {
-        const link = document.createElement("a");
+        const link =
+          document.createElement("a");
 
         link.className =
           action.primary
@@ -1201,7 +910,6 @@
 
         link.href = action.href;
         link.textContent = action.label;
-
         resultActions.appendChild(link);
       }
 
@@ -1214,13 +922,72 @@
       normalText,
       loadingText
     ) {
-      button.disabled = loading;
       button.textContent =
         loading ? loadingText : normalText;
+
+      if (button === createButton) {
+        createIsLoading = loading;
+        updateConfirmationState();
+      } else {
+        button.disabled = loading;
+      }
     }
 
+    function updateConfirmationState() {
+      const adultOkay =
+        adultConsent.checked;
+
+      const legalOkay =
+        legalConsent.checked;
+
+      const count =
+        Number(adultOkay) +
+        Number(legalOkay);
+
+      const ready =
+        adultOkay && legalOkay;
+
+      createButton.disabled =
+        createIsLoading || !ready;
+
+      confirmationProgress
+        .classList
+        .toggle("ready", ready);
+
+      if (ready) {
+        confirmationProgress.textContent =
+          "✓ Both confirmations complete — you can create your account.";
+      } else if (count === 1) {
+        confirmationProgress.textContent =
+          "1 of 2 confirmed — one more tick to continue.";
+      } else {
+        confirmationProgress.textContent =
+          "Tick both confirmations to continue.";
+      }
+    }
+
+    adultConsent.addEventListener(
+      "change",
+      updateConfirmationState
+    );
+
+    legalConsent.addEventListener(
+      "change",
+      updateConfirmationState
+    );
+
+    document
+      .querySelectorAll(".legal-link")
+      .forEach((link) => {
+        link.addEventListener(
+          "click",
+          (event) => event.stopPropagation()
+        );
+      });
+
     function switchTab(tab) {
-      const creating = tab === "create";
+      const creating =
+        tab === "create";
 
       createTab.classList.toggle(
         "active",
@@ -1265,19 +1032,24 @@
         );
       }
 
-      const response = await fetch(
-        `/api/verify-checkout?session_id=${encodeURIComponent(
-          sessionId
-        )}`,
-        {
-          method: "GET",
-          cache: "no-store"
-        }
-      );
+      const response =
+        await fetch(
+          `/api/verify-checkout?session_id=${encodeURIComponent(
+            sessionId
+          )}`,
+          {
+            method: "GET",
+            cache: "no-store"
+          }
+        );
 
-      const body = await response.json();
+      const body =
+        await response.json();
 
-      if (!response.ok || !body?.verified) {
+      if (
+        !response.ok ||
+        !body?.verified
+      ) {
         throw new Error(
           body?.error ||
           "This JT Performance Hub registration could not be verified."
@@ -1304,7 +1076,8 @@
       const {
         data: sessionData,
         error: sessionError
-      } = await supabase.auth.getSession();
+      } =
+        await supabase.auth.getSession();
 
       if (
         sessionError ||
@@ -1316,7 +1089,8 @@
       const {
         data: userData,
         error: userError
-      } = await supabase.auth.getUser();
+      } =
+        await supabase.auth.getUser();
 
       if (
         userError ||
@@ -1332,23 +1106,25 @@
     }
 
     async function claimMembership(session) {
-      const response = await fetch(
-        "/api/claim-membership",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Authorization:
-              `Bearer ${session.access_token}`
-          },
-          body: JSON.stringify({
-            session_id: sessionId
-          })
-        }
-      );
+      const response =
+        await fetch(
+          "/api/claim-membership",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+              Authorization:
+                `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify({
+              session_id: sessionId
+            })
+          }
+        );
 
-      const body = await response.json();
+      const body =
+        await response.json();
 
       if (
         !response.ok ||
@@ -1366,11 +1142,13 @@
         text:
           "Your secure JT Performance Hub account is active. The next step is building your personal player profile.",
         actions: [
-         {
-  label: "Build Player Profile",
-  href: "/performance-hub-profile.html",
-  primary: true
-}
+          {
+            label:
+              "Build Player Profile",
+            href:
+              "/performance-hub-profile.html",
+            primary: true
+          }
         ]
       });
     }
@@ -1389,7 +1167,8 @@
         );
 
       if (
-        userEmail !== verifiedCheckoutEmail
+        userEmail !==
+        verifiedCheckoutEmail
       ) {
         await supabase.auth.signOut();
 
@@ -1402,7 +1181,8 @@
       }
 
       if (
-        !authenticated.user.email_confirmed_at
+        !authenticated.user
+          .email_confirmed_at
       ) {
         showResult({
           icon: "✉",
@@ -1411,7 +1191,8 @@
             "Open the confirmation email from JT Performance Hub. After confirming, you will return here and your membership will connect automatically.",
           actions: [
             {
-              label: "Return to JT website",
+              label:
+                "Return to JT website",
               href: "/",
               primary: false
             }
@@ -1444,25 +1225,23 @@
 
         const password =
           document
-            .getElementById("createPassword")
+            .getElementById(
+              "createPassword"
+            )
             .value;
 
         const confirmPassword =
           document
-            .getElementById("confirmPassword")
+            .getElementById(
+              "confirmPassword"
+            )
             .value;
-
-        const adultConsent =
-          document
-            .getElementById("adultConsent")
-            .checked;
 
         if (!firstName) {
           setFormMessage(
             "Enter the account holder’s first name.",
             "error"
           );
-
           return;
         }
 
@@ -1471,25 +1250,29 @@
             "Your password must contain at least 10 characters.",
             "error"
           );
-
           return;
         }
 
-        if (password !== confirmPassword) {
+        if (
+          password !==
+          confirmPassword
+        ) {
           setFormMessage(
             "The two passwords do not match.",
             "error"
           );
-
           return;
         }
 
-        if (!adultConsent) {
+        if (
+          !adultConsent.checked ||
+          !legalConsent.checked
+        ) {
           setFormMessage(
-            "The account must be created by an adult account holder.",
+            "Tick both required confirmations before creating the account.",
             "error"
           );
-
+          updateConfirmationState();
           return;
         }
 
@@ -1508,22 +1291,34 @@
               sessionId
             )}`;
 
+          const acceptedAt =
+            new Date().toISOString();
+
           const {
             data,
             error
-          } = await supabase.auth.signUp({
-            email:
-              verifiedCheckoutEmail,
-            password,
-            options: {
-              emailRedirectTo:
-                redirectUrl,
-              data: {
-                first_name:
-                  firstName
+          } =
+            await supabase.auth.signUp({
+              email:
+                verifiedCheckoutEmail,
+              password,
+              options: {
+                emailRedirectTo:
+                  redirectUrl,
+                data: {
+                  first_name:
+                    firstName,
+                  adult_guardian_confirmed:
+                    true,
+                  legal_terms_accepted:
+                    true,
+                  terms_accepted_at:
+                    acceptedAt,
+                  privacy_acknowledged_at:
+                    acceptedAt
+                }
               }
-            }
-          });
+            });
 
           if (error) {
             throw error;
@@ -1533,7 +1328,6 @@
             await claimMembership(
               data.session
             );
-
             return;
           }
 
@@ -1544,13 +1338,15 @@
               `We sent a secure confirmation link to ${verifiedCheckoutEmail}. Open that email to verify the account and connect the membership.`,
             actions: [
               {
-                label: "Open email then return here",
+                label:
+                  "Open email then return here",
                 href:
                   window.location.href,
                 primary: true
               },
               {
-                label: "Return to JT website",
+                label:
+                  "Return to JT website",
                 href: "/",
                 primary: false
               }
@@ -1586,7 +1382,9 @@
 
         const password =
           document
-            .getElementById("signInPassword")
+            .getElementById(
+              "signInPassword"
+            )
             .value;
 
         if (!password) {
@@ -1594,7 +1392,6 @@
             "Enter your password.",
             "error"
           );
-
           return;
         }
 
@@ -1631,7 +1428,8 @@
           }
 
           if (
-            !data.user.email_confirmed_at
+            !data.user
+              .email_confirmed_at
           ) {
             throw new Error(
               "Confirm your email before connecting the membership."
@@ -1669,6 +1467,8 @@
 
     async function initialisePage() {
       try {
+        updateConfirmationState();
+
         await verifyCheckout();
 
         const sessionHandled =
@@ -1685,18 +1485,22 @@
 
         showResult({
           icon: "!",
-          title: "Registration Not Verified.",
+          title:
+            "Registration Not Verified.",
           text:
             error?.message ||
             "We could not verify this registration.",
           actions: [
             {
-              label: "Start a new free trial",
-              href: "/#performance-hub",
+              label:
+                "Start a new free trial",
+              href:
+                "/#performance-hub",
               primary: true
             },
             {
-              label: "Return to JT website",
+              label:
+                "Return to JT website",
               href: "/",
               primary: false
             }
