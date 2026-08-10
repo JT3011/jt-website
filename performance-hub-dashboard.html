@@ -1492,47 +1492,47 @@
     }
 
     .avatar-dashboard-card {
-  position: relative;
-  padding: 0;
-  isolation: isolate;
-  background: #070707;
-}
+      position: relative;
+      padding: 0;
+      isolation: isolate;
+      background: #070707;
+    }
 
-.avatar-dashboard-card::before {
-  display: none;
-}
+    .avatar-dashboard-card::before {
+      display: none;
+    }
 
-.dashboard-avatar-frame {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #070707;
-  pointer-events: none;
-}
+    .dashboard-avatar-frame {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #070707;
+      pointer-events: none;
+    }
 
-.avatar-card-link {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
+    .avatar-card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
 
-.avatar-dashboard-footer {
-  z-index: 3;
-  padding: 15px 18px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 14px;
-  background: rgba(4, 4, 4, 0.82);
-  backdrop-filter: blur(14px);
-  pointer-events: auto;
-}
+    .avatar-dashboard-footer {
+      z-index: 3;
+      padding: 15px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      background: rgba(4, 4, 4, 0.82);
+      backdrop-filter: blur(14px);
+      pointer-events: auto;
+    }
 
-.avatar-dashboard-footer .locker-link {
-  position: relative;
-  z-index: 4;
-}
+    .avatar-dashboard-footer .locker-link {
+      position: relative;
+      z-index: 4;
+    }
   </style>
 </head>
 
@@ -1680,8 +1680,7 @@
               </span>
             </h1>
 
-            <p class="hero-intro">
-            </p>
+            <p class="hero-intro"></p>
 
             <div class="player-identity">
               <div class="identity-item">
@@ -1722,7 +1721,7 @@
                 class="primary-action"
                 href="/performance-hub-training.html"
               >
-                Enter Training Centre
+                Open Training
 
                 <span aria-hidden="true">
                   →
@@ -1739,33 +1738,33 @@
           </div>
 
           <aside
-  class="hero-locker avatar-dashboard-card"
-  aria-label="Your live 3D athlete preview"
->
-  <iframe
-    class="dashboard-avatar-frame"
-  src="/performance-hub-avatar-premium.html?embed=dashboard&v=readiness6"
-    title="Your live JT 3D athlete"
-    loading="eager"
-  ></iframe>
+            class="hero-locker avatar-dashboard-card"
+            aria-label="Your live 3D athlete preview"
+          >
+            <iframe
+              class="dashboard-avatar-frame"
+              src="/performance-hub-avatar-premium.html?embed=dashboard&v=readiness6"
+              title="Your live JT 3D athlete"
+              loading="eager"
+            ></iframe>
 
-  <a
-    class="avatar-card-link"
-    href="/performance-hub-avatar-premium.html"
-    aria-label="Open your full 3D athlete page"
-  ></a>
+            <a
+              class="avatar-card-link"
+              href="/performance-hub-avatar-premium.html"
+              aria-label="Open your full 3D athlete page"
+            ></a>
 
-  <div class="locker-bottom avatar-dashboard-footer">
-    <span>Live Athlete Readiness</span>
+            <div class="locker-bottom avatar-dashboard-footer">
+              <span>Live Athlete Readiness</span>
 
-    <a
-      class="locker-link"
-      href="/performance-hub-avatar-premium.html"
-    >
-      Open Athlete →
-    </a>
-  </div>
-</aside>
+              <a
+                class="locker-link"
+                href="/performance-hub-avatar-premium.html"
+              >
+                Open Athlete →
+              </a>
+            </div>
+          </aside>
         </section>
 
         <div class="overview-grid">
@@ -1948,15 +1947,17 @@
               </div>
 
               <h2>
-                Player
+                Performance
                 <span class="gold-text">
-                  Centres.
+                  Areas.
                 </span>
               </h2>
             </div>
           </div>
 
           <div class="centre-grid">
+
+            <!-- TRAINING -->
             <a
               class="centre-card featured span-7 training"
               href="/performance-hub-training.html"
@@ -1990,7 +1991,7 @@
                 </div>
 
                 <h3>
-                  Training Centre.
+                  Training.
                 </h3>
 
                 <p>
@@ -2000,7 +2001,7 @@
                 </p>
 
                 <div class="card-action">
-                  Enter Centre
+                  Open Training
 
                   <svg
                     viewBox="0 0 24 24"
@@ -2014,6 +2015,7 @@
               </div>
             </a>
 
+            <!-- AI COACH -->
             <a
               class="centre-card featured span-5 coach"
               href="/performance-hub-coach.html"
@@ -2081,6 +2083,7 @@
               </div>
             </a>
 
+            <!-- CHALLENGES -->
             <a
               class="centre-card span-4 challenge"
               href="/performance-hub-challenges.html"
@@ -2108,7 +2111,7 @@
                 </div>
 
                 <h3>
-                  Challenge Centre.
+                  Challenges.
                 </h3>
 
                 <p>
@@ -2131,6 +2134,7 @@
               </div>
             </a>
 
+            <!-- PROGRESS -->
             <a
               class="centre-card span-4 progress"
               href="/performance-hub-progress.html"
@@ -2160,7 +2164,7 @@
                 </div>
 
                 <h3>
-                  Progress Centre.
+                  Progress.
                 </h3>
 
                 <p>
@@ -2183,6 +2187,7 @@
               </div>
             </a>
 
+            <!-- MATCHDAY -->
             <a
               class="centre-card span-4 matchday"
               href="/performance-hub-matchday.html"
@@ -2218,7 +2223,7 @@
                 </div>
 
                 <h3>
-                  Matchday Centre.
+                  Matchday.
                 </h3>
 
                 <p>
@@ -2227,7 +2232,7 @@
                 </p>
 
                 <div class="card-action">
-                  Enter Matchday
+                  Open Matchday
 
                   <svg
                     viewBox="0 0 24 24"
@@ -2241,6 +2246,7 @@
               </div>
             </a>
 
+            <!-- RECOVERY -->
             <a
               class="centre-card span-3 recovery"
               href="/performance-hub-recovery.html"
@@ -2295,6 +2301,7 @@
               </div>
             </a>
 
+            <!-- NUTRITION -->
             <a
               class="centre-card span-3 nutrition"
               href="/performance-hub-nutrition.html"
@@ -2357,6 +2364,7 @@
               </div>
             </a>
 
+            <!-- MINDSET -->
             <a
               class="centre-card span-3 mindset"
               href="/performance-hub-mindset.html"
@@ -2415,6 +2423,7 @@
               </div>
             </a>
 
+            <!-- JOURNAL -->
             <a
               class="centre-card span-3 journal"
               href="/performance-hub-journal.html"
@@ -2446,7 +2455,7 @@
                 </div>
 
                 <h3>
-                  Player Journal.
+                  Journal.
                 </h3>
 
                 <p>
@@ -2468,77 +2477,78 @@
                 </div>
               </div>
             </a>
-            
+
+            <!-- REWARDS -->
             <a
-  class="centre-card featured"
-  href="/performance-hub-rewards.html"
-  style="
-    grid-column: 1 / -1;
-    --card-accent: #f3dc8d;
-    background:
-      linear-gradient(
-        120deg,
-        rgba(212, 175, 55, 0.11),
-        rgba(255, 255, 255, 0.018) 48%,
-        rgba(255, 255, 255, 0.006)
-      ),
-      #0d0d0d;
-  "
->
-  <div class="card-top">
-    <div class="centre-icon">
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          d="M4 10h16v10H4Z"
-        ></path>
+              class="centre-card featured"
+              href="/performance-hub-rewards.html"
+              style="
+                grid-column: 1 / -1;
+                --card-accent: #f3dc8d;
+                background:
+                  linear-gradient(
+                    120deg,
+                    rgba(212, 175, 55, 0.11),
+                    rgba(255, 255, 255, 0.018) 48%,
+                    rgba(255, 255, 255, 0.006)
+                  ),
+                  #0d0d0d;
+              "
+            >
+              <div class="card-top">
+                <div class="centre-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M4 10h16v10H4Z"
+                    ></path>
 
-        <path
-          d="M3 6h18v4H3ZM12 6v14"
-        ></path>
+                    <path
+                      d="M3 6h18v4H3ZM12 6v14"
+                    ></path>
 
-        <path
-          d="M12 6H8.5A2.5 2.5 0 1 1 11 3.5L12 6ZM12 6h3.5A2.5 2.5 0 1 0 13 3.5L12 6Z"
-        ></path>
-      </svg>
-    </div>
+                    <path
+                      d="M12 6H8.5A2.5 2.5 0 1 1 11 3.5L12 6ZM12 6h3.5A2.5 2.5 0 1 0 13 3.5L12 6Z"
+                    ></path>
+                  </svg>
+                </div>
 
-    <span class="card-number">
-      10
-    </span>
-  </div>
+                <span class="card-number">
+                  10
+                </span>
+              </div>
 
-  <div class="card-content">
-    <div class="card-kicker">
-      Earned Through Performance
-    </div>
+              <div class="card-content">
+                <div class="card-kicker">
+                  Earned Through Performance
+                </div>
 
-    <h3>
-      Official JT Reward Room.
-    </h3>
+                <h3>
+                  Rewards.
+                </h3>
 
-    <p>
-      Track your progress towards official JT clothing and
-      equipment, claim unlocked physical rewards and follow
-      each order through preparation, collection or dispatch.
-    </p>
+                <p>
+                  Track your progress towards official JT clothing and
+                  equipment, claim unlocked physical rewards and follow
+                  each order through preparation, collection or dispatch.
+                </p>
 
-    <div class="card-action">
-      Enter Reward Room
+                <div class="card-action">
+                  View Rewards
 
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          d="M5 12h14M13 6l6 6-6 6"
-        ></path>
-      </svg>
-    </div>
-  </div>
-</a>
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 12h14M13 6l6 6-6 6"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </a>
           </div>
         </section>
 
@@ -3267,11 +3277,20 @@
 
     initialiseDashboard();
   </script>
+
   <script
-  type="module"
-  src="/performance-hub-streak.js?v=2"
-></script>
-  <script type="module" src="/performance-hub-feedback.js"></script>
-  <script type="module" src="/performance-hub-support.js"></script>
+    type="module"
+    src="/performance-hub-streak.js?v=2"
+  ></script>
+
+  <script
+    type="module"
+    src="/performance-hub-feedback.js"
+  ></script>
+
+  <script
+    type="module"
+    src="/performance-hub-support.js"
+  ></script>
 </body>
 </html>
