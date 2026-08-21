@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JT Coach · Session Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#050505;--panel:#0b0b0b;--gold:#d4af37;--gold2:#f5e6b3;--white:#f8f3e7;--muted:#aaa69b;--line:rgba(212,175,55,.16);--whiteLine:rgba(255,255,255,.075);--ok:#78d99a;--danger:#ff9292;--shadow:0 30px 90px rgba(0,0,0,.5)}
+    *{box-sizing:border-box}html{background:var(--black)}body{margin:0;background:radial-gradient(circle at 80% 0,rgba(212,175,55,.12),transparent 32rem),var(--black);color:var(--white);font-family:Montserrat,sans-serif;min-height:100vh}button,input,textarea,select{font:inherit}.hidden{display:none!important}a{color:inherit;text-decoration:none}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.topbar-inner{width:min(1440px,calc(100% - 34px));min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px}.brand img{width:46px;height:46px;border-radius:14px;object-fit:cover;border:1px solid var(--line)}.brand strong{display:block;color:var(--gold);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase}.brand span{display:block;margin-top:5px;color:var(--muted);font-size:.63rem;text-transform:uppercase;letter-spacing:1px}
+    .top-actions{display:flex;gap:9px;align-items:center}.pill-btn{min-height:42px;padding:0 15px;border-radius:999px;border:1px solid var(--whiteLine);background:rgba(255,255,255,.02);color:var(--white);font-weight:900;font-size:.61rem;letter-spacing:.8px;text-transform:uppercase;cursor:pointer}.pill-btn.gold{border-color:rgba(212,175,55,.35);background:rgba(212,175,55,.08);color:var(--gold2)}
+    .main{width:min(1440px,calc(100% - 34px));margin:0 auto;padding:42px 0 70px}.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end;padding-bottom:30px;border-bottom:1px solid var(--line)}.eyebrow{color:var(--gold);font-size:.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+    h1,h2,h3{font-family:"Playfair Display",serif}.hero h1{margin:10px 0 0;font-size:clamp(3.2rem,7vw,7.5rem);line-height:.84;letter-spacing:-.055em;text-transform:uppercase}.hero h1 span{color:var(--gold)}.hero p{max-width:720px;margin:20px 0 0;color:var(--muted);line-height:1.75}
+    .date-chip{padding:16px 19px;border:1px solid var(--line);border-radius:18px;background:rgba(212,175,55,.045);text-align:right}.date-chip strong{display:block;color:var(--gold2);font-size:1rem}.date-chip span{display:block;margin-top:5px;color:var(--muted);font-size:.68rem}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 30px}.stat{padding:20px;border:1px solid var(--whiteLine);border-radius:20px;background:var(--panel)}.stat strong{display:block;font-family:"Playfair Display",serif;font-size:2.35rem;color:var(--gold2)}.stat span{color:var(--muted);font-size:.66rem;text-transform:uppercase;letter-spacing:1px;font-weight:800}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:32px 0 16px}.section-head h2{margin:6px 0 0;font-size:clamp(2rem,4vw,3.8rem);line-height:.9}.section-head p{margin:0;color:var(--muted);font-size:.75rem}
+    .session-list{display:grid;gap:11px}.session-card{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:18px;align-items:center;padding:19px;border:1px solid var(--whiteLine);border-radius:22px;background:linear-gradient(120deg,rgba(212,175,55,.035),rgba(255,255,255,.012)),var(--panel);transition:.25s}.session-card:hover{border-color:rgba(212,175,55,.28);transform:translateY(-2px)}
+    .session-time strong{display:block;font-family:"Playfair Display",serif;font-size:1.9rem;color:var(--gold2)}.session-time span{display:block;margin-top:3px;color:var(--muted);font-size:.61rem;text-transform:uppercase}.session-player h3{margin:0;font-size:1.65rem}.session-player p{margin:7px 0 0;color:var(--muted);font-size:.72rem;line-height:1.55}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.tag{padding:6px 9px;border:1px solid var(--whiteLine);border-radius:999px;color:#cfc8b8;font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px}.status{color:var(--gold2)}.status.completed{color:var(--ok)}
+    .open-session{min-height:42px;padding:0 15px;border-radius:999px;border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.07);color:var(--gold2);font-weight:900;font-size:.59rem;text-transform:uppercase;letter-spacing:.7px;cursor:pointer}
+    .empty{padding:34px;border:1px dashed rgba(212,175,55,.2);border-radius:22px;color:var(--muted);text-align:center;line-height:1.7}.panel{padding:22px;border:1px solid var(--whiteLine);border-radius:24px;background:var(--panel);box-shadow:var(--shadow)}
+    .search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}.field{display:grid;gap:7px}.field label{color:#cbc5b7;font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px}
+    input,textarea,select{width:100%;border:1px solid var(--whiteLine);border-radius:14px;background:#0e0e0e;color:var(--white);outline:none;padding:13px 14px}input:focus,textarea:focus,select:focus{border-color:rgba(212,175,55,.45);box-shadow:0 0 0 3px rgba(212,175,55,.055)}textarea{min-height:105px;resize:vertical;line-height:1.55}
+    .player-results{display:grid;gap:8px;margin-top:12px}.player-result{padding:14px;border:1px solid var(--whiteLine);border-radius:16px;background:#0c0c0c;display:flex;align-items:center;justify-content:space-between;gap:14px}.player-result strong{display:block}.player-result span{display:block;margin-top:5px;color:var(--muted);font-size:.67rem}.select-player{border:0;background:none;color:var(--gold);font-weight:900;cursor:pointer;text-transform:uppercase;font-size:.6rem}
+    .modal-backdrop{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px}.modal{width:min(820px,100%);max-height:92vh;overflow:auto;padding:25px;border:1px solid rgba(212,175,55,.25);border-radius:28px;background:#090909;box-shadow:0 40px 120px rgba(0,0,0,.8)}
+    .modal-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}.modal-head h2{margin:5px 0 0;font-size:2.5rem;line-height:.9}.close{width:42px;height:42px;border-radius:50%;border:1px solid var(--whiteLine);background:#111;color:var(--white);cursor:pointer}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ratings{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.rating-box{padding:12px;border:1px solid var(--whiteLine);border-radius:15px}.rating-box label{display:block;color:var(--muted);font-size:.56rem;text-transform:uppercase;font-weight:800;margin-bottom:7px}.rating-box select{padding:9px}
+    .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}.primary{min-height:45px;padding:0 18px;border:1px solid transparent;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505;font-weight:900;text-transform:uppercase;font-size:.61rem;letter-spacing:.7px;cursor:pointer}.secondary{min-height:45px;padding:0 18px;border:1px solid var(--whiteLine);border-radius:999px;background:#101010;color:var(--white);font-weight:900;text-transform:uppercase;font-size:.61rem;cursor:pointer}
+    .media-zone{margin-top:16px;padding:18px;border:1px solid var(--whiteLine);border-radius:18px;background:#0b0b0b}.media-zone input{padding:10px}.media-status{margin-top:9px;color:var(--muted);font-size:.65rem;line-height:1.5}.media-list{display:grid;gap:7px;margin-top:10px}.media-item{display:flex;justify-content:space-between;gap:12px;padding:10px;border:1px solid var(--whiteLine);border-radius:12px;color:#d5cebd;font-size:.67rem}
+    .toast{position:fixed;right:18px;bottom:18px;z-index:100;max-width:360px;padding:14px 16px;border:1px solid var(--line);border-radius:15px;background:#0c0c0c;color:var(--white);box-shadow:var(--shadow);font-size:.72rem;line-height:1.5}
+    @media(max-width:760px){.brand-copy{display:none}.top-actions a{display:none}.main{width:min(100% - 24px,1440px);padding-top:28px}.hero{grid-template-columns:1fr}.date-chip{text-align:left}.stats{grid-template-columns:1fr}.session-card{grid-template-columns:82px minmax(0,1fr)}.open-session{grid-column:1/-1;width:100%}.grid2,.ratings{grid-template-columns:1fr}.modal{padding:19px}.search-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+  <a class="brand" href="/performance-hub-coach-dashboard.html"><img src="images/logo.jpeg" alt="JT"><span class="brand-copy"><strong>JT Coach</strong><span>Session Connect</span></span></a>
+  <div class="top-actions"><a class="pill-btn" href="/performance-hub-dashboard.html">Player Hub</a><button class="pill-btn" id="signOut">Sign Out</button></div>
+</div></header>
+
+<main class="main">
+  <div id="loading" class="empty">Loading your coaching environment…</div>
+  <div id="app" class="hidden">
+    <section class="hero">
+      <div><div class="eyebrow">JT Session Connect</div><h1>Coach <span>Dashboard.</span></h1><p>Every session in one place. Open a player, record the work, upload clips and leave the next coach or parent with a clear development picture.</p></div>
+      <div class="date-chip"><strong id="coachName">JT Coach</strong><span id="todayLabel"></span></div>
+    </section>
+    <section class="stats"><div class="stat"><strong id="sessionCount">0</strong><span>Sessions Today</span></div><div class="stat"><strong id="completedCount">0</strong><span>Completed</span></div><div class="stat"><strong id="mediaCount">0</strong><span>Clips / Photos</span></div></section>
+    <div class="section-head"><div><div class="eyebrow">Today</div><h2>Your Sessions.</h2></div><button class="pill-btn gold" id="addSession">+ Add Session</button></div>
+    <section class="session-list" id="sessionList"></section>
+    <div class="section-head"><div><div class="eyebrow">Player Access</div><h2>Find A Player.</h2></div><p>Managers see every player. Coaches see assigned players.</p></div>
+    <section class="panel"><div class="search-row"><input id="playerSearch" placeholder="Search player name, position or level"><button class="pill-btn gold" id="searchPlayers">Search</button></div><div class="player-results" id="playerResults"></div></section>
+  </div>
+</main>
+
+<div class="modal-backdrop hidden" id="sessionModal"><div class="modal">
+  <div class="modal-head"><div><div class="eyebrow">Complete Session</div><h2 id="modalPlayerName">Player</h2></div><button class="close" data-close="sessionModal">×</button></div>
+  <div class="grid2"><div class="field"><label>Session focus</label><input id="focus" placeholder="e.g. Crossing + 1v1 attacking"></div><div class="field"><label>Next focus</label><input id="nextFocus" placeholder="e.g. Scan before receiving"></div></div>
+  <div class="field" style="margin-top:12px"><label>Coach feedback</label><textarea id="coachFeedback" placeholder="What improved? What needs attention? Keep it clear for player and parent."></textarea></div>
+  <div class="field" style="margin-top:12px"><label>Player homework / task</label><textarea id="homework" placeholder="Give one simple action to complete before the next session."></textarea></div>
+  <div class="eyebrow" style="margin:18px 0 9px">Development Ratings</div>
+  <div class="ratings">
+    <div class="rating-box"><label>Technical</label><select id="ratingTechnical"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    <div class="rating-box"><label>Decision Making</label><select id="ratingDecision"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    <div class="rating-box"><label>Intensity</label><select id="ratingIntensity"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    <div class="rating-box"><label>Confidence</label><select id="ratingConfidence"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+  </div>
+  <div class="media-zone"><div class="eyebrow">Session Media</div><p style="color:var(--muted);font-size:.7rem;line-height:1.6">Add videos or photos for the player/parent. Files stay inside private Hub storage.</p><input id="sessionMedia" type="file" accept="video/*,image/*" multiple><div class="media-status" id="mediaStatus"></div><div class="media-list" id="mediaList"></div></div>
+  <div class="modal-actions"><button class="secondary" data-close="sessionModal">Close</button><button class="primary" id="saveSession">Save Session</button></div>
+</div></div>
+
+<div class="modal-backdrop hidden" id="addModal"><div class="modal">
+  <div class="modal-head"><div><div class="eyebrow">Manual Session</div><h2>Add Session.</h2></div><button class="close" data-close="addModal">×</button></div>
+  <div class="field"><label>Selected player</label><input id="newPlayerName" readonly placeholder="Search and choose a player below"></div><input type="hidden" id="newPlayerId">
+  <div class="field" style="margin-top:12px"><label>Search player</label><input id="newPlayerSearch" placeholder="Start typing a player name"></div><div class="player-results" id="newPlayerResults"></div>
+  <div class="grid2" style="margin-top:12px"><div class="field"><label>Date & time</label><input id="newStart" type="datetime-local"></div><div class="field"><label>Duration</label><select id="newDuration"><option value="60">60 minutes</option><option value="45">45 minutes</option><option value="30">30 minutes</option><option value="90">90 minutes</option></select></div></div>
+  <div class="grid2" style="margin-top:12px"><div class="field"><label>Session type</label><input id="newType" value="1:1 Football"></div><div class="field"><label>Venue</label><input id="newVenue" value="Portway RDC"></div></div>
+  <div class="modal-actions"><button class="secondary" data-close="addModal">Cancel</button><button class="primary" id="createSession">Create Session</button></div>
+</div></div>
+
+<div class="toast hidden" id="toast"></div>
+<script type="module" src="/performance-hub-coach-dashboard.js"></script>
+</body>
+</html>
