@@ -1,5 +1,6 @@
 (() => {
   const HUB_LOGIN = "/performance-hub-login.html";
+  const HUB_FREE = "/performance-hub-free-signup.html";
   const HUB_TRIAL = "https://buy.stripe.com/fZucMYcQuaGx2OA3y56Vq05";
 
   function addStyles() {
@@ -223,7 +224,6 @@
         }
       }
 
-
       /* Mobile typography polish across the main JT website */
       @media (max-width: 760px) {
         .section-title {
@@ -375,7 +375,7 @@
       <div class="hub-refresh-inner">
         <div class="hub-refresh-eyebrow">JT Performance Hub</div>
 
-        <div class="hub-refresh-badge">30-Day Free Trial</div>
+        <div class="hub-refresh-badge">Free Account Available • Premium Trial Available</div>
 
         <h2 class="hub-refresh-title">
           Everything Your Game Needs.
@@ -383,21 +383,21 @@
         </h2>
 
         <p class="hub-refresh-intro">
-          A personalised football performance environment built around your position,
-          level and development goals. Train with purpose, prepare properly, recover smarter
-          and get support whenever you need it.
+          Start with a free player account to build habits, keep your profile and stay
+          connected to JT coach feedback. Upgrade the same account whenever you want the
+          complete personalised football-performance environment.
         </p>
 
         <div class="hub-refresh-proof" aria-label="Performance Hub highlights">
-          <span>Personalised to You</span>
-          <span>24/7 AI Performance Coach</span>
-          <span>Built for Footballers</span>
-          <span>Works on Mobile</span>
+          <span>Join Free — No Card</span>
+          <span>Coach Session Feedback</span>
+          <span>Performance Challenges</span>
+          <span>Upgrade Without Starting Over</span>
         </div>
 
         <div class="hub-refresh-divider"></div>
 
-        <div class="hub-refresh-included" aria-label="What's included">
+        <div class="hub-refresh-included" aria-label="Premium features">
           <div class="hub-refresh-item">
             <strong>Training</strong>
             <span>Position-specific plans and at-home development.</span>
@@ -427,23 +427,31 @@
         <div class="hub-refresh-actions">
           <a
             class="btn btn-primary"
-            href="${HUB_TRIAL}"
-            aria-label="Start your 30-day JT Performance Hub free trial"
+            href="${HUB_FREE}"
+            aria-label="Create your free JT Performance Hub player account"
           >
-            Start 30-Day Free Trial
+            Join Performance Hub Free
+          </a>
+
+          <a
+            class="btn btn-outline"
+            href="${HUB_TRIAL}"
+            aria-label="Start your 30-day JT Performance Hub Premium trial"
+          >
+            Start Premium Free Trial
           </a>
 
           <a
             class="btn btn-outline"
             href="${HUB_LOGIN}"
           >
-            Member Login
+            Player Login
           </a>
         </div>
 
         <p class="hub-refresh-price">
-          <strong>Free for 30 days.</strong> Then £12.99/month. Cancel anytime.
-          Parent-managed accounts available for younger players.
+          <strong>Free player account: £0.</strong> Premium includes a 30-day free trial,
+          then £12.99/month. Cancel anytime. Use the same account when you upgrade.
         </p>
       </div>
     `;

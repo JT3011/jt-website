@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Player Hub | JT Performance Hub</title>
+  <meta name="description" content="Your free JT Performance Hub player environment with challenges, coach feedback and player profile access.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:#050505;
+      --panel:#0d0d0d;
+      --panel2:#141414;
+      --gold:#d4af37;
+      --gold2:#f5e6b3;
+      --white:#f8f3e7;
+      --muted:#aaa59a;
+      --line:rgba(212,175,55,.17);
+      --line2:rgba(255,255,255,.075);
+      --green:#77d598;
+      --shadow:0 35px 110px rgba(0,0,0,.58);
+      --ease:cubic-bezier(.16,1,.3,1);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--white);
+      font-family:"Montserrat",sans-serif;
+      background:
+        radial-gradient(circle at 86% 2%,rgba(212,175,55,.14),transparent 34rem),
+        radial-gradient(circle at 3% 75%,rgba(212,175,55,.055),transparent 32rem),
+        linear-gradient(180deg,#050505,#090909 46%,#050505);
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:54px 54px;
+      mask-image:linear-gradient(to bottom,#000,transparent 80%);
+    }
+    a,button{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none!important}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      border-bottom:1px solid rgba(212,175,55,.12);
+      background:rgba(5,5,5,.86);
+      backdrop-filter:blur(20px);
+    }
+    .topbar-inner{
+      width:min(1500px,calc(100% - 40px));
+      min-height:78px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{display:flex;align-items:center;gap:13px;color:var(--white);text-decoration:none}
+    .brand img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(212,175,55,.5)}
+    .brand-copy{display:grid;gap:3px}
+    .brand-copy strong{color:var(--gold2);font-size:.76rem;letter-spacing:1.2px;text-transform:uppercase}
+    .brand-copy span{color:var(--muted);font-size:.67rem}
+    .top-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+    .top-link,.signout,.upgrade-small{
+      min-height:40px;
+      padding:0 15px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      text-decoration:none;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      font-size:.64rem;
+      font-weight:900;
+    }
+    .top-link,.signout{border:1px solid var(--line2);background:rgba(255,255,255,.018);color:var(--muted)}
+    .upgrade-small{border:1px solid var(--gold);background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505;box-shadow:0 12px 34px rgba(212,175,55,.2)}
+
+    .free-strip{
+      position:relative;
+      z-index:2;
+      border-bottom:1px solid rgba(212,175,55,.17);
+      background:linear-gradient(90deg,rgba(212,175,55,.095),rgba(212,175,55,.025));
+    }
+    .free-strip-inner{
+      width:min(1500px,calc(100% - 40px));
+      min-height:48px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      color:var(--gold2);
+      font-size:.68rem;
+      line-height:1.5;
+    }
+    .free-strip strong{text-transform:uppercase;letter-spacing:1.4px}
+    .free-strip button{border:0;background:transparent;color:var(--gold2);font-weight:900;text-transform:uppercase;letter-spacing:.8px}
+
+    main{position:relative;z-index:1;width:min(1500px,calc(100% - 40px));margin:auto;padding:34px 0 95px}
+    .loading,.error{min-height:65vh;display:grid;place-items:center;text-align:center}
+    .spinner{width:52px;height:52px;margin:0 auto 22px;border:3px solid rgba(212,175,55,.14);border-top-color:var(--gold);border-radius:50%;animation:spin .85s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .state-title{margin:0;font-family:"Playfair Display",serif;font-size:clamp(3rem,7vw,6rem);line-height:.88;letter-spacing:-.055em}
+    .state-copy{max-width:600px;margin:20px auto 0;color:var(--muted);line-height:1.75}
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      min-height:510px;
+      padding:clamp(30px,5vw,66px);
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(330px,.55fr);
+      gap:42px;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:38px;
+      background:
+        radial-gradient(circle at 82% 8%,rgba(212,175,55,.18),transparent 28rem),
+        linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.008)),#090909;
+      box-shadow:var(--shadow);
+    }
+    .hero::after{
+      content:"FREE";
+      position:absolute;
+      right:-20px;
+      bottom:-62px;
+      color:rgba(212,175,55,.045);
+      font-family:"Playfair Display",serif;
+      font-size:18rem;
+      font-weight:900;
+      line-height:1;
+      pointer-events:none;
+    }
+    .eyebrow{color:var(--gold);font-size:.68rem;font-weight:900;letter-spacing:2.2px;text-transform:uppercase}
+    .free-badge{display:inline-flex;margin-left:10px;padding:7px 11px;border:1px solid rgba(119,213,152,.25);border-radius:999px;background:rgba(119,213,152,.06);color:var(--green);font-size:.61rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+    .hero h1{position:relative;z-index:2;max-width:850px;margin:23px 0 0;font-family:"Playfair Display",serif;font-size:clamp(4.6rem,9vw,9.2rem);line-height:.78;letter-spacing:-.07em}
+    .gold{color:var(--gold)}
+    .hero-copy p{max-width:720px;margin:28px 0 0;color:#c8c1b4;line-height:1.82;font-size:clamp(.96rem,1.25vw,1.08rem)}
+    .hero-actions{margin-top:31px;display:flex;gap:11px;flex-wrap:wrap}
+    .primary,.secondary{
+      min-height:50px;
+      padding:0 20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      text-decoration:none;
+      text-transform:uppercase;
+      letter-spacing:.85px;
+      font-size:.68rem;
+      font-weight:900;
+    }
+    .primary{border:1px solid var(--gold);background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505}
+    .secondary{border:1px solid var(--line2);background:rgba(255,255,255,.02);color:var(--white)}
+
+    .player-card{
+      position:relative;
+      z-index:2;
+      padding:27px;
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:rgba(0,0,0,.34);
+      backdrop-filter:blur(12px);
+    }
+    .player-mark{width:66px;height:66px;display:grid;place-items:center;border:1px solid rgba(212,175,55,.32);border-radius:21px;background:rgba(212,175,55,.08);color:var(--gold2);font-family:"Playfair Display",serif;font-size:1.7rem;font-weight:900}
+    .player-card h2{margin:22px 0 5px;font-family:"Playfair Display",serif;font-size:2rem}
+    .player-card>p{margin:0;color:var(--muted);font-size:.78rem;line-height:1.6}
+    .player-meta{display:grid;gap:10px;margin-top:23px;padding-top:20px;border-top:1px solid var(--line2)}
+    .meta-row{display:flex;justify-content:space-between;gap:14px;font-size:.72rem}
+    .meta-row span{color:var(--muted)}
+    .meta-row strong{text-align:right;color:var(--white)}
+
+    .stats{margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .stat{min-height:125px;padding:21px;border:1px solid var(--line2);border-radius:22px;background:rgba(255,255,255,.022)}
+    .stat span{display:block;color:var(--muted);font-size:.62rem;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+    .stat strong{display:block;margin-top:12px;color:var(--gold2);font-family:"Playfair Display",serif;font-size:2.35rem;line-height:1}
+
+    .section-head{margin:54px 0 22px;display:flex;align-items:end;justify-content:space-between;gap:30px}
+    .section-head h2{margin:9px 0 0;font-family:"Playfair Display",serif;font-size:clamp(3rem,6vw,5.8rem);line-height:.86;letter-spacing:-.06em}
+    .section-head p{max-width:570px;margin:0;color:var(--muted);line-height:1.7;text-align:right}
+
+    .free-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .free-card{
+      min-height:290px;
+      padding:27px;
+      display:flex;
+      flex-direction:column;
+      border:1px solid rgba(119,213,152,.18);
+      border-radius:28px;
+      background:linear-gradient(145deg,rgba(119,213,152,.055),rgba(255,255,255,.014)),var(--panel);
+      color:var(--white);
+      text-decoration:none;
+      transition:transform .32s var(--ease),border-color .3s ease;
+    }
+    .free-card:hover{transform:translateY(-6px);border-color:rgba(119,213,152,.42)}
+    .card-label{color:var(--green);font-size:.63rem;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
+    .free-card h3,.lock-card h3{margin:auto 0 12px;padding-top:52px;font-family:"Playfair Display",serif;font-size:clamp(2rem,3.2vw,3.35rem);line-height:.92;letter-spacing:-.045em}
+    .free-card p,.lock-card p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.65}
+    .card-action{margin-top:22px;color:var(--gold2);font-size:.64rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+
+    .upgrade-panel{
+      position:relative;
+      overflow:hidden;
+      margin-top:58px;
+      padding:clamp(32px,5vw,62px);
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:34px;
+      align-items:center;
+      border:1px solid rgba(212,175,55,.34);
+      border-radius:34px;
+      background:
+        radial-gradient(circle at 80% 50%,rgba(212,175,55,.19),transparent 24rem),
+        linear-gradient(120deg,rgba(212,175,55,.11),rgba(255,255,255,.018)),#0b0b0b;
+      box-shadow:0 28px 90px rgba(0,0,0,.42);
+    }
+    .upgrade-panel h2{margin:12px 0 0;font-family:"Playfair Display",serif;font-size:clamp(3.2rem,6vw,6.4rem);line-height:.84;letter-spacing:-.065em}
+    .upgrade-panel p{max-width:760px;margin:20px 0 0;color:#c9c1b3;line-height:1.75}
+    .upgrade-box{min-width:250px;padding:24px;text-align:center;border:1px solid rgba(212,175,55,.25);border-radius:25px;background:rgba(0,0,0,.35)}
+    .upgrade-price strong{font-family:"Playfair Display",serif;font-size:3.2rem;color:var(--gold2)}
+    .upgrade-price span{color:var(--muted);font-size:.72rem}
+    .upgrade-box p{margin:7px 0 18px;font-size:.7rem;line-height:1.5}
+    .upgrade-box button{width:100%;min-height:48px;border:1px solid var(--gold);border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505;font-size:.67rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+
+    .lock-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .lock-card{
+      position:relative;
+      overflow:hidden;
+      min-height:285px;
+      padding:25px;
+      display:flex;
+      flex-direction:column;
+      border:1px solid var(--line2);
+      border-radius:26px;
+      background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.008)),var(--panel);
+    }
+    .lock-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(5,5,5,.12));pointer-events:none}
+    .lock-top{position:relative;z-index:2;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .premium-label{color:var(--gold);font-size:.61rem;font-weight:900;letter-spacing:1.25px;text-transform:uppercase}
+    .lock-icon{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:11px;background:rgba(212,175,55,.06);color:var(--gold2)}
+    .lock-card h3,.lock-card p{position:relative;z-index:2}
+    .lock-card button{position:relative;z-index:3;margin-top:20px;align-self:flex-start;border:0;background:transparent;color:var(--gold2);padding:0;font-size:.64rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+
+    .modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:22px}
+    .modal.open{display:grid}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(12px)}
+    .modal-card{position:relative;z-index:2;width:min(100%,610px);padding:38px;border:1px solid rgba(212,175,55,.34);border-radius:31px;background:radial-gradient(circle at top right,rgba(212,175,55,.18),transparent 22rem),#0b0b0b;box-shadow:var(--shadow);text-align:center}
+    .modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border:1px solid var(--line2);border-radius:50%;background:rgba(255,255,255,.03);color:var(--white);font-size:1.2rem}
+    .modal-card h2{margin:13px 0 0;font-family:"Playfair Display",serif;font-size:clamp(3rem,7vw,5.2rem);line-height:.84;letter-spacing:-.06em}
+    .modal-card p{margin:20px auto 0;max-width:500px;color:var(--muted);line-height:1.7}
+    .modal-price{margin-top:22px;color:var(--gold2)}
+    .modal-price strong{font-family:"Playfair Display",serif;font-size:2.7rem}
+    .modal-price span{font-size:.72rem;color:var(--muted)}
+    .modal-actions{margin-top:24px;display:grid;gap:9px}
+    .modal-actions button{min-height:49px;border-radius:999px;font-size:.67rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+    .modal-primary{border:1px solid var(--gold);background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505}
+    .modal-secondary{border:1px solid var(--line2);background:rgba(255,255,255,.02);color:var(--muted)}
+
+    .sticky-upgrade{
+      position:fixed;
+      z-index:45;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      width:min(920px,calc(100% - 28px));
+      min-height:64px;
+      padding:10px 12px 10px 19px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      border:1px solid rgba(212,175,55,.28);
+      border-radius:999px;
+      background:rgba(8,8,8,.9);
+      backdrop-filter:blur(22px);
+      box-shadow:0 18px 55px rgba(0,0,0,.55);
+    }
+    .sticky-upgrade div{font-size:.72rem;color:var(--muted);line-height:1.45}
+    .sticky-upgrade strong{color:var(--gold2)}
+    .sticky-upgrade button{flex:0 0 auto;min-height:43px;padding:0 17px;border:1px solid var(--gold);border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505;font-size:.63rem;font-weight:900;letter-spacing:.7px;text-transform:uppercase}
+
+    @media(max-width:1100px){
+      .hero{grid-template-columns:1fr}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .lock-grid{grid-template-columns:repeat(2,1fr)}
+      .upgrade-panel{grid-template-columns:1fr}
+      .upgrade-box{width:100%}
+    }
+    @media(max-width:780px){
+      .topbar-inner,main,.free-strip-inner{width:min(100% - 28px,1500px)}
+      .brand-copy,.top-link{display:none}
+      .free-strip-inner{padding:8px 0;align-items:flex-start}
+      .free-strip button{white-space:nowrap}
+      .hero{min-height:auto;padding:29px 21px;border-radius:29px}
+      .hero h1{font-size:clamp(4rem,18vw,6.2rem)}
+      .free-grid,.lock-grid{grid-template-columns:1fr}
+      .section-head{display:block}
+      .section-head p{margin-top:14px;text-align:left}
+      .sticky-upgrade{border-radius:24px;padding:13px 14px;align-items:stretch}
+      .sticky-upgrade div{display:none}
+      .sticky-upgrade button{width:100%}
+    }
+    @media(max-width:500px){
+      .stats{grid-template-columns:1fr}
+      .hero-actions,.hero-actions a{width:100%}
+      .modal-card{padding:34px 20px}
+      .upgrade-small{padding:0 12px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/performance-hub-free.html">
+        <img src="images/logo.jpeg" alt="JT Mind and Body Balance logo">
+        <span class="brand-copy">
+          <strong>JT Performance Hub</strong>
+          <span>Free Player Environment</span>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="Free Performance Hub navigation">
+        <a class="top-link" href="/performance-hub-challenges.html">Challenges</a>
+        <a class="top-link" href="/performance-hub-sessions.html">Coach Sessions</a>
+        <a class="top-link" href="/performance-hub-free-profile.html">Profile</a>
+        <a class="upgrade-small" href="https://buy.stripe.com/fZucMYcQuaGx2OA3y56Vq05">Unlock Premium</a>
+        <button class="signout" id="signOutTop" type="button">Sign Out</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="free-strip">
+    <div class="free-strip-inner">
+      <div><strong>Free Account Active</strong> — keep your player profile, challenges and JT coach feedback in one place.</div>
+      <button type="button" data-upgrade="Full Performance Hub">See What Premium Unlocks →</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="loading" id="loadingState">
+      <div>
+        <div class="spinner"></div>
+        <h1 class="state-title">Opening Your Free Hub.</h1>
+        <p class="state-copy">Loading your player profile, challenges and coach-connected performance activity.</p>
+      </div>
+    </section>
+
+    <section class="error hidden" id="errorState">
+      <div>
+        <h1 class="state-title">Hub Unavailable.</h1>
+        <p class="state-copy" id="errorText"></p>
+      </div>
+    </section>
+
+    <section id="hubContent" class="hidden">
+      <section class="hero">
+        <div class="hero-copy">
+          <div>
+            <span class="eyebrow">Your Performance Environment</span>
+            <span class="free-badge">Free Account</span>
+          </div>
+          <h1>
+            Welcome,
+            <span class="gold" id="firstName">Player.</span>
+          </h1>
+          <p>
+            Your free JT Performance Hub account keeps you connected to the basics that matter: your player identity, daily standards and feedback from JT coaching sessions. When you want the full performance system, your same account upgrades instantly.
+          </p>
+          <div class="hero-actions">
+            <a class="primary" href="/performance-hub-challenges.html">Complete Today’s Challenges →</a>
+            <a class="secondary" id="profileAction" href="/performance-hub-free-profile.html">Build Player Profile</a>
+          </div>
+        </div>
+
+        <aside class="player-card">
+          <div class="player-mark" id="playerInitials">JT</div>
+          <h2 id="playerName">JT Player</h2>
+          <p id="profileMessage">Your free player identity is connected to this account.</p>
+          <div class="player-meta">
+            <div class="meta-row"><span>Position</span><strong id="playerPosition">Not set</strong></div>
+            <div class="meta-row"><span>Playing level</span><strong id="playingLevel">Not set</strong></div>
+            <div class="meta-row"><span>Account</span><strong>Free</strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="stats" aria-label="Free account performance summary">
+        <article class="stat"><span>Performance Points</span><strong id="pointsBalance">0</strong></article>
+        <article class="stat"><span>Current Streak</span><strong id="currentStreak">0</strong></article>
+        <article class="stat"><span>Challenges Today</span><strong id="challengeProgress">0/0</strong></article>
+        <article class="stat"><span>Coach Sessions</span><strong id="sessionCount">0</strong></article>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Included In Free</div>
+          <h2>Keep Moving <span class="gold">Forward.</span></h2>
+        </div>
+        <p>These areas stay available on your free account, so every player can remain connected to JT coaching and build better performance habits.</p>
+      </div>
+
+      <section class="free-grid">
+        <a class="free-card" href="/performance-hub-challenges.html">
+          <div class="card-label">Free • Daily Use</div>
+          <h3>Performance Challenges.</h3>
+          <p>Complete daily and weekly standards, build your streak and earn Performance Points through consistency.</p>
+          <div class="card-action">Open Challenges →</div>
+        </a>
+
+        <a class="free-card" href="/performance-hub-sessions.html">
+          <div class="card-label">Free • Coach Connected</div>
+          <h3>Session Feedback.</h3>
+          <p>See feedback, next focus areas, homework and clips uploaded from your connected JT coaching sessions.</p>
+          <div class="card-action">View Coach Sessions →</div>
+        </a>
+
+        <a class="free-card" href="/performance-hub-free-profile.html">
+          <div class="card-label">Free • Your Identity</div>
+          <h3>Player Profile.</h3>
+          <p>Keep your position, playing level and main development goal connected to your JT player account.</p>
+          <div class="card-action">Edit Player Profile →</div>
+        </a>
+      </section>
+
+      <section class="upgrade-panel">
+        <div>
+          <div class="eyebrow">Ready For The Full System?</div>
+          <h2>Turn Free Into <span class="gold">Performance.</span></h2>
+          <p>Unlock personalised position-specific training, the AI Performance Coach, matchday preparation, recovery, nutrition, mindset, progress tracking, journal, Player Locker and the full rewards environment.</p>
+        </div>
+        <div class="upgrade-box">
+          <div class="upgrade-price"><strong>£12.99</strong><span> / month</span></div>
+          <p>30-day free trial • cancel anytime</p>
+          <button type="button" data-upgrade="the full JT Performance Hub">Start Free Trial →</button>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Premium Environment</div>
+          <h2>See What’s <span class="gold">Locked.</span></h2>
+        </div>
+        <p>You can see every area before upgrading. Tap any lock to preview exactly what your account will unlock.</p>
+      </div>
+
+      <section class="lock-grid" id="lockGrid">
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">⌁</span></div><h3>Personalised Training.</h3><p>Position-specific sessions and development work built around your player profile.</p><button data-upgrade="Personalised Training" type="button">Unlock Training →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">✦</span></div><h3>AI Performance Coach.</h3><p>24/7 support for training, confidence, preparation, nutrition, recovery and football development.</p><button data-upgrade="AI Performance Coach" type="button">Unlock AI Coach →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">↗</span></div><h3>Progress Centre.</h3><p>Track weekly actions, reflections and your next development focus over time.</p><button data-upgrade="Progress Centre" type="button">Unlock Progress →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">◉</span></div><h3>Matchday.</h3><p>Prepare your body and mind before matches with structured matchday routines.</p><button data-upgrade="Matchday Centre" type="button">Unlock Matchday →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">≈</span></div><h3>Recovery.</h3><p>Build better recovery habits around training load, sleep and readiness.</p><button data-upgrade="Recovery Centre" type="button">Unlock Recovery →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">◇</span></div><h3>Nutrition.</h3><p>Practical performance nutrition guidance for training, matchday and recovery.</p><button data-upgrade="Nutrition Centre" type="button">Unlock Nutrition →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">◎</span></div><h3>Mindset.</h3><p>Confidence, focus and emotional-control tools for football performance.</p><button data-upgrade="Mindset Centre" type="button">Unlock Mindset →</button></article>
+        <article class="lock-card"><div class="lock-top"><span class="premium-label">Premium</span><span class="lock-icon">▣</span></div><h3>Player Locker & Rewards.</h3><p>Your evolving athlete, unlockable equipment and the complete rewards environment.</p><button data-upgrade="Player Locker and Rewards" type="button">Unlock Locker →</button></article>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal" id="upgradeModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+      <div class="eyebrow">JT Performance Hub Premium</div>
+      <h2 id="upgradeTitle">Unlock Your Full Hub.</h2>
+      <p id="upgradeCopy">Upgrade your existing player account and unlock the complete JT Performance Hub environment.</p>
+      <div class="modal-price"><strong>£12.99</strong><span> / month</span></div>
+      <p>Start with the current 30-day free trial. Use the same email as this free account and your player profile stays connected.</p>
+      <div class="modal-actions">
+        <button class="modal-primary" id="upgradeNow" type="button">Start 30-Day Free Trial →</button>
+        <button class="modal-secondary" type="button" data-close-modal>Keep Using Free</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="sticky-upgrade">
+    <div><strong>Free account</strong> • Upgrade once and keep this same player profile, points and coach connection.</div>
+    <button type="button" data-upgrade="the complete Performance Hub">Unlock Premium • £12.99 →</button>
+  </div>
+
+  <script type="module">
+    import {
+      supabase,
+      requireFreeAccess,
+      formatLabel,
+      initials,
+      openUpgrade,
+      signOut
+    } from "/performance-hub-free-access.js?v=1";
+
+    const $ = (id) => document.getElementById(id);
+    const loadingState = $("loadingState");
+    const errorState = $("errorState");
+    const hubContent = $("hubContent");
+    const upgradeModal = $("upgradeModal");
+    const upgradeCopy = $("upgradeCopy");
+
+    function showHub() {
+      loadingState.classList.add("hidden");
+      errorState.classList.add("hidden");
+      hubContent.classList.remove("hidden");
+    }
+
+    function showError(message) {
+      loadingState.classList.add("hidden");
+      hubContent.classList.add("hidden");
+      $("errorText").textContent = message;
+      errorState.classList.remove("hidden");
+    }
+
+    function localDateKey(date = new Date()) {
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("-");
+    }
+
+    function firstName(value = "") {
+      return String(value || "").trim().split(/\s+/)[0] || "Player";
+    }
+
+    async function loadSummary(userId) {
+      const initialiseResult = await supabase.rpc("initialise_my_performance_profile");
+      if (initialiseResult.error) {
+        console.warn("Performance account initialisation skipped", initialiseResult.error);
+      }
+
+      const today = localDateKey();
+      const [accountResult, challengesResult, completionsResult, timelineResult] = await Promise.all([
+        supabase
+          .from("player_performance_accounts")
+          .select("points_balance,current_streak")
+          .eq("user_id", userId)
+          .maybeSingle(),
+        supabase
+          .from("performance_challenges")
+          .select("id")
+          .eq("is_active", true)
+          .eq("cadence", "daily"),
+        supabase
+          .from("player_challenge_completions")
+          .select("challenge_id,period_key")
+          .eq("user_id", userId)
+          .eq("period_key", today),
+        supabase.rpc("session_connect_get_player_timeline", {
+          p_player_user_id: userId,
+          p_limit: 50
+        })
+      ]);
+
+      const account = accountResult.data || {};
+      const challengeCount = challengesResult.data?.length || 0;
+      const completionCount = completionsResult.data?.length || 0;
+      const timelineCount = Array.isArray(timelineResult.data)
+        ? timelineResult.data.length
+        : 0;
+
+      $("pointsBalance").textContent = String(account.points_balance || 0);
+      $("currentStreak").textContent = String(account.current_streak || 0);
+      $("challengeProgress").textContent = `${completionCount}/${challengeCount}`;
+      $("sessionCount").textContent = String(timelineCount);
+    }
+
+    async function initialise() {
+      try {
+        const access = await requireFreeAccess();
+        if (!access) return;
+
+        const user = access.user;
+        const { data: profile, error: profileError } = await supabase
+          .from("profiles")
+          .select("player_name,primary_position,playing_level,onboarding_complete")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profileError) throw profileError;
+
+        const name = profile?.player_name || user.user_metadata?.first_name || "JT Player";
+        $("firstName").textContent = `${firstName(name)}.`;
+        $("playerName").textContent = name;
+        $("playerInitials").textContent = initials(name);
+        $("playerPosition").textContent = formatLabel(profile?.primary_position);
+        $("playingLevel").textContent = formatLabel(profile?.playing_level);
+
+        if (profile?.onboarding_complete) {
+          $("profileAction").textContent = "Edit Player Profile";
+          $("profileMessage").textContent = "Your player identity is complete and connected to this free account.";
+        } else {
+          $("profileMessage").textContent = "Finish your player profile so JT can personalise your connected coaching experience.";
+        }
+
+        try {
+          await loadSummary(user.id);
+        } catch (summaryError) {
+          console.warn("Free Hub summary could not fully load", summaryError);
+        }
+
+        showHub();
+      } catch (error) {
+        console.error("Free Hub error", error);
+        showError("Something went wrong while opening your free JT Performance Hub account.");
+      }
+    }
+
+    function openModal(feature) {
+      upgradeCopy.textContent = `${feature} is part of JT Performance Hub Premium. Upgrade this same account to unlock it instantly without losing your player profile, points or coach connection.`;
+      upgradeModal.classList.add("open");
+      upgradeModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      upgradeModal.classList.remove("open");
+      upgradeModal.setAttribute("aria-hidden", "true");
+    }
+
+    document.querySelectorAll("[data-upgrade]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.preventDefault();
+        openModal(element.dataset.upgrade || "This feature");
+      });
+    });
+
+    document.querySelectorAll("[data-close-modal]").forEach((element) => {
+      element.addEventListener("click", closeModal);
+    });
+
+    $("upgradeNow").addEventListener("click", openUpgrade);
+    $("signOutTop").addEventListener("click", signOut);
+
+    initialise();
+  </script>
+</body>
+</html>
