@@ -1,0 +1,82 @@
+{
+  "id": "/performance-hub-login.html",
+  "name": "JT Performance Hub",
+  "short_name": "JT Hub",
+  "description": "The JT Performance Hub for connected players, parents and coaches.",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "start_url": "/performance-hub-login.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "any",
+  "categories": [
+    "sports",
+    "health",
+    "fitness",
+    "lifestyle"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/images/jt-hub-icon-192.png?v=20260827.1",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/jt-hub-icon-512.png?v=20260827.1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/jt-hub-icon-maskable-512.png?v=20260827.1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Player Login",
+      "short_name": "Player",
+      "description": "Open the JT Performance Hub player login.",
+      "url": "/performance-hub-login.html?source=pwa-shortcut",
+      "icons": [
+        {
+          "src": "/images/jt-hub-icon-192.png?v=20260827.1",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Coach Login",
+      "short_name": "Coach",
+      "description": "Open the authorised JT coach login.",
+      "url": "/performance-hub-coach-access.html?source=pwa-shortcut",
+      "icons": [
+        {
+          "src": "/images/jt-hub-icon-192.png?v=20260827.1",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Sessions",
+      "short_name": "Sessions",
+      "description": "Open connected coaching sessions and feedback.",
+      "url": "/performance-hub-sessions.html?source=pwa-shortcut",
+      "icons": [
+        {
+          "src": "/images/jt-hub-icon-192.png?v=20260827.1",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

@@ -16,6 +16,20 @@
     form{display:grid;gap:17px;margin-top:28px}.field{display:grid;gap:8px}label{color:var(--white);text-transform:uppercase;letter-spacing:1px;font-size:.66rem;font-weight:800}input{width:100%;min-height:53px;padding:0 16px;border:1px solid rgba(212,175,55,.17);border-radius:15px;outline:none;background:rgba(0,0,0,.36);color:var(--white);font:inherit}input:focus{border-color:rgba(212,175,55,.7);box-shadow:0 0 0 4px rgba(212,175,55,.08)}button,.secondary-link,.free-link{min-height:53px;display:inline-flex;align-items:center;justify-content:center;padding:0 24px;border-radius:999px;cursor:pointer;text-decoration:none;text-transform:uppercase;letter-spacing:1.05px;font-size:.67rem;font-weight:900}button{margin-top:5px;border:0;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--black)}button:disabled{cursor:wait;opacity:.65}.free-link{margin-top:12px;border:1px solid rgba(119,213,152,.28);background:rgba(119,213,152,.055);color:#c8efd4}.secondary-link{margin-top:9px;min-height:46px;border:1px solid rgba(255,255,255,.075);color:var(--muted);background:rgba(255,255,255,.02)}.message{display:none;margin-top:20px;padding:14px 15px;border-radius:14px;font-size:.77rem;line-height:1.5}.message.show{display:block}.message-error{border:1px solid rgba(255,154,154,.25);background:rgba(255,154,154,.07);color:#ffcaca}.message-success{border:1px solid rgba(118,224,155,.25);background:rgba(118,224,155,.07);color:#c0f4d1}.divider{display:flex;align-items:center;gap:11px;margin-top:20px;color:#6f6b63;font-size:.6rem;font-weight:900;letter-spacing:1px;text-transform:uppercase}.divider::before,.divider::after{content:"";height:1px;flex:1;background:rgba(255,255,255,.065)}
     @media(max-width:900px){.page{grid-template-columns:1fr}.login-shell{width:min(100%,650px)}}@media(max-width:520px){body{padding:18px}.login-card{padding:29px 21px}h1{font-size:clamp(4rem,21vw,6rem)}}
   </style>
+
+  <!-- JT Performance Hub PWA -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#050505">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JT Hub">
+  <meta name="application-name" content="JT Performance Hub">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/jt-hub-apple-touch-icon.png?v=20260827.1">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-icon-192.png?v=20260827.1">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-icon-512.png?v=20260827.1">
+  <script defer src="/pwa-register.js?v=20260827.1"></script>
 </head>
 <body>
   <main class="page">
