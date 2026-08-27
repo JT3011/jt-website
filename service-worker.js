@@ -1,19 +1,19 @@
-const CACHE_VERSION = "jt-performance-hub-20260827.2";
+const CACHE_VERSION = "jt-performance-hub-20260827.3";
 const OFFLINE_URL = "/performance-hub-offline.html";
 
 const PRECACHE_URLS = [
   OFFLINE_URL,
   "/manifest.webmanifest",
-  "/pwa-register.js?v=20260827.2",
-  "/images/applogo192-192.png?v=20260827.2",
-  "/images/applogo192.png?v=20260827.2"
+  "/pwa-register.js?v=20260827.3",
+  "/images/jt-hub-applogo-192-v3.png",
+  "/images/jt-hub-applogo-v3.png"
 ];
 
 const SAFE_STATIC_PATHS = new Set([
   "/manifest.webmanifest",
   "/pwa-register.js",
-  "/images/applogo192-192.png",
-  "/images/applogo192.png"
+  "/images/jt-hub-applogo-192-v3.png",
+  "/images/jt-hub-applogo-v3.png"
 ]);
 
 self.addEventListener("install", (event) => {
