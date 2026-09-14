@@ -95,6 +95,17 @@ async function load() {
 
   $("coachName").textContent =
     staff[0].display_name || "JT Coach";
+  if (staff[0].role === "owner") {
+    const nav = document.querySelector(".top-actions");
+    if (nav && !document.getElementById("commandCentreLink")) {
+      const link = document.createElement("a");
+      link.id = "commandCentreLink";
+      link.className = "pill-btn gold";
+      link.href = "/performance-hub-command-centre.html";
+      link.textContent = "Command Centre";
+      nav.insertBefore(link, nav.firstChild);
+    }
+  }
   $("todayLabel").textContent = fmtDateLong();
 
   $("loading").classList.add("hidden");
