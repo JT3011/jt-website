@@ -30,7 +30,7 @@ async function requireOwner(){
 async function loadConnections(){
   const {data,error}=await db.from("jt_ops_connections").select("*").order("label");
   if(error)throw error;connections=data||[];
-  $("connections").innerHTML=connections.map(c=>`<article class="card"><div class="connection-top"><strong>${esc(c.label)}</strong><span class="status ${esc(c.status)}">${esc(c.status.replace("_"," "))}</span></div><p>${esc(c.status_detail)}</p><span class="muted">Last sync: ${esc(when(c.last_synced_at))}</span><div class="connection-actions">${c.id==="monzo"?`<button class="mini-btn gold" type="button" data-monzo="start">Connect / reconnect</button><button class="mini-btn" type="button" data-monzo="verify">Verify connection</button><button class="mini-btn" type="button" data-monzo="transactions">View bank activity</button>`:""}${sourcePanels[c.id]?`<button class="mini-btn gold" type="button" data-detail="${esc(sourcePanels[c.id])}">View in Hub</button>`:""}${sourceLinks[c.id]?`<a class="mini-btn" href="${esc(sourceLinks[c.id])}" target="_blank" rel="noreferrer">Open source</a>`:""}</div></article>`).join("");
+  $("connections").innerHTML=connections.map(c=>`<article class="card"><div class="connection-top"><strong>${esc(c.label)}</strong><span class="status ${esc(c.status)}">${esc(c.status.replace("_"," "))}</span></div><p>${esc(c.status_detail)}</p><span class="muted">Last sync: ${esc(when(c.last_synced_at))}</span><div class="connection-actions">${c.id==="monzo"?`<button class="mini-btn gold" type="button" data-monzo="start">Connect / reconnect</button><button class="mini-btn" type="button" data-monzo="verify">Verify connection</button><button class="mini-btn" type="button" data-monzo="transactions">View bank activity</button><button class="mini-btn" type="button" data-monzo="sync">Refresh bank feed</button>`:""}${sourcePanels[c.id]?`<button class="mini-btn gold" type="button" data-detail="${esc(sourcePanels[c.id])}">View in Hub</button>`:""}${sourceLinks[c.id]?`<a class="mini-btn" href="${esc(sourceLinks[c.id])}" target="_blank" rel="noreferrer">Open source</a>`:""}</div></article>`).join("");
   $("connections").querySelectorAll("[data-monzo]").forEach(button=>button.addEventListener("click",()=>monzoAction(button)));
   $("connections").querySelectorAll("[data-detail]").forEach(button=>button.addEventListener("click",()=>openDetails(button.dataset.detail)));
 }
@@ -165,6 +165,7 @@ async function monzoAction(button){
       }
       const data=await monzoApi("start","POST");location.assign(data.url);return;
     }
+    if(action==="sync"){await monzoApi("sync","POST");toast("Bank feed refreshed. Sharon reviews new receipts in the daily run.");await loadConnections();return;}
     if(action==="verify"){
       const data=await monzoApi("verify","POST");
       toast(`${data.account} connected`);await loadConnections();await loadAutomations();return;
@@ -176,8 +177,8 @@ async function monzoAction(button){
     activeDetailType="monzo";
     const data=await monzoApi("transactions");
     if(activeDetailType!=="monzo")return;
-    $("detailSummary").textContent=`${data.account} · ${data.transactions.length} transactions returned from the last ${data.days} days${data.possiblyTruncated?" · 100-record limit reached; this is not a complete statement":""}. Bank activity is separate from logged coaching revenue.`;
-    $("detailList").innerHTML=data.transactions.length?data.transactions.map(t=>`<div class="detail-row"><div><strong>${esc(t.description||"Bank transaction")}</strong><span>${esc(t.settled?"Settled":"Pending / settlement not provided")}</span></div><span>${esc(when(t.created))}</span><span>${esc(t.amount>0?"Money in":"Money out")}</span><span class="detail-value">${esc(new Intl.NumberFormat("en-GB",{style:"currency",currency:t.currency||"GBP"}).format(t.amount/100))}</span></div>`).join(""):`<p>No transactions returned for this period.</p>`;
+    $("detailSummary").textContent=`${data.account} · Last refreshed ${when(data.lastSyncedAt)} · ${data.transactions.length} transactions returned from the last ${data.days} days${data.possiblyTruncated?" · Display limit reached; this is not a complete statement":""}. Bank activity is separate from logged coaching revenue.`;
+    $("detailList").innerHTML=data.transactions.length?data.transactions.map(t=>`<div class="detail-row"><div><strong>${esc(t.description||"Bank transaction")}</strong><span>${esc(t.settled?"Settled":"Pending / settlement not provided")} · ${esc(t.reconciliation||"review")} ${esc(t.reconciliation_note||"")}</span></div><span>${esc(when(t.created))}</span><span>${esc(t.amount>0?"Money in":"Money out")}</span><span class="detail-value">${esc(new Intl.NumberFormat("en-GB",{style:"currency",currency:t.currency||"GBP"}).format(t.amount/100))}</span></div>`).join(""):`<p>No transactions returned for this period.</p>`;
   }catch(error){
     if(button.dataset.monzo==="transactions"){$("detailSummary").textContent="Bank activity unavailable";$("detailList").textContent=error.message;}
     toast(error.message,true);

@@ -117,17 +117,39 @@ test('successful verification stores only the Business account and leaves automa
   const r=await handleMonzo(request('verify','POST'));assert.equal(r.status,200);
   assert.equal(saved.account_id,'business');assert.equal(status.auto_enabled,false);assert.equal(status.status,'connected');
 });
-test('transaction read uses the verified Business account and exposes no bank identifiers',async t=>{
-  const encrypted_tokens=seal({access_token:'bank-token',expires_at:Date.now()+3600000},{clientSecret:env.MONZO_CLIENT_SECRET},owner);
-  mock(t,(url,opts)=>{
-    assert.equal(opts.method===undefined||opts.method==='GET',true);
-    if(url.includes('jt_monzo_credentials'))return response([{encrypted_tokens,account_id:'business',account_label:'JT Mind & Body Balance'}]);
-    if(url.endsWith('/accounts'))return response({accounts:[{id:'business',type:'uk_business',closed:false}]});
-    if(url.includes('/transactions?')){assert.equal(new URL(url).searchParams.get('account_id'),'business');return response({transactions:[{id:'t',amount:4500,currency:'GBP',created:'2026-09-16',description:'Payment',account_id:'private',metadata:{private:'hidden'}}]});}
+test('cached bank feed is scoped to the authenticated owner',async t=>{
+  mock(t,(url)=>{
+    assert(url.includes(`owner_id=eq.${owner}`));
+    if(url.includes('jt_monzo_transactions'))return response([{id:'tx',amount:4500,reconciliation:'baseline'}]);
+    if(url.includes('jt_monzo_feed_settings'))return response([{last_synced_at:'2026-09-16T10:00:00Z'}]);
     throw new Error('Unexpected request');
   });
   const r=await handleMonzo(request('transactions'));assert.equal(r.status,200);
-  const body=await r.text();assert(body.includes('4500'));assert(!body.includes('private'));assert(!body.includes('bank-token'));
+  const body=await r.text();assert(body.includes('4500'));assert(!body.includes('bank-token'));
+});
+test('job rejects missing and reused tickets before reading bank credentials',async t=>{
+  mock(t,(url)=>{assert(url.includes('jt_monzo_sync_jobs'));return response([]);});
+  assert.equal((await handleMonzo(request('job','POST'))).status,401);
+  assert.equal((await handleMonzo(request('job','POST',{Authorization:'Bearer '+ 'a'.repeat(64)}))).status,401);
+});
+test('sync paginates and strips private bank metadata before caching',async t=>{
+  const encrypted_tokens=seal({access_token:'bank-token',expires_at:Date.now()+3600000},{clientSecret:env.MONZO_CLIENT_SECRET},owner);
+  let pages=0,ingested=0,fresh=false;
+  mock(t,(url,opts)=>{
+    if(url.includes('jt_monzo_credentials'))return response([{encrypted_tokens,account_id:'business'}]);
+    if(url.endsWith('/accounts'))return response({accounts:[{id:'business',type:'uk_business',closed:false}]});
+    if(url.includes('/transactions?')){
+      const u=new URL(url);assert.equal(u.searchParams.get('account_id'),'business');
+      if(pages++) {assert.equal(u.searchParams.get('since'),'tx99');return response({transactions:[]});}
+      return response({transactions:Array.from({length:100},(_,i)=>({id:'tx'+i,amount:4500,currency:'GBP',created:'2026-09-16T09:00:00Z',description:'Payment',settled:'yes',metadata:{secret:'hidden'},account_id:'private'}))});
+    }
+    if(url.includes('jt_monzo_ingest')) {const body=JSON.parse(opts.body);assert.equal(body.p_owner,owner);assert(!opts.body.includes('private'));assert(!opts.body.includes('hidden'));ingested+=body.p_rows.length;return response(null);}
+    if(url.includes('jt_monzo_feed_settings')){fresh=true;return response([]);}
+    if(url.includes('jt_ops_connections'))return response([]);
+    throw new Error('Unexpected request');
+  });
+  assert.equal((await handleMonzo(request('sync','POST'))).status,200);
+  assert.equal(ingested,100);assert.equal(pages,2);assert(fresh);
 });
 test('expired token is refreshed under a database lease',async t=>{
   const encrypted_tokens=seal({access_token:'expired',refresh_token:'old-refresh',expires_at:0},{clientSecret:env.MONZO_CLIENT_SECRET},owner);

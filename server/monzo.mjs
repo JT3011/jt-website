@@ -107,10 +107,10 @@ async function connection(c, status, detail) {
 
 export async function handleMonzo(request) {
   const c = config(), url = new URL(request.url), action = url.pathname.split('/').pop();
-  let callbackOwner = null;
+  let callbackOwner = null, jobId = null;
   try {
-    if (!['status', 'start', 'callback', 'verify', 'transactions'].includes(action)) return json({ error: 'Not found.' }, 404);
-    const expectedMethod = ['start', 'verify'].includes(action) ? 'POST' : 'GET';
+    if (!['status', 'start', 'callback', 'verify', 'transactions', 'sync', 'job'].includes(action)) return json({ error: 'Not found.' }, 404);
+    const expectedMethod = ['start', 'verify', 'sync', 'job'].includes(action) ? 'POST' : 'GET';
     if (request.method !== expectedMethod) return json({ error: 'Method not allowed.' }, 405, { Allow: expectedMethod });
     if (action === 'callback') {
       const state = url.searchParams.get('state') || '';
@@ -135,8 +135,17 @@ export async function handleMonzo(request) {
       await connection(c, 'action_required', 'Authorisation saved. Approve in the Monzo app, then verify your Business account.');
       return redirect('authorised');
     }
-    const owner = await requireOwner(request, c);
-    if (request.method === 'POST' && request.headers.get('origin') !== ORIGIN) fail('Open the Command Centre on its main website to connect Monzo.', 403);
+    let owner;
+    if (action === 'job') {
+      const ticket = (request.headers.get('authorization') || '').replace(/^Bearer /, '');
+      if (!/^[a-f0-9]{64}$/.test(ticket)) fail('Invalid sync ticket.', 401);
+      const jobs = await sb(c, `rest/v1/jt_monzo_sync_jobs?ticket_hash=eq.${hash(ticket)}&status=eq.queued&expires_at=gt.${encodeURIComponent(new Date().toISOString())}`, 'PATCH', { status: 'running' });
+      if (!jobs?.length) fail('Invalid or expired sync ticket.', 401);
+      jobId = jobs[0].id; owner = jobs[0].owner_id;
+      const staff = await sb(c, `rest/v1/hub_staff?user_id=eq.${owner}&role=eq.owner&select=user_id`);
+      if (!staff?.length) fail('Owner access required.', 403);
+    } else owner = await requireOwner(request, c);
+    if (action !== 'job' && request.method === 'POST' && request.headers.get('origin') !== ORIGIN) fail('Open the Command Centre on its main website to connect Monzo.', 403);
     if (action === 'status') {
       if (!configured(c)) return json({ configured: false, connected: false });
       const rows = await sb(c, `rest/v1/jt_monzo_credentials?owner_id=eq.${encodeURIComponent(owner)}&select=account_id,account_label`);
@@ -150,6 +159,11 @@ export async function handleMonzo(request) {
       const target = new URL('https://auth.monzo.com/');
       target.search = new URLSearchParams({ client_id: c.clientId, redirect_uri: CALLBACK, response_type: 'code', state }).toString();
       return json({ url: target.href }, 200, { 'Set-Cookie': cookie(state) });
+    }
+    if (action === 'transactions') {
+      const transactions = await sb(c, `rest/v1/jt_monzo_transactions?owner_id=eq.${owner}&select=*&order=created.desc&limit=1000`);
+      const settings = await sb(c, `rest/v1/jt_monzo_feed_settings?owner_id=eq.${owner}&select=last_synced_at`);
+      return json({ account: 'JT Mind & Body Balance', transactions, days: 89, lastSyncedAt: settings?.[0]?.last_synced_at, possiblyTruncated: transactions.length === 1000 });
     }
     const token = await tokenFor(c, owner);
     // Always confirm the account is an open Business account before reading its transactions.
@@ -165,13 +179,32 @@ export async function handleMonzo(request) {
     const rows = await sb(c, `rest/v1/jt_monzo_credentials?owner_id=eq.${encodeURIComponent(owner)}&select=account_id,account_label`);
     const selected = rows?.[0];
     if (!selected?.account_id || !accounts.some(a => a.id === selected.account_id)) fail('Verify your Business account first.', 409);
-    const params = new URLSearchParams({ account_id: selected.account_id, since: new Date(Date.now() - 89 * 86400000).toISOString(), limit: '100' });
-    const data = await monzo(token, `/transactions?${params}`);
-    const transactions = (data.transactions || []).filter(t => !t.decline_reason).map(t => ({
-      id: t.id, amount: t.amount, currency: t.currency, description: t.description || '', created: t.created, settled: Boolean(t.settled)
-    })).sort((a, b) => b.created.localeCompare(a.created));
-    return json({ account: selected.account_label, transactions, limit: 100, days: 89, possiblyTruncated: (data.transactions || []).length === 100 });
+    let since = new Date(Date.now() - 89 * 86400000).toISOString();
+    const until = new Date().toISOString(), seen = new Set();
+    let complete = false;
+    for (let page = 0; page < 25; page++) {
+      const params = new URLSearchParams({ account_id: selected.account_id, since, before: until, limit: '100' });
+      const data = await monzo(token, `/transactions?${params}`);
+      const raw = data.transactions || [];
+      const transactions = raw.filter(t => !t.decline_reason).map(t => ({ id: t.id, amount: t.amount, currency: t.currency, description: t.description || '', created: t.created, settled: Boolean(t.settled) }));
+      if (transactions.length) await sb(c, 'rest/v1/rpc/jt_monzo_ingest', 'POST', { p_owner: owner, p_rows: transactions });
+      if (raw.length < 100) { complete = true; break; }
+      const cursor = raw.at(-1).id;
+      if (seen.has(cursor)) break;
+      seen.add(cursor); since = cursor;
+    }
+    if (!complete) fail('Bank feed exceeded its page limit. Refresh is incomplete; review required.', 502);
+    await sb(c, `rest/v1/jt_monzo_feed_settings?owner_id=eq.${owner}`, 'PATCH', { last_synced_at: until });
+    await sb(c, 'rest/v1/jt_ops_connections?id=eq.monzo', 'PATCH', { status: 'connected', status_detail: 'Daily bank feed for Sharon. New receipts are reviewed against Airtable; historical payments are not credited again.', auto_enabled: true, last_synced_at: until, updated_at: until });
+    if (jobId) await sb(c, `rest/v1/jt_monzo_sync_jobs?id=eq.${jobId}`, 'PATCH', { status: 'complete', finished_at: new Date().toISOString(), detail: 'Bank feed refreshed.' });
+    return json({ synced: true, lastSyncedAt: until });
   } catch (error) {
+    if (jobId) {
+      try {
+        await sb(c, `rest/v1/jt_monzo_sync_jobs?id=eq.${jobId}`, 'PATCH', { status: 'failed', finished_at: new Date().toISOString(), detail: error instanceof Failure ? error.message : 'Bank refresh failed.' });
+        await connection(c, 'error', 'Daily bank refresh failed. Check the connection before reconciling payments.');
+      } catch {}
+    }
     // Never return provider response bodies, OAuth codes, or tokens to the browser/logs.
     if (action === 'callback') {
       const reason = error instanceof Failure ? error.code : error?.name === 'TimeoutError' ? 'timeout' : 'failed';

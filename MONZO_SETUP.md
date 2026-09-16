@@ -37,3 +37,8 @@ the connection expires or is revoked. No automatic background polling is deploye
 
 Validation: `node --test tests/monzo.test.mjs`. Tests mock Monzo and Supabase;
 real-account verification must occur after production secrets and user consent.
+
+## Daily feed and Sharon reconciliation
+Apply `supabase/jt-monzo-daily.sql` once. It creates owner-only transaction storage, a historical baseline and one-use five-minute worker tickets. The connected Supabase automation calls `select private.request_monzo_sync()` and checks `jt_monzo_sync_jobs`; credentials never leave the server. `/api/monzo/job` accepts only an unused ticket. Owner-authenticated `/sync` refreshes manually. Both only read the verified Business account. Pagination is capped at 2,500; incomplete refreshes never advance the successful sync timestamp.
+
+Sharon's existing Daily Session Brief refreshes this feed before reconciliation. Historical records are baseline, new receipts start in review. Unique Monzo IDs plus an Airtable Notes marker prevent replay; ambiguous matching, manual edits, refunds and tips require review. Bank activity is shown separately from coaching revenue. The hourly Airtable mirror remains the revenue source. No bank transfers are supported.
