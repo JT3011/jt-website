@@ -17,3 +17,8 @@ alter table public.jt_monzo_credentials enable row level security;
 alter table public.jt_monzo_oauth_states enable row level security;
 revoke all on public.jt_monzo_credentials, public.jt_monzo_oauth_states from public, anon, authenticated;
 grant select, insert, update, delete on public.jt_monzo_credentials, public.jt_monzo_oauth_states to service_role;
+
+-- The callback rechecks owner access and updates only connection status fields.
+grant select (user_id, role) on public.hub_staff to service_role;
+grant select on public.jt_ops_connections to service_role;
+grant update (status, status_detail, auto_enabled, updated_at) on public.jt_ops_connections to service_role;
