@@ -185,7 +185,14 @@ async function monzoAction(button){
 }
 const monzoResult=new URLSearchParams(location.search).get("monzo");
 if(monzoResult){
-  const messages={authorised:"Authorisation saved. Approve in Monzo, then tap Verify connection.",state_error:"Login session expired or changed browser. Start again from Connect / reconnect.",declined:"Monzo authorisation was cancelled.",setup_required:"Monzo server settings still need completing.",failed:"Monzo authorisation failed. Check the client settings and reconnect."};
-  toast(messages[monzoResult]||"Check your Monzo connection.",monzoResult!=="authorised");
+  const messages={client_credentials:"Monzo rejected the Client ID or Client Secret. Check both belong to the same Confidential client in Vercel Production settings.",login_expired:"The Monzo login code expired or was used. Tap Connect / reconnect for a fresh login in this browser.",redirect_error:"Set the Monzo client redirect URL to https://jt-website-orpin.vercel.app/api/monzo/callback exactly.",token_rejected:"Monzo refused the token exchange. Check the Confidential client settings and Vercel credentials.",token_incomplete:"Monzo returned an incomplete token response. Please reconnect.",not_confidential:"Set your Monzo OAuth client to Confidential, then reconnect. Monzo did not issue a refresh token.",storage_error:"The Hub could not save the bank connection. Server storage needs checking.",owner_error:"Owner access could not be verified. Sign in to the Hub with your owner account.",timeout:"Monzo took too long to respond. Please reconnect.",authorised:"Authorisation saved. Approve in Monzo, then tap Verify connection.",state_error:"Login session expired or changed browser. Start again from Connect / reconnect.",declined:"Monzo authorisation was cancelled.",setup_required:"Monzo server settings still need completing.",failed:"Monzo authorisation failed. Check the client settings and reconnect."};
+  const message=messages[monzoResult]||"Check your Monzo connection.";
+  toast(message,monzoResult!=="authorised");
+  if(monzoResult!=="authorised"){
+    $("detailTitle").textContent="Monzo connection needs attention";
+    $("detailSummary").textContent="Your bank has not been connected.";
+    $("detailList").textContent=message;
+    $("detailModal").classList.remove("hidden");
+  }
   const clean=new URL(location.href);clean.searchParams.delete("monzo");history.replaceState(null,"",clean.pathname+clean.search+clean.hash);
 }

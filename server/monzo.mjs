@@ -5,8 +5,8 @@ const CALLBACK = `${ORIGIN}/api/monzo/callback`;
 const HUB = `${ORIGIN}/performance-hub-command-centre.html`;
 const COOKIE = '__Secure-jt_monzo_state';
 const headers = { 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff' };
-class Failure extends Error { constructor(message, status = 400) { super(message); this.status = status; } }
-const fail = (message, status) => { throw new Failure(message, status); };
+class Failure extends Error { constructor(message, status = 400, code = 'failed') { super(message); this.status = status; this.code = code; } }
+const fail = (message, status, code) => { throw new Failure(message, status, code); };
 const hash = value => createHash('sha256').update(value).digest('hex');
 const json = (body, status = 200, extra = {}) => new Response(JSON.stringify(body), { status, headers: { ...headers, 'Content-Type': 'application/json', ...extra } });
 const cookie = (value, age = 600) => `${COOKIE}=${value}; Path=/api/monzo; Max-Age=${age}; HttpOnly; Secure; SameSite=Lax`;
@@ -37,7 +37,7 @@ async function sb(c, path, method = 'GET', body, auth) {
     apikey: key, Authorization: `Bearer ${auth || key}`, 'Content-Type': 'application/json',
     Prefer: 'return=representation,resolution=merge-duplicates'
   }, ...(body !== undefined ? { body: JSON.stringify(body) } : {}) });
-  if (!r.ok) fail('The bank connection could not access secure Hub storage. Please try again.', 502);
+  if (!r.ok) fail('The bank connection could not access secure Hub storage. Please try again.', 502, 'storage_error');
   return r.status === 204 ? null : r.json();
 }
 async function requireOwner(request, c) {
@@ -56,9 +56,18 @@ async function requireOwner(request, c) {
 async function tokenRequest(c, fields) {
   const r = await fetch('https://api.monzo.com/oauth2/token', { method: 'POST', signal: AbortSignal.timeout(12000),
     body: new URLSearchParams({ client_id: c.clientId, client_secret: c.clientSecret, ...fields }) });
-  if (!r.ok) fail('Monzo authorisation expired or was refused. Please reconnect.', 401);
+  if (!r.ok) {
+    // Inspect only a provider error identifier; never expose its description or body.
+    const body = await r.json().catch(() => ({}));
+    const providerCode = typeof body.error === 'string' ? body.error : typeof body.code === 'string' ? body.code : '';
+    if (/invalid_client|unauthorized_client|client_secret/i.test(providerCode)) fail('Monzo rejected the client credentials. Check that the Client ID and Client Secret belong to the same Confidential client.', 401, 'client_credentials');
+    if (/invalid_grant|authorization_code/i.test(providerCode)) fail('The Monzo login code expired or was already used. Start a fresh connection in the same browser.', 401, 'login_expired');
+    if (/redirect/i.test(providerCode)) fail('The Monzo redirect URL does not match the registered client.', 400, 'redirect_error');
+    fail('Monzo refused the token exchange. Check the Confidential client settings and its Vercel credentials.', 401, 'token_rejected');
+  }
   const data = await r.json();
-  if (!data.access_token || !data.refresh_token || !(data.expires_in > 0)) fail('Monzo did not return a renewable connection. Check that the client is Confidential.', 502);
+  if (!data.access_token || !(data.expires_in > 0)) fail('Monzo returned an incomplete token response.', 502, 'token_incomplete');
+  if (!data.refresh_token) fail('Monzo did not return a refresh token. Set the OAuth client to Confidential, then reconnect.', 502, 'not_confidential');
   return { access_token: data.access_token, refresh_token: data.refresh_token, expires_at: Date.now() + data.expires_in * 1000 };
 }
 async function tokenFor(c, owner) {
@@ -98,6 +107,7 @@ async function connection(c, status, detail) {
 
 export async function handleMonzo(request) {
   const c = config(), url = new URL(request.url), action = url.pathname.split('/').pop();
+  let callbackOwner = null;
   try {
     if (!['status', 'start', 'callback', 'verify', 'transactions'].includes(action)) return json({ error: 'Not found.' }, 404);
     const expectedMethod = ['start', 'verify'].includes(action) ? 'POST' : 'GET';
@@ -114,8 +124,9 @@ export async function handleMonzo(request) {
       const code = url.searchParams.get('code');
       if (!code || code.length > 2048) return redirect('failed');
       const owner = rows[0].owner_id;
+      callbackOwner = owner;
       const staff = await sb(c, `rest/v1/hub_staff?user_id=eq.${encodeURIComponent(owner)}&role=eq.owner&select=user_id`);
-      if (!staff?.length) return redirect('failed');
+      if (!staff?.length) return redirect('owner_error');
       const tokens = await tokenRequest(c, { grant_type: 'authorization_code', redirect_uri: CALLBACK, code });
       await sb(c, 'rest/v1/jt_monzo_credentials?on_conflict=owner_id', 'POST', {
         owner_id: owner, encrypted_tokens: seal(tokens, c, owner), account_id: null, account_label: null,
@@ -162,7 +173,15 @@ export async function handleMonzo(request) {
     return json({ account: selected.account_label, transactions, limit: 100, days: 89, possiblyTruncated: (data.transactions || []).length === 100 });
   } catch (error) {
     // Never return provider response bodies, OAuth codes, or tokens to the browser/logs.
-    if (action === 'callback') return redirect('failed');
+    if (action === 'callback') {
+      const reason = error instanceof Failure ? error.code : error?.name === 'TimeoutError' ? 'timeout' : 'failed';
+      // Fixed error codes only: no request URL, state, OAuth code, tokens or raw exceptions.
+      console.warn('Monzo callback failed:', reason);
+      if (callbackOwner) {
+        try { await connection(c, 'error', error instanceof Failure ? error.message : 'Monzo connection failed. Please reconnect.'); } catch {}
+      }
+      return redirect(reason);
+    }
     return json({ error: error instanceof Failure ? error.message : 'The secure Monzo connection could not complete. Please try again.' }, error instanceof Failure ? error.status : 502);
   }
 }

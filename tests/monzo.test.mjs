@@ -149,3 +149,21 @@ test('concurrent refresh is refused without redeeming refresh token twice',async
   mock(t,(url,opts)=>{assert(url.includes('jt_monzo_credentials'));return response(opts.method==='PATCH'?[]:[{encrypted_tokens}]);});
   const r=await handleMonzo(request('verify','POST'));assert.equal(r.status,409);assert.match(await r.text(),/refreshing/);
 });
+
+for (const scenario of [
+  {body:{error:'invalid_client',error_description:'DO-NOT-EXPOSE'},status:401,reason:'client_credentials'},
+  {body:{access_token:'DO-NOT-EXPOSE',expires_in:3600},status:200,reason:'not_confidential'},
+  {body:{error:'invalid_grant'},status:400,reason:'login_expired'}
+]) test(`callback reports ${scenario.reason} without exposing secrets`,async t=>{
+  let detail;
+  mock(t,(url,opts)=>{
+    if(url.includes('jt_monzo_oauth_states'))return response([{owner_id:owner}]);
+    if(url.includes('hub_staff'))return response([{user_id:owner}]);
+    if(url.includes('/oauth2/token'))return response(scenario.body,scenario.status);
+    if(url.includes('jt_ops_connections')){detail=JSON.parse(opts.body);return response([]);}
+    throw new Error('Unexpected request');
+  });
+  const state='a'.repeat(64),r=await handleMonzo(new Request(`${origin}/api/monzo/callback?state=${state}&code=DO-NOT-EXPOSE`,{headers:{Cookie:`__Secure-jt_monzo_state=${state}`}}));
+  assert(r.headers.get('location').endsWith(scenario.reason));
+  assert.equal(detail.status,'error');assert(!JSON.stringify(detail).includes('DO-NOT-EXPOSE'));assert(!r.headers.get('location').includes('DO-NOT-EXPOSE'));
+});
