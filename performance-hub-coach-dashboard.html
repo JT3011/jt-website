@@ -32,7 +32,7 @@
     .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}.primary{min-height:45px;padding:0 18px;border:1px solid transparent;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#050505;font-weight:900;text-transform:uppercase;font-size:.61rem;letter-spacing:.7px;cursor:pointer}.secondary{min-height:45px;padding:0 18px;border:1px solid var(--whiteLine);border-radius:999px;background:#101010;color:var(--white);font-weight:900;text-transform:uppercase;font-size:.61rem;cursor:pointer}
     .media-zone{margin-top:16px;padding:18px;border:1px solid var(--whiteLine);border-radius:18px;background:#0b0b0b}.media-zone input{padding:10px}.media-status{margin-top:9px;color:var(--muted);font-size:.65rem;line-height:1.5}.media-list{display:grid;gap:7px;margin-top:10px}.media-item{display:flex;justify-content:space-between;gap:12px;padding:10px;border:1px solid var(--whiteLine);border-radius:12px;color:#d5cebd;font-size:.67rem}
     .toast{position:fixed;right:18px;bottom:18px;z-index:100;max-width:360px;padding:14px 16px;border:1px solid var(--line);border-radius:15px;background:#0c0c0c;color:var(--white);box-shadow:var(--shadow);font-size:.72rem;line-height:1.5}
-    @media(max-width:760px){.brand-copy{display:none}.top-actions a{display:none}.main{width:min(100% - 24px,1440px);padding-top:28px}.hero{grid-template-columns:1fr}.date-chip{text-align:left}.stats{grid-template-columns:1fr}.session-card{grid-template-columns:82px minmax(0,1fr)}.open-session{grid-column:1/-1;width:100%}.grid2,.ratings{grid-template-columns:1fr}.modal{padding:19px}.search-row{grid-template-columns:1fr}}
+    @media(max-width:760px){.brand-copy{display:none}.top-actions a{display:none}.top-actions a#commandCentreLink{display:inline-flex;white-space:nowrap;padding:0 12px;font-size:.56rem}.main{width:min(100% - 24px,1440px);padding-top:28px}.hero{grid-template-columns:1fr}.date-chip{text-align:left}.stats{grid-template-columns:1fr}.session-card{grid-template-columns:82px minmax(0,1fr)}.open-session{grid-column:1/-1;width:100%}.grid2,.ratings{grid-template-columns:1fr}.modal{padding:19px}.search-row{grid-template-columns:1fr}}
   </style>
 
   <!-- JT Performance Hub PWA -->
@@ -53,7 +53,7 @@
 <body>
 <header class="topbar"><div class="topbar-inner">
   <a class="brand" href="/performance-hub-coach-dashboard.html"><img src="images/logo.jpeg" alt="JT"><span class="brand-copy"><strong>JT Coach</strong><span>Session Connect</span></span></a>
-  <div class="top-actions"><a class="pill-btn" href="/performance-hub-dashboard.html">Player Hub</a><button class="pill-btn" id="signOut">Sign Out</button></div>
+  <div class="top-actions"><a class="pill-btn gold hidden" id="commandCentreLink" href="/performance-hub-command-centre.html">Command Centre</a><a class="pill-btn" href="/performance-hub-dashboard.html">Player Hub</a><button class="pill-btn" id="signOut">Sign Out</button></div>
 </div></header>
 
 <main class="main">
@@ -97,7 +97,7 @@
 </div></div>
 
 <div class="toast hidden" id="toast"></div>
-<script type="module" src="/performance-hub-coach-dashboard.js"></script>
+<script type="module" src="/performance-hub-coach-dashboard.js?v=20260916.1"></script>
   <script type="module" src="/performance-hub-needs-linking.js"></script>
 </body>
 </html>
