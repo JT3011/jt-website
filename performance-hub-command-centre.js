@@ -30,13 +30,14 @@ async function requireOwner(){
 async function loadConnections(){
   const {data,error}=await db.from("jt_ops_connections").select("*").order("label");
   if(error)throw error;connections=data||[];
-  $("connections").innerHTML=connections.map(c=>`<article class="card"><div class="connection-top"><strong>${esc(c.label)}</strong><span class="status ${esc(c.status)}">${esc(c.status.replace("_"," "))}</span></div><p>${esc(c.status_detail)}</p><span class="muted">Last sync: ${esc(when(c.last_synced_at))}</span><div class="connection-actions">${sourcePanels[c.id]?`<button class="mini-btn gold" type="button" data-detail="${esc(sourcePanels[c.id])}">View in Hub</button>`:""}${sourceLinks[c.id]?`<a class="mini-btn" href="${esc(sourceLinks[c.id])}" target="_blank" rel="noreferrer">Open source</a>`:""}</div></article>`).join("");
+  $("connections").innerHTML=connections.map(c=>`<article class="card"><div class="connection-top"><strong>${esc(c.label)}</strong><span class="status ${esc(c.status)}">${esc(c.status.replace("_"," "))}</span></div><p>${esc(c.status_detail)}</p><span class="muted">Last sync: ${esc(when(c.last_synced_at))}</span><div class="connection-actions">${c.id==="monzo"?`<button class="mini-btn gold" type="button" data-monzo="start">Connect / reconnect</button><button class="mini-btn" type="button" data-monzo="verify">Verify connection</button><button class="mini-btn" type="button" data-monzo="transactions">View bank activity</button>`:""}${sourcePanels[c.id]?`<button class="mini-btn gold" type="button" data-detail="${esc(sourcePanels[c.id])}">View in Hub</button>`:""}${sourceLinks[c.id]?`<a class="mini-btn" href="${esc(sourceLinks[c.id])}" target="_blank" rel="noreferrer">Open source</a>`:""}</div></article>`).join("");
+  $("connections").querySelectorAll("[data-monzo]").forEach(button=>button.addEventListener("click",()=>monzoAction(button)));
   $("connections").querySelectorAll("[data-detail]").forEach(button=>button.addEventListener("click",()=>openDetails(button.dataset.detail)));
 }
 
 async function loadAutomations(){
   const {data,error}=await db.from("jt_ops_automation_settings").select("*").order("label");if(error)throw error;
-  $("automations").innerHTML=(data||[]).map(a=>{const source={booking_sync:"calendly",payment_matching:"monzo",whatsapp_messages:"whatsapp",social_publishing:"buffer",ai_briefings:"chatgpt"}[a.automation_key];const ready=connections.find(c=>c.id===source)?.status==="connected";return `<div class="row"><div><strong>${esc(a.label)}</strong><div class="muted">${esc(ready?a.description:"Connect the service to activate")}</div></div><button class="toggle ${a.enabled?"on":""}" data-key="${esc(a.automation_key)}" data-enabled="${a.enabled}" ${ready?"":"disabled"} aria-label="Toggle ${esc(a.label)}"></button></div>`}).join("");
+  $("automations").innerHTML=(data||[]).map(a=>{const source={booking_sync:"calendly",payment_matching:"monzo",whatsapp_messages:"whatsapp",social_publishing:"buffer",ai_briefings:"chatgpt"}[a.automation_key];const ready=a.automation_key!=="payment_matching"&&connections.find(c=>c.id===source)?.status==="connected";return `<div class="row"><div><strong>${esc(a.label)}</strong><div class="muted">${esc(ready?a.description:a.automation_key==="payment_matching"?"Bank activity can be viewed separately. Automatic matching is not enabled.":"Connect the service to activate")}</div></div><button class="toggle ${a.enabled?"on":""}" data-key="${esc(a.automation_key)}" data-enabled="${a.enabled}" ${ready?"":"disabled"} aria-label="Toggle ${esc(a.label)}"></button></div>`}).join("");
   document.querySelectorAll(".toggle").forEach(button=>button.addEventListener("click",()=>toggleAutomation(button)));
 }
 
@@ -140,3 +141,51 @@ $("signOut").addEventListener("click",async()=>{await db.auth.signOut();location
 
 async function loadAll(){try{await loadConnections();await Promise.all([loadAutomations(),loadMetrics(),loadActions(),loadActivity()])}catch(error){toast(error.message||"Command Centre could not load",true)}}
 if(await requireOwner()){$("loading").classList.add("hidden");$("app").classList.remove("hidden");await loadAll()}
+
+
+async function monzoApi(action,method="GET"){
+  const {data:{session}}=await db.auth.getSession();
+  if(!session)throw new Error("Sign in to your owner account first.");
+  const response=await fetch(`/api/monzo/${action}`,{method,headers:{Authorization:`Bearer ${session.access_token}`},cache:"no-store"});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Monzo connection unavailable.");
+  return data;
+}
+async function monzoAction(button){
+  button.disabled=true;
+  try{
+    const action=button.dataset.monzo;
+    if(action==="start"){
+      const status=await monzoApi("status");
+      if(!status.configured){
+        $("detailTitle").textContent="Finish Monzo setup";
+        $("detailSummary").textContent="Your bank is not connected yet.";
+        $("detailList").innerHTML=`<p>Add your Monzo Client ID and Client Secret in the Production environment settings, then redeploy the website. Keep the secret out of chat.</p><p><a class="mini-btn gold" href="https://vercel.com/james-taylors-projects-493267d7/jt-website/settings/environment-variables" target="_blank" rel="noreferrer">Open secure settings</a></p><p>Settings: <strong>MONZO_CLIENT_ID</strong> and <strong>MONZO_CLIENT_SECRET</strong>. Mark the secret as sensitive.</p><p>Once the deployment finishes, return here and tap Connect / reconnect. Complete login in this same browser.</p>`;
+        $("detailModal").classList.remove("hidden");return;
+      }
+      const data=await monzoApi("start","POST");location.assign(data.url);return;
+    }
+    if(action==="verify"){
+      const data=await monzoApi("verify","POST");
+      toast(`${data.account} connected`);await loadConnections();await loadAutomations();return;
+    }
+    $("detailTitle").textContent="Monzo Business activity";
+    $("detailSummary").textContent="Reading your Business account…";
+    $("detailList").textContent="Loading…";
+    $("detailModal").classList.remove("hidden");
+    activeDetailType="monzo";
+    const data=await monzoApi("transactions");
+    if(activeDetailType!=="monzo")return;
+    $("detailSummary").textContent=`${data.account} · ${data.transactions.length} transactions returned from the last ${data.days} days${data.possiblyTruncated?" · 100-record limit reached; this is not a complete statement":""}. Bank activity is separate from logged coaching revenue.`;
+    $("detailList").innerHTML=data.transactions.length?data.transactions.map(t=>`<div class="detail-row"><div><strong>${esc(t.description||"Bank transaction")}</strong><span>${esc(t.settled?"Settled":"Pending / settlement not provided")}</span></div><span>${esc(when(t.created))}</span><span>${esc(t.amount>0?"Money in":"Money out")}</span><span class="detail-value">${esc(new Intl.NumberFormat("en-GB",{style:"currency",currency:t.currency||"GBP"}).format(t.amount/100))}</span></div>`).join(""):`<p>No transactions returned for this period.</p>`;
+  }catch(error){
+    if(button.dataset.monzo==="transactions"){$("detailSummary").textContent="Bank activity unavailable";$("detailList").textContent=error.message;}
+    toast(error.message,true);
+  }finally{button.disabled=false;}
+}
+const monzoResult=new URLSearchParams(location.search).get("monzo");
+if(monzoResult){
+  const messages={authorised:"Authorisation saved. Approve in Monzo, then tap Verify connection.",state_error:"Login session expired or changed browser. Start again from Connect / reconnect.",declined:"Monzo authorisation was cancelled.",setup_required:"Monzo server settings still need completing.",failed:"Monzo authorisation failed. Check the client settings and reconnect."};
+  toast(messages[monzoResult]||"Check your Monzo connection.",monzoResult!=="authorised");
+  const clean=new URL(location.href);clean.searchParams.delete("monzo");history.replaceState(null,"",clean.pathname+clean.search+clean.hash);
+}
