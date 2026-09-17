@@ -2409,6 +2409,29 @@
     }
     @media(max-width:360px) { #shop .collection-grid { grid-template-columns:1fr; } #shop .collection-toolbar { align-items:start; flex-direction:column; } }
     @media(prefers-reduced-motion:reduce) { #shop img,#shop a { transition:none!important; } }
+
+    /* Transparent collection photography: charcoal separation for black garments. */
+    #shop .collection-photo,
+    #shop .collection-hero-photo {
+      background:radial-gradient(ellipse at 50% 35%,#454239 0%,#292824 48%,#151514 100%);
+      border:1px solid rgba(207,183,127,.15);
+      color:#f4f0e8;
+    }
+    #shop .collection-image-link img,
+    #shop .collection-hero-photo img {
+      mix-blend-mode:normal;
+    }
+    #shop .collection-number { color:#ddd0b5; }
+    #shop .collection-hero-label { color:#e7d9ba; text-shadow:0 1px 5px #000; }
+    #shop .collection-hero-caption {
+      left:0; right:0; bottom:0; padding:42px 26px 24px;
+      color:#f4f0e8;
+      background:linear-gradient(transparent,rgba(0,0,0,.8));
+      text-shadow:0 1px 4px #000;
+    }
+    #shop .collection-views { background:#161613; border-color:#807253; }
+    #shop .collection-views button { color:#d6ccba; }
+    #shop .collection-views button[aria-pressed="true"] { background:#cfb77f; color:#14130f; }
   </style>
 </head>
 
@@ -3248,7 +3271,7 @@
             </div>
             <a class="collection-hero-photo" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" aria-label="Shop the Performance Tee for £28 at TShirtStudio">
               <span class="collection-hero-label">The everyday signature / 01</span>
-              <img src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-front.jpg" alt="Black JT Performance Tee with gold chest logo" width="700" height="700" loading="lazy" decoding="async">
+              <img src="/images/collection/tee-front-cutout-v1.webp" alt="Black JT Performance Tee with gold chest logo" width="700" height="700" loading="lazy" decoding="async">
               <span class="collection-hero-caption"><span>Performance Tee <small>Discover the signature</small></span><span>£28 <span aria-hidden="true">↗</span></span></span>
             </a>
           </div>
@@ -3271,11 +3294,11 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">01 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" class="collection-image-link" aria-label="Shop Performance Tee at TShirtStudio">
-                  <img id="collection-image-tee" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-front.jpg" alt="JT Performance Tee, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-tee" src="/images/collection/tee-front-cutout-v1.webp" alt="JT Performance Tee, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 <div class="collection-views" role="group" aria-label="Performance Tee image view" hidden>
-                  <button type="button" aria-pressed="true" aria-controls="collection-image-tee" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-front.jpg" data-alt="JT Performance Tee, front view">Front</button>
-                  <button type="button" aria-pressed="false" aria-controls="collection-image-tee" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee-back.jpg" data-alt="JT Performance Tee, back view">Back</button>
+                  <button type="button" aria-pressed="true" aria-controls="collection-image-tee" data-image="/images/collection/tee-front-cutout-v1.webp" data-alt="JT Performance Tee, front view">Front</button>
+                  <button type="button" aria-pressed="false" aria-controls="collection-image-tee" data-image="/images/collection/tee-back-cutout-v1.webp" data-alt="JT Performance Tee, back view">Back</button>
                 </div>
               </div>
               <div class="collection-card-top"><span>The everyday signature</span><span class="collection-price">£28</span></div>
@@ -3287,11 +3310,11 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">02 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie" class="collection-image-link" aria-label="Shop Performance Hoodie at TShirtStudio">
-                  <img id="collection-image-hoodie" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie-front.jpg" alt="JT Performance Hoodie, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-hoodie" src="/images/collection/hoodie-front-cutout-v1.webp" alt="JT Performance Hoodie, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 <div class="collection-views" role="group" aria-label="Performance Hoodie image view" hidden>
-                  <button type="button" aria-pressed="true" aria-controls="collection-image-hoodie" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie-front.jpg" data-alt="JT Performance Hoodie, front view">Front</button>
-                  <button type="button" aria-pressed="false" aria-controls="collection-image-hoodie" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie-back.jpg" data-alt="JT Performance Hoodie, back view">Back</button>
+                  <button type="button" aria-pressed="true" aria-controls="collection-image-hoodie" data-image="/images/collection/hoodie-front-cutout-v1.webp" data-alt="JT Performance Hoodie, front view">Front</button>
+                  <button type="button" aria-pressed="false" aria-controls="collection-image-hoodie" data-image="/images/collection/hoodie-back-cutout-v1.webp" data-alt="JT Performance Hoodie, back view">Back</button>
                 </div>
               </div>
               <div class="collection-card-top"><span>Off-duty essentials</span><span class="collection-price">£35</span></div>
@@ -3303,11 +3326,11 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">03 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-2" class="collection-image-link" aria-label="Shop Performance Sweatshirt at TShirtStudio">
-                  <img id="collection-image-sweatshirt" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-front.jpg-2" alt="JT Performance Sweatshirt, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-sweatshirt" src="/images/collection/sweatshirt-front-cutout-v1.webp" alt="JT Performance Sweatshirt, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 <div class="collection-views" role="group" aria-label="Performance Sweatshirt image view" hidden>
-                  <button type="button" aria-pressed="true" aria-controls="collection-image-sweatshirt" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-front.jpg-2" data-alt="JT Performance Sweatshirt, front view">Front</button>
-                  <button type="button" aria-pressed="false" aria-controls="collection-image-sweatshirt" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-back.jpg-2" data-alt="JT Performance Sweatshirt, back view">Back</button>
+                  <button type="button" aria-pressed="true" aria-controls="collection-image-sweatshirt" data-image="/images/collection/sweatshirt-front-cutout-v1.webp" data-alt="JT Performance Sweatshirt, front view">Front</button>
+                  <button type="button" aria-pressed="false" aria-controls="collection-image-sweatshirt" data-image="/images/collection/sweatshirt-back-cutout-v1.webp" data-alt="JT Performance Sweatshirt, back view">Back</button>
                 </div>
               </div>
               <div class="collection-card-top"><span>Layer with intention</span><span class="collection-price">£33</span></div>
@@ -3319,11 +3342,11 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">04 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat" class="collection-image-link" aria-label="Shop Performance Coat at TShirtStudio">
-                  <img id="collection-image-coat" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat-front.jpg" alt="JT Performance Coat, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-coat" src="/images/collection/coat-front-cutout-v1.webp" alt="JT Performance Coat, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 <div class="collection-views" role="group" aria-label="Performance Coat image view" hidden>
-                  <button type="button" aria-pressed="true" aria-controls="collection-image-coat" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat-front.jpg" data-alt="JT Performance Coat, front view">Front</button>
-                  <button type="button" aria-pressed="false" aria-controls="collection-image-coat" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat-back.jpg" data-alt="JT Performance Coat, back view">Back</button>
+                  <button type="button" aria-pressed="true" aria-controls="collection-image-coat" data-image="/images/collection/coat-front-cutout-v1.webp" data-alt="JT Performance Coat, front view">Front</button>
+                  <button type="button" aria-pressed="false" aria-controls="collection-image-coat" data-image="/images/collection/coat-back-cutout-v1.webp" data-alt="JT Performance Coat, back view">Back</button>
                 </div>
               </div>
               <div class="collection-card-top"><span>For the sidelines</span><span class="collection-price">£46</span></div>
@@ -3335,7 +3358,7 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">05 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap" class="collection-image-link" aria-label="Shop Athlete Cap at TShirtStudio">
-                  <img id="collection-image-cap" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap-front.jpg" alt="JT Athlete Cap, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-cap" src="/images/collection/cap-front-cutout-v1.webp" alt="JT Athlete Cap, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 
               </div>
@@ -3348,11 +3371,11 @@
               <div class="collection-photo">
                 <span class="collection-number" aria-hidden="true">06 / JT</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle" class="collection-image-link" aria-label="Shop Hydration Bottle at TShirtStudio">
-                  <img id="collection-image-bottle" src="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle-front.jpg" alt="JT Hydration Bottle, front view" width="700" height="700" loading="lazy" decoding="async">
+                  <img id="collection-image-bottle" src="/images/collection/water-bottle-front-cutout-v1.webp" alt="JT Hydration Bottle, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 <div class="collection-views" role="group" aria-label="Hydration Bottle image view" hidden>
-                  <button type="button" aria-pressed="true" aria-controls="collection-image-bottle" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle-front.jpg" data-alt="JT Hydration Bottle, front view">Front</button>
-                  <button type="button" aria-pressed="false" aria-controls="collection-image-bottle" data-image="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle-back.jpg" data-alt="JT Hydration Bottle, back view">Back</button>
+                  <button type="button" aria-pressed="true" aria-controls="collection-image-bottle" data-image="/images/collection/water-bottle-front-cutout-v1.webp" data-alt="JT Hydration Bottle, front view">Front</button>
+                  <button type="button" aria-pressed="false" aria-controls="collection-image-bottle" data-image="/images/collection/water-bottle-back-cutout-v1.webp" data-alt="JT Hydration Bottle, back view">Back</button>
                 </div>
               </div>
               <div class="collection-card-top"><span>Complete the routine</span><span class="collection-price">£13</span></div>
