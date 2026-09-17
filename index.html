@@ -2433,6 +2433,38 @@
     #shop .collection-views button { color:#d6ccba; }
     #shop .collection-views button[aria-pressed="true"] { background:#cfb77f; color:#14130f; }
   </style>
+
+  <style id="jt-collection-motion-styles">
+    #shop .collection-motion-control { display:flex; align-items:center; gap:12px; margin:0 0 20px; color:#bcb8ad; font-size:11px; }
+    #shop .collection-motion-toggle,#shop .collection-turn { min-height:44px; padding:10px 14px; border:1px solid #807253; background:#171611; color:#e6d5ae; font:inherit; font-size:10px; cursor:pointer; }
+    #shop .collection-turn { position:absolute; bottom:14px; left:14px; z-index:3; }
+    #shop .collection-photo,#shop .collection-hero-photo { isolation:isolate; }
+    #shop .collection-photo::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:-1; background:radial-gradient(ellipse at var(--light-x,50%) var(--light-y,38%),rgba(212,175,55,.16),transparent 65%); }
+    #shop.collection-motion-on .collection-image-link img,
+    #shop.collection-motion-on .collection-hero-photo img {
+      transform:perspective(900px) translate3d(var(--move-x,0px),var(--move-y,0px),0) rotateX(var(--tilt-x,0deg)) rotateY(calc(var(--turn-y,0deg) + var(--tilt-y,0deg))) rotateZ(var(--roll,0deg)) scale(var(--piece-scale,.9));
+      transform-origin:50% 52%; transition:none;
+    }
+    #shop.collection-motion-on .collection-photo.is-motion-visible img,
+    #shop.collection-motion-on .collection-hero-photo.is-motion-visible img { will-change:transform; }
+    #shop .collection-number,#shop .collection-hero-label,#shop .collection-hero-caption { z-index:2; }
+    #shop .collection-views { z-index:3; }
+    #shop .collection-buy span { transition:transform .25s ease; }
+    #shop .collection-buy:hover span { transform:translate(3px,-3px); }
+    #shop .collection-motion-toggle[aria-pressed="false"] { color:#aaa69c; border-color:#514d42; }
+    #shop:not(.collection-motion-on) .collection-turn { display:none; }
+    #shop.collection-motion-paused .collection-image-link img,#shop.collection-motion-paused .collection-hero-photo img { transform:none; transition:none; }
+    @media(max-width:600px) {
+      #shop .collection-turn { left:7px; bottom:7px; padding:8px; font-size:9px; }
+      #shop .collection-motion-control { align-items:flex-start; }
+      #shop .collection-motion-control span { max-width:180px; line-height:1.6; }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      #shop .collection-motion-control,#shop .collection-turn { display:none!important; }
+      #shop .collection-image-link img,#shop .collection-hero-photo img { transform:none!important; animation:none!important; transition:none!important; }
+      #shop .collection-buy span { transform:none!important; transition:none!important; }
+    }
+  </style>
 </head>
 
 <body>
@@ -3733,6 +3765,135 @@
           });
         });
       });
+    })();
+  </script>
+
+  <script id="jt-collection-motion">
+    (function collectionMotion() {
+      const shop = document.getElementById('shop');
+      if (!shop || !window.matchMedia || !('IntersectionObserver' in window)) return;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const narrow = window.matchMedia('(max-width: 600px)');
+      const clamp = (n,lo,hi) => Math.min(hi,Math.max(lo,n));
+      let enabled = !reduced.matches, frame = 0;
+      const active = new Set();
+      const animations = new Map();
+      const panels = Array.from(shop.querySelectorAll('.collection-photo,.collection-hero-photo'));
+      // Unique movement direction and amplitude for each piece. Only photos move;
+      // prices, links and image-view controls stay in place.
+      const profiles = [[12,22,12,-3],[8,34,-21,4],[-12,24,24,-7],[14,28,-18,6],[-8,36,16,-4],[10,24,-24,5],[-10,30,20,-6],[15,20,-28,9],[-7,38,25,-5]];
+      const states = panels.map((panel,i) => ({panel,img:panel.querySelector('img'),profile:profiles[i % profiles.length],px:0,py:0}));
+      const control = document.createElement('div');
+      control.className = 'collection-motion-control';
+      const toggle = document.createElement('button');
+      toggle.type = 'button'; toggle.className = 'collection-motion-toggle';
+      toggle.setAttribute('aria-label','Collection motion');
+      const hint = document.createElement('span');
+      hint.textContent = 'Scroll to explore. Tap Turn to move a piece.';
+      control.append(toggle,hint);
+      shop.querySelector('.collection-toolbar').before(control);
+      function requestFrame() {
+        if (!frame && enabled && !document.hidden) frame = requestAnimationFrame(render);
+      }
+      function render() {
+        frame = 0;
+        if (!enabled || document.hidden) return;
+        const height = window.innerHeight;
+        const factor = narrow.matches ? .7 : 1;
+        // Read all layout positions before writing transforms.
+        const measurements = states.filter(s => active.has(s.panel) && !s.panel.closest('[hidden]')).map(s => ({s,rect:s.panel.getBoundingClientRect()}));
+        measurements.forEach(({s,rect}) => {
+          const p = clamp((height*.52-(rect.top+rect.height*.5))/(height*.5+rect.height*.5),-1,1);
+          const [x,y,turn,roll] = s.profile;
+          s.img.style.setProperty('--move-x',(p*x*factor).toFixed(2)+'px');
+          s.img.style.setProperty('--move-y',(p*y*factor).toFixed(2)+'px');
+          s.img.style.setProperty('--turn-y',(p*turn*factor).toFixed(2)+'deg');
+          s.img.style.setProperty('--roll',(p*roll*factor).toFixed(2)+'deg');
+          s.img.style.setProperty('--piece-scale',String(.9+.025*(1-Math.abs(p))));
+          s.img.style.setProperty('--tilt-x',(-s.py*6).toFixed(2)+'deg');
+          s.img.style.setProperty('--tilt-y',(s.px*11).toFixed(2)+'deg');
+          s.panel.style.setProperty('--light-x',(50+s.px*22+p*12)+'%');
+          s.panel.style.setProperty('--light-y',(38+s.py*15)+'%');
+        });
+      }
+      function updateMode() {
+        if (reduced.matches) enabled = false;
+        shop.classList.toggle('collection-motion-on',enabled);
+        shop.classList.toggle('collection-motion-paused',!enabled);
+        toggle.setAttribute('aria-pressed',String(enabled));
+        toggle.textContent = enabled ? 'Motion on · pause' : 'Motion off · play';
+        if (!enabled) {
+          cancelAnimationFrame(frame); frame = 0;
+          animations.forEach(a => a.cancel()); animations.clear();
+          states.forEach(s => { s.img.style.removeProperty('transform'); s.px=0; s.py=0; });
+        } else requestFrame();
+      }
+      toggle.addEventListener('click',() => { enabled = !enabled; updateMode(); });
+      reduced.addEventListener('change',() => { enabled = !reduced.matches; updateMode(); });
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          entry.target.classList.toggle('is-motion-visible',entry.isIntersecting);
+          if (entry.isIntersecting) active.add(entry.target);
+          else {
+            active.delete(entry.target);
+            const s=states.find(s=>s.panel===entry.target);
+            if(s) { s.px=0; s.py=0; const a=animations.get(s.img); if(a) a.cancel(); animations.delete(s.img); }
+          }
+        });
+        requestFrame();
+      },{rootMargin:'80px 0px',threshold:0});
+      states.forEach((s,i) => {
+        observer.observe(s.panel);
+        s.panel.addEventListener('pointermove',event => {
+          if (!enabled || !fine.matches || event.pointerType === 'touch') return;
+          const r=s.panel.getBoundingClientRect();
+          s.px=clamp((event.clientX-r.left)/r.width*2-1,-1,1);
+          s.py=clamp((event.clientY-r.top)/r.height*2-1,-1,1);
+          requestFrame();
+        },{passive:true});
+        s.panel.addEventListener('pointerleave',()=>{ s.px=0; s.py=0; requestFrame(); });
+        if (!s.panel.classList.contains('collection-photo')) return;
+        const turn=document.createElement('button');
+        turn.type='button'; turn.className='collection-turn'; turn.textContent='Turn ↻';
+        const name=s.panel.closest('.collection-card').querySelector('h4').textContent;
+        turn.setAttribute('aria-label','Animate '+name);
+        s.panel.append(turn);
+        function turnPiece() {
+          if(!enabled || reduced.matches || !s.img.animate) return;
+          const previous=animations.get(s.img); if(previous) previous.cancel();
+          const direction=i%2 ? -1 : 1;
+          const rest=getComputedStyle(s.img).transform;
+          const animation=s.img.animate([
+            {transform:rest},
+            {transform:'perspective(900px) translateY(-12px) rotateY('+direction*42+'deg) rotateZ('+direction*6+'deg) scale(.87)',offset:.38},
+            {transform:'perspective(900px) translateY(3px) rotateY('+(-direction*14)+'deg) rotateZ('+(-direction*3)+'deg) scale(.92)',offset:.74},
+            {transform:rest}
+          ],{duration:1100,easing:'cubic-bezier(.22,.65,.3,1)'});
+          animations.set(s.img,animation);
+          animation.onfinish=()=>{animations.delete(s.img);requestFrame();};
+        }
+        turn.addEventListener('click',turnPiece);
+        s.panel.querySelectorAll('.collection-views button').forEach(button => button.addEventListener('click',()=> {
+          // Existing view selector owns the image/alt update; wait for that image
+          // to be ready before animating it.
+          if(s.img.complete && s.img.naturalWidth) turnPiece();
+          else s.img.addEventListener('load',turnPiece,{once:true});
+        }));
+      });
+      window.addEventListener('scroll',requestFrame,{passive:true});
+      window.addEventListener('resize',requestFrame,{passive:true});
+      document.addEventListener('visibilitychange',()=> {
+        if(document.hidden) {
+          cancelAnimationFrame(frame); frame=0;
+          animations.forEach(a=>a.cancel()); animations.clear();
+        } else requestFrame();
+      });
+      shop.querySelector('.collection-filters').addEventListener('click',requestFrame);
+      // Late-loading fonts and images can shift this long landing page.
+      window.addEventListener('load',requestFrame,{once:true});
+      if('ResizeObserver' in window) new ResizeObserver(requestFrame).observe(shop);
+      updateMode();
     })();
   </script>
   <script src="/performance-hub-website-refresh.js"></script>
