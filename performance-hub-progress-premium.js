@@ -50,9 +50,9 @@ function addStyles() {
     .hero {
       position: relative;
       min-height: 520px !important;
-      border-color: rgba(219,193,129,.16) !important;
+      border-color: rgba(99,155,255,.16) !important;
       background:
-        radial-gradient(circle at 88% 2%, rgba(219,193,129,.17), transparent 28rem),
+        radial-gradient(circle at 88% 2%, rgba(99,155,255,.17), transparent 28rem),
         linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.008)),
         #080808 !important;
       box-shadow: 0 34px 100px rgba(0,0,0,.48) !important;
@@ -65,11 +65,11 @@ function addStyles() {
       height: 500px;
       right: -230px;
       top: -250px;
-      border: 1px solid rgba(219,193,129,.11);
+      border: 1px solid rgba(99,155,255,.11);
       border-radius: 50%;
       box-shadow:
-        0 0 0 72px rgba(219,193,129,.017),
-        0 0 0 145px rgba(219,193,129,.009);
+        0 0 0 72px rgba(99,155,255,.017),
+        0 0 0 145px rgba(99,155,255,.009);
       pointer-events: none;
     }
 
@@ -108,7 +108,7 @@ function addStyles() {
           var(--gold) calc(var(--progress) * 1%),
           rgba(255,255,255,.065) 0
         );
-      box-shadow: 0 0 45px rgba(219,193,129,.07);
+      box-shadow: 0 0 45px rgba(99,155,255,.07);
       position: relative;
     }
 
@@ -119,7 +119,7 @@ function addStyles() {
       border: 1px solid rgba(255,255,255,.055);
       border-radius: 50%;
       background:
-        radial-gradient(circle at 50% 34%, rgba(219,193,129,.08), transparent 58%),
+        radial-gradient(circle at 50% 34%, rgba(99,155,255,.08), transparent 58%),
         #080808;
     }
 
@@ -181,9 +181,9 @@ function addStyles() {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-color: rgba(219,193,129,.16);
+      border-color: rgba(99,155,255,.16);
       background:
-        linear-gradient(135deg, rgba(219,193,129,.07), rgba(255,255,255,.012)),
+        linear-gradient(135deg, rgba(99,155,255,.07), rgba(255,255,255,.012)),
         #0a0a0a;
     }
 
@@ -215,7 +215,7 @@ function addStyles() {
       min-height: 390px !important;
       border-color: rgba(255,255,255,.07) !important;
       background:
-        radial-gradient(circle at 100% 0%, rgba(219,193,129,.08), transparent 18rem),
+        radial-gradient(circle at 100% 0%, rgba(99,155,255,.08), transparent 18rem),
         linear-gradient(150deg, rgba(255,255,255,.035), rgba(255,255,255,.008)),
         #0b0b0b !important;
       transition:
@@ -225,7 +225,7 @@ function addStyles() {
 
     .tracker-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(219,193,129,.27) !important;
+      border-color: rgba(99,155,255,.27) !important;
     }
 
     .jt-step-label {
@@ -264,13 +264,13 @@ function addStyles() {
 
     .jt-step:hover {
       transform: translateY(-2px);
-      border-color: rgba(219,193,129,.32);
+      border-color: rgba(99,155,255,.32);
       color: var(--gold);
     }
 
     .jt-step.active {
-      border-color: rgba(219,193,129,.4);
-      background: rgba(219,193,129,.1);
+      border-color: rgba(99,155,255,.4);
+      background: rgba(99,155,255,.1);
       color: var(--gold-light);
     }
 
@@ -438,13 +438,13 @@ function addStyles() {
     }
 
     .jt-milestone.unlocked {
-      border-color: rgba(219,193,129,.22);
-      background: rgba(219,193,129,.035);
+      border-color: rgba(99,155,255,.22);
+      background: rgba(99,155,255,.035);
     }
 
     .jt-milestone.unlocked .jt-milestone-icon {
-      border-color: rgba(219,193,129,.3);
-      background: rgba(219,193,129,.08);
+      border-color: rgba(99,155,255,.3);
+      background: rgba(99,155,255,.08);
       color: var(--gold-light);
     }
 
@@ -1551,3 +1551,4 @@ if (
 } else {
   initialise();
 }
+

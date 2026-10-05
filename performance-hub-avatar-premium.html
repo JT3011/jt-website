@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=2">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility2">
 </head>
 <body>
 <header class="top">
@@ -377,6 +377,7 @@ body.embed .loading .spin{margin:0 auto}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
+import {buildFacility} from "/performance-hub-facility.js?v=1";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader.js";
@@ -501,30 +502,10 @@ const deck=new THREE.Mesh(new THREE.CylinderGeometry(1.86,1.97,.14,120),new THRE
 const ringOuter=new THREE.Mesh(new THREE.TorusGeometry(2.05,.025,18,160),reactiveBasic());ringOuter.rotation.x=Math.PI/2;ringOuter.position.set(.7,.31,0);world.add(ringOuter);
 const ringInner=new THREE.Mesh(new THREE.TorusGeometry(1.67,.014,14,150),reactiveBasic());ringInner.rotation.x=Math.PI/2;ringInner.position.set(.7,.43,0);world.add(ringInner);
 
-// Architectural performance studio: concrete bays, smoked glazing and linear light.
-const wallMat=reactiveStandard({color:0x20262c,roughness:.82,metalness:.15});
-addBox([15,7,.3],[.7,3.5,-5],wallMat);
-const steel=new THREE.MeshStandardMaterial({color:0x26313a,roughness:.38,metalness:.8});
-const glass=new THREE.MeshPhysicalMaterial({color:0x6e93a1,roughness:.2,metalness:.25,transparent:true,opacity:.19});
-const architecturalLight=new THREE.MeshBasicMaterial({color:0xd8e8ee});
-for(const side of [-1,1]){
- for(let j=0;j<3;j++){
- const x=.7+side*(2.45+j*1.6);
- addBox([1.46,4.8,.08],[x,2.8,-4.78],glass);
- addBox([.05,5.2,.14],[x-.78,2.8,-4.65],steel);
- addBox([1.32,.022,.05],[x,4.9,-4.55],architecturalLight);
- }
- addBox([.22,6,8],[.7+side*6.5,3,-1],wallMat);
- addBox([.045,.025,8],[.7+side*2.8,.03,-1],architecturalLight);
- // Strength-training bays behind the glass.
- for(let j=0;j<3;j++)addBox([1.1,.08,.6],[.7+side*4,1+j*.43,-4.2],steel);
-}
-for(let j=0;j<5;j++){
- addBox([12,.11,.2],[.7,6,-4+j*1.5],steel);
- addBox([8,.018,.035],[.7,5.93,-4+j*1.5],architecturalLight);
-}
-// A restrained centre-wall brand plaque.
-addBox([2.8,2.8,.12],[.7,3.45,-4.65],new THREE.MeshStandardMaterial({color:0x090d12,roughness:.5,metalness:.55}));
+// Equipment and progress displays are part of the 3D facility, not a foreground overlay.
+const jtFacility=buildFacility(world);
+window.addEventListener('jt-section-progress',event=>jtFacility.update(event.detail));
+window.dispatchEvent(new Event('jt-facility-ready'));
 
 const brandTextureLoader = new THREE.TextureLoader();
 
@@ -541,11 +522,11 @@ const logoMaterial = new THREE.MeshBasicMaterial({
 });
 
 const logoPlane = new THREE.Mesh(
-  new THREE.PlaneGeometry(2.5, 2.5),
+  new THREE.PlaneGeometry(1.4, 1.4),
   logoMaterial
 );
 
-logoPlane.position.set(0.7, 3.45, -4.55);
+logoPlane.position.set(0.7, 5.25, -6.28);
 world.add(logoPlane);
 logoPlane.visible=true;
 
@@ -710,10 +691,11 @@ function frameDashboardAthlete(){
  const centre=bounds.getCenter(new THREE.Vector3());
  const size=bounds.getSize(new THREE.Vector3());
  const halfV=THREE.MathUtils.degToRad(camera.fov/2);
- const distance=Math.max(size.y*1.35/(2*Math.tan(halfV)),size.x*2.7/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
+ const visibleWidth=18;
+ const distance=Math.max(10/(2*Math.tan(halfV)),visibleWidth/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
  controls.minDistance=distance*.7;controls.maxDistance=distance*1.5;
- camera.position.set(centre.x,centre.y+.1,centre.z+distance);
- controls.target.copy(centre);controls.update();
+ camera.position.set(.7,7.5,distance);
+ controls.target.set(.7,2.0,-1);controls.update();
 }
 function direct(root,c){mixer=new THREE.AnimationMixer(root);const action=mixer.clipAction(c.clone());action.setLoop(THREE.LoopRepeat,Infinity);action.play();mode="direct"}
 function retarget(targetSkin,sourceSkin,c){
@@ -1222,7 +1204,8 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
-<script type="module" src="/performance-hub-holograms.js?v=1"></script>
+<script type="module" src="/performance-hub-holograms.js?v=facility2"></script>
 </body>
 </html>
+
 
