@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 // Metre-scale facility with shared, locally generated surface textures. No player data is stored here.
 export function buildFacility(world){
- const group=new THREE.Group();world.add(group);
+ const root=new THREE.Group();root.name='JT-spacious-facility';world.add(root);
+ let group=root;
+ const zones={};
+ for(const [name,x,z] of [['strength',-6,-3],['sled',-6,4],['pitch',6,4],['hydration',-3,-7],['recovery',5,-6]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
  const mat=(color,roughness=.6,metalness=.25)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
  // Seeded microdetail stays stable between visits and does not require remote textures.
  let seed=41;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
@@ -29,14 +32,19 @@ export function buildFacility(world){
  function tube(points,r,material=steel){const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,32,r,8,false),material);mesh.castShadow=true;group.add(mesh);return mesh;}
  function ring(r,t,x,y,z,material=steel,axis='y'){const mesh=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,48),material);mesh.position.set(x,y,z);if(axis==='y')mesh.rotation.x=Math.PI/2;if(axis==='x')mesh.rotation.y=Math.PI/2;group.add(mesh);return mesh;}
  function label(text,x,y,z,width=2,color='#dbc181'){const cv=document.createElement('canvas');cv.width=768;cv.height=128;const ctx=cv.getContext('2d');ctx.fillStyle='#101921';ctx.fillRect(0,0,768,128);ctx.fillStyle=color;ctx.font='600 34px sans-serif';ctx.textAlign='center';ctx.fillText(text,384,76);const texture=new THREE.CanvasTexture(cv);texture.colorSpace=THREE.SRGBColorSpace;const p=new THREE.Mesh(new THREE.PlaneGeometry(width,width/6),new THREE.MeshBasicMaterial({map:texture,toneMapped:false}));p.position.set(x,y,z);group.add(p);return p;}
- // Clear-span facility shell and illuminated structural roof beams.
- box(19,.12,18,.7,-.045,1,concrete);
- box(19,7,.2,.7,3.5,-6.5,concrete);
- // Open sides: no perimeter walls or glazing obstruct the facility.
- for(let z=-6;z<=7;z+=2){box(18,.14,.18,.7,5.4,z,steel);box(15,.022,.045,.7,5.31,z,glow);}
- for(let x=-8;x<10;x+=1.6)box(.035,6.5,.07,x,3.3,-6.34,steel);
- const light=new THREE.HemisphereLight(0xe3ecf2,0x3b3530,.8);group.add(light);
- // JT neon artwork provides the central branding; no overhead text heading.
+ // Large continuous interior. The side walls remain open; floor and ceiling extend beyond the camera envelope.
+ const floor=box(60,.12,64,.7,-.045,4,concrete);floor.name='facility-floor';
+ const ceiling=box(60,.12,64,.7,9.5,4,mat(0x12171b,.9,.1));ceiling.name='facility-ceiling';
+ box(60,9.5,.2,.7,4.75,-28,concrete);
+ for(let z=-24;z<=32;z+=8){box(58,.22,.20,.7,9.2,z,steel);for(const x of [-14,.7,15])box(10,.025,.08,x,9.05,z,glow);}
+ for(let x=-27;x<30;x+=4)box(.045,9,.10,x,4.5,-27.84,steel);
+ for(const x of [-26,27])for(const z of [-22,-6,10,30])box(.3,9.3,.3,x,4.65,z,steel);
+ const light=new THREE.HemisphereLight(0xe3ecf2,0x3b3530,1.05);root.add(light);
+ // Central feature wall keeps the avatar, neon artwork and holograms together.
+ box(4.2,4.8,.16,.7,2.4,-3.38,mat(0x101315,.72,.3));
+ for(const x of [-1.35,2.75])box(.025,4.65,.025,x,2.4,-3.275,goldMetal);
+ // Individual room zones are translated only: all equipment dimensions are preserved.
+ group=zones.strength;
  // Strength zone: three-tier dumbbell rack, free weights, bench and loaded barbell.
  box(5.1,.045,4.3,-5.25,.01,-3.6,rubber);
  label('01  /  STRENGTH',-5.5,4.5,-6.25,3);
@@ -51,6 +59,7 @@ export function buildFacility(world){
  const waterBag=new THREE.MeshPhysicalMaterial({color:0x70b6cf,transparent:true,opacity:.65,roughness:.18,metalness:0});
  for(let i=0;i<3;i++){cylinder(.19,.72,-3.45,.4,-4.2+i*.58,waterBag,'x');box(.3,.035,.035,-3.45,.63,-4.2+i*.58,steel);}
  label('WATER RESISTANCE',-3.4,1.15,-5.5,1.7,'#dbc181');
+ group=zones.sled;
  // Indoor astro sled lane, distance markings and weighted push sled.
  box(2.45,.035,9,-5.35,.025,3,turf);
  for(const x of [-6.5,-4.2])box(.035,.008,8.8,x,.05,3,white);
@@ -69,6 +78,7 @@ export function buildFacility(world){
  for(let i=0;i<3;i++)cylinder(.32,.08,sx,.37+i*.08,sz,rubber);
  for(const x of [sx-.48,sx+.48])cylinder(.04,1.2,x,.83,sz+.4,steel);
  label('02  /  SPEED & SLED',-5.35,2.25,-1.1,2.5,'#dbc181');
+ group=zones.pitch;
  // Indoor training pitch with mow stripes and flush painted markings.
  const pitchX=6.1;box(6.8,.04,9.5,pitchX,.025,2.4,turf);
  const stripe=turf.clone();stripe.color.set(0xc4d6bb);
@@ -128,11 +138,15 @@ export function buildFacility(world){
  const coneOrange=mat(0xf27631,.78,0),coneGold=mat(0xf0cc61,.78,0);
  for(const [i,x,z] of [[0,5,2.2],[1,5.45,3.0],[2,6,3.8],[3,6.7,4.6],[4,7.3,5.4],[5,8.9,6.6]]){const m=i%2?coneGold:coneOrange;cylinder(.035,.17,x,.14,z,m,'y',.12);box(.27,.025,.27,x,.066,z,m);cylinder(.037,.004,x,.229,z,rubber);}
  label('03  /  FOOTBALL LAB',6.1,2.6,-1.85,2.6,'#dbc181');
+ group=zones.hydration;
+ box(3.5,.015,2.5,-1.85,.02,-5.55,rubber);
  // Hydration station: counter, water dispenser, taps and refill bottles.
  label('HYDRATION',-1.85,3.0,-6.2,1.7,'#dbc181');
  box(1.65,1,.7,-1.85,.5,-5.65,steel);box(1.8,.08,.8,-1.85,1.04,-5.65,white);
  cylinder(.24,.68,-2.25,1.8,-5.65,waterBag);box(.5,.5,.45,-2.25,1.28,-5.65,white);cylinder(.028,.15,-2.25,1.38,-5.38,steel,'z');
  for(let i=0;i<4;i++){cylinder(.06,.27,-1.6+i*.19,1.23,-5.5,waterBag);cylinder(.045,.025,-1.6+i*.19,1.38,-5.5,steel);}
+ group=zones.recovery;
+ box(9,.015,5,5.25,.02,-4.8,rubber);
  // Recovery suite: timber sauna, ice bath, recliner and compression boots.
  label('04  /  RECOVERY SUITE',5.7,4.6,-6.24,3.6,'#dbc181');
  // Polar Eclipse 3-inspired: 1.5m wide x 1.4m deep x 2m high, black shell / cedar / glass.
@@ -165,14 +179,13 @@ export function buildFacility(world){
  const chair=box(.9,1.1,.18,2.4,1.05,-4.85,upholstery);chair.rotation.x=-.22;box(.9,.16,.8,2.4,.6,-4.35,upholstery);box(.85,.12,.8,2.4,.40,-3.6,upholstery);
  for(const x of [2.16,2.63]){cylinder(.14,.78,x,.59,-3.75,rubber,'z');box(.23,.14,.30,x,.52,-3.27,rubber);for(let j=0;j<4;j++)box(.28,.016,.025,x,.735,-4+j*.18,steel);}
  box(.24,.32,.3,3.0,.23,-3.6,white);label('COMPRESSION',2.45,1.95,-5.1,1.65,'#dbc181');
- // Architectural detail: baseboards, panel seams, tall glazing and ceiling services.
- box(18.6,.12,.07,.7,.07,-6.34,steel);
- for(let x=-8.2;x<9.5;x+=1.2)box(.015,.008,17.5,x,.019,1,steel);
- for(let z=-6;z<10;z+=1.2)box(18.6,.008,.015,.7,.019,z,steel);
- for(const x of [-5.2,5.6]){cylinder(.19,13,x,4.95,.5,steel,'z');for(let z=-5;z<7;z+=1.4)ring(.195,.015,x,4.95,z,white,'z');}
- // Real light sources under the ceiling fixtures; one shared facility shadow map.
- const overhead=new THREE.SpotLight(0xfff1dc,340,30,Math.PI*.43,.8,2);overhead.position.set(-2,6.5,1);overhead.target.position.set(0,0,-1);overhead.castShadow=true;overhead.shadow.mapSize.set(1024,1024);overhead.shadow.bias=-.0003;overhead.shadow.normalBias=.025;group.add(overhead,overhead.target);
- const daylightFill=new THREE.PointLight(0xc9e5f4,90,20,2);daylightFill.position.set(-7.5,4,1);group.add(daylightFill);
+ group=root;
+ // Continuous floor joints give depth cues without a miniature stage edge.
+ for(let x=-27;x<30;x+=3)box(.012,.004,62,x,.019,4,steel);
+ for(let z=-26;z<36;z+=3)box(58,.004,.012,.7,.019,z,steel);
+ const overhead=new THREE.SpotLight(0xfff1dc,430,42,Math.PI*.43,.8,2);overhead.position.set(-2,9,1);overhead.target.position.set(.7,0,0);overhead.castShadow=true;overhead.shadow.mapSize.set(1024,1024);overhead.shadow.bias=-.0003;overhead.shadow.normalBias=.025;root.add(overhead,overhead.target);
+ for(const [x,z] of [[-11,-6],[-11,7],[12,6],[10,-11],[-5,-13]]){const light=new THREE.PointLight(0xffedcf,100,20,2);light.position.set(x,6,z);root.add(light);}
+ group=zones.strength;
  // Machine construction: rack feet, crossmembers, bolts, plate hubs and bench piping.
  for(const x of [-6.4,-4.1]){box(.55,.07,.9,x,.08,-3.6,steel);for(let y=.35;y<1.6;y+=.18)cylinder(.016,.12,x,y,-3.59,rubber,'z');box(.12,.07,.25,x,1.6,-3.53,white);}
  box(2.4,.09,.09,-5.25,.22,-3.95,steel);
@@ -182,21 +195,24 @@ export function buildFacility(world){
  for(let i=0;i<3;i++){const x=-7.2+i*.48;const bell=new THREE.Mesh(new THREE.SphereGeometry(.15+i*.015,24,16),rubber);bell.position.set(x,.2,-1.65);bell.scale.y=.9;group.add(bell);ring(.105,.025,x,.39,-1.65,steel,'z');}
  for(let i=0;i<3;i++){const ball=new THREE.Mesh(new THREE.SphereGeometry(.16,24,16),i%2?rubber:blue);ball.position.set(-7.4+i*.4,.21,-.8);group.add(ball);}
  for(let i=0;i<5;i++)box(.7,.04,1.7,-7.45,.05+i*.045,.7,upholstery);
+ group=zones.recovery;
  // Bath surround, compression chair and hydration fittings.
  for(let i=0;i<32;i++){const angle=i*Math.PI/16;const slat=box(.065,.67,.035,4.25+Math.sin(angle)*.69,.43,-4.7+Math.cos(angle)*.69,wood);slat.rotation.y=angle;}
  for(const x of [1.9,2.9]){box(.10,.38,.75,x,.64,-4.35,upholstery);cylinder(.025,.55,x,.3,-4.5,steel);}
  tube([[2.2,.5,-3.3],[2.55,.25,-3.1],[3,.19,-3.4],[3,.35,-3.6]],.014,rubber);
  box(.8,.05,.4,3.15,1.15,-5.9,wood);for(let i=0;i<3;i++)box(.5,.08,.32,3.15,1.22+i*.08,-5.9,white);
+ group=zones.hydration;
  box(.48,.025,.39,-1.48,1.085,-5.65,steel);tube([[-1.48,1.07,-5.85],[-1.48,1.38,-5.85],[-1.48,1.41,-5.65],[-1.48,1.3,-5.65]],.024,white);
+ group=zones.recovery;
  // Transparent glass division around the recovery area with slim metal framing.
  box(6.3,2.9,.018,5.25,1.47,-2.75,new THREE.MeshPhysicalMaterial({color:0xc7dce1,transparent:true,opacity:.06,roughness:.12,metalness:.12,depthWrite:false}));
  for(const x of [2.1,8.4])box(.035,2.9,.04,x,1.47,-2.75,steel);
  box(6.35,.035,.045,5.25,2.92,-2.75,steel);
- // JT architectural accents keep the facility black/gold while turf and wood stay natural.
- for(const x of [-8.35,9.75])box(.035,.045,16,x,.22,1,goldMetal);
- box(18,.045,.035,.7,2.75,-6.25,goldMetal);
+ // Gold threshold strips distinguish the zones while keeping the central paths clear.
+ group=zones.strength;
  for(const x of [-7.1,-3.5])box(.11,.035,.82,x,1.82,-5.3,goldMetal);
-
+ group=zones.recovery;
+ box(8.8,.008,.035,5.25,.035,-2.34,goldMetal);
  // Localised heater steam; shared texture and sprites stay behind the sauna glass.
  const steamCanvas=document.createElement('canvas');steamCanvas.width=steamCanvas.height=128;
  const steamCtx=steamCanvas.getContext('2d'),gradient=steamCtx.createRadialGradient(64,64,3,64,64,62);
@@ -209,6 +225,7 @@ export function buildFacility(world){
   heaterGlow.intensity=reducedMotion?1.5:1.5+Math.sin(time*1.1)*.12;
  }
  animate(0);
+ group=root;
  // Actual world-space holograms, behind the athlete with normal depth testing.
  const names=[['training','TRAINING','#dbc181'],['nutrition','NUTRITION','#9bd89b'],['mindset','MINDSET','#c1a5ff'],['recovery','RECOVERY','#91c9e8'],['challenges','CHALLENGES','#64e4ed'],['journal','JOURNAL','#ee92b2'],['matchday','MATCHDAY','#f59e7b'],['progress','PROGRESS','#639bff']];
  const screens=new Map();
