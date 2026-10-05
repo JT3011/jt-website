@@ -956,6 +956,7 @@
 
     let currentUserId = null;
     let challenges = [];
+    let dailyPlan = null;
     let completions = [];
     let performanceAccount = {};
 
@@ -1017,8 +1018,7 @@
     }
 
     function weeklyPeriodKey() {
-      const date =
-        new Date();
+      const date = new Date(new Intl.DateTimeFormat("en-CA", {timeZone:"Europe/London",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date()) + "T12:00:00");
 
       date.setHours(
         12,
@@ -1041,6 +1041,7 @@
     function challengeIsCompleted(
       challenge
     ) {
+      if (challenge.cadence === "daily" && typeof challenge.completed === "boolean") return challenge.completed;
       const expectedPeriod =
         challenge.cadence === "weekly"
           ? weeklyPeriodKey()
@@ -1084,7 +1085,7 @@
 
           <div class="points-pill">
             +${Number(
-              challenge.points_awarded || 0
+              challenge.points_available ?? challenge.points_awarded ?? 0
             )} Points
           </div>
         </div>
@@ -1257,7 +1258,8 @@
       const [
         challengeResult,
         completionResult,
-        accountResult
+        accountResult,
+        dailyResult
       ] = await Promise.all([
         supabase
           .from(
@@ -1289,7 +1291,8 @@
             "user_id",
             currentUserId
           )
-          .maybeSingle()
+          .maybeSingle(),
+        supabase.rpc("get_my_daily_challenges")
       ]);
 
       if (challengeResult.error) {
@@ -1304,8 +1307,9 @@
         throw accountResult.error;
       }
 
-      challenges =
-        challengeResult.data || [];
+      if (dailyResult.error) throw dailyResult.error;
+      dailyPlan = dailyResult.data;
+      challenges = [...(dailyPlan.challenges || []), ...(challengeResult.data || []).filter(c => c.cadence === "weekly")];
 
       completions =
         completionResult.data || [];
@@ -1367,7 +1371,7 @@
               : "";
 
           setMessage(
-            `Challenge completed. You earned ${result.points_awarded || challenge.points_awarded} Performance Points.${unlocked}`,
+            `Challenge completed. You earned ${result.points_awarded ?? 0} Performance Points.${unlocked}`,
             "success"
           );
         }
@@ -1440,6 +1444,11 @@
       }
     }
 
+    const londonDay = () => new Intl.DateTimeFormat("en-CA", {timeZone:"Europe/London",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+    async function refreshDay() { if (!document.hidden && dailyPlan && dailyPlan.day !== londonDay()) { try { await loadChallengeData(); } catch(e) { setMessage("Reconnect to load today’s plan.", "error"); } } }
+    setInterval(refreshDay, 15000);
+    document.addEventListener("visibilitychange", refreshDay);
+
     document
       .getElementById(
         "signOutButton"
@@ -1458,3 +1467,4 @@
   </script>
 </body>
 </html>
+
