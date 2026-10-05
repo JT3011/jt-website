@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=1">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=2">
 </head>
 <body>
 <header class="top">
@@ -442,7 +442,14 @@ scene.fog=new THREE.FogExp2(0x090806,.032);
 const camera=new THREE.PerspectiveCamera(embed?30:29,1,.1,100);
 camera.position.set(embed?.12:.45,embed?3.2:2.45,embed?8:8.25);
 
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
+let renderer;
+try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});}
+catch(error){
+ stage.classList.add("jt-no-webgl");
+ loading.innerHTML='<b>3D view unavailable</b><p>This browser cannot display your athlete. Your performance panels are still available. Try a browser with 3D graphics enabled.</p>';
+ status.textContent="3D graphics unavailable";
+ throw error;
+}
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setClearColor(0x050505);
 renderer.shadowMap.enabled=true;
