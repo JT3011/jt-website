@@ -1,11 +1,12 @@
 import * as THREE from 'three';
+import {buildAmenities} from './performance-hub-amenities.js?v=1';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 // Metre-scale facility with shared, locally generated surface textures. No player data is stored here.
 export function buildFacility(world){
  const root=new THREE.Group();root.name='JT-spacious-facility';world.add(root);
  let group=root;
  const zones={};
- for(const [name,x,z] of [['strength',-3,-1],['sled',-3,1],['pitch',3,1],['hydration',-1,-3],['recovery',2,-2],['functional',0,0]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
+ for(const [name,x,z] of [['strength',-5,-7],['sled',-10,3],['pitch',6,1],['hydration',-1,-4],['recovery',6,-9],['functional',-5,3]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
  const mat=(color,roughness=.6,metalness=.25)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
  // Seeded microdetail stays stable between visits and does not require remote textures.
  let seed=41;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
@@ -46,7 +47,7 @@ export function buildFacility(world){
  // Individual room zones are translated only: all equipment dimensions are preserved.
  group=zones.strength;
  // Strength zone: three-tier dumbbell rack, free weights, bench and loaded barbell.
- box(5.1,.045,4.3,-5.25,.01,-3.6,rubber);
+ box(14,.022,15,-6,.024,-1.5,rubber);
  label('01  /  STRENGTH',-5.5,4.5,-6.25,3);
  for(const x of [-7.1,-3.5])box(.1,1.8,.8,x,.9,-5.3,steel);
  function dumbbell(x,y,z,size=.16){cylinder(.025,.34,x,y,z,steel,'x');for(const sign of [-1,1]){cylinder(size,.13,x+sign*.22,y,z,rubber,'x');cylinder(size*.65,.009,x+sign*.29,y,z,steel,'x');ring(size*.9,.012,x+sign*.285,y,z,rubber,'x');}}
@@ -91,20 +92,20 @@ export function buildFacility(world){
  label('02  /  SPEED & SLED',-5.35,2.25,-1.1,2.5,'#dbc181');
  group=zones.pitch;
  // Indoor training pitch with mow stripes and flush painted markings.
- const pitchX=6.1;box(6.8,.04,9.5,pitchX,.025,2.4,turf);
+ const pitchX=6.1;box(14,.04,18,pitchX,.025,2.2,turf);
  const stripe=turf.clone();stripe.color.set(0xc4d6bb);
- for(let i=0;i<10;i+=2)box(6.78,.002,.94,pitchX,.047,-1.87+i*.95,stripe);
+ for(let i=0;i<18;i+=2)box(13.98,.002,.98,pitchX,.047,-6.3+i,stripe);
  const paint=mat(0xeceee3,.99,0);
  const pitchLine=(w,d,x,z)=>box(w,.004,d,x,.052,z,paint);
- for(const x of [2.85,9.35])pitchLine(.045,7.1,x,3.55);
- for(const z of [0,7.1,3.55])pitchLine(6.5,.045,pitchX,z);
- for(const z of [1.7,5.4]){pitchLine(5.5,.045,pitchX,z);for(const x of [3.35,8.85])pitchLine(.045,1.7,x,z<3?z/2:6.25);}
- function pitchArc(radius,x,z,start=0,length=Math.PI*2){const mesh=new THREE.Mesh(new THREE.RingGeometry(radius-.023,radius+.023,80,1,start,length),paint);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,.056,z);group.add(mesh);}
- pitchArc(.86,pitchX,3.55);cylinder(.06,.005,pitchX,.055,3.55,paint);
- for(const z of [1.2,5.9])cylinder(.045,.005,pitchX,.055,z,paint);
- for(const [x,z,start] of [[2.85,0,Math.PI*1.5],[9.35,0,Math.PI],[2.85,7.1,0],[9.35,7.1,Math.PI/2]])pitchArc(.25,x,z,start,Math.PI/2);
+ for(const x of [-.5,12.7])pitchLine(.05,15.4,x,3);
+ for(const z of [-4.7,10.7,3])pitchLine(13.2,.05,pitchX,z);
+ for(const z of [-1.7,7.7]){pitchLine(8.5,.05,pitchX,z);for(const x of [1.85,10.35])pitchLine(.05,3,x,z<3?-3.2:9.2);}
+ function pitchArc(radius,x,z,start=0,length=Math.PI*2){const mesh=new THREE.Mesh(new THREE.RingGeometry(radius-.025,radius+.025,80,1,start,length),paint);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,.056,z);group.add(mesh);}
+ pitchArc(1.65,pitchX,3);cylinder(.075,.005,pitchX,.055,3,paint);
+ for(const z of [-2.6,8.6])cylinder(.06,.005,pitchX,.055,z,paint);
+ for(const [x,z,start] of [[-.5,-4.7,Math.PI*1.5],[12.7,-4.7,Math.PI],[-.5,10.7,0],[12.7,10.7,Math.PI/2]])pitchArc(.35,x,z,start,Math.PI/2);
  // FORZA ALU110-inspired 16 x 7 ft box goal: 110mm front frame, black rear stays.
- const gx=pitchX,gz=0,gw=4.8768,gh=2.1336,gd=1.8;
+ const gx=pitchX,gz=-4.7,gw=4.8768,gh=2.1336,gd=1.8;
  for(const x of [gx-gw/2,gx+gw/2]){
   cylinder(.055,gh,x,.055+gh/2,gz,white);cylinder(.05,gh,x,.055+gh/2,gz-gd,steel);
   cylinder(.05,gd,x,.09,gz-gd/2,white,'z');cylinder(.025,gd,x,gh+.055,gz-gd/2,steel,'z');
@@ -113,16 +114,16 @@ export function buildFacility(world){
  cylinder(.055,gw+.11,gx,gh+.055,gz,white,'x');cylinder(.05,gw+.11,gx,.09,gz-gd,white,'x');
  // Back, roof and side meshes form a tensioned box, with the front left open.
  const netPoints=[],add=(a,b)=>netPoints.push(...a,...b),top=gh+.055,base=.09;
- for(let x=gx-gw/2;x<=gx+gw/2+.01;x+=.1){add([x,base,-gd],[x,top,-gd]);add([x,top,-gd],[x,top,0]);}
- for(let y=base;y<=top;y+=.1){add([gx-gw/2,y,-gd],[gx+gw/2,y,-gd]);for(const x of [gx-gw/2,gx+gw/2])add([x,y,-gd],[x,y,0]);}
- for(let z=-gd;z<=.01;z+=.1){add([gx-gw/2,top,z],[gx+gw/2,top,z]);for(const x of [gx-gw/2,gx+gw/2])add([x,base,z],[x,top,z]);}
+ for(let x=gx-gw/2;x<=gx+gw/2+.01;x+=.1){add([x,base,gz-gd],[x,top,gz-gd]);add([x,top,gz-gd],[x,top,gz]);}
+ for(let y=base;y<=top;y+=.1){add([gx-gw/2,y,gz-gd],[gx+gw/2,y,gz-gd]);for(const x of [gx-gw/2,gx+gw/2])add([x,y,gz-gd],[x,y,gz]);}
+ for(let z=gz-gd;z<=gz+.01;z+=.1){add([gx-gw/2,top,z],[gx+gw/2,top,z]);for(const x of [gx-gw/2,gx+gw/2])add([x,base,z],[x,top,z]);}
  const netGeo=new THREE.BufferGeometry();netGeo.setAttribute('position',new THREE.Float32BufferAttribute(netPoints,3));const net=new THREE.LineSegments(netGeo,new THREE.LineBasicMaterial({color:0xf4f4e8,transparent:true,opacity:.85}));net.name='ALU110-box-net';group.add(net);
- const badge=label('FORZA',gx,top,.061,.55,'#ffffff');badge.material.color.set(0xffffff);
+ const badge=label('FORZA',gx,top,gz+.061,.55,'#ffffff');badge.material.color.set(0xffffff);
  // Agility kit lives down the touchlines, leaving the middle of the pitch clear.
  const hurdleMat=mat(0xf1ba65,.45,.2);
- for(let i=0;i<3;i++){const z=2.4+i*1.1;for(const x of [8.05,8.85]){box(.035,.35,.035,x,.23,z,hurdleMat);box(.055,.03,.38,x,.07,z,hurdleMat);}box(.835,.035,.035,8.45,.41,z,hurdleMat);}
- for(const x of [3.4,4.1])box(.025,.013,3.7,x,.065,4.3,rubber);
- for(let i=0;i<9;i++)box(.74,.015,.045,3.75,.075,2.5+i*.45,hurdleMat);
+ for(let i=0;i<3;i++){const z=2.4+i*1.1;for(const x of [10.85,11.65]){box(.035,.35,.035,x,.23,z,hurdleMat);box(.055,.03,.38,x,.07,z,hurdleMat);}box(.835,.035,.035,11.25,.41,z,hurdleMat);}
+ for(const x of [.2,.9])box(.025,.013,3.7,x,.065,4.3,rubber);
+ for(let i=0;i<9;i++)box(.74,.015,.045, .55,.075,2.5+i*.45,hurdleMat);
  // Round size-five footballs with twelve black pentagonal panels and white hexagons.
  const ballGeo=new THREE.SphereGeometry(.11,48,32),ballWhite=mat(0xf4f2e9,.68,.01),panelBlack=mat(0x111821,.77,.01);
  const ico=new THREE.IcosahedronGeometry(1,0),directions=[];
@@ -148,7 +149,7 @@ export function buildFacility(world){
  football(5.5,4.5,.5);football(6.35,5.8,1.7);football(7.2,1.1,.9);
  const coneOrange=mat(0xf27631,.78,0),coneGold=mat(0xf0cc61,.78,0);
  for(const [i,x,z] of [[0,5,2.2],[1,5.45,3.0],[2,6,3.8],[3,6.7,4.6],[4,7.3,5.4],[5,8.9,6.6]]){const m=i%2?coneGold:coneOrange;cylinder(.035,.17,x,.14,z,m,'y',.12);box(.27,.025,.27,x,.066,z,m);cylinder(.037,.004,x,.229,z,rubber);}
- label('03  /  FOOTBALL LAB',6.1,2.6,-1.85,2.6,'#dbc181');
+ label('03  /  FOOTBALL LAB',6.1,2.9,-6.6,3.2,'#dbc181');
  group=zones.hydration;
  box(3.5,.015,2.5,-1.85,.02,-5.55,rubber);
  // Hydration station: counter, water dispenser, taps and refill bottles.
@@ -157,7 +158,7 @@ export function buildFacility(world){
  cylinder(.24,.68,-2.25,1.8,-5.65,waterBag);box(.5,.5,.45,-2.25,1.28,-5.65,white);cylinder(.028,.15,-2.25,1.38,-5.38,steel,'z');
  for(let i=0;i<4;i++){cylinder(.06,.27,-1.6+i*.19,1.23,-5.5,waterBag);cylinder(.045,.025,-1.6+i*.19,1.38,-5.5,steel);}
  group=zones.recovery;
- box(9,.015,5,5.25,.02,-4.8,rubber);
+ box(15,.015,8,5.5,.02,-4,rubber);
  // Recovery suite: timber sauna, ice bath, recliner and compression boots.
  label('04  /  RECOVERY SUITE',5.7,4.6,-6.24,3.6,'#dbc181');
  // Polar Eclipse 3-inspired: 1.5m wide x 1.4m deep x 2m high, black shell / cedar / glass.
@@ -206,7 +207,7 @@ export function buildFacility(world){
  for(let x=-18;x<21;x+=3)box(.012,.004,42,x,.019,3,steel);
  for(let z=-17;z<25;z+=3)box(40,.004,.012,.7,.019,z,steel);
  const overhead=new THREE.SpotLight(0xfff1dc,430,42,Math.PI*.43,.8,2);overhead.position.set(-2,7.5,1);overhead.target.position.set(.7,0,0);overhead.castShadow=true;overhead.shadow.mapSize.set(1024,1024);overhead.shadow.bias=-.0003;overhead.shadow.normalBias=.025;root.add(overhead,overhead.target);
- for(const [x,z] of [[-8,-5],[-8,4],[9,3],[7,-7],[-3,-9],[-2,5]]){const light=new THREE.PointLight(0xffedcf,100,20,2);light.position.set(x,6,z);root.add(light);}
+ for(const [x,z] of [[-11,-8],[-12,7],[12,3],[11,-13],[-3,-10],[-7,7],[-11,18],[9,19]]){const light=new THREE.PointLight(0xffedcf,100,20,2);light.position.set(x,6,z);root.add(light);}
  group=zones.strength;
  // Machine construction: rack feet, crossmembers, bolts, plate hubs and bench piping.
  for(const x of [-6.4,-4.1]){box(.55,.07,.9,x,.08,-3.6,steel);for(let y=.35;y<1.6;y+=.18)cylinder(.016,.12,x,y,-3.59,rubber,'z');box(.12,.07,.25,x,1.6,-3.53,white);}
@@ -226,15 +227,13 @@ export function buildFacility(world){
  group=zones.hydration;
  box(.48,.025,.39,-1.48,1.085,-5.65,steel);tube([[-1.48,1.07,-5.85],[-1.48,1.38,-5.85],[-1.48,1.41,-5.65],[-1.48,1.3,-5.65]],.024,white);
  group=zones.recovery;
- // Transparent glass division around the recovery area with slim metal framing.
- box(6.3,2.9,.018,5.25,1.47,-2.75,new THREE.MeshPhysicalMaterial({color:0xc7dce1,transparent:true,opacity:.06,roughness:.12,metalness:.12,depthWrite:false}));
- for(const x of [2.1,8.4])box(.035,2.9,.04,x,1.47,-2.75,steel);
- box(6.35,.035,.045,5.25,2.92,-2.75,steel);
+ // Recovery is an open suite with a low timber boundary, without a glass frontage.
+ for(let x=-1.8;x<13;x+=.3)box(.065,.8,.10,x,.43,.03,wood);
  // Gold threshold strips distinguish the zones while keeping the central paths clear.
  group=zones.strength;
  for(const x of [-7.1,-3.5])box(.11,.035,.82,x,1.82,-5.3,goldMetal);
  group=zones.recovery;
- box(8.8,.008,.035,5.25,.035,-2.34,goldMetal);
+ box(15,.008,.035,5.5,.035,.04,goldMetal);
  // Localised heater steam; shared texture and sprites stay behind the sauna glass.
  const steamCanvas=document.createElement('canvas');steamCanvas.width=steamCanvas.height=128;
  const steamCtx=steamCanvas.getContext('2d'),gradient=steamCtx.createRadialGradient(64,64,3,64,64,62);
@@ -248,8 +247,8 @@ export function buildFacility(world){
  }
  animate(0);
  group=zones.functional;
- const functionalFloor=box(4.8,.02,6,-2.1,.025,5,rubber);functionalFloor.name='functional-floor';
- for(const x of [-4.5,.3])box(.024,.006,6,x,.039,5,goldMetal);
+ const functionalFloor=box(9,.02,11,-3,.025,3.5,rubber);functionalFloor.name='functional-floor';
+ for(const x of [-7.5,1.5])box(.024,.006,11,x,.039,3.5,goldMetal);
  label('FUNCTIONAL TRAINING',-2.1,1.1,1.95,2.8,'#dbc181');
  // Two grounded ropes run from the anchor to padded handles, inside the mat boundary.
  cylinder(.06,.42,-3.7,.23,2.3,steel);ring(.09,.018,-3.7,.24,2.37,steel,'z');
@@ -265,6 +264,7 @@ export function buildFacility(world){
  // Compact storage for resistance bands and a foam roller.
  cylinder(.065,.42,-.15,.13,6.9,upholstery,'z');for(let i=0;i<3;i++)ring(.10+i*.025,.006,-.15,.07,6.25,blue);
  group=root;
+ buildAmenities({root,box,cylinder,tube,ring,label,wood,rubber,steel,white,goldMetal,glow});
  // Actual world-space holograms, behind the athlete with normal depth testing.
  const names=[['training','TRAINING','#dbc181'],['nutrition','NUTRITION','#9bd89b'],['mindset','MINDSET','#c1a5ff'],['recovery','RECOVERY','#91c9e8'],['challenges','CHALLENGES','#64e4ed'],['journal','JOURNAL','#ee92b2'],['matchday','MATCHDAY','#f59e7b'],['progress','PROGRESS','#639bff']];
  const screens=new Map();
@@ -278,5 +278,10 @@ export function buildFacility(world){
  });
  function update({id,value,state,basis}){const screen=screens.get(id);if(!screen)return;const {cv,texture,name,color}=screen,ctx=cv.getContext('2d');ctx.clearRect(0,0,640,256);ctx.fillStyle='rgba(3,10,17,.94)';ctx.fillRect(0,0,640,256);ctx.strokeStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.lineWidth=5;ctx.strokeRect(4,4,632,248);ctx.shadowBlur=0;ctx.fillStyle=color;ctx.font='700 34px sans-serif';ctx.fillText(name,28,49);ctx.fillStyle='#f2f7fa';ctx.font='700 68px sans-serif';ctx.fillText(value==null?'—':`${value}%`,28,123);ctx.fillStyle='#ffffff20';ctx.fillRect(28,145,584,6);ctx.fillStyle=color;ctx.fillRect(28,145,584*(value??0)/100,6);ctx.font='22px sans-serif';ctx.fillStyle='#c5d6df';ctx.fillText(basis||'Saved player progress',28,192);ctx.font='18px sans-serif';ctx.fillStyle=color;ctx.fillText(state||'Not logged',28,227);texture.needsUpdate=true;}
  names.forEach(([id])=>update({id,value:null}));
+ // Batch repeated opaque fixtures to keep the denser interior practical on phones.
+ for(const parent of [root,...Object.values(zones)]){
+  const batches=new Map();for(const object of [...parent.children]){if(object.type!=='Mesh'||object.name||object.children.length||Array.isArray(object.material)||object.material.transparent)continue;const key=object.geometry.uuid+object.material.uuid;if(!batches.has(key))batches.set(key,[]);batches.get(key).push(object);}
+  for(const objects of batches.values()){if(objects.length<3)continue;const batch=new THREE.InstancedMesh(objects[0].geometry,objects[0].material,objects.length);batch.name='static-fixtures';batch.castShadow=objects[0].castShadow;batch.receiveShadow=objects[0].receiveShadow;objects.forEach((object,i)=>{object.updateMatrix();batch.setMatrixAt(i,object.matrix);parent.remove(object);});batch.instanceMatrix.needsUpdate=true;batch.computeBoundingSphere();parent.add(batch);}
+ }
  return {update,animate};
 }
