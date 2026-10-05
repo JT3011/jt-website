@@ -287,6 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=1">
 </head>
 <body>
 <header class="top">
@@ -493,35 +494,30 @@ const deck=new THREE.Mesh(new THREE.CylinderGeometry(1.86,1.97,.14,120),new THRE
 const ringOuter=new THREE.Mesh(new THREE.TorusGeometry(2.05,.025,18,160),reactiveBasic());ringOuter.rotation.x=Math.PI/2;ringOuter.position.set(.7,.31,0);world.add(ringOuter);
 const ringInner=new THREE.Mesh(new THREE.TorusGeometry(1.67,.014,14,150),reactiveBasic());ringInner.rotation.x=Math.PI/2;ringInner.position.set(.7,.43,0);world.add(ringInner);
 
-const wallMat=reactiveStandard({color:0x0a0a0a,roughness:.56,metalness:.35});
-addBox([8.4,6.1,.28],[.7,3.05,-4.6],wallMat);
-for(let i=-16;i<=16;i++){
-  const x=.7+i*.235;
-  const rib=addBox([.105,5.25,.18],[x,3.02,-4.39],reactiveStandard({color:i%2===0?0x101010:0x0b0b0b,roughness:.48,metalness:.52}));
-  rib.castShadow=false;
+// Architectural performance studio: concrete bays, smoked glazing and linear light.
+const wallMat=reactiveStandard({color:0x20262c,roughness:.82,metalness:.15});
+addBox([15,7,.3],[.7,3.5,-5],wallMat);
+const steel=new THREE.MeshStandardMaterial({color:0x26313a,roughness:.38,metalness:.8});
+const glass=new THREE.MeshPhysicalMaterial({color:0x6e93a1,roughness:.2,metalness:.25,transparent:true,opacity:.19});
+const architecturalLight=new THREE.MeshBasicMaterial({color:0xd8e8ee});
+for(const side of [-1,1]){
+ for(let j=0;j<3;j++){
+ const x=.7+side*(2.45+j*1.6);
+ addBox([1.46,4.8,.08],[x,2.8,-4.78],glass);
+ addBox([.05,5.2,.14],[x-.78,2.8,-4.65],steel);
+ addBox([1.32,.022,.05],[x,4.9,-4.55],architecturalLight);
+ }
+ addBox([.22,6,8],[.7+side*6.5,3,-1],wallMat);
+ addBox([.045,.025,8],[.7+side*2.8,.03,-1],architecturalLight);
+ // Strength-training bays behind the glass.
+ for(let j=0;j<3;j++)addBox([1.1,.08,.6],[.7+side*4,1+j*.43,-4.2],steel);
 }
-
-const archMat=reactiveStandard({color:0x11100d,roughness:.3,metalness:.78,emissive:0xd4af37,emissiveIntensity:.06,reactive:true});
-addBox([.19,4.55,.24],[-1.65,2.75,-4.12],archMat);
-addBox([.19,4.55,.24],[3.05,2.75,-4.12],archMat);
-addBox([4.9,.19,.24],[.7,5.02,-4.12],archMat);
-addBox([4.9,.12,.18],[.7,.48,-4.12],archMat);
-addStrip([.045,4.25,.07],[-1.46,2.75,-3.96]);
-addStrip([.045,4.25,.07],[2.86,2.75,-3.96]);
-addStrip([4.3,.045,.07],[.7,4.82,-3.96]);
-addStrip([4.3,.038,.07],[.7,.66,-3.96]);
-
-for(const side of[-1,1]){
-  const x=.7+side*4.0;
-  const rotY=side*.30;
-  addBox([2.25,5.7,.35],[x,2.85,-3.25],reactiveStandard({color:0x090909,roughness:.32,metalness:.7}),{y:rotY});
-  addStrip([.055,4.55,.09],[.7+side*3.15,2.85,-2.92],{z:side*.17});
-  addStrip([.045,3.55,.08],[.7+side*4.55,2.72,-3.48],{z:-side*.14});
-  const floorLine=addStrip([2.2,.025,.05],[.7+side*3.0,.03,-.1],{y:side*.2});floorLine.rotation.x=0;
+for(let j=0;j<5;j++){
+ addBox([12,.11,.2],[.7,6,-4+j*1.5],steel);
+ addBox([8,.018,.035],[.7,5.93,-4+j*1.5],architecturalLight);
 }
-
-const ceilingDisc=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.07,64),new THREE.MeshStandardMaterial({color:0x151515,roughness:.22,metalness:.86,emissive:0xffe6b0,emissiveIntensity:.18}));ceilingDisc.position.set(.7,5.72,-1.15);world.add(ceilingDisc);
-const ceilingGlow=new THREE.Mesh(new THREE.CircleGeometry(.24,64),new THREE.MeshBasicMaterial({color:0xffe5a6,transparent:true,opacity:.75,side:THREE.DoubleSide}));ceilingGlow.rotation.x=Math.PI/2;ceilingGlow.position.set(.7,5.66,-1.15);world.add(ceilingGlow);
+// A restrained centre-wall brand plaque.
+addBox([2.8,2.8,.12],[.7,3.45,-4.65],new THREE.MeshStandardMaterial({color:0x090d12,roughness:.5,metalness:.55}));
 
 const brandTextureLoader = new THREE.TextureLoader();
 
@@ -538,13 +534,13 @@ const logoMaterial = new THREE.MeshBasicMaterial({
 });
 
 const logoPlane = new THREE.Mesh(
-  new THREE.PlaneGeometry(4.35, 4.35),
+  new THREE.PlaneGeometry(2.5, 2.5),
   logoMaterial
 );
 
-logoPlane.position.set(0.7, 2.75, -3.93);
+logoPlane.position.set(0.7, 3.45, -4.55);
 world.add(logoPlane);
-if(embed)logoPlane.visible=false;
+logoPlane.visible=true;
 
 const logoGlow = new THREE.Mesh(
   new THREE.PlaneGeometry(4.7, 4.7),
@@ -558,7 +554,7 @@ const logoGlow = new THREE.Mesh(
 
 logoGlow.position.set(0.7, 2.75, -3.95);
 world.add(logoGlow);
-if(embed)logoGlow.visible=false;
+logoGlow.visible=false;
 
 function hazeTexture(){
   const cv=document.createElement("canvas");cv.width=cv.height=256;const ctx=cv.getContext("2d");const g=ctx.createRadialGradient(128,128,0,128,128,128);g.addColorStop(0,"rgba(255,255,255,.5)");g.addColorStop(.35,"rgba(255,255,255,.14)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(0,0,256,256);const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;return tex;
@@ -701,78 +697,16 @@ function normalise(root){
 }
 
 function frameDashboardAthlete(){
-  if(!embed||!athlete)return;
-
-  athlete.updateMatrixWorld(true);
-
-  const head=bones.head?.b;
-  const hips=bones.hips?.b;
-  const leftShoulder=bones.leftShoulder?.b;
-  const rightShoulder=bones.rightShoulder?.b;
-
-  const headPos=new THREE.Vector3();
-  const hipsPos=new THREE.Vector3();
-  const leftPos=new THREE.Vector3();
-  const rightPos=new THREE.Vector3();
-
-  if(head&&hips){
-    head.getWorldPosition(headPos);
-    hips.getWorldPosition(hipsPos);
-
-    const torsoHeight=Math.max(headPos.y-hipsPos.y,.8);
-    const top=headPos.y+torsoHeight*.24;
-    const bottom=hipsPos.y-torsoHeight*.48;
-    const focusY=(top+bottom)*.5;
-    const visibleHeight=(top-bottom)*1.12;
-
-    let visibleWidth=visibleHeight*.62;
-
-    if(leftShoulder&&rightShoulder){
-      leftShoulder.getWorldPosition(leftPos);
-      rightShoulder.getWorldPosition(rightPos);
-      visibleWidth=Math.max(leftPos.distanceTo(rightPos)*1.72,visibleHeight*.54);
-    }
-
-    const halfV=THREE.MathUtils.degToRad(camera.fov*.5);
-    const halfH=Math.atan(Math.tan(halfV)*Math.max(camera.aspect,.2));
-    const distanceV=(visibleHeight*.5)/Math.tan(halfV);
-    const distanceH=(visibleWidth*.5)/Math.tan(Math.max(halfH,.08));
-    const distance=Math.max(distanceV,distanceH)*1.08;
-
-    const focusX=(headPos.x+hipsPos.x)*.5;
-    const focusZ=(headPos.z+hipsPos.z)*.5;
-
-    camera.position.set(focusX,focusY+torsoHeight*.035,focusZ+distance);
-    controls.target.set(focusX,focusY,focusZ);
-    controls.update();
-
-    console.log("JT dashboard camera framed from athlete bones",{
-      head:headPos.toArray(),
-      hips:hipsPos.toArray(),
-      distance
-    });
-
-    return;
-  }
-
-  // Reliable fallback for unusual rigs: visible avatar meshes only.
-  const box=visibleAthleteBox(athlete);
-  const size=box.getSize(new THREE.Vector3());
-  const center=box.getCenter(new THREE.Vector3());
-
-  const top=box.max.y;
-  const bottom=box.min.y+size.y*.24;
-  const visibleHeight=(top-bottom)*1.08;
-  const focusY=(top+bottom)*.5;
-
-  const halfV=THREE.MathUtils.degToRad(camera.fov*.5);
-  const distance=(visibleHeight*.5)/Math.tan(halfV)*1.12;
-
-  camera.position.set(center.x,focusY,center.z+distance);
-  controls.target.set(center.x,focusY,center.z);
-  controls.update();
-
-  console.log("JT dashboard camera used visible-mesh fallback");
+ if(!athlete)return;
+ athlete.updateMatrixWorld(true);
+ const bounds=visibleAthleteBox(athlete);
+ const centre=bounds.getCenter(new THREE.Vector3());
+ const size=bounds.getSize(new THREE.Vector3());
+ const halfV=THREE.MathUtils.degToRad(camera.fov/2);
+ const distance=Math.max(size.y*1.35/(2*Math.tan(halfV)),size.x*2.7/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
+ controls.minDistance=distance*.7;controls.maxDistance=distance*1.5;
+ camera.position.set(centre.x,centre.y+.1,centre.z+distance);
+ controls.target.copy(centre);controls.update();
 }
 function direct(root,c){mixer=new THREE.AnimationMixer(root);const action=mixer.clipAction(c.clone());action.setLoop(THREE.LoopRepeat,Infinity);action.play();mode="direct"}
 function retarget(targetSkin,sourceSkin,c){
@@ -786,18 +720,18 @@ function setState(keyName){
   document.documentElement.style.setProperty("--state",current.c);
   document.documentElement.style.setProperty("--state-rgb",current.r);
   title.innerHTML=`${current.t} <span class="score-dot"></span>`;desc.textContent=current.d;platformLabel.textContent=current.t;
-  scene.background.setHex(current.bg);scene.fog.color.setHex(current.bg);scene.fog.density=current.fog;
-  renderer.toneMappingExposure=current.exposure;
+  scene.background.setHex(0x0b1118);scene.fog.color.setHex(0x0b1118);scene.fog.density=.018;
+  renderer.toneMappingExposure=1.15;
  ringOuter.material.color.set(current.c);
 ringInner.material.color.set(current.c);
-logoMaterial.color.set(current.c);
-logoMaterial.opacity=.58+current.energy*.18;
+logoMaterial.color.set(0xffffff);
+logoMaterial.opacity=.85;
   lightStrips.forEach((mesh,index)=>{mesh.material.color.set(current.c);mesh.material.opacity=.56+current.energy*.27+(index%3)*.025});
   reactiveMaterials.forEach(mat=>{if(mat.emissive){mat.emissive.set(current.c);mat.emissiveIntensity=.035+current.energy*.07}});
   key.intensity=current.key;rim.intensity=current.rim;fill.intensity=current.fill;topLight.intensity=32+current.key*.18;
   rim.color.set(current.c);fill.color.set(current.c);topLight.color.set(current.c);
   floorMat.color.set(new THREE.Color(current.c).multiplyScalar(.035));
-  hazeSprites.forEach((sprite,i)=>{sprite.material.color.set(current.c);sprite.material.opacity=current.haze*(.035+(i%5)*.006)});
+  hazeSprites.forEach((sprite,i)=>{sprite.material.color.set(current.c);sprite.material.opacity=0});
   document.querySelectorAll(".state").forEach(b=>b.classList.toggle("active",b.dataset.k===keyName));
 }
 
@@ -1054,6 +988,7 @@ async function submitDailyReadiness(){
       setState(result.readiness_state);
     }
 
+    window.dispatchEvent(new Event("jt-performance-saved"));
     const points=Number(result.points_awarded||0);
     const streak=Number(result.readiness_streak||1);
     const score=Number(result.readiness_score||calculateReadiness(readinessMetrics));
@@ -1280,5 +1215,7 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
+<script type="module" src="/performance-hub-holograms.js?v=1"></script>
 </body>
 </html>
+
