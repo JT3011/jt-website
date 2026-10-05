@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility6">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility7">
 </head>
 <body>
 <header class="top">
@@ -338,7 +338,7 @@ body.embed .loading .spin{margin:0 auto}
   <section class="stage" id="stage">
     <canvas id="c" aria-label="Interactive JT performance facility"></canvas>
     <nav class="facility-controls" aria-label="Explore the facility">
-      <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Explore facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="sled">Sled lane</button><button type="button" data-view="hydration">Hydration</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Pitch</button></div>
+      <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Explore facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="functional">Functional</button><button type="button" data-view="sled">Sled lane</button><button type="button" data-view="hydration">Hydration</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Pitch</button></div>
       <div class="facility-zoom"><button type="button" id="facilityZoomIn" aria-label="Zoom in">+</button><button type="button" id="facilityZoomOut" aria-label="Zoom out">−</button><button type="button" data-view="athlete" aria-label="Reset camera">Reset</button></div>
       <span>Drag to look · Pinch or scroll to zoom · Two fingers or right-drag to move</span>
     </nav>
@@ -382,7 +382,7 @@ body.embed .loading .spin{margin:0 auto}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
-import {buildFacility} from "/performance-hub-facility.js?v=6";
+import {buildFacility} from "/performance-hub-facility.js?v=7";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader.js";
@@ -470,7 +470,7 @@ room.dispose();pm.dispose();
 
 const controls=new OrbitControls(camera,canvas);
 controls.enablePan=!embed;controls.screenSpacePanning=true;controls.zoomToCursor=true;controls.zoomSpeed=1.15;controls.enableDamping=true;controls.dampingFactor=.07;controls.enableRotate=!embed;controls.enableZoom=!embed;
-controls.minDistance=.65;controls.maxDistance=26;
+controls.minDistance=.65;controls.maxDistance=18;
 controls.minPolarAngle=.12;controls.maxPolarAngle=Math.PI*.49;
 controls.target.set(embed?.12:.7,embed?3:1.85,0);
 
@@ -677,24 +677,24 @@ function normalise(root){
 
 // Keep the eye inside the spacious floor/ceiling envelope, including after pan and dolly.
 function containFacilityCamera(){
- controls.target.x=THREE.MathUtils.clamp(controls.target.x,-18,19);
+ controls.target.x=THREE.MathUtils.clamp(controls.target.x,-13,14);
  controls.target.y=THREE.MathUtils.clamp(controls.target.y,.3,3.6);
- controls.target.z=THREE.MathUtils.clamp(controls.target.z,-17,20);
- camera.position.x=THREE.MathUtils.clamp(camera.position.x,-22,23);
- camera.position.y=THREE.MathUtils.clamp(camera.position.y,.35,7.8);
- camera.position.z=THREE.MathUtils.clamp(camera.position.z,-21,28);
+ controls.target.z=THREE.MathUtils.clamp(controls.target.z,-12,16);
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-16,17);
+ camera.position.y=THREE.MathUtils.clamp(camera.position.y,.35,6.5);
+ camera.position.z=THREE.MathUtils.clamp(camera.position.z,-15,20);
  camera.lookAt(controls.target);
 }
 function setFacilityView(name='athlete'){
- const views={athlete:{target:[.7,1.85,-.4],width:4.3,height:4.4},facility:{target:[.7,1.65,0],width:34,height:10},strength:{target:[-11.3,1,-6.8],width:4.7,height:3.1},sled:{target:[-11.35,.6,7],width:3.8,height:7},hydration:{target:[-4.85,1.2,-12.65],width:3.5,height:3.2},recovery:{target:[10.35,1.1,-10.65],width:6.7,height:3.9},pitch:{target:[12.1,.55,6.6],width:7.5,height:6}};
+ const views={athlete:{target:[.7,1.85,-.4],width:4.3,height:4.4},facility:{target:[.7,1.65,0],width:27,height:8},strength:{target:[-8.3,1,-4.8],width:4.7,height:3.1},sled:{target:[-8.35,.6,4],width:3.8,height:7},hydration:{target:[-2.85,1.2,-8.65],width:3.5,height:3.2},recovery:{target:[7.35,1.1,-6.65],width:6.7,height:3.9},pitch:{target:[9.1,.55,3.6],width:7.5,height:6},functional:{target:[-2.1,.6,4.7],width:5.2,height:5.5}};
  const view=views[name]||views.athlete;
  camera.fov=name==='facility'?(camera.aspect<1?78:64):42;camera.updateProjectionMatrix();
  const halfV=THREE.MathUtils.degToRad(camera.fov/2);
  const fit=Math.max(view.height/(2*Math.tan(halfV)),view.width/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
- const distance=name==='facility'?24:Math.min(fit,23);
+ const distance=name==='facility'?18:Math.min(fit,17);
  controls.target.set(...view.target);controls.cursor.copy(controls.target);
  camera.position.copy(controls.target).add(new THREE.Vector3(0,.085,1).normalize().multiplyScalar(distance));
- controls.minDistance=.65;controls.maxDistance=26;controls.update();containFacilityCamera();
+ controls.minDistance=.65;controls.maxDistance=18;controls.update();containFacilityCamera();
  document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===name)));
 }
 function frameDashboardAthlete(){setFacilityView('athlete');}
@@ -1222,7 +1222,7 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
-<script type="module" src="/performance-hub-holograms.js?v=facility6"></script>
+<script type="module" src="/performance-hub-holograms.js?v=facility7"></script>
 </body>
 </html>
 

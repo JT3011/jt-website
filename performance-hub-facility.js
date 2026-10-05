@@ -5,7 +5,7 @@ export function buildFacility(world){
  const root=new THREE.Group();root.name='JT-spacious-facility';world.add(root);
  let group=root;
  const zones={};
- for(const [name,x,z] of [['strength',-6,-3],['sled',-6,4],['pitch',6,4],['hydration',-3,-7],['recovery',5,-6]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
+ for(const [name,x,z] of [['strength',-3,-1],['sled',-3,1],['pitch',3,1],['hydration',-1,-3],['recovery',2,-2],['functional',0,0]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
  const mat=(color,roughness=.6,metalness=.25)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
  // Seeded microdetail stays stable between visits and does not require remote textures.
  let seed=41;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
@@ -33,12 +33,12 @@ export function buildFacility(world){
  function ring(r,t,x,y,z,material=steel,axis='y'){const mesh=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,48),material);mesh.position.set(x,y,z);if(axis==='y')mesh.rotation.x=Math.PI/2;if(axis==='x')mesh.rotation.y=Math.PI/2;group.add(mesh);return mesh;}
  function label(text,x,y,z,width=2,color='#dbc181'){const cv=document.createElement('canvas');cv.width=768;cv.height=128;const ctx=cv.getContext('2d');ctx.fillStyle='#101921';ctx.fillRect(0,0,768,128);ctx.fillStyle=color;ctx.font='600 34px sans-serif';ctx.textAlign='center';ctx.fillText(text,384,76);const texture=new THREE.CanvasTexture(cv);texture.colorSpace=THREE.SRGBColorSpace;const p=new THREE.Mesh(new THREE.PlaneGeometry(width,width/6),new THREE.MeshBasicMaterial({map:texture,toneMapped:false}));p.position.set(x,y,z);group.add(p);return p;}
  // Large continuous interior. The side walls remain open; floor and ceiling extend beyond the camera envelope.
- const floor=box(60,.12,64,.7,-.045,4,concrete);floor.name='facility-floor';
- const ceiling=box(60,.12,64,.7,9.5,4,mat(0x12171b,.9,.1));ceiling.name='facility-ceiling';
- box(60,9.5,.2,.7,4.75,-28,concrete);
- for(let z=-24;z<=32;z+=8){box(58,.22,.20,.7,9.2,z,steel);for(const x of [-14,.7,15])box(10,.025,.08,x,9.05,z,glow);}
- for(let x=-27;x<30;x+=4)box(.045,9,.10,x,4.5,-27.84,steel);
- for(const x of [-26,27])for(const z of [-22,-6,10,30])box(.3,9.3,.3,x,4.65,z,steel);
+ const floor=box(42,.12,44,.7,-.045,3,concrete);floor.name='facility-floor';
+ const ceiling=box(42,.12,44,.7,8,3,mat(0x12171b,.9,.1));ceiling.name='facility-ceiling';
+ box(42,8,.2,.7,4,-19,concrete);
+ for(let z=-16;z<=24;z+=5){box(40,.22,.20,.7,7.8,z,steel);for(const x of [-11,.7,12])box(7,.025,.08,x,7.65,z,glow);}
+ for(let x=-18;x<21;x+=4)box(.045,7.6,.10,x,3.8,-18.84,steel);
+ for(const x of [-18.5,19.5])for(const z of [-16,-5,7,22])box(.3,7.8,.3,x,3.9,z,steel);
  const light=new THREE.HemisphereLight(0xe3ecf2,0x3b3530,1.05);root.add(light);
  // Central feature wall keeps the avatar, neon artwork and holograms together.
  box(4.2,4.8,.16,.7,2.4,-3.38,mat(0x101315,.72,.3));
@@ -55,10 +55,21 @@ export function buildFacility(world){
  for(const x of [-6.4,-4.1])box(.10,1.8,.12,x,.9,-3.6,steel);
  cylinder(.035,3.1,-5.25,1.65,-3.6,steel,'x');for(const sign of [-1,1])for(let i=0;i<3;i++)cylinder(.30,.09,-5.25+sign*(1.03+i*.10),1.65,-3.6,rubber,'x');
  for(let i=0;i<3;i++){cylinder(.25,.12,-7.05+i*.45,.13,-2.25,rubber);}
- // Water resistance weights: translucent aqua training bags with visible handles.
- const waterBag=new THREE.MeshPhysicalMaterial({color:0x70b6cf,transparent:true,opacity:.65,roughness:.18,metalness:0});
- for(let i=0;i<3;i++){cylinder(.19,.72,-3.45,.4,-4.2+i*.58,waterBag,'x');box(.3,.035,.035,-3.45,.63,-4.2+i*.58,steel);}
- label('WATER RESISTANCE',-3.4,1.15,-5.5,1.7,'#dbc181');
+ // FORZA transparent PVC complete bundle: tubular bag, round ball and crescent Bulgarian bag.
+ const waterBag=new THREE.MeshPhysicalMaterial({color:0x76c8dc,transparent:true,opacity:.55,roughness:.16,metalness:0,depthWrite:false});
+ const pvc=new THREE.MeshPhysicalMaterial({color:0xd8f5ff,transparent:true,opacity:.23,roughness:.09,metalness:.08,depthWrite:false});
+ const aqua=new THREE.MeshPhysicalMaterial({color:0x25aace,transparent:true,opacity:.78,roughness:.18,metalness:0,depthWrite:false});
+ const bag=cylinder(.11,.75,-3.48,.18,-4.8,pvc,'x');bag.name='FORZA-water-bag';cylinder(.096,.70,-3.48,.165,-4.8,aqua,'x');
+ for(const x of [-3.71,-3.25]){tube([[x,.24,-4.86],[x,.36,-4.84],[x,.36,-4.72],[x,.24,-4.71]],.021,rubber);ring(.112,.009,x,.18,-4.8,white,'x');}
+ cylinder(.024,.03,-3.12,.18,-4.8,rubber,'x');
+ const waterBall=new THREE.Mesh(new THREE.SphereGeometry(.15,32,24),pvc);waterBall.position.set(-3.5,.205,-4.13);waterBall.name='FORZA-water-ball';group.add(waterBall);
+ const ballWater=new THREE.Mesh(new THREE.SphereGeometry(.136,32,24),aqua);ballWater.position.copy(waterBall.position);ballWater.position.y-=.015;ballWater.scale.y=.83;group.add(ballWater);
+ tube([[-3.6,.30,-4.13],[-3.6,.42,-4.13],[-3.39,.42,-4.13],[-3.39,.30,-4.13]],.02,rubber);
+ const bagPath=[];for(let i=0;i<=16;i++){const a=Math.PI*.12+i/16*Math.PI*.76;bagPath.push([-3.48+Math.cos(a)*.29,.17,-3.40-Math.sin(a)*.21]);}
+ const bulgarian=tube(bagPath,.10,pvc);bulgarian.name='FORZA-Bulgarian-bag';tube(bagPath,.078,aqua);
+ for(const point of [bagPath[0],bagPath[bagPath.length-1]])tube([point,[point[0],.16,point[2]+.16],[point[0],.11,point[2]+.28]],.025,rubber);
+ const waterBadge=label('FORZA',-3.48,.19,-4.687,.30,'#ffffff');waterBadge.name='FORZA-water-badge';
+ label('WATER WEIGHTS',-3.4,1.05,-5.5,1.7,'#dbc181');
  group=zones.sled;
  // Indoor astro sled lane, distance markings and weighted push sled.
  box(2.45,.035,9,-5.35,.025,3,turf);
@@ -175,16 +186,27 @@ export function buildFacility(world){
  const redLight=new THREE.PointLight(0xff2311,4,2.5,2);redLight.position.set(scx,1.7,scz);group.add(redLight);
  const saunaLight=new THREE.PointLight(0xffb366,2,2,2);saunaLight.position.set(scx,.55,scz);group.add(saunaLight);
  label('ECLIPSE  /  INFRARED',scx,2.26,front,1.8,'#dbc181');
- cylinder(.69,.75,4.25,.43,-4.7,steel);cylinder(.61,.035,4.25,.785,-4.7,waterBag);ring(.645,.045,4.25,.815,-4.7,white);for(let i=0;i<3;i++)ring(.16+i*.12,.002,4.25,.808,-4.7,waterBag);for(let i=0;i<6;i++)box(.12,.065,.11,4+Math.sin(i*2)*.35,.85,-4.7+Math.cos(i*2)*.35,mat(0xc1e9ec,.1,0));label('COLD PLUNGE',4.25,1.3,-5.2,1.6,'#dbc181');
+ // Polar Cyclone Black reference: 1m barrel, black timber staves, white liner/rim and two steps.
+ const blackWood=wood.clone();blackWood.color.set(0x242729);
+ const bath=new THREE.Mesh(new THREE.CylinderGeometry(.485,.485,.94,64,1,true),blackWood);bath.position.set(4.25,.53,-4.7);bath.castShadow=true;bath.receiveShadow=true;bath.name='Polar-Cyclone-black';group.add(bath);
+ const liner=new THREE.Mesh(new THREE.CylinderGeometry(.45,.45,.90,64,1,true),new THREE.MeshPhysicalMaterial({color:0xebeeea,roughness:.26,side:THREE.DoubleSide}));liner.position.set(4.25,.54,-4.7);group.add(liner);
+ ring(.475,.025,4.25,1.015,-4.7,white);
+ cylinder(.445,.008,4.25,.84,-4.7,waterBag);for(let i=0;i<3;i++)ring(.12+i*.11,.0015,4.25,.847,-4.7,waterBag);
+ for(let i=0;i<40;i++){const a=i*Math.PI/20;const slat=box(.065,.93,.03,4.25+Math.sin(a)*.485,.53,-4.7+Math.cos(a)*.485,blackWood);slat.rotation.y=a;}
+ box(.48,.27,.34,4.91,.19,-4.4,blackWood);box(.48,.54,.34,4.91,.325,-4.74,blackWood);
+ for(const z of [-4.4,-4.74])for(let i=0;i<6;i++)box(.48,.018,.046,4.91,z<-4.5?.61:.34,z-.14+i*.055,blackWood);
+ box(.07,.88,.012,4.05,.54,-4.249,white);
+ const led=new THREE.PointLight(0xa6e1ef,.8,1.4,2);led.position.set(4.25,.70,-4.7);group.add(led);
+ label('POLAR  /  CYCLONE',4.25,1.40,-5.2,1.5,'#dbc181');
  const chair=box(.9,1.1,.18,2.4,1.05,-4.85,upholstery);chair.rotation.x=-.22;box(.9,.16,.8,2.4,.6,-4.35,upholstery);box(.85,.12,.8,2.4,.40,-3.6,upholstery);
  for(const x of [2.16,2.63]){cylinder(.14,.78,x,.59,-3.75,rubber,'z');box(.23,.14,.30,x,.52,-3.27,rubber);for(let j=0;j<4;j++)box(.28,.016,.025,x,.735,-4+j*.18,steel);}
  box(.24,.32,.3,3.0,.23,-3.6,white);label('COMPRESSION',2.45,1.95,-5.1,1.65,'#dbc181');
  group=root;
  // Continuous floor joints give depth cues without a miniature stage edge.
- for(let x=-27;x<30;x+=3)box(.012,.004,62,x,.019,4,steel);
- for(let z=-26;z<36;z+=3)box(58,.004,.012,.7,.019,z,steel);
- const overhead=new THREE.SpotLight(0xfff1dc,430,42,Math.PI*.43,.8,2);overhead.position.set(-2,9,1);overhead.target.position.set(.7,0,0);overhead.castShadow=true;overhead.shadow.mapSize.set(1024,1024);overhead.shadow.bias=-.0003;overhead.shadow.normalBias=.025;root.add(overhead,overhead.target);
- for(const [x,z] of [[-11,-6],[-11,7],[12,6],[10,-11],[-5,-13]]){const light=new THREE.PointLight(0xffedcf,100,20,2);light.position.set(x,6,z);root.add(light);}
+ for(let x=-18;x<21;x+=3)box(.012,.004,42,x,.019,3,steel);
+ for(let z=-17;z<25;z+=3)box(40,.004,.012,.7,.019,z,steel);
+ const overhead=new THREE.SpotLight(0xfff1dc,430,42,Math.PI*.43,.8,2);overhead.position.set(-2,7.5,1);overhead.target.position.set(.7,0,0);overhead.castShadow=true;overhead.shadow.mapSize.set(1024,1024);overhead.shadow.bias=-.0003;overhead.shadow.normalBias=.025;root.add(overhead,overhead.target);
+ for(const [x,z] of [[-8,-5],[-8,4],[9,3],[7,-7],[-3,-9],[-2,5]]){const light=new THREE.PointLight(0xffedcf,100,20,2);light.position.set(x,6,z);root.add(light);}
  group=zones.strength;
  // Machine construction: rack feet, crossmembers, bolts, plate hubs and bench piping.
  for(const x of [-6.4,-4.1]){box(.55,.07,.9,x,.08,-3.6,steel);for(let y=.35;y<1.6;y+=.18)cylinder(.016,.12,x,y,-3.59,rubber,'z');box(.12,.07,.25,x,1.6,-3.53,white);}
@@ -197,7 +219,7 @@ export function buildFacility(world){
  for(let i=0;i<5;i++)box(.7,.04,1.7,-7.45,.05+i*.045,.7,upholstery);
  group=zones.recovery;
  // Bath surround, compression chair and hydration fittings.
- for(let i=0;i<32;i++){const angle=i*Math.PI/16;const slat=box(.065,.67,.035,4.25+Math.sin(angle)*.69,.43,-4.7+Math.cos(angle)*.69,wood);slat.rotation.y=angle;}
+
  for(const x of [1.9,2.9]){box(.10,.38,.75,x,.64,-4.35,upholstery);cylinder(.025,.55,x,.3,-4.5,steel);}
  tube([[2.2,.5,-3.3],[2.55,.25,-3.1],[3,.19,-3.4],[3,.35,-3.6]],.014,rubber);
  box(.8,.05,.4,3.15,1.15,-5.9,wood);for(let i=0;i<3;i++)box(.5,.08,.32,3.15,1.22+i*.08,-5.9,white);
@@ -225,6 +247,23 @@ export function buildFacility(world){
   heaterGlow.intensity=reducedMotion?1.5:1.5+Math.sin(time*1.1)*.12;
  }
  animate(0);
+ group=zones.functional;
+ const functionalFloor=box(4.8,.02,6,-2.1,.025,5,rubber);functionalFloor.name='functional-floor';
+ for(const x of [-4.5,.3])box(.024,.006,6,x,.039,5,goldMetal);
+ label('FUNCTIONAL TRAINING',-2.1,1.1,1.95,2.8,'#dbc181');
+ // Two grounded ropes run from the anchor to padded handles, inside the mat boundary.
+ cylinder(.06,.42,-3.7,.23,2.3,steel);ring(.09,.018,-3.7,.24,2.37,steel,'z');
+ const ropeMat=mat(0x37312a,.95,0);
+ for(const side of [-1,1]){const points=[];for(let i=0;i<=48;i++){const t=i/48;points.push([-3.7+side*.24+Math.sin(t*Math.PI*8)*.15,.075,2.45+t*4.5]);}const rope=tube(points,.026,ropeMat);rope.name=`battle-rope-${side}`;const end=points[points.length-1];cylinder(.032,.22,end[0],.075,end[2]+.08,rubber,'z');}
+ // Skipping rope and movement mat stay clear of the rope lane.
+ const skipPoints=[];for(let i=0;i<=40;i++){const t=i/40;skipPoints.push([-1.20+Math.sin(t*Math.PI*2)*.42,.065,4.8+Math.cos(t*Math.PI*2)*.55]);}
+ const skipping=tube(skipPoints,.006,mat(0xd8bb78,.7,.1));skipping.name='skipping-rope';
+ for(const x of [-1.32,-1.08])cylinder(.017,.16,x,.071,5.38,rubber,'z');
+ box(.8,.025,1.8,-1.25,.052,3.1,upholstery);
+ const plyo=box(.60,.50,.50,-1.0,.305,6.8,wood);plyo.name='plyometric-box';
+ box(.16,.065,.007,-1.0,.36,7.055,rubber);label('JT',-1,.47,7.057,.3,'#dbc181');
+ // Compact storage for resistance bands and a foam roller.
+ cylinder(.065,.42,-.15,.13,6.9,upholstery,'z');for(let i=0;i<3;i++)ring(.10+i*.025,.006,-.15,.07,6.25,blue);
  group=root;
  // Actual world-space holograms, behind the athlete with normal depth testing.
  const names=[['training','TRAINING','#dbc181'],['nutrition','NUTRITION','#9bd89b'],['mindset','MINDSET','#c1a5ff'],['recovery','RECOVERY','#91c9e8'],['challenges','CHALLENGES','#64e4ed'],['journal','JOURNAL','#ee92b2'],['matchday','MATCHDAY','#f59e7b'],['progress','PROGRESS','#639bff']];
