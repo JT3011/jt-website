@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {buildAmenities} from './performance-hub-amenities.js?v=2';
-import {buildFacilityInteractions} from './performance-hub-interactions.js?v=1';
+import {buildFacilityInteractions} from './performance-hub-interactions.js?v=2';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 // Metre-scale facility with shared, locally generated surface textures. No player data is stored here.
 export function buildFacility(world){
@@ -176,10 +176,12 @@ export function buildFacility(world){
  for(let i=0;i<12;i++)box(1.30,.025,.035,scx,.66+i*.075,back+.10,cedar);
  for(const x of [scx-.66,scx+.66]){box(.025,.85,.40,x,1.0,scz-.15,infrared);for(let i=0;i<10;i++)box(.035,.025,.86,x+(x<scx?.022:-.022),.64+i*.082,scz-.13,cedar);}
  const saunaGlass=new THREE.MeshPhysicalMaterial({color:0xbecbd0,transparent:true,opacity:.10,roughness:.09,metalness:.12,depthWrite:false});
- for(const [offset,w] of [[-.53,.31],[0,.62],[.53,.31]])box(w,1.74,.012,scx+offset,1.02,front+.01,saunaGlass);
+ for(const [offset,w] of [[-.53,.31],[.53,.31]])box(w,1.74,.012,scx+offset,1.02,front+.01,saunaGlass);
  for(const x of [scx-.72,scx-.35,scx+.35,scx+.72])box(.065,1.92,.085,x,1.02,front,saunaBlack);
  for(const y of [.11,1.94])box(1.5,.07,.09,scx,y,front,saunaBlack);
- box(.032,.45,.07,scx-.25,1.02,front+.06,saunaBlack);
+ const saunaDoor=new THREE.Group();saunaDoor.name='sauna-door';saunaDoor.position.set(scx+.32,0,front+.01);group.add(saunaDoor);
+ const doorGlass=new THREE.Mesh(new THREE.BoxGeometry(.62,1.74,.012),saunaGlass);doorGlass.position.set(-.32,1.02,0);saunaDoor.add(doorGlass);
+ const doorHandle=new THREE.Mesh(new THREE.BoxGeometry(.032,.45,.07),saunaBlack);doorHandle.position.set(-.57,1.02,.05);saunaDoor.add(doorHandle);
  for(const y of [.50,1.57])box(.036,.075,.026,scx+.32,y,front+.05,white);
  for(const x of [scx-.52,scx+.52])box(.17,.67,.05,x,.59,front-.035,saunaBlack);
  box(.10,.14,.025,scx+.61,1.44,front-.04,steel);
@@ -200,7 +202,9 @@ export function buildFacility(world){
  const led=new THREE.PointLight(0xa6e1ef,.8,1.4,2);led.position.set(4.25,.70,-4.7);group.add(led);
  label('POLAR  /  CYCLONE',4.25,1.40,-5.2,1.5,'#dbc181');
  const chair=box(.9,1.1,.18,2.4,1.05,-4.85,upholstery);chair.rotation.x=-.22;box(.9,.16,.8,2.4,.6,-4.35,upholstery);box(.85,.12,.8,2.4,.40,-3.6,upholstery);
+ const restingBoots=new THREE.Group();restingBoots.name='resting-compression-boots';zones.recovery.add(restingBoots);group=restingBoots;
  for(const x of [2.16,2.63]){cylinder(.14,.78,x,.59,-3.75,rubber,'z');box(.23,.14,.30,x,.52,-3.27,rubber);for(let j=0;j<4;j++)box(.28,.016,.025,x,.735,-4+j*.18,steel);}
+ group=zones.recovery;
  box(.24,.32,.3,3.0,.23,-3.6,white);label('COMPRESSION',2.45,1.95,-5.1,1.65,'#dbc181');
  group=root;
  // Continuous floor joints give depth cues without a miniature stage edge.
@@ -227,8 +231,7 @@ export function buildFacility(world){
  group=zones.hydration;
  box(.48,.025,.39,-1.48,1.085,-5.65,steel);tube([[-1.48,1.07,-5.85],[-1.48,1.38,-5.85],[-1.48,1.41,-5.65],[-1.48,1.3,-5.65]],.024,white);
  group=zones.recovery;
- // Recovery is an open suite with a low timber boundary, without a glass frontage.
- for(let x=-1.8;x<13;x+=.3)box(.065,.8,.10,x,.43,.03,wood);
+ // Recovery now has complete walls and its own framed entrance.
  // Gold threshold strips distinguish the zones while keeping the central paths clear.
  group=zones.strength;
  for(const x of [-7.1,-3.5])box(.11,.035,.82,x,1.82,-5.3,goldMetal);

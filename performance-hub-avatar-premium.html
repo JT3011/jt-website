@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility9">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility10">
 </head>
 <body>
 <header class="top">
@@ -328,6 +328,7 @@ body.embed .loading .spin{margin:0 auto}
 
     <div class="centre-title eyebrow">Connected JT Centres</div>
     <button class="pill" type="button" data-open-leaderboard>Performance leaderboard</button>
+    <button class="pill" type="button" data-open-sharing>Avatar sharing</button><p id="facilityCrowdSummary" class="facility-crowd-summary">Your individual athlete stays on your podium.</p>
 <div class="centre-grid">
       <a class="centre-link" href="/performance-hub-training.html"><b>Training Centre</b><span>Use readiness to guide today's workload.</span></a>
       <a class="centre-link" href="/performance-hub-recovery.html"><b>Recovery Centre</b><span>Improve sleep, soreness and recovery.</span></a>
@@ -341,11 +342,12 @@ body.embed .loading .spin{margin:0 auto}
     <nav class="facility-controls" aria-label="Explore the facility" aria-describedby="facilityHelp">
       <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Explore facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="functional">Functional</button><button type="button" data-view="sled">Sled lane</button><button type="button" data-view="hydration">Nutrition + hydration</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Football</button><button type="button" data-view="reception">Reception</button><button type="button" data-view="changing">Changing rooms</button><button type="button" data-view="leaderboard">Leaderboard</button></div>
       <div class="facility-zoom"><button type="button" id="facilityZoomIn" aria-label="Zoom in">+</button><button type="button" id="facilityZoomOut" aria-label="Zoom out">−</button><button type="button" data-view="athlete" aria-label="Reset camera">Reset</button></div>
-      <button type="button" id="facilityInfo">Guide</button><span class="facility-sr" id="facilityHelp">Swipe this bar for more zones. Drag to look, pinch or scroll to zoom. Selecting a zone guides your athlete there automatically. Other moving athletes are ambient characters, not online members.</span><span id="facilityAnnouncement" class="facility-sr" role="status" aria-live="polite"></span>
+      <button type="button" data-open-sharing>Avatar sharing</button><button type="button" id="facilityInfo">Guide</button><span class="facility-sr" id="facilityHelp">Swipe this bar for more zones. Drag to look, pinch or scroll to zoom. Selecting a zone guides your athlete there automatically. Other avatars are shared member appearances with ambient movement, not live presence.</span><span id="facilityAnnouncement" class="facility-sr" role="status" aria-live="polite"></span>
     </nav>
-    <div class="facility-activity" id="facilityActivity" hidden><span id="facilityActivityText" role="status"></span><button id="facilityUse" type="button" hidden></button><a id="facilitySection" hidden>Open section →</a></div>
+    <div class="facility-activity" id="facilityActivity" hidden><span id="facilityActivityText" role="status"></span><button id="facilityUse" type="button" hidden></button><a id="facilitySection" hidden>Open section →</a><span id="recoveryChoices" hidden><button type="button" data-recovery="compression">Compression boots</button><button type="button" data-recovery="iceBath">Ice bath</button><button type="button" data-recovery="sauna">Sauna</button></span></div>
+    <dialog id="facilitySharing" aria-labelledby="facilitySharingTitle"><h3 id="facilitySharingTitle">Your avatar in the JT facility</h3><p data-sharing-status role="status">Loading sharing preferences…</p><form data-sharing-form><label><input type="checkbox"> Show my avatar in other members’ facilities</label><p>This shares your saved avatar appearance with signed-in members. Your name, coaching feedback and private profile stay private. You can switch it off here.</p><button type="submit">Save preference</button></form><form method="dialog"><button>Back to facility</button></form></dialog>
     <dialog id="facilityLeaderboard" aria-labelledby="facilityLeaderboardTitle"><h3 id="facilityLeaderboardTitle">JT Performance Leaderboard</h3><p data-board-status role="status">Loading rankings…</p><ol data-board-rows class="facility-board-rows"></ol><p data-board-choice></p><form data-board-join hidden><label><input type="checkbox" required data-board-consent> Share my generated athlete alias and points on this board.</label><button type="submit">Join the leaderboard</button></form><button type="button" data-board-leave hidden>Leave leaderboard</button><form method="dialog"><button>Back to facility</button></form></dialog>
-    <dialog id="facilityGuide" aria-labelledby="facilityGuideTitle"><h3 id="facilityGuideTitle">Explore your JT facility</h3><p>Swipe the bottom bar or scroll over it for every zone. Drag the scene to look around, and pinch or use + / − to zoom.</p><p>Choose a station and your athlete walks there automatically. Doors open as you approach. Use the activity button on arrival to interact with equipment. Choose Athlete to return to the podium.</p><p>The other athletes are ambient characters, not live members. The reception leaderboard uses real points and optional generated aliases, refreshed at midnight UK time. Equipment animations do not award points.</p><form method="dialog"><button>Back to the facility</button></form></dialog>
+    <dialog id="facilityGuide" aria-labelledby="facilityGuideTitle"><h3 id="facilityGuideTitle">Explore your JT facility</h3><p>Swipe the bottom bar or scroll over it for every zone. Drag the scene to look around, and pinch or use + / − to zoom.</p><p>Choose a station and your athlete walks there automatically. Doors open as you approach. Use the activity button on arrival to interact with equipment. Choose Athlete to return to the podium.</p><p>Choose Avatar sharing to let your athlete appear in other members’ facilities. Up to 10 randomly selected shared member avatars can walk around; this does not indicate that they are online. The reception leaderboard uses real points and optional generated aliases, refreshed at midnight UK time. Equipment animations do not award points.</p><form method="dialog"><button>Back to the facility</button></form></dialog>
     <div class="loading" id="loading">
       <div class="spin" id="spin"></div>
       <b>Preparing Your Athlete</b>
@@ -386,9 +388,10 @@ body.embed .loading .spin{margin:0 auto}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
+import {initFacilityCrowd} from "/performance-hub-crowd.js?v=1";
 import {initFacilityLeaderboard} from "/performance-hub-leaderboard.js?v=1";
-import {createFacilityTour} from "/performance-hub-tour.js?v=2";
-import {buildFacility} from "/performance-hub-facility.js?v=9";
+import {createFacilityTour} from "/performance-hub-tour.js?v=3";
+import {buildFacility} from "/performance-hub-facility.js?v=10";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader.js";
@@ -410,6 +413,7 @@ const supabase=createClient(
 );
 
 const facilityBoard=initFacilityLeaderboard(supabase);
+const facilityCrowd=initFacilityCrowd(supabase);
 
 async function playerModel(){
   try{
@@ -713,9 +717,12 @@ function zoomFacility(factor){
  camera.position.copy(controls.target).add(offset.setLength(distance));controls.update();containFacilityCamera();
 }
 const activityPanel=document.querySelector('#facilityActivity'),activityText=document.querySelector('#facilityActivityText'),useButton=document.querySelector('#facilityUse'),sectionLink=document.querySelector('#facilitySection');
-const stationInfo={strength:['Dumbbell curls','/performance-hub-training.html'],functional:['Use battle ropes','/performance-hub-training.html'],sled:['Push the sled','/performance-hub-training.html'],pitch:['Take a shot','/performance-hub-matchday.html'],hydration:['Take a drink','/performance-hub-nutrition.html'],recovery:['Use recovery chair','/performance-hub-recovery.html'],changing:['Open avatar customisation','/performance-hub-avatar.html'],reception:['View rankings','/performance-hub-dashboard.html'],leaderboard:['View rankings','/performance-hub-rewards.html']};
-function arrive(name){activityPanel.hidden=name==='athlete';if(activityPanel.hidden)return;activityText.textContent=name==='hydration'?'Nutrition + hydration':name==='facility'?'Explore your facility':name.charAt(0).toUpperCase()+name.slice(1);const info=stationInfo[name];useButton.hidden=!info;sectionLink.hidden=!info;if(info){useButton.textContent=info[0];sectionLink.href=info[1];}useButton.dataset.station=name;}
-const tour=createFacilityTour({world,holder,camera,controls,measure:visibleAthleteBox,interactions:jtFacility.interactions,onReset:()=>setFacilityView('athlete'),announce:text=>{document.querySelector('#facilityAnnouncement').textContent=text;},onArrive:arrive,onTravel:name=>{activityPanel.hidden=false;activityText.textContent='Walking to '+(name==='hydration'?'nutrition + hydration':name)+'…';useButton.hidden=true;sectionLink.hidden=true;}});
+const stationInfo={strength:['Dumbbell curls','/performance-hub-training.html'],functional:['Use battle ropes','/performance-hub-training.html'],sled:['Push the sled','/performance-hub-training.html'],pitch:['Take a shot','/performance-hub-matchday.html'],hydration:['Take a drink','/performance-hub-nutrition.html'],compression:['Use compression boots','/performance-hub-recovery.html'],iceBath:['Sit in ice bath','/performance-hub-recovery.html'],sauna:['Sit in sauna','/performance-hub-recovery.html'],recovery:['Use compression boots','/performance-hub-recovery.html'],changing:['Open avatar customisation','/performance-hub-avatar.html'],reception:['View rankings','/performance-hub-dashboard.html'],leaderboard:['View rankings','/performance-hub-rewards.html']};
+const recoveryChoices=document.querySelector('#recoveryChoices');
+const stationNames={iceBath:'Ice bath',compression:'Compression boots',sauna:'Sauna',recovery:'Recovery'};
+function arrive(name){recoveryChoices.hidden=!['recovery','compression','iceBath','sauna'].includes(name);activityPanel.hidden=name==='athlete';if(activityPanel.hidden)return;activityText.textContent=name==='hydration'?'Nutrition + hydration':name==='facility'?'Explore your facility':(stationNames[name]||name.charAt(0).toUpperCase()+name.slice(1));const info=stationInfo[name];useButton.hidden=!info;sectionLink.hidden=!info;if(info){useButton.textContent=tour?.activity?'Finish activity':info[0];sectionLink.href=info[1];}useButton.dataset.station=name;}
+const tour=createFacilityTour({world,holder,camera,controls,measure:visibleAthleteBox,interactions:jtFacility.interactions,onReset:()=>setFacilityView('athlete'),announce:text=>{document.querySelector('#facilityAnnouncement').textContent=text;},onArrive:arrive,onTravel:name=>{recoveryChoices.hidden=true;activityPanel.hidden=false;activityText.textContent='Walking to '+(name==='hydration'?'nutrition + hydration':stationNames[name]||name)+'…';useButton.hidden=true;sectionLink.hidden=true;}});
+document.querySelectorAll('[data-recovery]').forEach(button=>button.addEventListener('click',()=>tour.visitRecovery(button.dataset.recovery)));
 useButton.addEventListener('click',()=>{const name=useButton.dataset.station;if(name==='leaderboard'||name==='reception'){facilityBoard.open();return;}if(name==='changing'){location.href=stationInfo.changing[1];return;}const using=tour.use();useButton.textContent=using?'Finish activity':stationInfo[name][0];});
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{tour.select(button.dataset.view);document.querySelectorAll('[data-view]').forEach(other=>other.setAttribute('aria-pressed',String(other.dataset.view===button.dataset.view)));button.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});}));
 document.querySelector('.facility-controls').addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){event.currentTarget.scrollLeft+=event.deltaY;event.preventDefault();}},{passive:false});
@@ -1093,6 +1100,11 @@ function loadWithTimeout(url,label,timeoutMs=18000){
   ]).finally(()=>clearTimeout(timeoutId));
 }
 
+async function loadSharedModel(url,label,timeoutMs=20000){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error('Shared avatar unavailable');const buffer=await response.arrayBuffer();return await loader.parseAsync(buffer,new URL('.',url).href);}finally{clearTimeout(timer);}
+}
+
 async function load(){
   try{
     bar.style.width="14%";
@@ -1161,7 +1173,7 @@ async function load(){
     athleteBaseY=holder.position.y;
     holder.updateMatrixWorld(true);
     tour.setupPlayer(athlete,athleteBaseY);
-    if(!embed)tour.addAmbient(donorGltf.scene);
+    if(!embed)facilityCrowd.attach(tour,loadSharedModel);
     frameDashboardAthlete();
 
     bar.style.width="100%";
@@ -1246,6 +1258,7 @@ function animate(){
   if(!tour.active)posture(elapsed,delta);
   tour.update(delta,elapsed,reducedMotionQuery.matches);
   containFacilityCamera();
+  jtFacility.interactions.constrainCamera(camera,controls.target);
   jtFacility.faceHolograms(camera);
   hazeSprites.forEach((sprite,i)=>{sprite.position.x=sprite.userData.baseX+Math.sin(elapsed*sprite.userData.speed+sprite.userData.phase)*.42;sprite.position.y=sprite.userData.baseY+Math.sin(elapsed*sprite.userData.speed*.7+sprite.userData.phase)*.16;sprite.material.rotation=elapsed*.012*(i%2?1:-1)});
   lightStrips.forEach((mesh,i)=>{mesh.material.opacity+=((.55+current.energy*.26+Math.sin(elapsed*(.55+i*.025))*.05)-mesh.material.opacity)*.035});
@@ -1254,7 +1267,7 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
-<script type="module" src="/performance-hub-holograms.js?v=facility9"></script>
+<script type="module" src="/performance-hub-holograms.js?v=facility10"></script>
 </body>
 </html>
 
