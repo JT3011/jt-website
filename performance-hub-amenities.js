@@ -38,7 +38,7 @@ export function buildAmenities({root,box,cylinder,tube,ring,label,wood,rubber,st
  for(const x of [9.2,13.2]){box(1.1,.06,.65,x,.48,18.1,stone);for(const xx of [x-.45,x+.45])cylinder(.025,.40,xx,.25,18.1,goldMetal);}
  box(7,.92,.65,12,.5,22,black);box(7.1,.07,.76,12,1,22,stone);
  for(let i=0;i<10;i++)cylinder(.035,.18,9.5+i*.25,1.13,22,white);folded(15,1.08,22);
- plant(5,21.8);plant(18,21.8);plant(-18,14.5);
+ plant(5,21.8);plant(19.6,23);plant(-18,14.5);
 
  // Private changing suite: lockers, seating, vanities, wet cubicles and WC rooms.
  box(14,2.6,.10,-11,1.35,23,black);box(.10,2.6,9,-18,1.35,18.5,black);
@@ -75,9 +75,30 @@ export function buildAmenities({root,box,cylinder,tube,ring,label,wood,rubber,st
  // Recovery towels and treatment couch: no glass screen in front of this zone.
  box(1.5,1.3,.4,18,.7,-15,wood);for(const y of [.25,.65,1.05]){box(1.4,.03,.4,18,y,-15,black);towels(17.55,y+.03,-14.98,5);}
  box(.8,.14,1.95,16.4,.8,-13.2,black);for(const z of [-13.9,-12.5])box(.6,.72,.10,16.4,.39,z,steel);folded(16.4,.94,-12.5);
- // Honest leaderboard display: no invented people, scores or online activity.
- box(4.0,2.25,.14,6,2.0,16.4,black);
- label('JT  /  PERFORMANCE LEADERBOARD',6,2.8,16.49,3.6);
- label('Rankings are not enabled yet',6,2.0,16.49,3.5,'#e5e8e9');
- label('Keep building your Performance Points',6,1.4,16.49,3.5,'#dbc181');
+ // Nutrition bar alongside the lounge: shakes, smoothies, fruit and chilled water.
+ const glass=new THREE.MeshPhysicalMaterial({color:0xe1f7fa,transparent:true,opacity:.35,roughness:.15,depthWrite:false});
+ label('NUTRITION  /  SHAKE + SMOOTHIE BAR',12,2.15,22.3,5).rotation.y=Math.PI;
+ for(let i=0;i<5;i++){
+  const x=9.1+i*.45,drink=new THREE.MeshStandardMaterial({color:[0xb88754,0xec7696,0x84b85c,0xe6a846,0xc9aa87][i],roughness:.48});
+  cylinder(.085,.24,x,1.17,21.9,glass);cylinder(.071,.19,x,1.15,21.9,drink);cylinder(.010,.31,x+.015,1.30,21.9,goldMetal);
+ }
+ for(const x of [12,12.55]){box(.28,.17,.30,x,1.12,22,black);cylinder(.11,.29,x,1.34,22,glass);cylinder(.12,.035,x,1.50,22,black);}
+ // Protein shaker display, labelled tubs and fruit bowls.
+ for(const x of [13.25,13.55,13.85]){cylinder(.07,.22,x,1.19,21.9,black);cylinder(.073,.025,x,1.31,21.9,goldMetal);badge(x,1.19,21.82,.09).rotation.y=Math.PI;}
+ label('PROTEIN',13.6,1.65,22.2,.9).rotation.y=Math.PI;
+ for(let bowl=0;bowl<3;bowl++){const x=14.4+bowl*.42;cylinder(.20,.08,x,1.08,22,goldMetal);for(let i=0;i<5;i++){const fruit=new THREE.Mesh(new THREE.SphereGeometry(.065,16,12),new THREE.MeshStandardMaterial({color:[0xd79820,0x81a245,0xb43443][bowl],roughness:.55}));fruit.position.set(x+Math.sin(i*2.4)*.10,1.16+(i===4?.075:0),22+Math.cos(i*2.4)*.10);root.add(fruit);}}
+ for(let i=0;i<3;i++){const banana=new THREE.Mesh(new THREE.TorusGeometry(.11,.026,8,16,Math.PI*.8),new THREE.MeshStandardMaterial({color:0xe9cd53,roughness:.65}));banana.position.set(14.1+i*.04,1.16+i*.025,21.7);banana.rotation.x=Math.PI/2;root.add(banana);}
+ // Dynamic, double-sided display can be read from the lounge and circulation aisle.
+ box(4.4,2.65,.14,6,2.1,16.4,black);
+ const cv=document.createElement('canvas');cv.width=1280;cv.height=768;const texture=new THREE.CanvasTexture(cv);texture.colorSpace=THREE.SRGBColorSpace;
+ for(const side of [-1,1]){const screen=new THREE.Mesh(new THREE.PlaneGeometry(4.22,2.53),new THREE.MeshBasicMaterial({map:texture,toneMapped:false}));screen.position.set(6,2.1,16.4+side*.078);if(side<0)screen.rotation.y=Math.PI;screen.name='live-leaderboard';root.add(screen);}
+ function leaderboard(data={}){
+  const c=cv.getContext('2d');c.fillStyle='#081014';c.fillRect(0,0,1280,768);c.fillStyle='#dbc181';c.font='700 42px sans-serif';c.fillText('JT  /  PERFORMANCE LEADERBOARD',48,68);
+  c.fillStyle='#bfcdd1';c.font='25px sans-serif';c.fillText('NIGHTLY RANKINGS  ·  00:00 UK',48,112);
+  const rows=data.rows||[];
+  if(!rows.length){c.fillStyle='#f5f5ec';c.font='32px sans-serif';c.fillText(data.message||'Join the board to set the pace.',48,280);}
+  rows.slice(0,8).forEach((row,i)=>{const y=186+i*59;c.fillStyle=row.is_you?'#dbc181':'#edf2f3';c.font='600 30px sans-serif';c.fillText(String(row.rank).padStart(2,'0'),48,y);c.fillText(row.alias+(row.is_you?'  ·  YOU':''),140,y);c.fillText(Number(row.points).toLocaleString()+' PP',1030,y);});
+  c.fillStyle='#9fb2bb';c.font='23px sans-serif';c.fillText(data.cutoff?'Points earned before '+new Date(data.cutoff).toLocaleDateString('en-GB',{timeZone:'Europe/London'}):'Open Leaderboard below to view or join.',48,715);texture.needsUpdate=true;
+ }
+ leaderboard();return {leaderboard};
 }

@@ -1,12 +1,13 @@
 import * as THREE from 'three';
-import {buildAmenities} from './performance-hub-amenities.js?v=1';
+import {buildAmenities} from './performance-hub-amenities.js?v=2';
+import {buildFacilityInteractions} from './performance-hub-interactions.js?v=1';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 // Metre-scale facility with shared, locally generated surface textures. No player data is stored here.
 export function buildFacility(world){
  const root=new THREE.Group();root.name='JT-spacious-facility';world.add(root);
  let group=root;
  const zones={};
- for(const [name,x,z] of [['strength',-5,-7],['sled',-10,3],['pitch',6,1],['hydration',-1,-4],['recovery',6,-9],['functional',-5,3]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
+ for(const [name,x,z] of [['strength',-5,-7],['sled',-10,3],['pitch',6,1],['hydration',20,26.5],['recovery',6,-9],['functional',-5,3]]){const zone=new THREE.Group();zone.name=`zone-${name}`;zone.position.set(x,0,z);root.add(zone);zones[name]=zone;}
  const mat=(color,roughness=.6,metalness=.25)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
  // Seeded microdetail stays stable between visits and does not require remote textures.
  let seed=41;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
@@ -41,9 +42,6 @@ export function buildFacility(world){
  for(let x=-18;x<21;x+=4)box(.045,7.6,.10,x,3.8,-18.84,steel);
  for(const x of [-18.5,19.5])for(const z of [-16,-5,7,22])box(.3,7.8,.3,x,3.9,z,steel);
  const light=new THREE.HemisphereLight(0xe3ecf2,0x3b3530,1.05);root.add(light);
- // Central feature wall keeps the avatar, neon artwork and holograms together.
- box(4.2,4.8,.16,.7,2.4,-3.38,mat(0x101315,.72,.3));
- for(const x of [-1.35,2.75])box(.025,4.65,.025,x,2.4,-3.275,goldMetal);
  // Individual room zones are translated only: all equipment dimensions are preserved.
  group=zones.strength;
  // Strength zone: three-tier dumbbell rack, free weights, bench and loaded barbell.
@@ -84,11 +82,13 @@ export function buildFacility(world){
  // Project the original JT artwork onto the turf; dark pixels disappear into the pile.
  const turfLogo=new THREE.TextureLoader().load('/images/logo.jpeg');turfLogo.colorSpace=THREE.SRGBColorSpace;
  const logoDecal=new THREE.Mesh(new THREE.PlaneGeometry(1.45,1.45),new THREE.MeshBasicMaterial({map:turfLogo,color:0xdbc181,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.85,polygonOffset:true,polygonOffsetFactor:-1}));logoDecal.rotation.x=-Math.PI/2;logoDecal.position.set(-5.25,.067,5.5);logoDecal.name='JT-turf-logo';group.add(logoDecal);
+ const sledGroup=new THREE.Group();sledGroup.name='interactive-sled';zones.sled.add(sledGroup);group=sledGroup;
  const sx=-5.35,sz=2.5;
  for(const x of [sx-.53,sx+.53])box(.13,.13,1.5,x,.16,sz,steel);
  box(1.1,.1,.75,sx,.27,sz,steel);cylinder(.045,.85,sx,.72,sz,steel);
  for(let i=0;i<3;i++)cylinder(.32,.08,sx,.37+i*.08,sz,rubber);
  for(const x of [sx-.48,sx+.48])cylinder(.04,1.2,x,.83,sz+.4,steel);
+ group=zones.sled;
  label('02  /  SPEED & SLED',-5.35,2.25,-1.1,2.5,'#dbc181');
  group=zones.pitch;
  // Indoor training pitch with mow stripes and flush painted markings.
@@ -264,24 +264,40 @@ export function buildFacility(world){
  // Compact storage for resistance bands and a foam roller.
  cylinder(.065,.42,-.15,.13,6.9,upholstery,'z');for(let i=0;i<3;i++)ring(.10+i*.025,.006,-.15,.07,6.25,blue);
  group=root;
- buildAmenities({root,box,cylinder,tube,ring,label,wood,rubber,steel,white,goldMetal,glow});
- // Actual world-space holograms, behind the athlete with normal depth testing.
+ const amenities=buildAmenities({root,box,cylinder,tube,ring,label,wood,rubber,steel,white,goldMetal,glow});
+ const interactions=buildFacilityInteractions({root,box,cylinder,label,wood,steel,goldMetal,glow});
+ // Upright floor projections arranged on a ring, with a clear front/back walking gap.
  const names=[['training','TRAINING','#dbc181'],['nutrition','NUTRITION','#9bd89b'],['mindset','MINDSET','#c1a5ff'],['recovery','RECOVERY','#91c9e8'],['challenges','CHALLENGES','#64e4ed'],['journal','JOURNAL','#ee92b2'],['matchday','MATCHDAY','#f59e7b'],['progress','PROGRESS','#639bff']];
- const screens=new Map();
+ const screens=new Map(),holoPanels=[];
  names.forEach(([id,name,color],i)=>{
-  const cv=document.createElement('canvas');cv.width=640;cv.height=256;const texture=new THREE.CanvasTexture(cv);texture.colorSpace=THREE.SRGBColorSpace;
-  const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:1,depthWrite:false,depthTest:true,toneMapped:false,side:THREE.DoubleSide});
-  const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.85,.74),material);panel.scale.setScalar(.60);panel.position.set(.7+(i%2?1.24:-1.24),2.04-Math.floor(i/2)*.51,-.45);panel.rotation.y=i%2?-.1:.1;panel.name=`hologram-${id}`;group.add(panel);
-  const rimMaterial=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.95,toneMapped:false,depthWrite:false});
-  for(const y of [-.36,.36]){const rim=new THREE.Mesh(new THREE.PlaneGeometry(1.1,.008),rimMaterial);rim.position.set(0,y,.006);panel.add(rim);rim.scale.setScalar(1/.60);}
+  const cv=document.createElement('canvas');cv.width=512;cv.height=640;const texture=new THREE.CanvasTexture(cv);texture.colorSpace=THREE.SRGBColorSpace;
+  const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false,depthTest:true,toneMapped:false,side:THREE.DoubleSide});
+  const angle=THREE.MathUtils.degToRad([30,70,110,150,210,250,290,330][i]),x=.7+Math.sin(angle)*2.65,z=Math.cos(angle)*2.65;
+  const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.25,1.56),material);panel.position.set(x,1.08,z);panel.rotation.y=angle;panel.name=`hologram-${id}`;root.add(panel);holoPanels.push(panel);
+  const rimMaterial=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.95,toneMapped:false,depthWrite:false,side:THREE.DoubleSide});
+  for(const xx of [-.645,.645]){const rim=new THREE.Mesh(new THREE.PlaneGeometry(.018,1.87),rimMaterial);rim.position.set(xx,-.13,0);panel.add(rim);}
+  for(const yy of [-.79,.79]){const rim=new THREE.Mesh(new THREE.PlaneGeometry(1.31,.018),rimMaterial);rim.position.set(0,yy,.004);panel.add(rim);}
+  const projection=new THREE.Mesh(new THREE.PlaneGeometry(1.27,.30),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.08,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,toneMapped:false}));projection.position.set(0,-.91,0);panel.add(projection);
+  const cvGlow=document.createElement('canvas');cvGlow.width=cvGlow.height=128;const gctx=cvGlow.getContext('2d'),g=gctx.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,color);g.addColorStop(.25,color+'88');g.addColorStop(1,color+'00');gctx.fillStyle=g;gctx.fillRect(0,0,128,128);
+  const halo=new THREE.Mesh(new THREE.PlaneGeometry(2.1,2.4),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cvGlow),transparent:true,opacity:.40,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,toneMapped:false}));halo.position.z=-.025;panel.add(halo);
+  const foot=ring(.36,.012,x,.06,z,rimMaterial);foot.name='holo-projector-'+id;
   screens.set(id,{cv,texture,name,color});
  });
- function update({id,value,state,basis}){const screen=screens.get(id);if(!screen)return;const {cv,texture,name,color}=screen,ctx=cv.getContext('2d');ctx.clearRect(0,0,640,256);ctx.fillStyle='rgba(3,10,17,.94)';ctx.fillRect(0,0,640,256);ctx.strokeStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.lineWidth=5;ctx.strokeRect(4,4,632,248);ctx.shadowBlur=0;ctx.fillStyle=color;ctx.font='700 34px sans-serif';ctx.fillText(name,28,49);ctx.fillStyle='#f2f7fa';ctx.font='700 68px sans-serif';ctx.fillText(value==null?'—':`${value}%`,28,123);ctx.fillStyle='#ffffff20';ctx.fillRect(28,145,584,6);ctx.fillStyle=color;ctx.fillRect(28,145,584*(value??0)/100,6);ctx.font='22px sans-serif';ctx.fillStyle='#c5d6df';ctx.fillText(basis||'Saved player progress',28,192);ctx.font='18px sans-serif';ctx.fillStyle=color;ctx.fillText(state||'Not logged',28,227);texture.needsUpdate=true;}
+ function update({id,value,state,basis}){
+  const screen=screens.get(id);if(!screen)return;const {cv,texture,name,color}=screen,c=cv.getContext('2d');
+  c.clearRect(0,0,512,640);c.fillStyle='rgba(3,10,17,.96)';c.fillRect(0,0,512,640);c.strokeStyle=color;c.shadowColor=color;c.shadowBlur=22;c.lineWidth=7;c.strokeRect(6,6,500,628);c.shadowBlur=0;
+  c.fillStyle=color;c.font='800 49px sans-serif';c.fillText(name,28,84);c.fillStyle='#f6fcff';c.font='800 144px sans-serif';c.fillText(value==null?'—':`${value}%`,28,279);
+  c.fillStyle='#ffffff25';c.fillRect(28,332,456,16);c.fillStyle=color;c.fillRect(28,332,456*Math.max(0,Math.min(100,value??0))/100,16);
+  c.font='30px sans-serif';c.fillStyle='#c5d6df';const words=(basis||'Saved player progress').split(' ');let line='',y=413;for(const word of words){if((line+word).length>25){c.fillText(line,28,y);y+=39;line='';}line+=word+' ';}c.fillText(line,28,y);
+  c.font='28px sans-serif';c.fillStyle=color;c.fillText(state||'Not logged',28,552);c.font='22px sans-serif';c.fillStyle='#c5d6df';c.fillText('TAP TO EXPLORE',28,600);texture.needsUpdate=true;
+ }
  names.forEach(([id])=>update({id,value:null}));
  // Batch repeated opaque fixtures to keep the denser interior practical on phones.
  for(const parent of [root,...Object.values(zones)]){
   const batches=new Map();for(const object of [...parent.children]){if(object.type!=='Mesh'||object.name||object.children.length||Array.isArray(object.material)||object.material.transparent)continue;const key=object.geometry.uuid+object.material.uuid;if(!batches.has(key))batches.set(key,[]);batches.get(key).push(object);}
   for(const objects of batches.values()){if(objects.length<3)continue;const batch=new THREE.InstancedMesh(objects[0].geometry,objects[0].material,objects.length);batch.name='static-fixtures';batch.castShadow=objects[0].castShadow;batch.receiveShadow=objects[0].receiveShadow;objects.forEach((object,i)=>{object.updateMatrix();batch.setMatrixAt(i,object.matrix);parent.remove(object);});batch.instanceMatrix.needsUpdate=true;batch.computeBoundingSphere();parent.add(batch);}
  }
- return {update,animate};
+ return {update,animate:(time,reducedMotion)=>{animate(time,reducedMotion);interactions.animate(time,reducedMotion);},
+  faceHolograms(camera){for(const p of holoPanels)p.rotation.y=Math.atan2(camera.position.x-p.position.x,camera.position.z-p.position.z);},
+  leaderboard:amenities.leaderboard,interactions};
 }

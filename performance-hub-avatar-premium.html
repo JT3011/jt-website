@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility8">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility9">
 </head>
 <body>
 <header class="top">
@@ -327,7 +327,8 @@ body.embed .loading .spin{margin:0 auto}
     </div>
 
     <div class="centre-title eyebrow">Connected JT Centres</div>
-    <div class="centre-grid">
+    <button class="pill" type="button" data-open-leaderboard>Performance leaderboard</button>
+<div class="centre-grid">
       <a class="centre-link" href="/performance-hub-training.html"><b>Training Centre</b><span>Use readiness to guide today's workload.</span></a>
       <a class="centre-link" href="/performance-hub-recovery.html"><b>Recovery Centre</b><span>Improve sleep, soreness and recovery.</span></a>
       <a class="centre-link" href="/performance-hub-nutrition.html"><b>Nutrition Centre</b><span>Support hydration, fuelling and energy.</span></a>
@@ -338,11 +339,13 @@ body.embed .loading .spin{margin:0 auto}
   <section class="stage" id="stage">
     <canvas id="c" aria-label="Interactive JT performance facility"></canvas>
     <nav class="facility-controls" aria-label="Explore the facility" aria-describedby="facilityHelp">
-      <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Explore facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="functional">Functional</button><button type="button" data-view="sled">Sled lane</button><button type="button" data-view="hydration">Hydration</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Football</button><button type="button" data-view="reception">Reception</button><button type="button" data-view="changing">Changing rooms</button><button type="button" data-view="leaderboard">Leaderboard</button><button type="button" id="facilityWalk" aria-pressed="false" title="Choose Walk mode, then a zone to guide your athlete along the walkways">Walk mode</button></div>
+      <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Explore facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="functional">Functional</button><button type="button" data-view="sled">Sled lane</button><button type="button" data-view="hydration">Nutrition + hydration</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Football</button><button type="button" data-view="reception">Reception</button><button type="button" data-view="changing">Changing rooms</button><button type="button" data-view="leaderboard">Leaderboard</button></div>
       <div class="facility-zoom"><button type="button" id="facilityZoomIn" aria-label="Zoom in">+</button><button type="button" id="facilityZoomOut" aria-label="Zoom out">−</button><button type="button" data-view="athlete" aria-label="Reset camera">Reset</button></div>
-      <button type="button" id="facilityInfo">Guide</button><span class="facility-sr" id="facilityHelp">Swipe this bar for more zones. Drag to look, pinch or scroll to zoom. Walk mode guides your athlete between zones. Other moving athletes are ambient characters, not online members.</span><span id="facilityAnnouncement" class="facility-sr" role="status" aria-live="polite"></span>
+      <button type="button" id="facilityInfo">Guide</button><span class="facility-sr" id="facilityHelp">Swipe this bar for more zones. Drag to look, pinch or scroll to zoom. Selecting a zone guides your athlete there automatically. Other moving athletes are ambient characters, not online members.</span><span id="facilityAnnouncement" class="facility-sr" role="status" aria-live="polite"></span>
     </nav>
-    <dialog id="facilityGuide" aria-labelledby="facilityGuideTitle"><h3 id="facilityGuideTitle">Explore your JT facility</h3><p>Swipe the bottom bar or scroll over it for every zone. Drag the scene to look around, and pinch or use + / − to zoom.</p><p>Turn on Walk mode, then choose a zone to guide your athlete along the walkways. Turn it off to return to the central platform.</p><p>The other athletes are ambient characters, not live members. The leaderboard display is ready, but shared rankings are not enabled yet.</p><form method="dialog"><button>Back to the facility</button></form></dialog>
+    <div class="facility-activity" id="facilityActivity" hidden><span id="facilityActivityText" role="status"></span><button id="facilityUse" type="button" hidden></button><a id="facilitySection" hidden>Open section →</a></div>
+    <dialog id="facilityLeaderboard" aria-labelledby="facilityLeaderboardTitle"><h3 id="facilityLeaderboardTitle">JT Performance Leaderboard</h3><p data-board-status role="status">Loading rankings…</p><ol data-board-rows class="facility-board-rows"></ol><p data-board-choice></p><form data-board-join hidden><label><input type="checkbox" required data-board-consent> Share my generated athlete alias and points on this board.</label><button type="submit">Join the leaderboard</button></form><button type="button" data-board-leave hidden>Leave leaderboard</button><form method="dialog"><button>Back to facility</button></form></dialog>
+    <dialog id="facilityGuide" aria-labelledby="facilityGuideTitle"><h3 id="facilityGuideTitle">Explore your JT facility</h3><p>Swipe the bottom bar or scroll over it for every zone. Drag the scene to look around, and pinch or use + / − to zoom.</p><p>Choose a station and your athlete walks there automatically. Doors open as you approach. Use the activity button on arrival to interact with equipment. Choose Athlete to return to the podium.</p><p>The other athletes are ambient characters, not live members. The reception leaderboard uses real points and optional generated aliases, refreshed at midnight UK time. Equipment animations do not award points.</p><form method="dialog"><button>Back to the facility</button></form></dialog>
     <div class="loading" id="loading">
       <div class="spin" id="spin"></div>
       <b>Preparing Your Athlete</b>
@@ -383,8 +386,9 @@ body.embed .loading .spin{margin:0 auto}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
-import {createFacilityTour} from "/performance-hub-tour.js?v=1";
-import {buildFacility} from "/performance-hub-facility.js?v=8";
+import {initFacilityLeaderboard} from "/performance-hub-leaderboard.js?v=1";
+import {createFacilityTour} from "/performance-hub-tour.js?v=2";
+import {buildFacility} from "/performance-hub-facility.js?v=9";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader.js";
@@ -404,6 +408,8 @@ const supabase=createClient(
   "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ",
   {auth:{persistSession:true,autoRefreshToken:true}}
 );
+
+const facilityBoard=initFacilityLeaderboard(supabase);
 
 async function playerModel(){
   try{
@@ -514,6 +520,8 @@ for(const object of [base,deck,ringOuter,ringInner]){object.scale.setScalar(.4);
 // Equipment and progress displays are part of the 3D facility, not a foreground overlay.
 const jtFacility=buildFacility(world);
 window.addEventListener('jt-section-progress',event=>jtFacility.update(event.detail));
+window.addEventListener('jt-board-state',event=>jtFacility.leaderboard(event.detail));
+window.dispatchEvent(new Event('jt-board-request'));
 window.dispatchEvent(new Event('jt-facility-ready'));
 
 const brandTextureLoader = new THREE.TextureLoader();
@@ -530,10 +538,9 @@ const logoMaterial=new THREE.ShaderMaterial({
  float ink(vec2 p){vec3 c=texture2D(logo,clamp(p,0.,1.)).rgb;return smoothstep(.10,.65,max(c.r,max(c.g,c.b)));}
  void main(){float core=ink(vUv);float halo=0.;for(int x=-2;x<=2;x++){for(int y=-2;y<=2;y++){halo+=ink(vUv+vec2(float(x),float(y))*.006);}}halo/=25.;float a=max(core,halo*.5);gl_FragColor=vec4(gold*(1.5+core),a);}`
 });
-const logoPlane=new THREE.Mesh(new THREE.PlaneGeometry(2.3,2.3),logoMaterial);
-logoPlane.position.set(.7,3.45,-3.23);world.add(logoPlane);
-const signBack=new THREE.Mesh(new THREE.BoxGeometry(2.5,2.5,.09),new THREE.MeshStandardMaterial({color:0x080a0c,roughness:.4,metalness:.55}));signBack.position.set(.7,3.45,-3.32);world.add(signBack);
-const neonWash=new THREE.PointLight(0xdbc181,12,5,2);neonWash.position.set(.7,3.45,-2.95);world.add(neonWash);
+const logoPlane=new THREE.Mesh(new THREE.PlaneGeometry(4.2,4.2),logoMaterial);
+logoPlane.position.set(.7,4.3,-18.86);world.add(logoPlane);
+const neonWash=new THREE.PointLight(0xdbc181,12,5,2);neonWash.position.set(.7,4.3,-18.3);world.add(neonWash);
 
 
 function hazeTexture(){
@@ -688,7 +695,7 @@ function containFacilityCamera(){
  camera.lookAt(controls.target);
 }
 function setFacilityView(name='athlete'){
- const views={athlete:{target:[.7,1.85,-.4],width:4.3,height:4.4},facility:{target:[.7,1.65,0],width:27,height:8},strength:{target:[-10.3,1,-10.8],width:4.7,height:3.1},sled:{target:[-15.35,.6,6],width:3.8,height:7},hydration:{target:[-2.85,1.2,-9.65],width:3.5,height:3.2},recovery:{target:[11.35,1.1,-13.65],width:6.7,height:3.9},pitch:{target:[12.1,.55,3.2],width:15,height:11},functional:{target:[-10,.6,6],width:13,height:9},reception:{target:[8,1.3,19],width:19,height:7},changing:{target:[-11,1.3,19],width:14,height:6},leaderboard:{target:[6,2,16.4],width:4.6,height:3.8}};
+ const views={athlete:{target:[.7,1.85,-.4],width:7.1,height:5.2},facility:{target:[.7,1.65,0],width:27,height:8},strength:{target:[-10.3,1,-10.8],width:4.7,height:3.1},sled:{target:[-15.35,.6,6],width:3.8,height:7},hydration:{target:[18.15,1.2,20.85],width:3.5,height:3.2},recovery:{target:[11.35,1.1,-13.65],width:6.7,height:3.9},pitch:{target:[12.1,.55,3.2],width:15,height:11},functional:{target:[-10,.6,6],width:13,height:9},reception:{target:[8,1.3,19],width:19,height:7},changing:{target:[-11,1.3,19],width:14,height:6},leaderboard:{target:[6,2,16.4],width:4.6,height:3.8}};
  const view=views[name]||views.athlete;
  camera.fov=['reception','changing'].includes(name)?65:name==='facility'?(camera.aspect<1?78:64):42;camera.updateProjectionMatrix();
  const halfV=THREE.MathUtils.degToRad(camera.fov/2);
@@ -705,12 +712,24 @@ function zoomFacility(factor){
  const offset=camera.position.clone().sub(controls.target),distance=THREE.MathUtils.clamp(offset.length()*factor,controls.minDistance,controls.maxDistance);
  camera.position.copy(controls.target).add(offset.setLength(distance));controls.update();containFacilityCamera();
 }
-const tour=createFacilityTour({world,holder,camera,controls,measure:visibleAthleteBox,onReset:()=>{document.querySelector('#facilityWalk').setAttribute('aria-pressed','false');setFacilityView('athlete');},announce:text=>{document.querySelector('#facilityAnnouncement').textContent=text;}});
-document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{if(!tour.select(button.dataset.view))setFacilityView(button.dataset.view);else document.querySelectorAll('[data-view]').forEach(other=>other.setAttribute('aria-pressed',String(other.dataset.view===button.dataset.view)));button.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});}));
-document.querySelector('#facilityWalk').addEventListener('click',event=>{event.currentTarget.setAttribute('aria-pressed',String(tour.toggle()));});
-
-document.querySelector('#facilityInfo').addEventListener('click',()=>document.querySelector('#facilityGuide').showModal());
+const activityPanel=document.querySelector('#facilityActivity'),activityText=document.querySelector('#facilityActivityText'),useButton=document.querySelector('#facilityUse'),sectionLink=document.querySelector('#facilitySection');
+const stationInfo={strength:['Dumbbell curls','/performance-hub-training.html'],functional:['Use battle ropes','/performance-hub-training.html'],sled:['Push the sled','/performance-hub-training.html'],pitch:['Take a shot','/performance-hub-matchday.html'],hydration:['Take a drink','/performance-hub-nutrition.html'],recovery:['Use recovery chair','/performance-hub-recovery.html'],changing:['Open avatar customisation','/performance-hub-avatar.html'],reception:['View rankings','/performance-hub-dashboard.html'],leaderboard:['View rankings','/performance-hub-rewards.html']};
+function arrive(name){activityPanel.hidden=name==='athlete';if(activityPanel.hidden)return;activityText.textContent=name==='hydration'?'Nutrition + hydration':name==='facility'?'Explore your facility':name.charAt(0).toUpperCase()+name.slice(1);const info=stationInfo[name];useButton.hidden=!info;sectionLink.hidden=!info;if(info){useButton.textContent=info[0];sectionLink.href=info[1];}useButton.dataset.station=name;}
+const tour=createFacilityTour({world,holder,camera,controls,measure:visibleAthleteBox,interactions:jtFacility.interactions,onReset:()=>setFacilityView('athlete'),announce:text=>{document.querySelector('#facilityAnnouncement').textContent=text;},onArrive:arrive,onTravel:name=>{activityPanel.hidden=false;activityText.textContent='Walking to '+(name==='hydration'?'nutrition + hydration':name)+'…';useButton.hidden=true;sectionLink.hidden=true;}});
+useButton.addEventListener('click',()=>{const name=useButton.dataset.station;if(name==='leaderboard'||name==='reception'){facilityBoard.open();return;}if(name==='changing'){location.href=stationInfo.changing[1];return;}const using=tour.use();useButton.textContent=using?'Finish activity':stationInfo[name][0];});
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{tour.select(button.dataset.view);document.querySelectorAll('[data-view]').forEach(other=>other.setAttribute('aria-pressed',String(other.dataset.view===button.dataset.view)));button.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});}));
 document.querySelector('.facility-controls').addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){event.currentTarget.scrollLeft+=event.deltaY;event.preventDefault();}},{passive:false});
+// A tap focuses a projection so its score is legible on a small phone screen.
+const hologramRay=new THREE.Raycaster(),hologramPointer=new THREE.Vector2();let pointerStart=null;
+renderer.domElement.addEventListener('pointerdown',event=>{pointerStart={x:event.clientX,y:event.clientY};});
+renderer.domElement.addEventListener('pointerup',event=>{
+ if(embed||!pointerStart||Math.hypot(event.clientX-pointerStart.x,event.clientY-pointerStart.y)>7)return;
+ const rect=renderer.domElement.getBoundingClientRect();hologramPointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);hologramRay.setFromCamera(hologramPointer,camera);
+ const panels=[];world.traverse(o=>{if(o.name.startsWith('hologram-'))panels.push(o);});const hit=hologramRay.intersectObjects(panels,false)[0];if(!hit)return;
+ const id=hit.object.name.slice(9);tour.stop();const centre=hit.object.getWorldPosition(new THREE.Vector3());camera.fov=42;camera.updateProjectionMatrix();controls.target.copy(centre);const distance=Math.max(2.7,1.65/(2*Math.tan(THREE.MathUtils.degToRad(21))*camera.aspect));camera.position.copy(centre).add(new THREE.Vector3(0,.03,distance));camera.lookAt(centre);
+ activityPanel.hidden=false;activityText.textContent=id.charAt(0).toUpperCase()+id.slice(1)+' progress';useButton.hidden=true;sectionLink.hidden=false;sectionLink.href='/performance-hub-'+id+'.html';
+});
+document.querySelector('#facilityInfo').addEventListener('click',()=>document.querySelector('#facilityGuide').showModal());
 document.querySelector('#facilityZoomIn').addEventListener('click',()=>zoomFacility(.75));
 document.querySelector('#facilityZoomOut').addEventListener('click',()=>zoomFacility(1.33));
 
@@ -1223,10 +1242,11 @@ function animate(){
   controls.update();
   containFacilityCamera();
   jtFacility.animate(elapsed,reducedMotionQuery.matches);
-  if(mixer){mixer.timeScale=THREE.MathUtils.lerp(mixer.timeScale,.58+current.energy*.52,.04);mixer.update(delta)}
-  posture(elapsed,delta);
+  if(mixer&&!tour.active){mixer.timeScale=THREE.MathUtils.lerp(mixer.timeScale,.58+current.energy*.52,.04);mixer.update(delta)}
+  if(!tour.active)posture(elapsed,delta);
   tour.update(delta,elapsed,reducedMotionQuery.matches);
   containFacilityCamera();
+  jtFacility.faceHolograms(camera);
   hazeSprites.forEach((sprite,i)=>{sprite.position.x=sprite.userData.baseX+Math.sin(elapsed*sprite.userData.speed+sprite.userData.phase)*.42;sprite.position.y=sprite.userData.baseY+Math.sin(elapsed*sprite.userData.speed*.7+sprite.userData.phase)*.16;sprite.material.rotation=elapsed*.012*(i%2?1:-1)});
   lightStrips.forEach((mesh,i)=>{mesh.material.opacity+=((.55+current.energy*.26+Math.sin(elapsed*(.55+i*.025))*.05)-mesh.material.opacity)*.035});
   renderer.render(scene,camera);
@@ -1234,7 +1254,7 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
-<script type="module" src="/performance-hub-holograms.js?v=facility8"></script>
+<script type="module" src="/performance-hub-holograms.js?v=facility9"></script>
 </body>
 </html>
 
