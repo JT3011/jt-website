@@ -287,7 +287,7 @@ body.embed .loading .spin{margin:0 auto}
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility2">
+<link rel="stylesheet" href="/performance-hub-holograms.css?v=facility3">
 </head>
 <body>
 <header class="top">
@@ -336,7 +336,12 @@ body.embed .loading .spin{margin:0 auto}
   </aside>
 
   <section class="stage" id="stage">
-    <canvas id="c" aria-label="Interactive JT athlete reveal"></canvas>
+    <canvas id="c" aria-label="Interactive JT performance facility"></canvas>
+    <nav class="facility-controls" aria-label="Explore the facility">
+      <div class="facility-views"><button type="button" data-view="athlete">Athlete</button><button type="button" data-view="facility">Full facility</button><button type="button" data-view="strength">Strength</button><button type="button" data-view="recovery">Recovery</button><button type="button" data-view="pitch">Pitch</button></div>
+      <div class="facility-zoom"><button type="button" id="facilityZoomIn" aria-label="Zoom in">+</button><button type="button" id="facilityZoomOut" aria-label="Zoom out">−</button><button type="button" data-view="athlete" aria-label="Reset camera">Reset</button></div>
+      <span>Drag to look · Pinch or scroll to zoom · Two fingers or right-drag to move</span>
+    </nav>
     <div class="loading" id="loading">
       <div class="spin" id="spin"></div>
       <b>Preparing Your Athlete</b>
@@ -377,7 +382,7 @@ body.embed .loading .spin{margin:0 auto}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
-import {buildFacility} from "/performance-hub-facility.js?v=1";
+import {buildFacility} from "/performance-hub-facility.js?v=3";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader.js";
@@ -438,9 +443,9 @@ const readinessRewardSummary=document.querySelector("#readinessRewardSummary");
 
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x090806);
-scene.fog=new THREE.FogExp2(0x090806,.032);
+scene.fog=new THREE.FogExp2(0x172027,.008);
 
-const camera=new THREE.PerspectiveCamera(embed?30:29,1,.1,100);
+const camera=new THREE.PerspectiveCamera(42,1,.04,150);
 camera.position.set(embed?.12:.45,embed?3.2:2.45,embed?8:8.25);
 
 let renderer;
@@ -464,9 +469,9 @@ scene.environment=pm.fromScene(room,.04).texture;
 room.dispose();pm.dispose();
 
 const controls=new OrbitControls(camera,canvas);
-controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.07;controls.enableRotate=!embed;controls.enableZoom=!embed;
-controls.minDistance=embed?4.2:5.3;controls.maxDistance=embed?7:10;
-controls.minPolarAngle=Math.PI*.33;controls.maxPolarAngle=Math.PI*.58;
+controls.enablePan=!embed;controls.screenSpacePanning=true;controls.zoomToCursor=true;controls.zoomSpeed=1.15;controls.enableDamping=true;controls.dampingFactor=.07;controls.enableRotate=!embed;controls.enableZoom=!embed;
+controls.minDistance=.65;controls.maxDistance=70;
+controls.minPolarAngle=.12;controls.maxPolarAngle=Math.PI*.49;
 controls.target.set(embed?.12:.7,embed?3:1.85,0);
 
 const hemi=new THREE.HemisphereLight(0xf4e7c4,0x080b10,.64);scene.add(hemi);
@@ -494,7 +499,7 @@ function addStrip(size,pos,rot={x:0,y:0,z:0}){
 }
 
 const floorMat=new THREE.MeshPhysicalMaterial({color:0x050505,roughness:.2,metalness:.78,clearcoat:.72,clearcoatRoughness:.22,envMapIntensity:1.35});
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(18,14),floorMat);floor.rotation.x=-Math.PI/2;floor.position.set(.7,0,-.5);floor.receiveShadow=true;world.add(floor);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(18,14),floorMat);floor.rotation.x=-Math.PI/2;floor.position.set(.7,0,-.5);floor.receiveShadow=true;floor.visible=false;world.add(floor);
 
 const platformMat=new THREE.MeshPhysicalMaterial({color:0x070707,roughness:.2,metalness:.82,clearcoat:.8,clearcoatRoughness:.18});
 const base=new THREE.Mesh(new THREE.CylinderGeometry(2.05,2.25,.28,120),platformMat);base.position.set(.7,.14,0);base.castShadow=true;base.receiveShadow=true;world.add(base);
@@ -502,6 +507,8 @@ const deck=new THREE.Mesh(new THREE.CylinderGeometry(1.86,1.97,.14,120),new THRE
 const ringOuter=new THREE.Mesh(new THREE.TorusGeometry(2.05,.025,18,160),reactiveBasic());ringOuter.rotation.x=Math.PI/2;ringOuter.position.set(.7,.31,0);world.add(ringOuter);
 const ringInner=new THREE.Mesh(new THREE.TorusGeometry(1.67,.014,14,150),reactiveBasic());ringInner.rotation.x=Math.PI/2;ringInner.position.set(.7,.43,0);world.add(ringInner);
 
+// Metre-scale athlete podium: match actual equipment proportions.
+for(const object of [base,deck,ringOuter,ringInner]){object.scale.setScalar(.4);object.position.y*=.4;}
 // Equipment and progress displays are part of the 3D facility, not a foreground overlay.
 const jtFacility=buildFacility(world);
 window.addEventListener('jt-section-progress',event=>jtFacility.update(event.detail));
@@ -550,10 +557,10 @@ function hazeTexture(){
 const fogTex=hazeTexture();
 for(let i=0;i<18;i++){
   const mat=new THREE.SpriteMaterial({map:fogTex,color:0xd4af37,transparent:true,opacity:.05,depthWrite:false,blending:THREE.AdditiveBlending});
-  const s=new THREE.Sprite(mat);s.position.set(.7+(Math.random()-.5)*7,.4+Math.random()*2.5,-2.5+Math.random()*3.2);const scale=1.2+Math.random()*2.4;s.scale.set(scale,scale*.56,1);s.userData={speed:.06+Math.random()*.1,phase:Math.random()*Math.PI*2,baseX:s.position.x,baseY:s.position.y};world.add(s);hazeSprites.push(s);
+  const s=new THREE.Sprite(mat);s.position.set(.7+(Math.random()-.5)*7,.4+Math.random()*2.5,-2.5+Math.random()*3.2);const scale=1.2+Math.random()*2.4;s.scale.set(scale,scale*.56,1);s.userData={speed:.06+Math.random()*.1,phase:Math.random()*Math.PI*2,baseX:s.position.x,baseY:s.position.y};s.visible=false;world.add(s);hazeSprites.push(s);
 }
 
-const holder=new THREE.Group();holder.position.set(embed?.12:.7,.43,0);world.add(holder);
+const holder=new THREE.Group();holder.position.set(.7,.172,0);holder.scale.setScalar(.36);world.add(holder);
 let athlete=null,mixer=null,mode="none",current=states.match_ready,bones={};
 
 // Smooth pose values independently from the instant UI/environment state change.
@@ -684,19 +691,25 @@ function normalise(root){
   });
 }
 
-function frameDashboardAthlete(){
- if(!athlete)return;
- athlete.updateMatrixWorld(true);
- const bounds=visibleAthleteBox(athlete);
- const centre=bounds.getCenter(new THREE.Vector3());
- const size=bounds.getSize(new THREE.Vector3());
- const halfV=THREE.MathUtils.degToRad(camera.fov/2);
- const visibleWidth=18;
- const distance=Math.max(10/(2*Math.tan(halfV)),visibleWidth/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
- controls.minDistance=distance*.7;controls.maxDistance=distance*1.5;
- camera.position.set(.7,7.5,distance);
- controls.target.set(.7,2.0,-1);controls.update();
+// Camera presets keep the same close zoom range at every viewport size.
+function setFacilityView(name='athlete'){
+ const views={athlete:{target:[.7,1.12,-.35],width:4.2,height:3.1},facility:{target:[.7,1,-.3],width:19,height:10},strength:{target:[-5.3,1,-3.8],width:4.7,height:3.1},recovery:{target:[5.35,1.1,-4.65],width:6.7,height:3.9},pitch:{target:[5.5,.45,2.8],width:6.5,height:5}};
+ const view=views[name]||views.athlete,halfV=THREE.MathUtils.degToRad(camera.fov/2);
+ const distance=Math.max(view.height/(2*Math.tan(halfV)),view.width/(2*Math.tan(halfV)*Math.max(camera.aspect,.3)));
+ controls.target.set(...view.target);controls.cursor.copy(controls.target);
+ camera.position.copy(controls.target).add(new THREE.Vector3(0,name==='facility'?.38:.13,1).normalize().multiplyScalar(distance));
+ controls.minDistance=.65;controls.maxDistance=Math.max(70,distance*1.1);controls.update();
+ document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===name)));
 }
+function frameDashboardAthlete(){setFacilityView('athlete');}
+function zoomFacility(factor){
+ const offset=camera.position.clone().sub(controls.target),distance=THREE.MathUtils.clamp(offset.length()*factor,controls.minDistance,controls.maxDistance);
+ camera.position.copy(controls.target).add(offset.setLength(distance));controls.update();
+}
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>setFacilityView(button.dataset.view)));
+document.querySelector('#facilityZoomIn').addEventListener('click',()=>zoomFacility(.75));
+document.querySelector('#facilityZoomOut').addEventListener('click',()=>zoomFacility(1.33));
+
 function direct(root,c){mixer=new THREE.AnimationMixer(root);const action=mixer.clipAction(c.clone());action.setLoop(THREE.LoopRepeat,Infinity);action.play();mode="direct"}
 function retarget(targetSkin,sourceSkin,c){
   const names=mapping(targetSkin.skeleton,sourceSkin.skeleton);if(Object.keys(names).length<12)throw Error("Insufficient matching bones");
@@ -1164,7 +1177,7 @@ function posture(elapsed,delta){
 
   holder.rotation.x=THREE.MathUtils.lerp(holder.rotation.x,pose.lean*.22,.06);
   holder.rotation.z=THREE.MathUtils.lerp(holder.rotation.z,sway,.04);
-  holder.position.y=THREE.MathUtils.lerp(holder.position.y,.43+breath*.0045*pose.breath,.08);
+  holder.position.y=THREE.MathUtils.lerp(holder.position.y,.172+breath*.0045*pose.breath,.08);
 
   addAnimatedBone("hips",pose.lean*.2,0,sway*.24);
   addAnimatedBone("spine",pose.lean*.34+breath*.0038*pose.breath,0,sway*.22);
@@ -1204,7 +1217,7 @@ function animate(){
 
 updateReadiness(false);animate();load();
 </script>
-<script type="module" src="/performance-hub-holograms.js?v=facility2"></script>
+<script type="module" src="/performance-hub-holograms.js?v=facility3"></script>
 </body>
 </html>
 
