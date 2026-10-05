@@ -290,7 +290,7 @@ function injectStyles() {
     .jt-mindset-rotation {
       margin: 16px 0 32px;
       padding: clamp(24px, 4vw, 38px);
-      border: 1px solid rgba(212,175,55,.2);
+      border: 1px solid rgba(219,193,129,.2);
       border-radius: 30px;
       background:
         radial-gradient(circle at 92% 5%, rgba(191,166,239,.13), transparent 24rem),
@@ -306,7 +306,7 @@ function injectStyles() {
     }
 
     .jt-rotation-kicker {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 2px;
       font-size: .63rem;
@@ -339,13 +339,13 @@ function injectStyles() {
     .jt-rotation-card {
       min-height: 285px;
       padding: 22px;
-      border: 1px solid rgba(212,175,55,.14);
+      border: 1px solid rgba(219,193,129,.14);
       border-radius: 22px;
       background: rgba(0,0,0,.23);
     }
 
     .jt-rotation-type {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 1.35px;
       font-size: .58rem;
@@ -383,9 +383,9 @@ function injectStyles() {
 
     .jt-rotation-step {
       padding: 8px 10px;
-      border: 1px solid rgba(212,175,55,.1);
+      border: 1px solid rgba(219,193,129,.1);
       border-radius: 11px;
-      color: #f5e6b3;
+      color: #f4dea0;
       font-size: .66rem;
       line-height: 1.4;
     }
@@ -397,13 +397,13 @@ function injectStyles() {
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      border-left: 3px solid #d4af37;
+      border-left: 3px solid #dbc181;
       border-radius: 0 16px 16px 0;
       background: rgba(0,0,0,.25);
     }
 
     .jt-position-cue span {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       font-size: .6rem;

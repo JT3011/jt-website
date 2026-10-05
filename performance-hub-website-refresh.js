@@ -16,20 +16,20 @@
         height: 44px;
         padding: 0 19px;
         border-radius: 999px;
-        border: 1px solid rgba(212,175,55,.38);
-        background: linear-gradient(135deg, #d4af37, #f5e6b3);
+        border: 1px solid rgba(219,193,129,.38);
+        background: linear-gradient(135deg, #dbc181, #f4dea0);
         color: #050505 !important;
         font-size: .7rem;
         font-weight: 900;
         letter-spacing: 1.15px;
         text-transform: uppercase;
-        box-shadow: 0 14px 38px rgba(212,175,55,.18);
+        box-shadow: 0 14px 38px rgba(219,193,129,.18);
         transition: transform .3s var(--ease), box-shadow .3s var(--ease);
       }
 
       .nav-hub-cta:hover {
         transform: translateY(-3px);
-        box-shadow: 0 20px 50px rgba(212,175,55,.28);
+        box-shadow: 0 20px 50px rgba(219,193,129,.28);
       }
 
       .mobile-hub-link {
@@ -41,10 +41,10 @@
         overflow: hidden;
         padding: clamp(88px, 10vw, 150px) 22px;
         background:
-          radial-gradient(circle at 50% -10%, rgba(212,175,55,.18), transparent 34rem),
+          radial-gradient(circle at 50% -10%, rgba(219,193,129,.18), transparent 34rem),
           linear-gradient(180deg, #060606 0%, #0a0a0a 55%, #050505 100%);
-        border-top: 1px solid rgba(212,175,55,.12);
-        border-bottom: 1px solid rgba(212,175,55,.12);
+        border-top: 1px solid rgba(219,193,129,.12);
+        border-bottom: 1px solid rgba(219,193,129,.12);
       }
 
       .hub-refresh::before {
@@ -55,11 +55,11 @@
         width: 720px;
         height: 720px;
         transform: translateX(-50%);
-        border: 1px solid rgba(212,175,55,.1);
+        border: 1px solid rgba(219,193,129,.1);
         border-radius: 50%;
         box-shadow:
-          0 0 0 110px rgba(212,175,55,.018),
-          0 0 0 220px rgba(212,175,55,.01);
+          0 0 0 110px rgba(219,193,129,.018),
+          0 0 0 220px rgba(219,193,129,.01);
         pointer-events: none;
       }
 
@@ -86,9 +86,9 @@
         display: inline-flex;
         align-items: center;
         gap: 9px;
-        border: 1px solid rgba(212,175,55,.24);
+        border: 1px solid rgba(219,193,129,.24);
         border-radius: 999px;
-        background: rgba(212,175,55,.055);
+        background: rgba(219,193,129,.055);
         color: var(--gold-2);
         font-size: .68rem;
         font-weight: 900;
@@ -102,7 +102,7 @@
         height: 7px;
         border-radius: 50%;
         background: var(--gold);
-        box-shadow: 0 0 15px rgba(212,175,55,.8);
+        box-shadow: 0 0 15px rgba(219,193,129,.8);
       }
 
       .hub-refresh-title {
@@ -152,7 +152,7 @@
         width: min(760px, 100%);
         height: 1px;
         margin: 38px auto 0;
-        background: linear-gradient(90deg, transparent, rgba(212,175,55,.34), transparent);
+        background: linear-gradient(90deg, transparent, rgba(219,193,129,.34), transparent);
       }
 
       .hub-refresh-included {

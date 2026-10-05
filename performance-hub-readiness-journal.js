@@ -30,10 +30,10 @@ function injectStyles() {
       width: min(1380px, calc(100% - 34px));
       margin: 34px auto;
       padding: clamp(22px, 4vw, 38px);
-      border: 1px solid rgba(212,175,55,.18);
+      border: 1px solid rgba(219,193,129,.18);
       border-radius: 28px;
       background:
-        radial-gradient(circle at 92% 8%, rgba(212,175,55,.08), transparent 18rem),
+        radial-gradient(circle at 92% 8%, rgba(219,193,129,.08), transparent 18rem),
         linear-gradient(145deg, rgba(255,255,255,.028), rgba(255,255,255,.007)),
         #080808;
       color: #f8f3e8;
@@ -52,7 +52,7 @@ function injectStyles() {
     }
 
     .jt-rj-kicker {
-      color: #d4af37;
+      color: #dbc181;
       font-size: .62rem;
       font-weight: 900;
       letter-spacing: 1.5px;
@@ -68,7 +68,7 @@ function injectStyles() {
       letter-spacing: -.04em;
     }
 
-    .jt-rj-title span { color: #d4af37; }
+    .jt-rj-title span { color: #dbc181; }
 
     .jt-rj-sub {
       margin-top: 8px;
@@ -115,7 +115,7 @@ function injectStyles() {
     .jt-rj-date b,
     .jt-rj-state b {
       display: block;
-      color: #f5e6ad;
+      color: #f4dea0;
       font-size: .62rem;
       letter-spacing: .7px;
       text-transform: uppercase;
@@ -130,7 +130,7 @@ function injectStyles() {
     }
 
     .jt-rj-score {
-      color: #d4af37;
+      color: #dbc181;
       font-family: "Playfair Display", serif;
       font-size: 2.25rem;
       font-weight: 900;
@@ -163,7 +163,7 @@ function injectStyles() {
     .jt-rj-points {
       min-width: 88px;
       text-align: right;
-      color: #d4af37;
+      color: #dbc181;
       font-size: .58rem;
       font-weight: 900;
       letter-spacing: .55px;

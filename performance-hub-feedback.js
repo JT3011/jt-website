@@ -22,10 +22,10 @@ function injectFeedbackStyles() {
   style.textContent = `
     .jt-feedback-strip {
       margin-top: 4px;
-      border: 1px solid rgba(212,175,55,.14);
+      border: 1px solid rgba(219,193,129,.14);
       border-radius: 22px;
       background:
-        linear-gradient(110deg, rgba(212,175,55,.035), rgba(255,255,255,.008)),
+        linear-gradient(110deg, rgba(219,193,129,.035), rgba(255,255,255,.008)),
         #090909;
       overflow: hidden;
     }
@@ -44,7 +44,7 @@ function injectFeedbackStyles() {
     }
 
     .jt-feedback-kicker {
-      color: #d4af37;
+      color: #dbc181;
       font-size: .57rem;
       font-weight: 900;
       letter-spacing: 1.25px;
@@ -85,15 +85,15 @@ function injectFeedbackStyles() {
 
     .jt-feedback-open,
     .jt-feedback-submit {
-      border: 1px solid rgba(212,175,55,.3);
-      background: rgba(212,175,55,.08);
-      color: #f3dc8d;
+      border: 1px solid rgba(219,193,129,.3);
+      background: rgba(219,193,129,.08);
+      color: #f4dea0;
     }
 
     .jt-feedback-open:hover,
     .jt-feedback-submit:hover {
-      border-color: rgba(212,175,55,.55);
-      background: rgba(212,175,55,.12);
+      border-color: rgba(219,193,129,.55);
+      background: rgba(219,193,129,.12);
     }
 
     .jt-feedback-form-wrap {
@@ -157,8 +157,8 @@ function injectFeedbackStyles() {
 
     .jt-feedback-field select:focus,
     .jt-feedback-field textarea:focus {
-      border-color: rgba(212,175,55,.48);
-      box-shadow: 0 0 0 3px rgba(212,175,55,.06);
+      border-color: rgba(219,193,129,.48);
+      box-shadow: 0 0 0 3px rgba(219,193,129,.06);
     }
 
     .jt-feedback-rating {
@@ -182,9 +182,9 @@ function injectFeedbackStyles() {
     }
 
     .jt-feedback-rating button.selected {
-      border-color: rgba(212,175,55,.48);
-      background: rgba(212,175,55,.12);
-      color: #f3dc8d;
+      border-color: rgba(219,193,129,.48);
+      background: rgba(219,193,129,.12);
+      color: #f4dea0;
     }
 
     .jt-feedback-actions {

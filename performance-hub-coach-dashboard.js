@@ -20,7 +20,7 @@ function toast(message, error = false) {
   el.textContent = message;
   el.style.borderColor = error
     ? "rgba(255,146,146,.4)"
-    : "rgba(212,175,55,.25)";
+    : "rgba(219,193,129,.25)";
   el.classList.remove("hidden");
   setTimeout(() => el.classList.add("hidden"), 3200);
 }

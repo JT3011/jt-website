@@ -18,10 +18,10 @@ function injectSupportStyles() {
   style.textContent = `
     .jt-support-card {
       width: 100%;
-      border: 1px solid rgba(212,175,55,.14);
+      border: 1px solid rgba(219,193,129,.14);
       border-radius: 20px;
       background:
-        linear-gradient(110deg, rgba(212,175,55,.035), rgba(255,255,255,.008)),
+        linear-gradient(110deg, rgba(219,193,129,.035), rgba(255,255,255,.008)),
         #090909;
       color: #f8f4e9;
       font-family: "Montserrat", sans-serif;
@@ -36,7 +36,7 @@ function injectSupportStyles() {
     }
 
     .jt-support-kicker {
-      color: #d4af37;
+      color: #dbc181;
       font-size: .57rem;
       font-weight: 900;
       letter-spacing: 1.25px;
@@ -84,9 +84,9 @@ function injectSupportStyles() {
     }
 
     .jt-support-link {
-      border: 1px solid rgba(212,175,55,.32);
-      background: rgba(212,175,55,.08);
-      color: #f3dc8d;
+      border: 1px solid rgba(219,193,129,.32);
+      background: rgba(219,193,129,.08);
+      color: #f4dea0;
     }
 
     .jt-support-toggle {
@@ -122,11 +122,11 @@ function injectSupportStyles() {
     }
 
     .jt-support-step strong {
-      color: #f3dc8d;
+      color: #f4dea0;
     }
 
     .jt-support-email {
-      color: #f3dc8d;
+      color: #f4dea0;
       text-decoration: none;
       overflow-wrap: anywhere;
     }

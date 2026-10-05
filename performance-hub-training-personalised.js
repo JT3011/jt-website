@@ -826,10 +826,10 @@ function injectStyles() {
     .jt-personal-plan {
       margin: 4px 0 12px;
       padding: clamp(24px, 4vw, 38px);
-      border: 1px solid rgba(212,175,55,.25);
+      border: 1px solid rgba(219,193,129,.25);
       border-radius: 30px;
       background:
-        radial-gradient(circle at 94% 0%, rgba(212,175,55,.12), transparent 25rem),
+        radial-gradient(circle at 94% 0%, rgba(219,193,129,.12), transparent 25rem),
         rgba(255,255,255,.025);
     }
 
@@ -842,7 +842,7 @@ function injectStyles() {
     }
 
     .jt-plan-kicker {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 2px;
       font-size: .64rem;
@@ -874,13 +874,13 @@ function injectStyles() {
 
     .jt-session {
       padding: 22px;
-      border: 1px solid rgba(212,175,55,.14);
+      border: 1px solid rgba(219,193,129,.14);
       border-radius: 22px;
       background: rgba(0,0,0,.24);
     }
 
     .jt-session-label {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 1.4px;
       font-size: .61rem;
@@ -904,7 +904,7 @@ function injectStyles() {
     .jt-plan-drill {
       margin-top: 15px;
       padding-top: 15px;
-      border-top: 1px solid rgba(212,175,55,.1);
+      border-top: 1px solid rgba(219,193,129,.1);
     }
 
     .jt-plan-drill strong {
@@ -932,14 +932,14 @@ function injectStyles() {
     .jt-plan-note {
       padding: 11px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(212,175,55,.11);
+      border: 1px solid rgba(219,193,129,.11);
       color: #bfb7a5;
       font-size: .66rem;
       line-height: 1.45;
     }
 
     .jt-plan-note strong {
-      color: #f5e6b3;
+      color: #f4dea0;
     }
 
     .jt-library {
@@ -978,13 +978,13 @@ function injectStyles() {
     .jt-library-card {
       padding: 20px;
       min-height: 220px;
-      border: 1px solid rgba(212,175,55,.13);
+      border: 1px solid rgba(219,193,129,.13);
       border-radius: 20px;
       background: rgba(255,255,255,.02);
     }
 
     .jt-library-card .jt-library-tag {
-      color: #d4af37;
+      color: #dbc181;
       text-transform: uppercase;
       letter-spacing: 1.1px;
       font-size: .58rem;
@@ -1009,7 +1009,7 @@ function injectStyles() {
     .jt-library-card small {
       display: block;
       margin-top: 14px;
-      color: #f5e6b3;
+      color: #f4dea0;
       font-size: .62rem;
       line-height: 1.45;
     }

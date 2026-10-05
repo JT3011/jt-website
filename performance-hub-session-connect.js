@@ -6,16 +6,16 @@
     style.id = "jtSessionConnectDashboardStyles";
     style.textContent = `
       .centre-card.sessions {
-        --card-accent: #d4af37;
+        --card-accent: #dbc181;
         background:
           radial-gradient(
             circle at 90% 12%,
-            rgba(212,175,55,.10),
+            rgba(219,193,129,.10),
             transparent 16rem
           ),
           linear-gradient(
             145deg,
-            rgba(212,175,55,.038),
+            rgba(219,193,129,.038),
             rgba(255,255,255,.012)
           ),
           #0a0a0a;

@@ -30,10 +30,10 @@ function injectStyles() {
       overflow: hidden;
       margin-top: 14px;
       padding: 22px;
-      border: 1px solid rgba(212, 175, 55, 0.22);
+      border: 1px solid rgba(219,193,129, 0.22);
       border-radius: 24px;
       background:
-        radial-gradient(circle at 92% 12%, rgba(212,175,55,.11), transparent 18rem),
+        radial-gradient(circle at 92% 12%, rgba(219,193,129,.11), transparent 18rem),
         linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.008)),
         #0b0b0b;
     }
@@ -46,10 +46,10 @@ function injectStyles() {
       right: -88px;
       top: -102px;
       border-radius: 50%;
-      border: 1px solid rgba(212,175,55,.12);
+      border: 1px solid rgba(219,193,129,.12);
       box-shadow:
-        0 0 0 42px rgba(212,175,55,.018),
-        0 0 0 84px rgba(212,175,55,.009);
+        0 0 0 42px rgba(219,193,129,.018),
+        0 0 0 84px rgba(219,193,129,.009);
       pointer-events: none;
     }
 
@@ -67,7 +67,7 @@ function injectStyles() {
     }
 
     .jt-streak-kicker {
-      color: #d4af37;
+      color: #dbc181;
       font-size: .59rem;
       font-weight: 900;
       letter-spacing: 1.3px;
@@ -83,7 +83,7 @@ function injectStyles() {
     }
 
     .jt-streak-title strong {
-      color: #f3dc8d;
+      color: #f4dea0;
     }
 
     .jt-streak-secured {
@@ -122,7 +122,7 @@ function injectStyles() {
     }
 
     .jt-streak-reward-row strong {
-      color: #f3dc8d;
+      color: #f4dea0;
       font-size: .72rem;
     }
 
@@ -141,8 +141,8 @@ function injectStyles() {
       width: 0;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, #8b6b13, #d4af37 58%, #f3dc8d);
-      box-shadow: 0 0 22px rgba(212,175,55,.18);
+      background: linear-gradient(90deg, #a17c32, #dbc181 58%, #f4dea0);
+      box-shadow: 0 0 22px rgba(219,193,129,.18);
       transition: width 900ms cubic-bezier(.22,1,.36,1);
     }
 
@@ -180,13 +180,13 @@ function injectStyles() {
     }
 
     .jt-streak-milestone.reached {
-      border-color: rgba(212,175,55,.35);
-      background: rgba(212,175,55,.065);
+      border-color: rgba(219,193,129,.35);
+      background: rgba(219,193,129,.065);
     }
 
     .jt-streak-milestone.next {
       border-color: rgba(243,220,141,.48);
-      box-shadow: inset 0 0 22px rgba(212,175,55,.05);
+      box-shadow: inset 0 0 22px rgba(219,193,129,.05);
     }
 
     .jt-streak-milestone b,
@@ -214,10 +214,10 @@ function injectStyles() {
       z-index: 1;
       margin-top: 14px;
       padding: 12px 14px;
-      border: 1px solid rgba(212,175,55,.34);
+      border: 1px solid rgba(219,193,129,.34);
       border-radius: 15px;
-      background: rgba(212,175,55,.09);
-      color: #f3dc8d;
+      background: rgba(219,193,129,.09);
+      color: #f4dea0;
       font-size: .68rem;
       font-weight: 900;
       letter-spacing: .55px;
@@ -257,9 +257,9 @@ function injectStyles() {
     }
 
     .jt-streak-link {
-      border: 1px solid rgba(212,175,55,.25);
-      background: rgba(212,175,55,.06);
-      color: #f3dc8d;
+      border: 1px solid rgba(219,193,129,.25);
+      background: rgba(219,193,129,.06);
+      color: #f4dea0;
     }
 
     .jt-streak-ladder {
@@ -289,14 +289,14 @@ function injectStyles() {
     .jt-streak-ladder-item b {
       display: block;
       margin-bottom: 4px;
-      color: #f3dc8d;
+      color: #f4dea0;
       font-size: .61rem;
     }
 
     @media (hover: hover) and (pointer: fine) {
       .jt-streak-milestone:hover {
         transform: translateY(-2px);
-        border-color: rgba(212,175,55,.28);
+        border-color: rgba(219,193,129,.28);
       }
     }
 
