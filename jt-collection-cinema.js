@@ -4,8 +4,7 @@
   if (!root) return;
   const stage = root.querySelector('.jt-cinema-stage');
   const product = root.querySelector('.jt-cinema-product');
-  const left = root.querySelector('.jt-cinema-piece-left');
-  const right = root.querySelector('.jt-cinema-piece-right');
+  const light = root.querySelector('.jt-cinema-gold-light');
   const panels = [...root.querySelectorAll('.jt-cinema-panel')];
   const progress = root.querySelector('.jt-cinema-progress span');
   const counter = root.querySelector('.jt-cinema-counter');
@@ -22,14 +21,11 @@
     const top = Number.parseFloat(getComputedStyle(stage).top) || 0;
     const distance = root.offsetHeight - stage.offsetHeight;
     const p = enabled && distance > 0 ? clamp((top-box.top)/distance) : 0;
-    const separate = smooth((p-.19)/.13)*(1-smooth((p-.49)/.12));
-    const detail = smooth((p-.59)/.18);
-    const scale = 1 + detail*(mobile.matches ? .54 : .85);
-    const x = detail*(mobile.matches ? 6 : 3);
-    product.style.transform = `translate(calc(-50% + ${x}%),calc(-50% + ${detail*14}%)) scale(${scale})`;
-    const gap = separate*(mobile.matches ? 27 : 58);
-    left.style.transform = `translate(${-gap}px,${-gap*.25}px) rotate(${-separate*9}deg)`;
-    right.style.transform = `translate(${gap}px,${-gap*.25}px) rotate(${separate*9}deg)`;
+    const detail = smooth((p-.12)/.75);
+    const scale = 1 + detail*(mobile.matches ? .18 : .38);
+    product.style.transform = `translate(-50%,calc(-50% + ${detail*8}%)) scale(${scale})`;
+    light.style.setProperty('--light-position', `${-80 + p*240}%`);
+    light.style.opacity = enabled ? String(.15 + Math.sin(p*Math.PI)*.7) : '0';
     const scene = p < .23 ? 0 : p < .6 ? 1 : 2;
     panels.forEach((panel,i) => {
       const active = i === scene;
@@ -73,3 +69,4 @@
   panels.forEach(panel=>panel.style.transition = reduced.matches ? 'none' : 'opacity .35s ease, transform .45s ease, visibility .35s');
   setMotion();
 })();
+

@@ -1,0 +1,43 @@
+/* Quiet navigation, editorial typography and the clothing collection's muted gold. */
+#navbar .nav-inner{grid-template-columns:1fr 72px 1fr}
+#navbar .jt-nav-right{justify-content:flex-end}
+#shop .collection-manifesto{display:block;text-align:center;padding:70px 24px}
+#shop .collection-manifesto p{max-width:960px;margin:auto;font-size:clamp(1.65rem,3.5vw,3.4rem)}
+#shop .collection-footer{padding-bottom:40px}
+.marquee-track .tidal-partner{filter:brightness(0) invert(1);object-fit:contain;padding:18px;min-width:170px}
+#performance-hub .hub-refresh-price{max-width:660px;margin:20px auto 0;font-size:.72rem}
+.jt-reviews{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 80% 30%,#252017 0,transparent 55%),#0c0b0d;color:#f3eee4;padding:100px 28px}
+.jt-reviews .section-inner{max-width:1324px}
+.jt-reviews-intro{position:relative;margin-bottom:52px}
+.jt-reviews .collection-kicker{color:#dbc181;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
+.jt-reviews h2{font-family:'Playfair Display',serif;font-size:clamp(2.7rem,6.2vw,6rem);font-weight:500;line-height:1.06;letter-spacing:-.045em;margin:24px 0;text-transform:none}
+.jt-reviews h2 em{color:#dbc181;font-weight:500}
+.jt-reviews-intro p{font-size:.8rem;color:#b7afa0;letter-spacing:.04em}
+.jt-review-stage{position:relative;border-top:1px solid #dbc18140;border-bottom:1px solid #dbc18140;padding:65px 6% 26px;overflow:hidden;background:linear-gradient(125deg,#dbc18108,transparent 70%)}
+.jt-review-stage::before{content:'';position:absolute;top:0;left:0;width:35%;height:1px;background:linear-gradient(90deg,transparent,#dbc181,transparent);animation:jtReviewLight 12s ease-in-out infinite;pointer-events:none}
+.jt-review-quote{position:absolute;right:5%;top:-45px;color:#dbc1810d;font:360px/1 'Playfair Display',serif;pointer-events:none}
+.jt-review-slides{position:relative;min-height:270px;display:grid;align-items:center}
+.jt-review-slide{margin:0;animation:jtReviewReveal .6s ease both}
+.jt-review-slide[hidden]{display:none}
+.jt-review-slide blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.9vw,3.8rem);font-weight:500;letter-spacing:-.025em;line-height:1.2;max-width:930px;text-wrap:balance}
+.jt-review-slide figcaption{margin-top:32px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.jt-review-slide figcaption span{color:#dbc181;font-size:.75rem;letter-spacing:.08em}
+.jt-review-slide figcaption a{font-size:.65rem;color:#b7afa0;text-decoration:underline;text-underline-offset:4px}
+.jt-review-controls{position:relative;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #dbc18120;padding-top:22px;margin-top:18px}
+.jt-review-position{font-size:.65rem;letter-spacing:.18em;color:#dbc181}
+.jt-review-controls>div{display:flex;gap:10px}
+.jt-review-controls button{min-height:44px;padding:12px 20px;border:1px solid #dbc18155;border-radius:0;background:transparent;color:#dbc181;font:inherit;font-size:.7rem;cursor:pointer;transition:background .25s,color .25s}
+.jt-review-controls button:hover{background:#dbc181;color:#0c0b0d}
+.jt-reviews a:focus-visible,.jt-reviews button:focus-visible,.jt-reviews summary:focus-visible{outline:2px solid #dbc181;outline-offset:5px}
+.jt-all-reviews{margin-top:22px;border-bottom:1px solid #dbc18130}
+.jt-all-reviews summary{list-style:none;cursor:pointer;padding:25px 0;display:flex;align-items:center;justify-content:space-between;color:#dbc181;font-size:.75rem;letter-spacing:.08em;min-height:60px}
+.jt-all-reviews summary::-webkit-details-marker{display:none}
+.jt-all-reviews summary span{font-size:1.4rem;transition:transform .3s}
+.jt-all-reviews[open] summary span{transform:rotate(45deg)}
+.jt-reviews .reviews-frame{border:0;border-radius:0;background:#0c0b0d;box-shadow:none;padding:0;margin:0 0 28px}
+.jt-reviews .reviews-frame iframe{filter:invert(.94) grayscale(1) sepia(.18);width:100%;border:0;background:#fff}
+@keyframes jtReviewLight{0%,100%{transform:translateX(-110%)}50%{transform:translateX(390%)}}
+@keyframes jtReviewReveal{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){#navbar .nav-inner{grid-template-columns:1fr 54px 1fr}.jt-reviews{padding:72px 20px}.jt-reviews-intro{margin-bottom:32px}.jt-review-stage{padding:38px 20px 22px}.jt-review-slides{min-height:260px}.jt-review-slide figcaption{display:grid;gap:12px}.jt-review-controls button{padding:12px 14px}#shop .collection-manifesto{padding:48px 0}.jt-review-quote{font-size:230px;top:-15px}}
+body.jt-motion-paused .jt-review-stage::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.jt-review-stage::before,.jt-review-slide{animation:none}.jt-review-controls button,.jt-all-reviews summary span{transition:none}}

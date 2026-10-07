@@ -382,48 +382,6 @@
           <span class="gold-text">One Place.</span>
         </h2>
 
-        <p class="hub-refresh-intro">
-          Start with a free player account to build habits, keep your profile and stay
-          connected to JT coach feedback. Upgrade the same account whenever you want the
-          complete personalised football-performance environment.
-        </p>
-
-        <div class="hub-refresh-proof" aria-label="Performance Hub highlights">
-          <span>Join Free — No Card</span>
-          <span>Coach Session Feedback</span>
-          <span>Performance Challenges</span>
-          <span>Upgrade Without Starting Over</span>
-        </div>
-
-        <div class="hub-refresh-divider"></div>
-
-        <div class="hub-refresh-included" aria-label="Premium features">
-          <div class="hub-refresh-item">
-            <strong>Training</strong>
-            <span>Position-specific plans and at-home development.</span>
-          </div>
-
-          <div class="hub-refresh-item">
-            <strong>AI Performance Coach</strong>
-            <span>Football, preparation, nutrition and mindset support.</span>
-          </div>
-
-          <div class="hub-refresh-item">
-            <strong>Matchday & Readiness</strong>
-            <span>Prepare, check in and reflect on performance.</span>
-          </div>
-
-          <div class="hub-refresh-item">
-            <strong>Nutrition & Recovery</strong>
-            <span>Simple guidance to fuel, reset and perform.</span>
-          </div>
-
-          <div class="hub-refresh-item">
-            <strong>Mindset & Progress</strong>
-            <span>Build confidence, track progress, earn points and rewards.</span>
-          </div>
-        </div>
-
         <div class="hub-refresh-actions">
           <a
             class="btn btn-primary"
@@ -469,3 +427,4 @@
     initialise();
   }
 })();
+

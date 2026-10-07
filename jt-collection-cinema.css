@@ -15,10 +15,6 @@
 #shop .jt-cinema-atmosphere i:nth-child(2){width:75%;height:13%;left:25%;bottom:12%;background:#cab57816;transform:rotate(-8deg);filter:blur(24px)}
 #shop .jt-cinema-atmosphere i:nth-child(3){width:55%;height:24%;left:40%;bottom:15%;background:radial-gradient(ellipse,#ddd7bb0d,transparent 70%);filter:blur(15px)}
 #shop .jt-cinema-product{position:absolute;z-index:2;width:min(51vw,660px);height:min(65vw,710px);left:65%;top:47%;transform:translate(-50%,-50%);filter:drop-shadow(0 25px 27px #0009);will-change:transform}
-#shop .jt-cinema-piece{position:absolute;inset:0;background:url('/images/collection/jt-floating-tee-v1.webp') center/contain no-repeat;will-change:transform}
-#shop .jt-cinema-piece-left{clip-path:polygon(0 0,30% 0,30% 35%,23% 60%,0 60%)}
-#shop .jt-cinema-piece-body{clip-path:polygon(30% 0,70% 0,70% 35%,77% 60%,100% 60%,100% 100%,0 100%,0 60%,23% 60%,30% 35%)}
-#shop .jt-cinema-piece-right{clip-path:polygon(70% 0,100% 0,100% 60%,77% 60%,70% 35%)}
 #shop .jt-cinema-floor{position:absolute;z-index:1;left:65%;bottom:13%;width:43%;height:9%;border-radius:50%;background:radial-gradient(ellipse,#c8b7852e,transparent 67%);transform:translateX(-50%);filter:blur(14px)}
 #shop .jt-cinema-copy{position:absolute;z-index:4;left:6%;top:25%;width:42%;pointer-events:none}
 #shop .jt-cinema-panel{position:absolute;inset:0 auto auto 0;width:100%;opacity:0;visibility:hidden;transform:translateY(24px)}
@@ -68,8 +64,15 @@
  #shop .collection-worlds{padding-top:48px}
 }
 @media(max-height:660px) and (min-width:601px){#shop .jt-cinema-stage{min-height:520px}#shop .jt-cinema-copy{top:19%}#shop .jt-cinema-panel h2,#shop .jt-cinema-panel h3{font-size:42px}#shop .jt-cinema-product{height:440px}}
-@media(prefers-reduced-motion:reduce){#shop .jt-cinema.is-scroll-enabled{height:auto}#shop .jt-cinema.is-scroll-enabled .jt-cinema-stage{position:relative;top:0}#shop .jt-cinema-product,#shop .jt-cinema-piece{will-change:auto}}
+@media(prefers-reduced-motion:reduce){#shop .jt-cinema.is-scroll-enabled{height:auto}#shop .jt-cinema.is-scroll-enabled .jt-cinema-stage{position:relative;top:0}#shop .jt-cinema-product{will-change:auto}}
 /* Clip horizontal decoration without creating a scroll container around sticky scenes. */
 .site-shell{overflow:clip}
 @media(max-width:760px){#shop .jt-cinema{margin-left:-18px;margin-right:-18px}}
 @media(max-width:390px){#shop .jt-cinema{margin-left:-16px;margin-right:-16px}}
+
+
+/* The garment remains a single intact image throughout the editorial close-up. */
+#shop .jt-cinema-garment,#shop .jt-cinema-gold-light{position:absolute;inset:0;background:url('/images/collection/jt-floating-tee-v1.webp') center/contain no-repeat}
+#shop .jt-cinema-gold-light{filter:brightness(1.6) sepia(.35);mask-image:linear-gradient(115deg,transparent 25%,#000 48%,transparent 65%);mask-size:250% 100%;mask-position:var(--light-position,-80%) 0;pointer-events:none}
+#shop .jt-cinema.is-scroll-enabled .jt-cinema-stage{top:88px}
+@media(max-width:760px){#shop .jt-cinema.is-scroll-enabled .jt-cinema-stage{top:76px}}
