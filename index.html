@@ -2321,6 +2321,71 @@
     max-width: 115px;
   }
 }
+  
+/* Unified three-pillar navigation: desktop and mobile */
+:root { --jt-nav-height: 92px; }
+.navbar, .navbar.scrolled { height: var(--jt-nav-height); }
+.nav-inner { grid-template-columns: minmax(0,1fr) auto auto; gap:32px; }
+.nav-links { display:flex; gap:32px; }
+.nav-links a { display:flex; align-items:center; min-height:44px; }
+.jt-menu-actions { display:flex; justify-content:flex-end; }
+.hamburger { display:grid; background:var(--gold); border-radius:12px; }
+.hamburger-lines span { background:#10110e; }
+body.menu-open { overflow:hidden; }
+body.menu-open .navbar { background:#11120f; }
+.jt-menu { position:fixed; inset:var(--jt-nav-height) 0 0; z-index:9998;
+ background:#11120f; color:var(--white); overflow-y:auto; overscroll-behavior:contain;
+ visibility:hidden; opacity:0; transform:translateY(-18px);
+ transition:opacity .3s ease,transform .4s var(--ease),visibility .4s;
+ border-top:1px solid rgba(219,193,129,.2); }
+.jt-menu.open { visibility:visible; opacity:1; transform:translateY(0); }
+.jt-menu-inner { width:min(1200px,calc(100% - 80px)); margin:auto; padding:32px 0; }
+.jt-menu-eyebrow { text-transform:uppercase; letter-spacing:3px; font-size:.68rem; color:var(--gold); margin-bottom:20px; }
+.jt-menu-main a { display:grid; grid-template-columns:42px 1fr 50px; gap:18px; align-items:center;
+ padding:22px 0; border-bottom:1px solid rgba(219,193,129,.2); font-size:clamp(2rem,5vw,4.8rem);
+ font-weight:800; letter-spacing:-.055em; line-height:1.05;
+ transition:color .2s, padding-left .3s; }
+.jt-menu-main a:hover { color:var(--gold); padding-left:12px; }
+.jt-menu-number { font-size:.7rem; letter-spacing:.1em; color:var(--gold); align-self:start; padding-top:8px; }
+.jt-menu-main small { display:block; font-size:.75rem; font-weight:400; color:#b7b8ab; letter-spacing:.04em; line-height:1.5; margin-top:10px; }
+.jt-menu-arrow { font-size:2rem; color:var(--gold); justify-self:end; }
+.jt-menu-bottom { display:flex; justify-content:space-between; gap:32px; padding-top:28px; }
+.jt-menu-secondary { display:flex; flex-wrap:wrap; gap:4px 24px; max-width:740px; }
+.jt-menu-secondary a { display:flex; align-items:center; min-height:44px; font-size:.75rem; color:#deded3; }
+.jt-menu-secondary a:hover { color:var(--gold); }
+.jt-menu-bottom p { font-size:.68rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold); white-space:nowrap; padding-top:14px; }
+.navbar a:focus-visible, .navbar button:focus-visible, .jt-menu a:focus-visible { outline:2px solid var(--gold); outline-offset:5px; }
+main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
+@media(max-width:1120px) {
+ .nav-inner { grid-template-columns:1fr auto auto; gap:20px; }
+ .brand-copy { display:none; }
+ .nav-links { display:flex; gap:24px; }
+}
+@media(max-width:600px) {
+ :root { --jt-nav-height:126px; }
+ .nav-inner { width:calc(100% - 32px); grid-template-columns:1fr auto; gap:2px 12px; }
+ .nav-brand { grid-column:1; grid-row:1; }
+ .brand-mark,.brand-mark img { width:44px; height:44px; border-radius:12px; }
+ .jt-menu-actions { grid-column:2; grid-row:1; }
+ .hamburger { width:44px; height:44px; }
+ .nav-links { grid-column:1/-1; grid-row:2; justify-content:space-between; gap:8px;
+  border-top:1px solid rgba(219,193,129,.16); margin-top:8px; font-size:.62rem; letter-spacing:.6px; }
+ .nav-links a { min-height:42px; white-space:nowrap; }
+ .nav-links a::after { bottom:3px; }
+ .jt-menu-inner { width:calc(100% - 36px); padding:24px 0; }
+ .jt-menu-eyebrow { font-size:.6rem; letter-spacing:2px; margin-bottom:12px; }
+ .jt-menu-main a { grid-template-columns:24px 1fr 24px; gap:8px; font-size:clamp(1.55rem,6.5vw,2.5rem); padding:22px 0; }
+ .jt-menu-main small { font-size:.65rem; letter-spacing:0; }
+ .jt-menu-arrow { font-size:1.3rem; }
+ .jt-menu-bottom { display:block; padding-top:18px; }
+ .jt-menu-secondary { gap:0 22px; }
+ .jt-menu-bottom p { padding:20px 0 max(16px,env(safe-area-inset-bottom)); }
+ .hero { padding-top:166px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .jt-menu,.jt-menu-main a,.hamburger-lines span { transition:none; }
+}
+
   </style>
 
   <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
@@ -2363,40 +2428,38 @@
         </a>
 
         <nav class="nav-links" aria-label="Main navigation">
-          <a href="#shop">Collection</a>
-          <a href="#pathway">Pathway</a>
-          <a href="#services">Services</a>
           <a href="#performance-hub">Performance Hub</a>
-          <a href="#pricing">Book</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#about">About</a>
-          <a href="#findus">Find Us</a>
+          <a href="https://xtkzjd-5g.myshopify.com/">Clothing</a>
+          <a href="#services">1:1 Coaching</a>
         </nav>
-
-        <div class="nav-actions">
-          <a class="nav-cta" href="https://calendly.com/jt-football-coaching" target="_blank" rel="noopener">Book Football</a>
+        <div class="jt-menu-actions">
           <button id="hamburgerBtn" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
-            <span class="hamburger-lines" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </span>
+            <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- MOBILE MENU -->
-    <nav class="mobile-menu" id="navMenu" aria-label="Mobile navigation">
-      <div class="mobile-menu-inner">
-          <a href="#shop">Collection</a>
-        <a href="#pathway">Pathway</a>
-        <a href="#services">Services</a>
-        <a href="#performance-hub">Performance Hub</a>
-        <a href="#pricing">Book</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#team">Team</a>
-        <a href="#about">About</a>
-          <a href="#findus">Find Us</a>
-        <p class="menu-small">Mind. Body. Balance.</p>
+    <nav class="jt-menu" id="navMenu" aria-label="Explore JT" aria-hidden="true" inert>
+      <div class="jt-menu-inner">
+        <p class="jt-menu-eyebrow">Three ways to make it yours.</p>
+        <div class="jt-menu-main">
+          <a href="#performance-hub"><span class="jt-menu-number">01</span><span>Performance Hub<small>Your daily performance companion</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
+          <a href="https://xtkzjd-5g.myshopify.com/"><span class="jt-menu-number">02</span><span>Clothing<small>The JT collection. Shop the pieces.</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
+          <a href="#services"><span class="jt-menu-number">03</span><span>1:1 Coaching<small>Personal coaching. Real progression.</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="jt-menu-bottom">
+          <div class="jt-menu-secondary">
+            <a href="/performance-hub-login.html">Hub login</a>
+            <a href="#pricing">Book a session</a>
+            <a href="#pathway">The pathway</a>
+            <a href="#team">The coaches</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#about">About JT</a>
+            <a href="#findus">Find us</a>
+          </div>
+          <p>Mind. Body. Balance.</p>
+        </div>
       </div>
     </nav>
 
@@ -3416,21 +3479,56 @@
     window.addEventListener('scroll', setScrolledNav, { passive: true });
 
     if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener('click', () => {
-        const isOpen = mobileMenu.classList.toggle('open');
-        menuBtn.classList.toggle('open', isOpen);
-        menuBtn.setAttribute('aria-expanded', String(isOpen));
-        document.body.classList.toggle('menu-open', isOpen);
-      });
-
-      mobileMenu.querySelectorAll('a').forEach(link => {
+      let backgroundStates = [];
+      function setMenu(open, restoreFocus = true) {
+        mobileMenu.classList.toggle('open', open);
+        mobileMenu.inert = !open;
+        mobileMenu.setAttribute('aria-hidden', String(!open));
+        menuBtn.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.classList.toggle('menu-open', open);
+        if (open) {
+          backgroundStates = [...document.querySelectorAll('main, footer')].map(el => [el, el.inert]);
+          backgroundStates.forEach(([el]) => { el.inert = true; });
+          mobileMenu.querySelector('a').focus({preventScroll:true});
+        } else {
+          backgroundStates.forEach(([el, previous]) => { el.inert = previous; });
+          backgroundStates = [];
+          if (restoreFocus) menuBtn.focus({preventScroll:true});
+        }
+      }
+      menuBtn.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+      document.querySelectorAll('#navMenu a, #navbar a').forEach(link => {
         link.addEventListener('click', () => {
-          mobileMenu.classList.remove('open');
-          menuBtn.classList.remove('open');
-          menuBtn.setAttribute('aria-expanded', 'false');
-          document.body.classList.remove('menu-open');
+          if (!mobileMenu.classList.contains('open')) return;
+          setMenu(false);
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            const target = document.getElementById(href.slice(1));
+            if (target) {
+              const previous = target.getAttribute('tabindex');
+              target.setAttribute('tabindex','-1');
+              target.focus({preventScroll:true});
+              target.addEventListener('blur', () => {
+                if (previous === null) target.removeAttribute('tabindex');
+                else target.setAttribute('tabindex', previous);
+              }, {once:true});
+            }
+          }
         });
       });
+      document.addEventListener('keydown', event => {
+        if (!mobileMenu.classList.contains('open')) return;
+        if (event.key === 'Escape') { event.preventDefault(); setMenu(false); }
+        if (event.key === 'Tab') {
+          const items = [...navbar.querySelectorAll('a,button'), ...mobileMenu.querySelectorAll('a')].filter(el => el.getClientRects().length);
+          const first = items[0], last = items[items.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      });
+      window.addEventListener('pagehide', () => setMenu(false, false));
     }
 
     /* =========================
