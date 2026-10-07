@@ -2472,7 +2472,7 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
 .navbar::after { content:""; position:absolute; pointer-events:none; bottom:0; left:0; width:22%; height:1px; background:linear-gradient(90deg,transparent,rgba(219,193,129,.7),transparent); animation:jtNavSweep 12s ease-in-out infinite; }
 @keyframes jtOrbit { to { transform:rotate(360deg); } }
 @keyframes jtNavSweep { 0%,100% { transform:translateX(-100%); opacity:0; } 12%,85% { opacity:.7; } 90% { transform:translateX(460%); opacity:0; } }
-body.jt-motion-paused .jt-ambient i,body.jt-motion-paused .navbar::after { animation-play-state:paused; }
+body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar::after { animation-play-state:paused; }
 @media(max-width:760px) {
  .jt-crest-window { width:54px; height:48px; }
  .jt-directory-links { column-gap:24px; }
