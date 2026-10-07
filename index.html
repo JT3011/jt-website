@@ -2386,7 +2386,62 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
  .jt-menu,.jt-menu-main a,.hamburger-lines span { transition:none; }
 }
 
-  </style>
+  
+/* Centred crest and balanced, single-row navigation */
+:root { --jt-nav-height:88px; }
+.nav-inner { width:min(1400px,calc(100% - 64px)); display:grid; grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr); gap:36px; }
+.jt-nav-left,.jt-nav-right { display:flex; align-items:center; gap:clamp(22px,4vw,64px); }
+.jt-nav-left { justify-content:flex-end; }
+.jt-nav-right { justify-content:flex-start; }
+.jt-nav-left a,.jt-nav-right>a { display:flex; align-items:center; min-height:44px; white-space:nowrap; text-transform:uppercase;
+ font-weight:700; font-size:.72rem; letter-spacing:1.2px; color:#e6e3d9; position:relative; transition:color .25s; }
+.jt-nav-left a::after,.jt-nav-right>a::after { content:""; position:absolute; left:0; right:0; bottom:6px; height:1px; background:var(--gold);
+ transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease); }
+.jt-nav-left a:hover,.jt-nav-right>a:hover { color:var(--gold); }
+.jt-nav-left a:hover::after,.jt-nav-right>a:hover::after { transform:scaleX(1); }
+.jt-hub-full { white-space:pre; }
+.jt-crest { display:grid; place-items:center; width:72px; height:60px; mix-blend-mode:screen; transition:transform .3s var(--ease); }
+.jt-crest:hover { transform:scale(1.06); }
+.jt-crest-window { position:relative; display:block; width:64px; height:46px; overflow:hidden; }
+.jt-crest-window img { position:absolute; width:132px; height:132px; max-width:none; left:-33.5px; top:-27.5px; border:0; border-radius:0; box-shadow:none; }
+.jt-nav-right .hamburger { margin-left:auto; flex-shrink:0; width:46px; height:46px; background:transparent; border:1px solid rgba(219,193,129,.45); border-radius:50%; }
+.jt-nav-right .hamburger-lines span { background:var(--gold); }
+.jt-nav-right .hamburger:hover { background:rgba(219,193,129,.09); transform:none; }
+.jt-menu-main a { grid-template-columns:42px minmax(0,1fr); position:relative; padding-right:16px; }
+.jt-menu-main a::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(219,193,129,.065),transparent); opacity:0; transition:opacity .3s; }
+.jt-menu-main a:hover::before,.jt-menu-main a:focus-visible::before { opacity:1; }
+.jt-menu-main a { opacity:0; transform:translateY(16px); transition:opacity .4s ease,transform .5s var(--ease),color .25s,padding-left .3s; }
+.jt-menu.open .jt-menu-main a { opacity:1; transform:translateY(0); }
+.jt-menu.open .jt-menu-main a:nth-child(2) { transition-delay:55ms; }
+.jt-menu.open .jt-menu-main a:nth-child(3) { transition-delay:110ms; }
+.jt-menu-secondary a { position:relative; transition:color .2s,transform .2s; }
+.jt-menu-secondary a:hover { transform:translateY(-2px); }
+@media(max-width:760px) {
+ :root { --jt-nav-height:76px; }
+ .nav-inner { width:calc(100% - 28px); grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr); gap:12px; }
+ .jt-nav-left,.jt-nav-right { gap:12px; }
+ .jt-nav-left { justify-content:space-evenly; }
+ .jt-nav-left a,.jt-nav-right>a { font-size:.6rem; letter-spacing:.55px; }
+ .jt-hub-full { display:none; }
+ .jt-crest { width:48px; height:52px; }
+ .jt-crest-window { width:44px; height:32px; }
+ .jt-crest-window img { width:92px; height:92px; left:-23.5px; top:-19.3px; }
+ .jt-nav-right .hamburger { width:36px; height:36px; min-width:36px; }
+ .jt-menu-main a { grid-template-columns:24px minmax(0,1fr); }
+ .hero { padding-top:120px; }
+}
+@media(max-width:380px) {
+ .nav-inner { width:calc(100% - 20px); grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr); gap:8px; }
+ .jt-crest { width:40px; }
+ .jt-nav-left,.jt-nav-right { gap:7px; }
+ .jt-nav-left a,.jt-nav-right>a { font-size:.54rem; letter-spacing:.2px; }
+ .jt-nav-right .hamburger { width:34px; min-width:34px; height:34px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .jt-crest,.jt-menu-main a,.jt-menu-secondary a,.jt-nav-left a::after,.jt-nav-right>a::after { transition:none!important; transform:none; }
+}
+
+</style>
 
   <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
   <link rel="stylesheet" href="/jt-collection-cinema.css?v=20261007.2">
@@ -2417,22 +2472,15 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
     <!-- NAVIGATION -->
     <header class="navbar" id="navbar">
       <div class="nav-inner">
-        <a class="nav-brand" href="#top" aria-label="JT Mind & Body Balance home">
-          <span class="brand-mark">
-            <img src="images/logo.jpeg" alt="JT Mind & Body Balance Logo">
-          </span>
-          <span class="brand-copy">
-            <strong>JT Mind & Body Balance</strong>
-            <span>Football • Gym • Mindset</span>
-          </span>
-        </a>
-
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="#performance-hub">Performance Hub</a>
+        <nav class="jt-nav-left" aria-label="Hub and clothing">
+          <a href="#performance-hub" aria-label="Performance Hub"><span class="jt-hub-full">Performance </span>Hub</a>
           <a href="https://xtkzjd-5g.myshopify.com/">Clothing</a>
-          <a href="#services">1:1 Coaching</a>
         </nav>
-        <div class="jt-menu-actions">
+        <a class="jt-crest" href="#top" aria-label="JT home">
+          <span class="jt-crest-window"><img src="images/logo.jpeg" alt="JT crest" width="1024" height="1024"></span>
+        </a>
+        <div class="jt-nav-right">
+          <a href="#services">1:1 Coaching</a>
           <button id="hamburgerBtn" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
             <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
           </button>
@@ -2444,19 +2492,21 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
       <div class="jt-menu-inner">
         <p class="jt-menu-eyebrow">Three ways to make it yours.</p>
         <div class="jt-menu-main">
-          <a href="#performance-hub"><span class="jt-menu-number">01</span><span>Performance Hub<small>Your daily performance companion</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
-          <a href="https://xtkzjd-5g.myshopify.com/"><span class="jt-menu-number">02</span><span>Clothing<small>The JT collection. Shop the pieces.</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
-          <a href="#services"><span class="jt-menu-number">03</span><span>1:1 Coaching<small>Personal coaching. Real progression.</small></span><span class="jt-menu-arrow" aria-hidden="true">↗</span></a>
+          <a href="#performance-hub"><span class="jt-menu-number">01</span><span>Performance Hub<small>Your daily performance companion</small></span></a>
+          <a href="https://xtkzjd-5g.myshopify.com/"><span class="jt-menu-number">02</span><span>Clothing<small>The JT collection. Shop the pieces.</small></span></a>
+          <a href="#services"><span class="jt-menu-number">03</span><span>1:1 Coaching<small>Personal coaching. Real progression.</small></span></a>
         </div>
         <div class="jt-menu-bottom">
           <div class="jt-menu-secondary">
-            <a href="/performance-hub-login.html">Hub login</a>
+            <a href="/performance-hub-login.html">Enter the Hub</a>
             <a href="#pricing">Book a session</a>
             <a href="#pathway">The pathway</a>
             <a href="#team">The coaches</a>
             <a href="#reviews">Reviews</a>
             <a href="#about">About JT</a>
             <a href="#findus">Find us</a>
+            <a href="#contact">Contact JT</a>
+            <a href="/performance-hub-coach-access.html">Coach login</a>
           </div>
           <p>Mind. Body. Balance.</p>
         </div>
