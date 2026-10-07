@@ -2441,6 +2441,58 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
  .jt-crest,.jt-menu-main a,.jt-menu-secondary a,.jt-nav-left a::after,.jt-nav-right>a::after { transition:none!important; transform:none; }
 }
 
+
+/* Full-site directory and restrained continuous movement */
+.jt-crest { mix-blend-mode:normal; background:none; }
+.jt-crest-window { width:72px; height:60px; overflow:visible; }
+.jt-crest-window img { position:static; width:100%; height:100%; object-fit:contain; background:transparent; }
+.jt-directory { isolation:isolate; background:#10110e; }
+.jt-directory .jt-menu-inner { position:relative; z-index:1; padding-top:clamp(28px,5vh,60px); }
+.jt-directory-links { display:grid; grid-template-columns:1fr 1fr; column-gap:70px; }
+.jt-directory-links a { display:flex; align-items:center; gap:22px; min-height:88px; border-bottom:1px solid rgba(219,193,129,.17);
+ color:#f3eee4; font-size:clamp(1.3rem,2.7vw,2.35rem); font-weight:600; letter-spacing:-.035em; line-height:1.2;
+ opacity:0; transform:translateY(12px); transition:color .25s,opacity .45s,transform .45s; }
+.jt-directory.open .jt-directory-links a { opacity:1; transform:translateY(0); transition-delay:calc(var(--entry) * 25ms); }
+.jt-directory-links a>span:last-child { transition:transform .3s var(--ease); }
+.jt-directory-links a:hover,.jt-directory-links a:focus-visible { color:var(--gold); }
+.jt-directory-links a:hover>span:last-child { transform:translateX(8px); }
+.jt-directory-number { font-size:.6rem; font-weight:500; letter-spacing:.12em; color:var(--gold); min-width:20px; }
+.jt-directory-footer { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:30px 0; }
+.jt-directory-footer p { font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+#jtMotionToggle { color:#c3bbaa; border:1px solid #5b523c; border-radius:999px; background:transparent; font:inherit; font-size:.65rem; letter-spacing:.06em; padding:12px 16px; cursor:pointer; }
+#jtMotionToggle:hover { color:var(--gold); border-color:var(--gold); }
+#jtMotionToggle:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }
+.jt-ambient { position:absolute; z-index:0; pointer-events:none; inset:0; overflow:hidden; opacity:.45; }
+.jt-ambient i { position:absolute; width:min(75vw,950px); aspect-ratio:1; border-radius:50%; right:-26%; top:-30%; border:1px solid rgba(219,193,129,.2);
+ background:conic-gradient(from 0deg,transparent 0deg,transparent 260deg,rgba(219,193,129,.08) 315deg,transparent 360deg);
+ animation:jtOrbit 32s linear infinite; animation-play-state:paused; }
+.jt-ambient i:nth-child(2) { width:min(64vw,780px); right:-20%; top:-20%; animation-duration:45s; animation-direction:reverse; }
+.jt-ambient i:nth-child(3) { width:min(95vw,1200px); right:-35%; top:-40%; animation-duration:58s; }
+.jt-directory.open .jt-ambient i { animation-play-state:running; }
+.navbar::after { content:""; position:absolute; pointer-events:none; bottom:0; left:0; width:22%; height:1px; background:linear-gradient(90deg,transparent,rgba(219,193,129,.7),transparent); animation:jtNavSweep 12s ease-in-out infinite; }
+@keyframes jtOrbit { to { transform:rotate(360deg); } }
+@keyframes jtNavSweep { 0%,100% { transform:translateX(-100%); opacity:0; } 12%,85% { opacity:.7; } 90% { transform:translateX(460%); opacity:0; } }
+body.jt-motion-paused .jt-ambient i,body.jt-motion-paused .navbar::after { animation-play-state:paused; }
+@media(max-width:760px) {
+ .jt-crest-window { width:54px; height:48px; }
+ .jt-directory-links { column-gap:24px; }
+ .jt-directory-links a { min-height:72px; font-size:clamp(1.05rem,3.5vw,1.5rem); gap:10px; }
+ .jt-directory-number { font-size:.5rem; min-width:14px; }
+ .jt-directory .jt-menu-inner { padding-top:28px; }
+ .jt-ambient i { width:120vw; right:-75%; top:-10%; }
+ .jt-directory-footer { align-items:flex-start; padding-top:28px; }
+}
+@media(max-width:380px) {
+ .jt-directory-links { column-gap:16px; }
+ .jt-directory-links a { font-size:.95rem; gap:6px; min-height:70px; }
+ .jt-directory-footer p { font-size:.55rem; letter-spacing:1px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .jt-ambient i,.navbar::after { animation:none!important; }
+ .jt-directory-links a,.jt-directory-links a>span:last-child { transition:none!important; transform:none!important; }
+ #jtMotionToggle { display:none; }
+}
+
 </style>
 
   <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
@@ -2477,7 +2529,7 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
           <a href="https://xtkzjd-5g.myshopify.com/">Clothing</a>
         </nav>
         <a class="jt-crest" href="#top" aria-label="JT home">
-          <span class="jt-crest-window"><img src="images/logo.jpeg" alt="JT crest" width="1024" height="1024"></span>
+          <span class="jt-crest-window"><img src="/images/jt-crest-transparent-v2.png" alt="JT crest" width="1254" height="1254"></span>
         </a>
         <div class="jt-nav-right">
           <a href="#services">1:1 Coaching</a>
@@ -2488,27 +2540,25 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
       </div>
     </header>
 
-    <nav class="jt-menu" id="navMenu" aria-label="Explore JT" aria-hidden="true" inert>
+    <nav class="jt-menu jt-directory" id="navMenu" aria-label="Explore JT" aria-hidden="true" inert>
+      <div class="jt-ambient" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="jt-menu-inner">
-        <p class="jt-menu-eyebrow">Three ways to make it yours.</p>
-        <div class="jt-menu-main">
-          <a href="#performance-hub"><span class="jt-menu-number">01</span><span>Performance Hub<small>Your daily performance companion</small></span></a>
-          <a href="https://xtkzjd-5g.myshopify.com/"><span class="jt-menu-number">02</span><span>Clothing<small>The JT collection. Shop the pieces.</small></span></a>
-          <a href="#services"><span class="jt-menu-number">03</span><span>1:1 Coaching<small>Personal coaching. Real progression.</small></span></a>
+        <p class="jt-menu-eyebrow">Explore JT</p>
+        <div class="jt-directory-links">
+          <a href="/performance-hub-login.html" style="--entry:0"><span class="jt-directory-number">01</span><span>Enter the Hub</span></a>
+          <a href="#pricing" style="--entry:1"><span class="jt-directory-number">02</span><span>Book a session</span></a>
+          <a href="#pathway" style="--entry:2"><span class="jt-directory-number">03</span><span>The pathway</span></a>
+          <a href="#team" style="--entry:3"><span class="jt-directory-number">04</span><span>The coaches</span></a>
+          <a href="#reviews" style="--entry:4"><span class="jt-directory-number">05</span><span>Reviews</span></a>
+          <a href="#about" style="--entry:5"><span class="jt-directory-number">06</span><span>About JT</span></a>
+          <a href="#findus" style="--entry:6"><span class="jt-directory-number">07</span><span>Find us</span></a>
+          <a href="#contact" style="--entry:7"><span class="jt-directory-number">08</span><span>Contact JT</span></a>
+          <a href="https://xtkzjd-5g.myshopify.com/" style="--entry:8"><span class="jt-directory-number">09</span><span>Shop the collection</span></a>
+          <a href="/performance-hub-coach-access.html" style="--entry:9"><span class="jt-directory-number">10</span><span>Coach login</span></a>
         </div>
-        <div class="jt-menu-bottom">
-          <div class="jt-menu-secondary">
-            <a href="/performance-hub-login.html">Enter the Hub</a>
-            <a href="#pricing">Book a session</a>
-            <a href="#pathway">The pathway</a>
-            <a href="#team">The coaches</a>
-            <a href="#reviews">Reviews</a>
-            <a href="#about">About JT</a>
-            <a href="#findus">Find us</a>
-            <a href="#contact">Contact JT</a>
-            <a href="/performance-hub-coach-access.html">Coach login</a>
-          </div>
+        <div class="jt-directory-footer">
           <p>Mind. Body. Balance.</p>
+          <button type="button" id="jtMotionToggle" aria-pressed="false">Pause motion</button>
         </div>
       </div>
     </nav>
@@ -3572,13 +3622,20 @@ main section[id] { scroll-margin-top:calc(var(--jt-nav-height) + 20px); }
         if (!mobileMenu.classList.contains('open')) return;
         if (event.key === 'Escape') { event.preventDefault(); setMenu(false); }
         if (event.key === 'Tab') {
-          const items = [...navbar.querySelectorAll('a,button'), ...mobileMenu.querySelectorAll('a')].filter(el => el.getClientRects().length);
+          const items = [...navbar.querySelectorAll('a,button'), ...mobileMenu.querySelectorAll('a,button')].filter(el => el.getClientRects().length);
           const first = items[0], last = items[items.length - 1];
           if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
           else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
         }
       });
       window.addEventListener('pagehide', () => setMenu(false, false));
+      const motionToggle = document.getElementById('jtMotionToggle');
+      motionToggle.addEventListener('click', () => {
+        const paused = document.body.classList.toggle('jt-motion-paused');
+        motionToggle.setAttribute('aria-pressed', String(paused));
+        motionToggle.textContent = paused ? 'Resume motion' : 'Pause motion';
+      });
+
     }
 
     /* =========================
