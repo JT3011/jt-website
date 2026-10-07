@@ -2323,149 +2323,9 @@
 }
   </style>
 
-  <style id="jt-collection-styles">
-    /* Scoped to the shop: shared product-card styles also serve the coaching team. */
-    #shop { background:#0c0c0b; color:#f4f0e8; padding-top:70px; padding-bottom:70px; scroll-margin-top:76px; }
-    #shop .collection-masthead { display:flex; justify-content:space-between; gap:20px; padding-bottom:24px; border-bottom:1px solid #36342d; font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#bdb6a5; }
-    #shop .collection-hero { display:grid; grid-template-columns:1fr 1fr; margin-top:28px; min-height:550px; }
-    #shop .collection-story { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding:48px 40px 48px 0; }
-    #shop .collection-kicker { color:#c7ad72; font-size:10px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; margin-bottom:22px; }
-    #shop h2 { font-family:'Playfair Display',serif; font-size:clamp(54px,6.9vw,100px); font-weight:500; line-height:1.05; letter-spacing:-.055em; margin:0 0 28px; text-transform:none; }
-    #shop em { font-weight:500; color:#c9ae75; }
-    #shop .collection-story p { color:#bcb8ad; max-width:370px; font-size:14px; line-height:1.9; margin-bottom:32px; }
-    #shop .collection-primary { display:inline-flex; align-items:center; justify-content:space-between; gap:36px; min-height:54px; padding:17px 23px; color:#14130f; background:#cfb77f; border:1px solid #cfb77f; font-size:11px; font-weight:700; letter-spacing:.05em; transition:background .2s,color .2s; }
-    #shop .collection-primary:hover { background:#e7d5aa; }
-    #shop .collection-primary span { font-size:20px; line-height:1; }
-    #shop .collection-signature { margin-top:24px; color:#aaa498; font-size:10px; letter-spacing:.08em; }
-    #shop .collection-hero-photo { position:relative; background:#e9e6e0; color:#24231e; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-    #shop .collection-hero-photo img { width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; transition:transform .7s ease; }
-    #shop .collection-hero-photo:hover img { transform:scale(1.035); }
-    #shop .collection-hero-label { position:absolute; top:24px; left:26px; z-index:1; font-size:9px; letter-spacing:.16em; text-transform:uppercase; }
-    #shop .collection-hero-caption { position:absolute; left:26px; right:26px; bottom:24px; display:flex; justify-content:space-between; align-items:center; gap:16px; font-size:13px; font-weight:600; }
-    #shop .collection-hero-caption small { display:block; font-size:9px; font-weight:500; letter-spacing:.08em; margin-top:6px; }
-    #shop .collection-values { display:flex; justify-content:space-between; gap:16px; padding:24px 0; border-bottom:1px solid #36342d; color:#b7afa0; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
-    #shop .collection-heading { display:flex; justify-content:space-between; align-items:end; gap:25px; padding-top:76px; margin-bottom:32px; scroll-margin-top:110px; }
-    #shop h3 { font-family:'Playfair Display',serif; font-size:clamp(28px,3.1vw,45px); font-weight:500; letter-spacing:-.035em; line-height:1.15; text-transform:none; }
-    #shop .collection-heading .collection-kicker { margin-bottom:12px; }
-    #shop .collection-heading p { font-size:12px; color:#bcb8ad; padding-bottom:5px; }
-    #shop .collection-toolbar { display:flex; justify-content:space-between; gap:14px; align-items:center; padding-bottom:20px; }
-    #shop .collection-filters { display:flex; gap:8px; flex-wrap:wrap; }
-    #shop .collection-filters button { border:1px solid #4c483c; color:#cbc5b8; background:transparent; padding:12px 18px; min-height:44px; font-size:11px; cursor:pointer; }
-    #shop .collection-filters button[aria-pressed="true"] { background:#e8e0d0; border-color:#e8e0d0; color:#171612; }
-    #shop #collection-count { font-size:11px; color:#aaa498; white-space:nowrap; }
-    #shop .collection-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:24px; row-gap:48px; }
-    #shop .collection-card { min-width:0; display:flex; flex-direction:column; }
-    #shop [hidden] { display:none!important; }
-    #shop .collection-photo { position:relative; background:#e9e6e0; overflow:hidden; }
-    #shop .collection-image-link { display:block; aspect-ratio:1/1.12; overflow:hidden; }
-    #shop .collection-image-link img { width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; transition:transform .55s ease; }
-    #shop .collection-image-link:hover img { transform:scale(1.045); }
-    #shop .collection-number { position:absolute; top:18px; left:18px; z-index:1; color:#575248; font-size:9px; letter-spacing:.14em; pointer-events:none; }
-    #shop .collection-views { position:absolute; bottom:14px; right:14px; display:flex; background:#f8f6f0; border:1px solid #c5c0b4; }
-    #shop .collection-views button { background:transparent; border:0; min-height:44px; padding:10px 14px; font-size:10px; color:#5e584d; cursor:pointer; }
-    #shop .collection-views button[aria-pressed="true"] { background:#24231e; color:#f5f0e5; }
-    #shop .collection-card-top { display:flex; justify-content:space-between; gap:12px; align-items:center; margin:20px 0 10px; font-size:9px; text-transform:uppercase; letter-spacing:.12em; color:#b9b0a0; }
-    #shop .collection-price { font-size:15px; color:#e0cc9e; font-weight:500; letter-spacing:0; }
-    #shop h4 { font-size:17px; font-weight:500; letter-spacing:-.02em; line-height:1.35; }
-    #shop .collection-description { color:#aaa69c; font-size:12px; line-height:1.8; margin:12px 0 22px; }
-    #shop .collection-buy { display:flex; justify-content:space-between; align-items:center; gap:12px; border-top:1px solid #555044; border-bottom:1px solid #555044; min-height:48px; padding:13px 0; margin-top:auto; font-size:11px; font-weight:600; color:#dfc993; transition:color .2s; }
-    #shop .collection-buy:hover { color:#fff4d8; }
-    #shop .collection-buy span { font-size:20px; }
-    #shop a:focus-visible,#shop button:focus-visible { outline:3px solid #bd902e; outline-offset:4px; }
-    #shop .collection-image-link:focus-visible { outline-offset:-5px; }
-    #shop .collection-footer { display:flex; align-items:center; justify-content:space-between; gap:32px; margin-top:70px; padding:42px; border:1px solid #464035; background:linear-gradient(115deg,#201e17,#11110e); }
-    #shop .collection-footer p { font-size:12px; color:#bcb8ad; line-height:1.8; margin-top:20px; max-width:370px; }
-    #shop .collection-footer .collection-primary { flex-shrink:0; }
-    #shop .collection-checkout { font-size:11px; color:#aaa69c; line-height:1.9; max-width:810px; margin:24px auto 0; text-align:center; }
-    @media(max-width:900px) {
-      #shop .collection-story { padding-right:25px; }
-      #shop h2 { font-size:clamp(50px,7.5vw,70px); }
-      #shop .collection-hero { min-height:460px; }
-      #shop .collection-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px 20px; }
-      #shop .collection-heading { align-items:start; flex-direction:column; gap:12px; }
-      #shop .collection-footer { padding:30px; }
-    }
-    @media(max-width:600px) {
-      #shop { padding-top:40px; padding-bottom:40px; }
-      #shop .collection-masthead { flex-direction:column; gap:8px; font-size:9px; }
-      #shop .collection-hero { grid-template-columns:1fr; margin-top:0; }
-      #shop .collection-story { padding:36px 0; }
-      #shop h2 { font-size:clamp(54px,13vw,78px); }
-      #shop .collection-hero-photo { aspect-ratio:1/1.06; }
-      #shop .collection-values { font-size:8px; letter-spacing:.05em; gap:12px; line-height:1.8; }
-      #shop .collection-heading { padding-top:48px; }
-      #shop .collection-filters { gap:5px; }
-      #shop .collection-filters button { padding:11px 12px; font-size:10px; }
-      #shop .collection-grid { column-gap:12px; row-gap:32px; }
-      #shop .collection-image-link { aspect-ratio:1/1.2; }
-      #shop .collection-number { top:10px; left:10px; font-size:8px; }
-      #shop .collection-views { bottom:7px; right:7px; }
-      #shop .collection-views button { padding:8px 10px; font-size:9px; }
-      #shop .collection-card-top { flex-wrap:wrap; margin-top:14px; gap:7px; font-size:8px; }
-      #shop .collection-price { font-size:14px; }
-      #shop h4 { font-size:15px; }
-      #shop .collection-description { font-size:11px; line-height:1.7; }
-      #shop .collection-buy { font-size:10px; gap:5px; }
-      #shop .collection-footer { margin-top:40px; padding:26px; flex-direction:column; align-items:start; }
-    }
-    @media(max-width:360px) { #shop .collection-grid { grid-template-columns:1fr; } #shop .collection-toolbar { align-items:start; flex-direction:column; } }
-    @media(prefers-reduced-motion:reduce) { #shop img,#shop a { transition:none!important; } }
+  <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
 
-    /* Transparent collection photography: charcoal separation for black garments. */
-    #shop .collection-photo,
-    #shop .collection-hero-photo {
-      background:radial-gradient(ellipse at 50% 35%,#454239 0%,#292824 48%,#151514 100%);
-      border:1px solid rgba(207,183,127,.15);
-      color:#f4f0e8;
-    }
-    #shop .collection-image-link img,
-    #shop .collection-hero-photo img {
-      mix-blend-mode:normal;
-    }
-    #shop .collection-number { color:#ddd0b5; }
-    #shop .collection-hero-label { color:#e7d9ba; text-shadow:0 1px 5px #000; }
-    #shop .collection-hero-caption {
-      left:0; right:0; bottom:0; padding:42px 26px 24px;
-      color:#f4f0e8;
-      background:linear-gradient(transparent,rgba(0,0,0,.8));
-      text-shadow:0 1px 4px #000;
-    }
-    #shop .collection-views { background:#161613; border-color:#807253; }
-    #shop .collection-views button { color:#d6ccba; }
-    #shop .collection-views button[aria-pressed="true"] { background:#cfb77f; color:#14130f; }
-  </style>
 
-  <style id="jt-collection-motion-styles">
-    #shop .collection-motion-control { display:flex; align-items:center; gap:12px; margin:0 0 20px; color:#bcb8ad; font-size:11px; }
-    #shop .collection-motion-toggle,#shop .collection-turn { min-height:44px; padding:10px 14px; border:1px solid #807253; background:#171611; color:#e6d5ae; font:inherit; font-size:10px; cursor:pointer; }
-    #shop .collection-turn { position:absolute; bottom:14px; left:14px; z-index:3; }
-    #shop .collection-photo,#shop .collection-hero-photo { isolation:isolate; }
-    #shop .collection-photo::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:-1; background:radial-gradient(ellipse at var(--light-x,50%) var(--light-y,38%),rgba(212,175,55,.16),transparent 65%); }
-    #shop.collection-motion-on .collection-image-link img,
-    #shop.collection-motion-on .collection-hero-photo img {
-      transform:perspective(900px) translate3d(var(--move-x,0px),var(--move-y,0px),0) rotateX(var(--tilt-x,0deg)) rotateY(calc(var(--turn-y,0deg) + var(--tilt-y,0deg))) rotateZ(var(--roll,0deg)) scale(var(--piece-scale,.9));
-      transform-origin:50% 52%; transition:none;
-    }
-    #shop.collection-motion-on .collection-photo.is-motion-visible img,
-    #shop.collection-motion-on .collection-hero-photo.is-motion-visible img { will-change:transform; }
-    #shop .collection-number,#shop .collection-hero-label,#shop .collection-hero-caption { z-index:2; }
-    #shop .collection-views { z-index:3; }
-    #shop .collection-buy span { transition:transform .25s ease; }
-    #shop .collection-buy:hover span { transform:translate(3px,-3px); }
-    #shop .collection-motion-toggle[aria-pressed="false"] { color:#aaa69c; border-color:#514d42; }
-    #shop:not(.collection-motion-on) .collection-turn { display:none; }
-    #shop.collection-motion-paused .collection-image-link img,#shop.collection-motion-paused .collection-hero-photo img { transform:none; transition:none; }
-    @media(max-width:600px) {
-      #shop .collection-turn { left:7px; bottom:7px; padding:8px; font-size:9px; }
-      #shop .collection-motion-control { align-items:flex-start; }
-      #shop .collection-motion-control span { max-width:180px; line-height:1.6; }
-    }
-    @media(prefers-reduced-motion:reduce) {
-      #shop .collection-motion-control,#shop .collection-turn { display:none!important; }
-      #shop .collection-image-link img,#shop .collection-hero-photo img { transform:none!important; animation:none!important; transition:none!important; }
-      #shop .collection-buy span { transform:none!important; transition:none!important; }
-    }
-  </style>
 <link rel="canonical" href="https://jt-website-orpin.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="JT Mind &amp; Body Balance">
@@ -3305,66 +3165,92 @@
       </section>
 
   
-      <!-- SHOP -->
+      <!-- SHOP: JT collection; Shopify launch link with existing product checkout preserved. -->
       <section class="section shop-section" id="shop" aria-labelledby="collection-title">
         <div class="section-inner">
-          <div class="collection-masthead"><span>JT / Mind &amp; Body Balance</span><span>Elite Performance Collection</span></div>
+          <div class="collection-masthead">
+            <strong>JT / COLLECTION</strong><span>Mind. Body. Balance.</span>
+            <a href="https://xtkzjd-5g.myshopify.com/">Shopify store · Coming soon <span aria-hidden="true">↗</span></a>
+          </div>
           <div class="collection-hero">
             <div class="collection-story">
-              <div class="collection-kicker">The JT wardrobe</div>
-              <h2 id="collection-title">Wear your<br><em>standard.</em></h2>
-              <p>Mind. Body. Balance.<br>A collection for the way you show up — in training, on the sidelines and everywhere after.</p>
-              <a class="collection-primary" href="#collection-pieces">Shop the collection <span aria-hidden="true">↘</span></a>
-              <span class="collection-signature">Black &amp; gold. Unmistakably JT.</span>
+              <div class="collection-kicker">Elite Performance Collection</div>
+              <h2 id="collection-title">Set your<br>own <em>standard.</em></h2>
+              <p>Distinctive pieces for training, downtime and everything in between. Performance wear and off-duty silhouettes. One unmistakable JT identity.</p>
+              <div class="collection-actions">
+                <a class="collection-primary" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance">Shop the collection <span aria-hidden="true">↗</span></a>
+                <a class="collection-text-link" href="#collection-worlds">Find your expression ↓</a>
+              </div>
+              <span class="collection-signature">Black &amp; gold. A signature of your own.</span>
             </div>
-            <a class="collection-hero-photo" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" aria-label="Shop the Performance Tee for £33 at TShirtStudio">
-              <span class="collection-hero-label">The everyday signature / 01</span>
-              <img src="/images/collection/tee-front-cutout-v1.webp" alt="Black JT Performance Tee with gold chest logo" width="700" height="700" loading="lazy" decoding="async">
-              <span class="collection-hero-caption"><span>Performance Tee <small>Discover the signature</small></span><span>£33 <span aria-hidden="true">↗</span></span></span>
+            <a class="collection-hero-photo" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/oversized-tee" aria-label="Discover the JT Oversized Tee at TShirtStudio">
+              <span class="collection-hero-label">The signature silhouette</span>
+              <img src="/images/collection/oversized-tee-cutout-v1.webp" alt="Black JT oversized tee with the gold JT chest signature" width="1254" height="1254" loading="lazy" decoding="async">
+              <span class="collection-hero-caption"><span>The Oversized Tee<small>Off-duty / JT Collection</small></span><span aria-hidden="true">↗</span></span>
             </a>
           </div>
-          <div class="collection-values"><span>01 / Choose your piece</span><span>02 / Find your size</span><span>03 / Make it yours</span></div>
-          <div class="collection-heading" id="collection-pieces">
-            <div><div class="collection-kicker">Build your rotation</div><h3>Elite Performance <em>Collection.</em></h3></div>
-            <p>Eight essentials. One identity.</p>
+          <div class="collection-values"><span>Made to express</span><span>Mind. Body. Balance.</span><span>Worn your way</span></div>
+
+          <div class="collection-worlds" id="collection-worlds">
+            <div class="collection-worlds-heading wear-reveal">
+              <div><div class="collection-kicker">Two expressions. One identity.</div><h3>Find your <em>rhythm.</em></h3></div>
+              <p>For the work you put in.<br>For the moments you make your own.</p>
+            </div>
+            <div class="collection-world-grid">
+              <a class="collection-world wear-reveal" href="#collection-pieces" data-collection-select="performance" aria-label="Explore performance wear and activewear">
+                <span class="collection-world-code">01 / In motion</span>
+                <img src="/images/collection/tee-front-cutout-v1.webp" alt="Black and gold JT Performance Tee" width="700" height="700" loading="lazy" decoding="async">
+                <span class="collection-world-copy"><strong>Performance.</strong><small>Sportswear &amp; activewear</small><span class="collection-world-cta">Explore the performance edit <span aria-hidden="true">↗</span></span></span>
+              </a>
+              <a class="collection-world off-duty wear-reveal" href="#collection-pieces" data-collection-select="off-duty" aria-label="Explore lounge and casual wear">
+                <span class="collection-world-code">02 / At your pace</span>
+                <img src="/images/collection/hoodie-front-cutout-v1.webp" alt="Black JT hoodie with gold chest detail" width="700" height="700" loading="lazy" decoding="async">
+                <span class="collection-world-copy"><strong>Off-duty.</strong><small>Loungewear &amp; casual pieces</small><span class="collection-world-cta">Explore the off-duty edit <span aria-hidden="true">↗</span></span></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-heading wear-reveal" id="collection-pieces" tabindex="-1">
+            <div><div class="collection-kicker">The considered wardrobe</div><h3>Choose your <em>signature.</em></h3></div>
+            <p>Explore each piece. Find your fit.<br>Make the JT identity your own.</p>
           </div>
           <div class="collection-toolbar">
-            <div class="collection-filters" role="group" aria-label="Filter the collection" hidden>
+            <div class="collection-filters" role="group" aria-label="Filter the clothing collection" hidden>
               <button type="button" data-filter="all" aria-pressed="true" aria-controls="collection-grid">All pieces</button>
-              <button type="button" data-filter="apparel" aria-pressed="false" aria-controls="collection-grid">Apparel</button>
+              <button type="button" data-filter="performance" aria-pressed="false" aria-controls="collection-grid">Performance</button>
+              <button type="button" data-filter="off-duty" aria-pressed="false" aria-controls="collection-grid">Off-duty</button>
               <button type="button" data-filter="accessories" aria-pressed="false" aria-controls="collection-grid">Accessories</button>
             </div>
             <p id="collection-count" role="status" aria-live="polite">8 pieces</p>
           </div>
-          <!-- GBP listing prices verified 2026-09-17. Update alongside TShirtStudio commissions; this page does not set checkout prices. -->
           <div class="collection-grid" id="collection-grid">
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="performance">
               <div class="collection-photo">
-                <span class="collection-number">New arrival / JT</span>
+                <span class="collection-number">JT / 01</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/winter-performance-coat" class="collection-image-link" aria-label="Shop Winter Performance Coat at TShirtStudio">
                   <img id="collection-image-winter-performance-coat" src="/images/collection/winter-performance-coat-cutout-v1.webp" alt="JT Winter Performance Coat, front view" width="1254" height="1254" loading="lazy" decoding="async">
                 </a>
               </div>
-              <div class="collection-card-top"><span>Ready for colder days</span><span class="collection-price">£79</span></div>
+              <div class="collection-card-top"><span>Performance / Activewear</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/winter-performance-coat">Winter Performance Coat</a></h4>
               <p class="collection-description">A substantial outer layer with a hood and signature gold JT detail. Built for your winter rotation.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/winter-performance-coat">Choose size &amp; buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/winter-performance-coat">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="off-duty">
               <div class="collection-photo">
-                <span class="collection-number">New arrival / JT</span>
+                <span class="collection-number">JT / 02</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/oversized-tee" class="collection-image-link" aria-label="Shop Oversized Tee at TShirtStudio">
                   <img id="collection-image-oversized-tee" src="/images/collection/oversized-tee-cutout-v1.webp" alt="JT Oversized Tee, front view" width="1254" height="1254" loading="lazy" decoding="async">
                 </a>
               </div>
-              <div class="collection-card-top"><span>A different silhouette</span><span class="collection-price">£54</span></div>
+              <div class="collection-card-top"><span>Off-duty / Lounge</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/oversized-tee">Oversized Tee</a></h4>
               <p class="collection-description">A heavyweight, oversized fit for slower days. Finished with the gold JT signature at the centre of the chest.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/oversized-tee">Choose size &amp; buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/oversized-tee">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="performance">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">01 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 03</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee" class="collection-image-link" aria-label="Shop Performance Tee at TShirtStudio">
                   <img id="collection-image-tee" src="/images/collection/tee-front-cutout-v1.webp" alt="JT Performance Tee, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
@@ -3373,14 +3259,14 @@
                   <button type="button" aria-pressed="false" aria-controls="collection-image-tee" data-image="/images/collection/tee-back-cutout-v1.webp" data-alt="JT Performance Tee, back view">Back</button>
                 </div>
               </div>
-              <div class="collection-card-top"><span>The everyday signature</span><span class="collection-price">£33</span></div>
+              <div class="collection-card-top"><span>Performance / Activewear</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee">Performance Tee</a></h4>
               <p class="collection-description">A clean black canvas. The gold JT signature. Your everyday starting point.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee">Choose size & buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-tee">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="off-duty">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">02 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 04</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie" class="collection-image-link" aria-label="Shop Performance Hoodie at TShirtStudio">
                   <img id="collection-image-hoodie" src="/images/collection/hoodie-front-cutout-v1.webp" alt="JT Performance Hoodie, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
@@ -3389,14 +3275,14 @@
                   <button type="button" aria-pressed="false" aria-controls="collection-image-hoodie" data-image="/images/collection/hoodie-back-cutout-v1.webp" data-alt="JT Performance Hoodie, back view">Back</button>
                 </div>
               </div>
-              <div class="collection-card-top"><span>Off-duty essentials</span><span class="collection-price">£47</span></div>
+              <div class="collection-card-top"><span>Off-duty / Lounge</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie">Performance Hoodie</a></h4>
               <p class="collection-description">Keep the mindset. Change the pace. An essential layer beyond training.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie">Choose size & buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-hoodie">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="off-duty">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">03 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 05</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-2" class="collection-image-link" aria-label="Shop Performance Sweatshirt at TShirtStudio">
                   <img id="collection-image-sweatshirt" src="/images/collection/sweatshirt-front-cutout-v1.webp" alt="JT Performance Sweatshirt, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
@@ -3405,14 +3291,14 @@
                   <button type="button" aria-pressed="false" aria-controls="collection-image-sweatshirt" data-image="/images/collection/sweatshirt-back-cutout-v1.webp" data-alt="JT Performance Sweatshirt, back view">Back</button>
                 </div>
               </div>
-              <div class="collection-card-top"><span>Layer with intention</span><span class="collection-price">£43</span></div>
+              <div class="collection-card-top"><span>Off-duty / Lounge</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-2">Performance Sweatshirt</a></h4>
               <p class="collection-description">An understated layer with a statement on the reverse. See it from both sides.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-2">Choose size & buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-sweatshirt-2">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="apparel">
+<article class="collection-card wear-reveal" data-category="performance">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">04 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 06</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat" class="collection-image-link" aria-label="Shop Performance Coat at TShirtStudio">
                   <img id="collection-image-coat" src="/images/collection/coat-front-cutout-v1.webp" alt="JT Performance Coat, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
@@ -3421,27 +3307,27 @@
                   <button type="button" aria-pressed="false" aria-controls="collection-image-coat" data-image="/images/collection/coat-back-cutout-v1.webp" data-alt="JT Performance Coat, back view">Back</button>
                 </div>
               </div>
-              <div class="collection-card-top"><span>For the sidelines</span><span class="collection-price">£69</span></div>
+              <div class="collection-card-top"><span>Performance / Activewear</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat">Performance Coat</a></h4>
               <p class="collection-description">Fleece-lined outerwear. Take the JT identity from the touchline into the everyday.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat">Choose size & buy <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-coat">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="accessories">
+<article class="collection-card wear-reveal" data-category="accessories">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">05 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 07</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap" class="collection-image-link" aria-label="Shop Athlete Cap at TShirtStudio">
                   <img id="collection-image-cap" src="/images/collection/cap-front-cutout-v1.webp" alt="JT Athlete Cap, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
                 
               </div>
-              <div class="collection-card-top"><span>The finishing touch</span><span class="collection-price">£34</span></div>
+              <div class="collection-card-top"><span>Signature accessories</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap">Athlete Cap</a></h4>
               <p class="collection-description">Black. Gold. JT. The finishing detail for your everyday rotation.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap">Shop Athlete Cap <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-cap">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="collection-card" data-category="accessories">
+<article class="collection-card wear-reveal" data-category="accessories">
               <div class="collection-photo">
-                <span class="collection-number" aria-hidden="true">06 / JT</span>
+                <span class="collection-number" aria-hidden="true">JT / 08</span>
                 <a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle" class="collection-image-link" aria-label="Shop Hydration Bottle at TShirtStudio">
                   <img id="collection-image-bottle" src="/images/collection/water-bottle-front-cutout-v1.webp" alt="JT Hydration Bottle, front view" width="700" height="700" loading="lazy" decoding="async">
                 </a>
@@ -3450,20 +3336,23 @@
                   <button type="button" aria-pressed="false" aria-controls="collection-image-bottle" data-image="/images/collection/water-bottle-back-cutout-v1.webp" data-alt="JT Hydration Bottle, back view">Back</button>
                 </div>
               </div>
-              <div class="collection-card-top"><span>Complete the routine</span><span class="collection-price">£13</span></div>
+              <div class="collection-card-top"><span>Signature accessories</span></div>
               <h4><a href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle">Hydration Bottle</a></h4>
               <p class="collection-description">An insulated bottle to keep close, from the first session to the final whistle.</p>
-              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle">Shop Hydration Bottle <span aria-hidden="true">↗</span></a>
+              <a class="collection-buy" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance/elite-performance-water-bottle">Discover this piece <span aria-hidden="true">↗</span></a>
             </article>
           </div>
-          <div class="collection-footer">
-            <div><div class="collection-kicker">Your next chapter</div><h3>Same mindset.<br><em>Every generation.</em></h3><p>Discover the full JT range, including kids' pieces and more layers.</p></div>
-            <a class="collection-primary" href="https://www.tshirtstudio.com/marketplace/jt-mind-body-balance">Shop the full JT range <span aria-hidden="true">↗</span></a>
+          <div class="collection-manifesto wear-reveal">
+            <div class="collection-manifesto-brand"><img src="/images/logo.jpeg" alt="JT Mind and Body Balance" width="92" height="92" loading="lazy"><span>More than a mark.<br>A mindset.</span></div>
+            <p>Carry the same intention into every session. Every slow morning. <em>Every version of you.</em></p>
           </div>
-          <p class="collection-checkout">Your chosen piece opens directly in our TShirtStudio shop, where you select available sizes and complete your purchase. Prices shown in GBP; final price, availability and delivery charges are confirmed there.</p>
+          <div class="collection-footer wear-reveal">
+            <div><div class="collection-kicker">Unmistakably yours</div><h3>Find your next<br><em>signature piece.</em></h3><p>A new home for the JT identity. Our Shopify store is coming soon. Shop the current collection above while we prepare the next chapter.</p></div>
+            <a class="collection-primary" href="https://xtkzjd-5g.myshopify.com/">Visit our new Shopify store <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="collection-checkout">Our new Shopify store is being prepared. Current pieces are available through TShirtStudio. Available sizes, current prices, delivery and returns information are shown there before you order.</p>
         </div>
       </section>
-
 
       <!-- FINAL CTA -->
       <section class="section final-cta" id="book">
@@ -3748,171 +3637,10 @@
     })();
   </script>
 
-  <script id="jt-collection-script">
-    (function initJTCollection() {
-      const shop = document.getElementById('shop');
-      if (!shop) return;
-      const cards = Array.from(shop.querySelectorAll('.collection-card'));
-      const filters = shop.querySelector('.collection-filters');
-      const count = shop.querySelector('#collection-count');
-      filters.hidden = false;
-      filters.addEventListener('click', function (event) {
-        const button = event.target.closest('button[data-filter]');
-        if (!button) return;
-        let visible = 0;
-        cards.forEach(function (card) {
-          card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
-          if (!card.hidden) visible++;
-        });
-        filters.querySelectorAll('button').forEach(function (item) {
-          item.setAttribute('aria-pressed', String(item === button));
-        });
-        count.textContent = visible + ' pieces';
-      });
-      shop.querySelectorAll('.collection-views').forEach(function (group) {
-        group.hidden = false;
-        group.addEventListener('click', function (event) {
-          const button = event.target.closest('button[data-image]');
-          if (!button) return;
-          const img = document.getElementById(button.getAttribute('aria-controls'));
-          img.src = button.dataset.image;
-          img.alt = button.dataset.alt;
-          group.querySelectorAll('button').forEach(function (item) {
-            item.setAttribute('aria-pressed', String(item === button));
-          });
-        });
-      });
-    })();
-  </script>
+  <script defer src="/jt-collection.js?v=20261007.1"></script>
 
-  <script id="jt-collection-motion">
-    (function collectionMotion() {
-      const shop = document.getElementById('shop');
-      if (!shop || !window.matchMedia || !('IntersectionObserver' in window)) return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-      const narrow = window.matchMedia('(max-width: 600px)');
-      const clamp = (n,lo,hi) => Math.min(hi,Math.max(lo,n));
-      let enabled = !reduced.matches, frame = 0;
-      const active = new Set();
-      const animations = new Map();
-      const panels = Array.from(shop.querySelectorAll('.collection-photo,.collection-hero-photo'));
-      // Unique movement direction and amplitude for each piece. Only photos move;
-      // prices, links and image-view controls stay in place.
-      const profiles = [[12,22,12,-3],[8,34,-21,4],[-12,24,24,-7],[14,28,-18,6],[-8,36,16,-4],[10,24,-24,5],[-10,30,20,-6],[15,20,-28,9],[-7,38,25,-5]];
-      const states = panels.map((panel,i) => ({panel,img:panel.querySelector('img'),profile:profiles[i % profiles.length],px:0,py:0}));
-      const control = document.createElement('div');
-      control.className = 'collection-motion-control';
-      const toggle = document.createElement('button');
-      toggle.type = 'button'; toggle.className = 'collection-motion-toggle';
-      toggle.setAttribute('aria-label','Collection motion');
-      const hint = document.createElement('span');
-      hint.textContent = 'Scroll to explore. Tap Turn to move a piece.';
-      control.append(toggle,hint);
-      shop.querySelector('.collection-toolbar').before(control);
-      function requestFrame() {
-        if (!frame && enabled && !document.hidden) frame = requestAnimationFrame(render);
-      }
-      function render() {
-        frame = 0;
-        if (!enabled || document.hidden) return;
-        const height = window.innerHeight;
-        const factor = narrow.matches ? .7 : 1;
-        // Read all layout positions before writing transforms.
-        const measurements = states.filter(s => active.has(s.panel) && !s.panel.closest('[hidden]')).map(s => ({s,rect:s.panel.getBoundingClientRect()}));
-        measurements.forEach(({s,rect}) => {
-          const p = clamp((height*.52-(rect.top+rect.height*.5))/(height*.5+rect.height*.5),-1,1);
-          const [x,y,turn,roll] = s.profile;
-          s.img.style.setProperty('--move-x',(p*x*factor).toFixed(2)+'px');
-          s.img.style.setProperty('--move-y',(p*y*factor).toFixed(2)+'px');
-          s.img.style.setProperty('--turn-y',(p*turn*factor).toFixed(2)+'deg');
-          s.img.style.setProperty('--roll',(p*roll*factor).toFixed(2)+'deg');
-          s.img.style.setProperty('--piece-scale',String(.9+.025*(1-Math.abs(p))));
-          s.img.style.setProperty('--tilt-x',(-s.py*6).toFixed(2)+'deg');
-          s.img.style.setProperty('--tilt-y',(s.px*11).toFixed(2)+'deg');
-          s.panel.style.setProperty('--light-x',(50+s.px*22+p*12)+'%');
-          s.panel.style.setProperty('--light-y',(38+s.py*15)+'%');
-        });
-      }
-      function updateMode() {
-        if (reduced.matches) enabled = false;
-        shop.classList.toggle('collection-motion-on',enabled);
-        shop.classList.toggle('collection-motion-paused',!enabled);
-        toggle.setAttribute('aria-pressed',String(enabled));
-        toggle.textContent = enabled ? 'Motion on · pause' : 'Motion off · play';
-        if (!enabled) {
-          cancelAnimationFrame(frame); frame = 0;
-          animations.forEach(a => a.cancel()); animations.clear();
-          states.forEach(s => { s.img.style.removeProperty('transform'); s.px=0; s.py=0; });
-        } else requestFrame();
-      }
-      toggle.addEventListener('click',() => { enabled = !enabled; updateMode(); });
-      reduced.addEventListener('change',() => { enabled = !reduced.matches; updateMode(); });
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          entry.target.classList.toggle('is-motion-visible',entry.isIntersecting);
-          if (entry.isIntersecting) active.add(entry.target);
-          else {
-            active.delete(entry.target);
-            const s=states.find(s=>s.panel===entry.target);
-            if(s) { s.px=0; s.py=0; const a=animations.get(s.img); if(a) a.cancel(); animations.delete(s.img); }
-          }
-        });
-        requestFrame();
-      },{rootMargin:'80px 0px',threshold:0});
-      states.forEach((s,i) => {
-        observer.observe(s.panel);
-        s.panel.addEventListener('pointermove',event => {
-          if (!enabled || !fine.matches || event.pointerType === 'touch') return;
-          const r=s.panel.getBoundingClientRect();
-          s.px=clamp((event.clientX-r.left)/r.width*2-1,-1,1);
-          s.py=clamp((event.clientY-r.top)/r.height*2-1,-1,1);
-          requestFrame();
-        },{passive:true});
-        s.panel.addEventListener('pointerleave',()=>{ s.px=0; s.py=0; requestFrame(); });
-        if (!s.panel.classList.contains('collection-photo')) return;
-        const turn=document.createElement('button');
-        turn.type='button'; turn.className='collection-turn'; turn.textContent='Turn ↻';
-        const name=s.panel.closest('.collection-card').querySelector('h4').textContent;
-        turn.setAttribute('aria-label','Animate '+name);
-        s.panel.append(turn);
-        function turnPiece() {
-          if(!enabled || reduced.matches || !s.img.animate) return;
-          const previous=animations.get(s.img); if(previous) previous.cancel();
-          const direction=i%2 ? -1 : 1;
-          const rest=getComputedStyle(s.img).transform;
-          const animation=s.img.animate([
-            {transform:rest},
-            {transform:'perspective(900px) translateY(-12px) rotateY('+direction*42+'deg) rotateZ('+direction*6+'deg) scale(.87)',offset:.38},
-            {transform:'perspective(900px) translateY(3px) rotateY('+(-direction*14)+'deg) rotateZ('+(-direction*3)+'deg) scale(.92)',offset:.74},
-            {transform:rest}
-          ],{duration:1100,easing:'cubic-bezier(.22,.65,.3,1)'});
-          animations.set(s.img,animation);
-          animation.onfinish=()=>{animations.delete(s.img);requestFrame();};
-        }
-        turn.addEventListener('click',turnPiece);
-        s.panel.querySelectorAll('.collection-views button').forEach(button => button.addEventListener('click',()=> {
-          // Existing view selector owns the image/alt update; wait for that image
-          // to be ready before animating it.
-          if(s.img.complete && s.img.naturalWidth) turnPiece();
-          else s.img.addEventListener('load',turnPiece,{once:true});
-        }));
-      });
-      window.addEventListener('scroll',requestFrame,{passive:true});
-      window.addEventListener('resize',requestFrame,{passive:true});
-      document.addEventListener('visibilitychange',()=> {
-        if(document.hidden) {
-          cancelAnimationFrame(frame); frame=0;
-          animations.forEach(a=>a.cancel()); animations.clear();
-        } else requestFrame();
-      });
-      shop.querySelector('.collection-filters').addEventListener('click',requestFrame);
-      // Late-loading fonts and images can shift this long landing page.
-      window.addEventListener('load',requestFrame,{once:true});
-      if('ResizeObserver' in window) new ResizeObserver(requestFrame).observe(shop);
-      updateMode();
-    })();
-  </script>
+
   <script src="/performance-hub-website-refresh.js"></script>
 </body>
 </html>
+

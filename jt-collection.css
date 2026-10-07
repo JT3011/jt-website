@@ -1,0 +1,92 @@
+/* JT clothing editorial. Deliberately scoped: coaching cards and Hub are untouched. */
+#shop{--wear-gold:#dbc181;--wear-ink:#080908;--wear-paper:#f3eee4;--wear-muted:#bdb7aa;--wear-line:rgba(219,193,129,.23);background:var(--wear-ink);color:var(--wear-paper);padding:76px 28px 90px;scroll-margin-top:80px;overflow:clip}
+#shop [hidden]{display:none!important}
+#shop .section-inner{max-width:1380px}
+#shop a{color:inherit;text-decoration:none}
+#shop button{font-family:inherit;cursor:pointer}
+#shop .collection-masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:24px;border-bottom:1px solid var(--wear-line);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+#shop .collection-masthead strong{font-size:16px;letter-spacing:.25em;font-weight:500}
+#shop .collection-masthead span{color:var(--wear-muted)}
+#shop .collection-masthead a{display:inline-flex;gap:18px;align-items:center;min-height:44px;color:var(--wear-gold)}
+#shop .collection-hero{display:grid;grid-template-columns:.94fr 1.06fr;min-height:650px;border-bottom:1px solid var(--wear-line)}
+#shop .collection-story{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:64px 48px 64px 0}
+#shop .collection-kicker{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--wear-gold);margin-bottom:26px}
+#shop h2{font-family:'Playfair Display',serif;font-size:clamp(56px,6.8vw,98px);font-weight:500;line-height:1.06;letter-spacing:-.055em;text-transform:none;margin:0 0 30px}
+#shop em{color:var(--wear-gold);font-weight:500}
+#shop .collection-story p{font-size:13px;line-height:1.95;color:var(--wear-muted);max-width:345px;margin-bottom:30px}
+#shop .collection-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+#shop .collection-primary{display:inline-flex;align-items:center;justify-content:space-between;gap:32px;min-height:54px;padding:18px 24px;border:1px solid var(--wear-gold);background:var(--wear-gold);color:var(--wear-ink);font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;transition:background .25s ease,transform .25s ease}
+#shop .collection-primary:hover{background:#f4dea0;transform:translateY(-2px)}
+#shop .collection-primary span{font-size:18px;font-weight:400}
+#shop .collection-text-link{display:inline-flex;align-items:center;min-height:44px;font-size:10px;letter-spacing:.08em;border-bottom:1px solid var(--wear-line)}
+#shop .collection-signature{margin-top:48px;font-size:9px;color:var(--wear-muted);letter-spacing:.2em;text-transform:uppercase}
+#shop .collection-hero-photo{position:relative;display:grid;place-items:center;overflow:hidden;isolation:isolate;min-width:0;background:radial-gradient(ellipse at 48% 40%,#535049 0%,#2c2d29 37%,#171916 76%)}
+#shop .collection-hero-photo::before{content:'JT';position:absolute;inset:8% 0 auto;text-align:center;font-family:'Playfair Display',serif;font-size:clamp(200px,33vw,490px);line-height:1;color:rgba(219,193,129,.06);letter-spacing:-.13em;pointer-events:none}
+#shop .collection-hero-photo::after{content:'';position:absolute;inset:24px;border:1px solid rgba(219,193,129,.13);pointer-events:none}
+#shop .collection-hero-photo img{width:100%;height:100%;max-height:670px;object-fit:contain;position:relative;z-index:1;padding:44px 8px 52px;filter:drop-shadow(0 30px 24px rgba(0,0,0,.45));transform:translateY(var(--wear-shift,0px)) scale(.96);transition:scale .65s ease}
+#shop .collection-hero-photo:hover img{scale:1.035}
+#shop .collection-hero-label{position:absolute;z-index:2;top:40px;left:40px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#dfd7c6}
+#shop .collection-hero-caption{position:absolute;z-index:2;bottom:40px;left:40px;right:40px;display:flex;align-items:end;justify-content:space-between;font-size:13px;background:linear-gradient(0deg,rgba(8,9,8,.65),transparent);padding:12px 0}
+#shop .collection-hero-caption small{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#c2bbaa;margin-top:8px}
+#shop .collection-hero-caption>span:last-child{font-size:26px;color:var(--wear-gold)}
+#shop .collection-values{display:flex;justify-content:space-between;gap:18px;padding:24px 0;color:var(--wear-muted);font-size:9px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--wear-line)}
+#shop .collection-values span:nth-child(2){color:var(--wear-gold)}
+#shop .collection-worlds{padding-top:84px}
+#shop .collection-worlds-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:30px}
+#shop h3{font-family:'Playfair Display',serif;font-size:clamp(34px,4vw,56px);font-weight:500;letter-spacing:-.045em;line-height:1.15;text-transform:none}
+#shop .collection-worlds-heading>p{max-width:300px;font-size:12px;line-height:1.9;color:var(--wear-muted)}
+#shop .collection-world-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+#shop .collection-world{position:relative;display:block;min-height:500px;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 52% 25%,#444740,#171b17 72%)}
+#shop .collection-world.off-duty{background:radial-gradient(ellipse at 52% 25%,#575149,#26221d 72%)}
+#shop .collection-world::after{content:'';position:absolute;inset:40% 0 0;z-index:1;background:linear-gradient(transparent,rgba(6,7,6,.93))}
+#shop .collection-world img{position:absolute;inset:0;width:100%;height:88%;object-fit:contain;padding:16px 60px 55px;transition:transform .75s cubic-bezier(.2,.65,.3,1)}
+#shop .collection-world:hover img{transform:translateY(-10px) scale(1.04)}
+#shop .collection-world-code{position:absolute;z-index:2;left:30px;top:28px;font-size:9px;color:var(--wear-gold);letter-spacing:.2em;text-transform:uppercase}
+#shop .collection-world-copy{position:absolute;bottom:32px;left:32px;right:32px;z-index:2}
+#shop .collection-world-copy strong{display:block;font-family:'Playfair Display',serif;font-size:44px;font-weight:500;letter-spacing:-.03em}
+#shop .collection-world-copy small{display:block;font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:#c7bfae;margin:9px 0 24px}
+#shop .collection-world-cta{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--wear-line);padding-top:18px;font-size:10px;letter-spacing:.08em;color:var(--wear-gold)}
+#shop .collection-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;padding-top:88px;margin-bottom:32px;scroll-margin-top:100px}
+#shop .collection-heading .collection-kicker,#shop .collection-worlds-heading .collection-kicker{margin-bottom:14px}
+#shop .collection-heading>p{font-size:12px;color:var(--wear-muted);max-width:290px;line-height:1.8}
+#shop .collection-toolbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:30px;border-bottom:1px solid var(--wear-line)}
+#shop .collection-filters{display:flex;gap:26px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#74654a transparent}
+#shop .collection-filters button{flex:none;background:none;border:0;border-bottom:2px solid transparent;color:var(--wear-muted);font-size:10px;letter-spacing:.08em;padding:17px 0;min-height:48px}
+#shop .collection-filters button[aria-pressed='true']{color:var(--wear-gold);border-bottom-color:var(--wear-gold)}
+#shop #collection-count{font-size:10px;color:var(--wear-muted);white-space:nowrap}
+#shop .collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:22px;row-gap:48px}
+#shop .collection-card{min-width:0;display:flex;flex-direction:column}
+#shop .collection-photo{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 28%,#464740 0%,#23251f 58%,#191b17 100%)}
+#shop .collection-card[data-category='off-duty'] .collection-photo{background:radial-gradient(ellipse at 50% 28%,#4c453c 0%,#2a251f 58%,#1a1713 100%)}
+#shop .collection-image-link{display:block;aspect-ratio:3/4;overflow:hidden}
+#shop .collection-image-link img{display:block;width:100%;height:100%;object-fit:contain;padding:24px 0 20px;transition:transform .65s cubic-bezier(.2,.65,.3,1);filter:drop-shadow(0 16px 13px rgba(0,0,0,.24))}
+#shop .collection-image-link:hover img{transform:scale(1.06)}
+#shop .collection-number{position:absolute;z-index:1;top:17px;left:17px;font-size:8px;color:#e2d4b7;letter-spacing:.13em;text-transform:uppercase;pointer-events:none}
+#shop .collection-views{position:absolute;z-index:2;bottom:12px;right:12px;display:flex;border:1px solid #77694e;background:#11130f}
+#shop .collection-views button{border:0;background:transparent;color:#d4cbb8;padding:10px 13px;min-height:44px;font-size:9px}
+#shop .collection-views button[aria-pressed='true']{background:var(--wear-gold);color:#080908}
+#shop .collection-card-top{display:flex;justify-content:space-between;gap:12px;margin:20px 0 10px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#bfb7a7;min-height:13px}
+#shop h4{font-size:14px;font-weight:500;letter-spacing:-.01em;line-height:1.5}
+#shop .collection-description{font-size:11px;line-height:1.8;color:var(--wear-muted);margin:10px 0 22px}
+#shop .collection-buy{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;margin-top:auto;padding:12px 0;border-top:1px solid var(--wear-line);font-size:10px;color:var(--wear-gold);letter-spacing:.06em}
+#shop .collection-buy span{font-size:18px;transition:transform .25s}
+#shop .collection-buy:hover span{transform:translate(3px,-3px)}
+#shop .collection-manifesto{display:grid;grid-template-columns:.75fr 1.25fr;gap:60px;margin-top:96px;padding:60px 0;border-top:1px solid var(--wear-line);border-bottom:1px solid var(--wear-line)}
+#shop .collection-manifesto-brand{display:flex;align-items:center;gap:24px}
+#shop .collection-manifesto-brand img{width:92px;height:92px;object-fit:contain}
+#shop .collection-manifesto-brand span{font-size:9px;letter-spacing:.18em;line-height:2;text-transform:uppercase;color:var(--wear-gold)}
+#shop .collection-manifesto p{font-family:'Playfair Display',serif;font-size:clamp(27px,3.2vw,44px);line-height:1.4;letter-spacing:-.025em}
+#shop .collection-footer{display:flex;justify-content:space-between;align-items:center;gap:40px;padding-top:60px}
+#shop .collection-footer p{max-width:400px;font-size:12px;color:var(--wear-muted);line-height:1.9;margin-top:18px}
+#shop .collection-footer .collection-primary{flex:none}
+#shop .collection-checkout{font-size:10px;color:#aaa697;line-height:1.9;margin:35px 0 0;max-width:750px}
+#shop a:focus-visible,#shop button:focus-visible{outline:2px solid var(--wear-gold);outline-offset:5px}
+#shop .collection-image-link:focus-visible,#shop .collection-world:focus-visible,#shop .collection-hero-photo:focus-visible{outline-offset:-5px}
+#shop.wear-reveal-ready .wear-reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.65,.3,1)}
+#shop.wear-reveal-ready .wear-reveal.is-visible{opacity:1;transform:none}
+@media(min-width:1600px){#shop h2{font-size:104px}}
+@media(max-width:1100px){#shop .collection-story{padding-right:28px}#shop .collection-hero{min-height:580px}#shop .collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#shop .collection-world{min-height:440px}#shop .collection-manifesto{gap:30px}}
+@media(max-width:760px){#shop{padding:40px 20px 58px}#shop .collection-masthead{gap:12px;font-size:8px;padding-bottom:15px}#shop .collection-masthead strong{font-size:13px}#shop .collection-masthead>span{display:none}#shop .collection-hero{grid-template-columns:1fr}#shop .collection-story{padding:44px 0 38px}#shop h2{font-size:clamp(52px,12vw,84px);margin-bottom:24px}#shop .collection-story p{max-width:400px}#shop .collection-kicker{font-size:9px;margin-bottom:20px}#shop .collection-signature{margin-top:25px}#shop .collection-hero-photo{aspect-ratio:1/1.06}#shop .collection-hero-photo::before{font-size:80vw}#shop .collection-hero-photo img{position:absolute;padding:28px 0 36px}#shop .collection-hero-label{top:28px;left:28px}#shop .collection-hero-caption{bottom:24px;left:28px;right:28px}#shop .collection-hero-photo::after{inset:16px}#shop .collection-values{font-size:8px;letter-spacing:.08em;gap:8px;line-height:1.8;padding:20px 0}#shop .collection-worlds{padding-top:54px}#shop .collection-worlds-heading{align-items:start;flex-direction:column;gap:16px}#shop .collection-world-grid{gap:14px}#shop .collection-world{min-height:350px}#shop .collection-world img{padding:15px 0 40px;height:80%}#shop .collection-world-code{top:18px;left:18px;font-size:8px}#shop .collection-world-copy{left:18px;right:18px;bottom:20px}#shop .collection-world-copy strong{font-size:30px}#shop .collection-world-copy small{font-size:8px;letter-spacing:.08em;line-height:1.8;min-height:28px;margin-bottom:16px}#shop .collection-world-cta{font-size:9px;gap:8px;line-height:1.5}#shop .collection-heading{padding-top:56px;align-items:start;flex-direction:column;gap:15px}#shop .collection-toolbar{gap:10px;align-items:stretch;flex-direction:column;padding-bottom:14px}#shop .collection-filters{gap:23px}#shop .collection-filters button{font-size:10px}#shop .collection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 14px}#shop .collection-number{top:12px;left:12px;font-size:7px}#shop .collection-views{bottom:8px;right:8px}#shop .collection-views button{padding:9px 10px}#shop .collection-card-top{font-size:7px;line-height:1.7;margin-top:14px}#shop h4{font-size:13px}#shop .collection-description{font-size:10px}#shop .collection-buy{font-size:9px}#shop .collection-manifesto{grid-template-columns:1fr;gap:24px;margin-top:56px;padding:34px 0}#shop .collection-manifesto-brand img{width:60px;height:60px}#shop .collection-footer{padding-top:38px;align-items:start;flex-direction:column;gap:28px}}
+@media(max-width:600px){#shop .collection-world-grid{grid-template-columns:1fr}#shop .collection-world{min-height:440px}#shop .collection-world img{padding-bottom:44px}#shop .collection-world-copy strong{font-size:38px}#shop .collection-world-copy small{min-height:0}}
+@media(max-width:390px){#shop{padding-left:16px;padding-right:16px}#shop .collection-grid{gap:28px 10px}#shop .collection-filters{gap:17px}}
+@media(prefers-reduced-motion:reduce){#shop *,#shop *::before,#shop *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}#shop.wear-reveal-ready .wear-reveal{opacity:1;transform:none}#shop .collection-hero-photo img{transform:none;scale:1}}
