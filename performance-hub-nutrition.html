@@ -1604,6 +1604,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
+  <link rel="stylesheet" href="/performance-hub-nutrition-premium.css?v=20261009.1">
 </head>
 
 <body>
@@ -1676,22 +1677,24 @@
       </section>
 
       <section class="nutrition-content hidden" id="nutritionContent">
-        <section class="hero">
+        <section class="hero" aria-labelledby="nutritionHeroTitle">
+          <img class="fuel-hero-image" src="/images/jt-nutrition-hero-v1.webp" alt="Chicken, rice and vegetables with fresh berries, avocado and water" width="1440" height="960" fetchpriority="high">
           <div class="hero-copy">
             <div class="eyebrow">
-              Personalised Nutrition Centre
+              JT Nutrition / Performance fuel
             </div>
 
-            <h1>
-              Build The
-              <span class="gold-text">Fuel.</span>
+            <h1 id="nutritionHeroTitle">
+              Fuel your
+              <span class="gold-text">next level.</span>
             </h1>
 
             <p class="hero-intro">
               Welcome, <strong id="playerName"></strong>. Build a performance plate,
-              explore practical food choices and learn how different options can support
-              training, match preparation and recovery.
+              find your rhythm for training, matchday and recovery.
             </p>
+            <a class="fuel-cta" href="#plateBuilder">Build my plate <span aria-hidden="true">↗</span></a>
+            <div class="fuel-hero-meta"><span>01 / Choose your moment</span><span>02 / Build your plate</span><span>03 / Save your choices</span></div>
           </div>
 
           <aside class="focus-card">
@@ -1714,8 +1717,8 @@
             </div>
 
             <h2>
-              Choose. Learn.
-              <span class="gold-text">Build.</span>
+              Your plate.
+              <span class="gold-text">Your preparation.</span>
             </h2>
           </div>
 
@@ -1725,7 +1728,7 @@
           </p>
         </div>
 
-        <section class="scenario-panel">
+        <section class="scenario-panel" id="plateBuilder">
           <div class="scenario-intro">
             <div>
               <div class="eyebrow">Step One</div>
@@ -1745,57 +1748,33 @@
           <article class="visual-panel">
             <div class="visual-top">
               <div>
-                <div class="eyebrow">Your Selection</div>
-                <h3>Performance Plate.</h3>
+                <div class="eyebrow">JT / Fuel dashboard</div>
+                <h3>Plate Score.</h3>
               </div>
 
-              <div class="readiness-pill">
-                <strong id="readinessScore">0%</strong>
-                <span>Plate Readiness</span>
-              </div>
+              <div class="readiness-pill"><strong id="selectedCount">0/6</strong><span>Choices added</span></div>
             </div>
 
             <div class="plate-stage">
-              <div class="plate-ring" id="plateRing">
-                <div class="plate-centre">
-                  <div>
-                    <strong id="selectedCount">0/6</strong>
-                    <span>Choices Complete</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="plate-label protein">
-                <span>Protein</span>
-                <strong id="plateProtein">Choose One</strong>
-              </div>
-
-              <div class="plate-label carbohydrate">
-                <span>Carbohydrate</span>
-                <strong id="plateCarbohydrate">Choose One</strong>
-              </div>
-
-              <div class="plate-label fat">
-                <span>Healthy Fat</span>
-                <strong id="plateFat">Choose One</strong>
-              </div>
-
-              <div class="plate-label fruit">
-                <span>Fruit</span>
-                <strong id="plateFruit">Choose One</strong>
-              </div>
-
-              <div class="plate-label vegetable">
-                <span>Vegetable</span>
-                <strong id="plateVegetable">Choose One</strong>
-              </div>
-
-              <div class="plate-label hydration">
-                <span>Hydration</span>
-                <strong id="plateHydration">Choose One</strong>
+              <div class="plate-ring" id="plateRing" role="progressbar" aria-label="Plate building progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <svg class="score-orbit" viewBox="0 0 240 240" aria-hidden="true">
+                  <defs><linearGradient id="scoreGold"><stop stop-color="#9c7840"/><stop offset=".5" stop-color="#f4dea0"/><stop offset="1" stop-color="#dbc181"/></linearGradient></defs>
+                  <circle class="score-track" cx="120" cy="120" r="108"/>
+                  <circle class="score-progress" id="scoreArc" cx="120" cy="120" r="108" pathLength="100"/>
+                </svg>
+                <div class="plate-centre"><div><span class="score-kicker">PERFORMANCE PLATE</span><strong id="readinessScore">0%</strong><span id="scoreState">Ready to build</span></div></div>
               </div>
             </div>
-
+            <p class="score-caption">Six choices. One considered plate.</p>
+            <p class="score-explainer">Your score tracks choices added, not nutrition quality or athletic readiness.</p>
+            <div class="plate-selections" aria-label="Your selected foods">
+              <button type="button" class="plate-label protein" data-jump-category="protein"><span>Protein</span><strong id="plateProtein">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label carbohydrate" data-jump-category="carbohydrate"><span>Carbohydrate</span><strong id="plateCarbohydrate">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label fat" data-jump-category="fat"><span>Healthy Fat</span><strong id="plateFat">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label fruit" data-jump-category="fruit"><span>Fruit</span><strong id="plateFruit">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label vegetable" data-jump-category="vegetable"><span>Vegetable</span><strong id="plateVegetable">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label hydration" data-jump-category="hydration"><span>Hydration</span><strong id="plateHydration">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+            </div>
             <div class="plate-feedback">
               <strong id="plateFeedbackTitle">Begin Your Plate</strong>
               <p id="plateFeedbackText">
@@ -1804,27 +1783,28 @@
             </div>
           </article>
 
-          <article class="choice-panel">
+          <article class="choice-panel" id="foodChoices">
             <div class="choice-header">
               <div>
                 <div class="eyebrow">Step Two</div>
-                <h3>Build Your Choices.</h3>
+                <h3>Make it yours.</h3>
               </div>
 
               <p>
-                Open each category, choose an item and use the short insight panel to
-                understand where it may fit into a footballer’s routine.
+                Tap a category. Choose a food. Discover how it fits your routine.
               </p>
             </div>
 
-            <div class="category-tabs" id="categoryTabs"></div>
+            <div class="category-tabs" id="categoryTabs" role="group" aria-label="Food categories"></div>
+            <div class="category-editorial" id="categoryEditorial"><div class="category-photo" aria-hidden="true"></div><div><span class="eyebrow" id="categoryStep">01 / 06</span><h4 id="categoryRole">Build your foundation.</h4><p>Explore the options below. Photography shows category examples.</p></div></div>
 
             <div class="category-heading">
               <strong id="categoryTitle">Protein</strong>
               <span id="categoryPrompt">Choose a practical protein source.</span>
             </div>
 
-            <div class="food-options" id="foodOptions"></div>
+            <div class="food-options" id="foodOptions" role="group" aria-label="Food choices"></div>
+            <div class="category-controls"><span id="categorySelection" aria-live="polite">Choose a food to continue</span><button type="button" id="nextCategory" class="fuel-next" disabled>Next category <span aria-hidden="true">→</span></button></div>
 
             <section class="insight-panel">
               <div class="eyebrow" id="insightEyebrow">Food Insight</div>
@@ -2778,6 +2758,7 @@
         button.type = "button";
         button.className =
           `scenario-button${scenario.key === activeScenario ? " selected" : ""}`;
+        button.setAttribute("aria-pressed", String(scenario.key === activeScenario));
 
         button.innerHTML = `
           <strong>${scenario.label}</strong>
@@ -2826,6 +2807,8 @@
 
           button.type = "button";
           button.dataset.category = category;
+          button.style.setProperty("--category-colour", meta.colour);
+          button.setAttribute("aria-pressed", String(category === activeCategory));
           button.className = "category-tab";
 
           if (category === activeCategory) {
@@ -2837,14 +2820,16 @@
           }
 
           button.innerHTML = `
+            <span class="category-thumb category-photo photo-${category}" aria-hidden="true"></span>
             <strong>${meta.label}</strong>
-            <span>${selections[category] ? "Selected" : "Choose"}</span>
+            <span>${selections[category] ? "Added" : "Choose"}</span>
           `;
 
           button.addEventListener("click", () => {
             activeCategory = category;
             renderCategoryTabs();
             renderFoodOptions();
+            categoryTabs.querySelector(`[data-category="${category}"]`)?.focus({preventScroll:true});
           });
 
           categoryTabs.appendChild(button);
@@ -2862,6 +2847,22 @@
         meta.prompt;
 
       foodOptions.innerHTML = "";
+      const categoryKeys = Object.keys(CATEGORY_META);
+      const categoryIndex = categoryKeys.indexOf(activeCategory);
+      document.getElementById("categoryStep").textContent = `${String(categoryIndex + 1).padStart(2, "0")} / 06`;
+      document.getElementById("categoryRole").textContent = {
+        protein: "Build your foundation.", carbohydrate: "Fuel the work.", fat: "Bring balance.",
+        fruit: "Add fresh colour.", vegetable: "Build in variety.", hydration: "Make room for hydration."
+      }[activeCategory];
+      document.querySelector(".category-editorial .category-photo").className = `category-photo photo-${activeCategory}`;
+      const chosenFood = findFood(activeCategory, selections[activeCategory]);
+      document.getElementById("categorySelection").textContent = chosenFood ? `${chosenFood.label} added to your plate` : "Choose a food to continue";
+      const next = document.getElementById("nextCategory");
+      next.disabled = !chosenFood;
+      const nextKey = categoryKeys.find((key, index) => index > categoryIndex && !selections[key]) || categoryKeys.find(key => !selections[key]);
+      next.textContent = nextKey ? `Next: ${CATEGORY_META[nextKey].label} →` : "Review & save →";
+      next.dataset.nextCategory = nextKey || "";
+
 
       FOOD_DATA[activeCategory]
         .forEach((item) => {
@@ -2870,6 +2871,8 @@
 
           button.type = "button";
           button.className = "food-option";
+          button.dataset.food = item.key;
+          button.setAttribute("aria-pressed", String(selections[activeCategory] === item.key));
           button.style.setProperty(
             "--option-colour",
             item.colour || meta.colour
@@ -2880,9 +2883,7 @@
           }
 
           button.innerHTML = `
-            <span class="food-monogram">
-              ${item.label.charAt(0)}
-            </span>
+            <span class="food-monogram" aria-hidden="true">${selections[activeCategory] === item.key ? "✓" : "+"}</span>
             <strong>${item.label}</strong>
             <span>${item.note}</span>
           `;
@@ -2893,6 +2894,7 @@
             renderCategoryTabs();
             renderFoodOptions();
             updatePlate();
+            foodOptions.querySelector(`[data-food="${item.key}"]`)?.focus({preventScroll:true});
           });
 
           foodOptions.appendChild(button);
@@ -2957,6 +2959,10 @@
 
         plateLabels[category].textContent =
           item?.label || "Choose One";
+        const labelButton = plateLabels[category].closest("button");
+        labelButton.classList.toggle("has-choice", Boolean(item));
+        labelButton.setAttribute("aria-label", `${CATEGORY_META[category].label}: ${item?.label || "not selected"}. Change choice`);
+        labelButton.querySelector(".selection-mark").textContent = item ? "✓" : "+";
 
         if (item) {
           completed += 1;
@@ -2968,8 +2974,12 @@
           (completed / 6) * 100
         );
 
-      readinessScore.textContent =
-        `${percentage}%`;
+      readinessScore.textContent = `${percentage}%`;
+      plateRing.setAttribute("aria-valuenow", percentage);
+      plateRing.setAttribute("aria-valuetext", `${completed} of 6 food categories selected`);
+      document.getElementById("scoreArc").style.strokeDashoffset = 100 - percentage;
+      document.getElementById("scoreState").textContent = completed === 6 ? "Ready to save" : completed ? "Building your plate" : "Ready to build";
+      plateRing.classList.toggle("is-complete", completed === 6);
 
       selectedCount.textContent =
         `${completed}/6`;
@@ -3482,7 +3492,28 @@
         }
       );
 
+    document.querySelectorAll("[data-jump-category]").forEach(button => {
+      button.addEventListener("click", () => openFoodCategory(button.dataset.jumpCategory));
+    });
+    function openFoodCategory(category) {
+      activeCategory = category;
+      renderCategoryTabs();
+      renderFoodOptions();
+      const target = categoryTabs.querySelector(`[data-category="${category}"]`);
+      target?.focus({preventScroll:true});
+      document.getElementById("foodChoices").scrollIntoView({behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+    }
+    document.getElementById("nextCategory").addEventListener("click", event => {
+      const next = event.currentTarget.dataset.nextCategory;
+      if (next) openFoodCategory(next);
+      else {
+        savePlateButton.scrollIntoView({behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"center"});
+        savePlateButton.focus({preventScroll:true});
+      }
+    });
+
     initialiseNutritionCentre();
   </script>
 </body>
 </html>
+
