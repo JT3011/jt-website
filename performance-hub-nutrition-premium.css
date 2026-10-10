@@ -101,3 +101,33 @@ h1 .gold-text{font-family:"Playfair Display",serif;font-weight:500;font-style:it
 .category-controls>span,.save-status{font-size:.72rem}
 @media(max-width:760px){.category-tab strong{font-size:.63rem}.category-tab span:not(.category-thumb){font-size:.57rem}.category-tab{grid-template-columns:30px 1fr;gap:0 5px;padding:7px 5px}.category-tab .category-thumb{width:30px;height:40px}.food-option{padding-left:12px;padding-right:32px}.plate-label strong{font-size:.68rem}.plate-label span{font-size:.48rem}.category-controls>span{font-size:.65rem}.fuel-next{font-size:.66rem}.category-editorial p{font-size:.66rem}.hero-copy{padding-top:70px}}
 @media(max-width:390px){.category-tab .category-thumb{width:100%;height:auto}.category-tab strong{font-size:.65rem}}
+
+
+/* Multiple choices and occasional takeaway meals. */
+.plate-label strong { overflow-wrap:anywhere; }
+.category-controls > span { overflow-wrap:anywhere; min-width:0; }
+.takeaway-panel { margin-top:24px; border:1px solid rgba(219,193,129,.25); border-radius:20px; background:linear-gradient(135deg,rgba(219,193,129,.07),rgba(255,255,255,.015)); overflow:hidden; }
+.takeaway-panel summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px; cursor:pointer; list-style:none; }
+.takeaway-panel summary::-webkit-details-marker { display:none; }
+.takeaway-panel summary > span:first-child { display:grid; gap:7px; }
+.takeaway-panel summary strong { font-size:clamp(21px,3vw,27px); font-weight:500; letter-spacing:-.03em; color:#f4eee1; }
+.takeaway-panel summary > span:first-child > span:last-child { color:#bcb7aa; font-size:13px; line-height:1.5; }
+.takeaway-expand { flex-shrink:0; width:36px; height:36px; display:grid; place-items:center; border:1px solid #766340; color:#dbc181; border-radius:50%; font-size:23px; transition:transform .25s ease; }
+.takeaway-panel[open] .takeaway-expand { transform:rotate(45deg); }
+.takeaway-content { padding:0 22px 24px; }
+.takeaway-guidance { font-size:14px; line-height:1.75; color:#e0dacd; margin:0 0 12px; }
+.takeaway-context { font-size:13px; line-height:1.7; color:#aaa79e; margin:0 0 20px; }
+.takeaway-groups { display:grid; gap:22px; }
+.takeaway-groups h4 { margin:0 0 10px; color:#dbc181; font-size:15px; font-weight:600; }
+.takeaway-options { display:flex; flex-wrap:wrap; gap:8px; }
+.takeaway-option { display:flex; align-items:center; gap:9px; min-height:44px; padding:10px 14px; border:1px solid #3b3933; border-radius:12px; background:#171818; color:#ddd9cf; font:inherit; font-size:13px; cursor:pointer; transition:background .2s,border-color .2s; }
+.takeaway-option > span:first-child { color:#dbc181; width:12px; }
+.takeaway-option:hover { border-color:#a88c56; }
+.takeaway-option[aria-pressed="true"] { background:#302b20; border-color:#dbc181; color:#fff1cc; }
+.takeaway-panel summary:focus-visible, .takeaway-option:focus-visible, .takeaway-source:focus-visible { outline:2px solid #f4dea0; outline-offset:4px; }
+.takeaway-source { display:inline-block; margin-top:23px; color:#d8bd7d; font-size:12px; line-height:1.8; text-underline-offset:4px; }
+.takeaway-summary:empty { display:none; }
+.takeaway-summary { margin:15px 0 0; padding:14px 16px; color:#d8cfbb; background:rgba(219,193,129,.05); border-left:2px solid #9c7840; font-size:13px; line-height:1.7; overflow-wrap:anywhere; }
+.food-option:disabled, .takeaway-option:disabled { opacity:.6; cursor:wait; }
+@media (max-width:480px) { .takeaway-panel summary {padding:18px;} .takeaway-content {padding:0 18px 20px;} }
+@media (prefers-reduced-motion:reduce) { .takeaway-expand,.takeaway-option {transition:none;} }

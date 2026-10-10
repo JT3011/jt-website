@@ -1604,7 +1604,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-  <link rel="stylesheet" href="/performance-hub-nutrition-premium.css?v=20261009.1">
+  <link rel="stylesheet" href="/performance-hub-nutrition-premium.css?v=20261010.1">
 </head>
 
 <body>
@@ -1723,7 +1723,7 @@
           </div>
 
           <p>
-            Pick one option from each category. The aim is not a perfect meal—it is
+            Pick one or more foods from each category. The aim is not a perfect meal—it is
             learning how different foods can combine to support the demands of football.
           </p>
         </div>
@@ -1752,7 +1752,7 @@
                 <h3>Plate Score.</h3>
               </div>
 
-              <div class="readiness-pill"><strong id="selectedCount">0/6</strong><span>Choices added</span></div>
+              <div class="readiness-pill"><strong id="selectedCount">0/6</strong><span>Categories covered</span></div>
             </div>
 
             <div class="plate-stage">
@@ -1765,15 +1765,15 @@
                 <div class="plate-centre"><div><span class="score-kicker">PERFORMANCE PLATE</span><strong id="readinessScore">0%</strong><span id="scoreState">Ready to build</span></div></div>
               </div>
             </div>
-            <p class="score-caption">Six choices. One considered plate.</p>
-            <p class="score-explainer">Your score tracks choices added, not nutrition quality or athletic readiness.</p>
+            <p class="score-caption">More variety. One considered plate.</p>
+            <p class="score-explainer">Your score tracks the six categories covered, not portion size, nutrition quality or athletic readiness. Extra items do not add extra points.</p>
             <div class="plate-selections" aria-label="Your selected foods">
-              <button type="button" class="plate-label protein" data-jump-category="protein"><span>Protein</span><strong id="plateProtein">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label carbohydrate" data-jump-category="carbohydrate"><span>Carbohydrate</span><strong id="plateCarbohydrate">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label fat" data-jump-category="fat"><span>Healthy Fat</span><strong id="plateFat">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label fruit" data-jump-category="fruit"><span>Fruit</span><strong id="plateFruit">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label vegetable" data-jump-category="vegetable"><span>Vegetable</span><strong id="plateVegetable">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label hydration" data-jump-category="hydration"><span>Hydration</span><strong id="plateHydration">Choose One</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label protein" data-jump-category="protein"><span>Protein</span><strong id="plateProtein">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label carbohydrate" data-jump-category="carbohydrate"><span>Carbohydrate</span><strong id="plateCarbohydrate">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label fat" data-jump-category="fat"><span>Healthy Fat</span><strong id="plateFat">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label fruit" data-jump-category="fruit"><span>Fruit</span><strong id="plateFruit">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label vegetable" data-jump-category="vegetable"><span>Vegetable</span><strong id="plateVegetable">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label hydration" data-jump-category="hydration"><span>Hydration</span><strong id="plateHydration">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
             </div>
             <div class="plate-feedback">
               <strong id="plateFeedbackTitle">Begin Your Plate</strong>
@@ -1791,7 +1791,7 @@
               </div>
 
               <p>
-                Tap a category. Choose a food. Discover how it fits your routine.
+                Tap a category and choose one or more foods. Tap a selected food again to remove it.
               </p>
             </div>
 
@@ -1804,7 +1804,7 @@
             </div>
 
             <div class="food-options" id="foodOptions" role="group" aria-label="Food choices"></div>
-            <div class="category-controls"><span id="categorySelection" aria-live="polite">Choose a food to continue</span><button type="button" id="nextCategory" class="fuel-next" disabled>Next category <span aria-hidden="true">→</span></button></div>
+            <div class="category-controls"><span id="categorySelection" aria-live="polite">Choose one or more foods</span><button type="button" id="nextCategory" class="fuel-next" disabled>Next category <span aria-hidden="true">→</span></button></div>
 
             <section class="insight-panel">
               <div class="eyebrow" id="insightEyebrow">Food Insight</div>
@@ -1834,9 +1834,19 @@
               </div>
             </section>
 
+            <details class="takeaway-panel" id="takeawayPanel">
+              <summary><span><span class="eyebrow">Something different</span><strong>Having a takeaway?</strong><span>Explore occasional choices · <span id="takeawayCount">0 selected</span></span></span><span class="takeaway-expand" aria-hidden="true">+</span></summary>
+              <div class="takeaway-content">
+                <p class="takeaway-guidance">An occasional choice, not your everyday routine. Keep your usual meals varied; foods high in salt, saturated fat or sugar are best chosen less often and in smaller amounts. You do not need to exercise to earn food.</p>
+                <p class="takeaway-context">Choose the items that reflect your meal. Recipes and menus vary; these are meal labels, not a nutritional assessment. Add any known ingredients in the food categories above if useful. Takeaway items do not change your Plate Score.</p>
+                <div id="takeawayGroups" class="takeaway-groups"></div>
+                <a class="takeaway-source" href="https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/the-eatwell-guide/" target="_blank" rel="noopener noreferrer">Everyday balance · NHS Eatwell Guide <span aria-hidden="true">↗</span></a>
+              </div>
+            </details>
+            <div id="takeawaySummary" class="takeaway-summary" aria-live="polite"></div>
             <div class="builder-actions">
               <p class="save-status" id="saveStatus" aria-live="polite">
-                Complete all six categories to save your plate and earn 5 Performance Points once today.
+                Save any choices. A complete six-category plate earns 2 points once a day, up to three days per week.
               </p>
 
               <button
@@ -1845,7 +1855,7 @@
                 type="button"
                 disabled
               >
-                Save Performance Plate
+                Save my choices
               </button>
             </div>
           </article>
@@ -2665,13 +2675,69 @@
     let activeCategory = "protein";
 
     const selections = {
-      protein: null,
-      carbohydrate: null,
-      fat: null,
-      fruit: null,
-      vegetable: null,
-      hydration: null
+      protein: [],
+      carbohydrate: [],
+      fat: [],
+      fruit: [],
+      vegetable: [],
+      hydration: []
     };
+
+    const TAKEAWAY_GROUPS = [{"label": "McDonald’s", "items": [{"key": "mcdonalds_burger", "label": "Burger meal"}, {"key": "mcdonalds_chicken", "label": "Chicken meal"}, {"key": "mcdonalds_fries", "label": "Fries"}]}, {"label": "KFC", "items": [{"key": "kfc_chicken", "label": "Chicken pieces"}, {"key": "kfc_burger", "label": "Chicken burger"}, {"key": "kfc_fries", "label": "Fries"}]}, {"label": "Indian", "items": [{"key": "indian_curry", "label": "Curry"}, {"key": "indian_dal", "label": "Dal / lentil dish"}, {"key": "indian_rice", "label": "Rice"}, {"key": "indian_naan", "label": "Naan"}]}, {"label": "Chinese", "items": [{"key": "chinese_stir_fry", "label": "Stir-fry"}, {"key": "chinese_rice", "label": "Rice dish"}, {"key": "chinese_noodles", "label": "Noodle dish"}, {"key": "chinese_sweet_sour", "label": "Sweet & sour dish"}]}, {"label": "Other favourites", "items": [{"key": "other_pizza", "label": "Pizza"}, {"key": "other_fish_chips", "label": "Fish & chips"}, {"key": "other_kebab", "label": "Kebab"}, {"key": "other_other", "label": "Other takeaway"}]}];
+    let takeawaySelections = [];
+    let isSaving = false;
+    let isLoadingPlate = false;
+    let plateLoaded = false;
+    let hasSavedPlate = false;
+    let loadSequence = 0;
+
+    function chosenFoods(category) {
+      return selections[category].map(key => findFood(category, key)).filter(Boolean);
+    }
+    function applyBusyState() {
+      const busy = isSaving || isLoadingPlate;
+      document.querySelectorAll('.scenario-button, .food-option, .takeaway-option').forEach(button => { button.disabled = busy; });
+      const hasChoices = takeawaySelections.length > 0 || Object.values(selections).some(items => items.length > 0);
+      savePlateButton.disabled = busy || !plateLoaded || (!hasChoices && !hasSavedPlate);
+      document.getElementById('foodChoices').setAttribute('aria-busy', String(busy));
+    }
+    function renderTakeaways() {
+      const container = document.getElementById('takeawayGroups');
+      container.replaceChildren();
+      TAKEAWAY_GROUPS.forEach(group => {
+        const section = document.createElement('section');
+        const title = document.createElement('h4');
+        title.textContent = group.label;
+        section.appendChild(title);
+        const options = document.createElement('div');
+        options.className = 'takeaway-options';
+        options.setAttribute('role', 'group');
+        options.setAttribute('aria-label', group.label + ' meal choices');
+        group.items.forEach(item => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'takeaway-option';
+          button.dataset.takeaway = item.key;
+          const selected = takeawaySelections.includes(item.key);
+          button.setAttribute('aria-pressed', String(selected));
+          button.innerHTML = `<span aria-hidden="true">${selected ? '✓' : '+'}</span><span>${item.label}</span>`;
+          button.addEventListener('click', () => {
+            if (isSaving || isLoadingPlate) return;
+            takeawaySelections = selected ? takeawaySelections.filter(key => key !== item.key) : [...takeawaySelections, item.key];
+            renderTakeaways();
+            updatePlate();
+            container.querySelector(`[data-takeaway="${item.key}"]`)?.focus({preventScroll:true});
+          });
+          options.appendChild(button);
+        });
+        section.appendChild(options);
+        container.appendChild(section);
+      });
+      document.getElementById('takeawayCount').textContent = `${takeawaySelections.length} selected`;
+      const names = TAKEAWAY_GROUPS.flatMap(group => group.items.filter(item => takeawaySelections.includes(item.key)).map(item => `${group.label}: ${item.label}`));
+      document.getElementById('takeawaySummary').textContent = names.length ? `Takeaway choices · ${names.join(' · ')}` : '';
+      applyBusyState();
+    }
 
     function showOnly(element) {
       loadingState.classList.add("hidden");
@@ -2736,8 +2802,9 @@
     }
 
     function clearSelections() {
+      takeawaySelections = [];
       Object.keys(selections).forEach((category) => {
-        selections[category] = null;
+        selections[category] = [];
       });
     }
 
@@ -2766,7 +2833,7 @@
         `;
 
         button.addEventListener("click", async () => {
-          if (activeScenario === scenario.key) {
+          if (isSaving || isLoadingPlate || activeScenario === scenario.key) {
             return;
           }
 
@@ -2787,7 +2854,7 @@
             console.error("Saved plate loading error:", error);
 
             setSaveStatus(
-              "This plate could not be loaded. You can still build and save a new one.",
+              "Your saved choices could not be loaded. Reload the page before saving to protect your existing plate.",
               "error"
             );
           }
@@ -2815,14 +2882,14 @@
             button.classList.add("active");
           }
 
-          if (selections[category]) {
+          if (selections[category].length) {
             button.classList.add("complete");
           }
 
           button.innerHTML = `
             <span class="category-thumb category-photo photo-${category}" aria-hidden="true"></span>
             <strong>${meta.label}</strong>
-            <span>${selections[category] ? "Added" : "Choose"}</span>
+            <span>${selections[category].length ? `${selections[category].length} added` : "Choose"}</span>
           `;
 
           button.addEventListener("click", () => {
@@ -2844,7 +2911,7 @@
         meta.label;
 
       categoryPrompt.textContent =
-        meta.prompt;
+        "Choose one or more. Tap again to remove.";
 
       foodOptions.innerHTML = "";
       const categoryKeys = Object.keys(CATEGORY_META);
@@ -2855,11 +2922,12 @@
         fruit: "Add fresh colour.", vegetable: "Build in variety.", hydration: "Make room for hydration."
       }[activeCategory];
       document.querySelector(".category-editorial .category-photo").className = `category-photo photo-${activeCategory}`;
-      const chosenFood = findFood(activeCategory, selections[activeCategory]);
-      document.getElementById("categorySelection").textContent = chosenFood ? `${chosenFood.label} added to your plate` : "Choose a food to continue";
+      const selectedFoods = chosenFoods(activeCategory);
+      const chosenFood = selectedFoods.at(-1);
+      document.getElementById("categorySelection").textContent = chosenFood ? `${selectedFoods.length} selected · ${selectedFoods.map(item => item.label).join(", ")}` : "Choose one or more foods";
       const next = document.getElementById("nextCategory");
       next.disabled = !chosenFood;
-      const nextKey = categoryKeys.find((key, index) => index > categoryIndex && !selections[key]) || categoryKeys.find(key => !selections[key]);
+      const nextKey = categoryKeys.find((key, index) => index > categoryIndex && !selections[key].length) || categoryKeys.find(key => !selections[key].length);
       next.textContent = nextKey ? `Next: ${CATEGORY_META[nextKey].label} →` : "Review & save →";
       next.dataset.nextCategory = nextKey || "";
 
@@ -2872,24 +2940,27 @@
           button.type = "button";
           button.className = "food-option";
           button.dataset.food = item.key;
-          button.setAttribute("aria-pressed", String(selections[activeCategory] === item.key));
+          button.setAttribute("aria-pressed", String(selections[activeCategory].includes(item.key)));
           button.style.setProperty(
             "--option-colour",
             item.colour || meta.colour
           );
 
-          if (selections[activeCategory] === item.key) {
+          if (selections[activeCategory].includes(item.key)) {
             button.classList.add("selected");
           }
 
           button.innerHTML = `
-            <span class="food-monogram" aria-hidden="true">${selections[activeCategory] === item.key ? "✓" : "+"}</span>
+            <span class="food-monogram" aria-hidden="true">${selections[activeCategory].includes(item.key) ? "✓" : "+"}</span>
             <strong>${item.label}</strong>
             <span>${item.note}</span>
           `;
 
           button.addEventListener("click", () => {
-            selections[activeCategory] = item.key;
+            if (isSaving || isLoadingPlate) return;
+            selections[activeCategory] = selections[activeCategory].includes(item.key)
+              ? selections[activeCategory].filter(key => key !== item.key)
+              : [...selections[activeCategory], item.key];
             showInsight(activeCategory, item);
             renderCategoryTabs();
             renderFoodOptions();
@@ -2900,11 +2971,8 @@
           foodOptions.appendChild(button);
         });
 
-      const selectedItem =
-        findFood(
-          activeCategory,
-          selections[activeCategory]
-        );
+      const selectedItem = chosenFoods(activeCategory).at(-1);
+      applyBusyState();
 
       if (selectedItem) {
         showInsight(activeCategory, selectedItem);
@@ -2951,22 +3019,14 @@
       let completed = 0;
 
       Object.keys(selections).forEach((category) => {
-        const item =
-          findFood(
-            category,
-            selections[category]
-          );
-
-        plateLabels[category].textContent =
-          item?.label || "Choose One";
-        const labelButton = plateLabels[category].closest("button");
-        labelButton.classList.toggle("has-choice", Boolean(item));
-        labelButton.setAttribute("aria-label", `${CATEGORY_META[category].label}: ${item?.label || "not selected"}. Change choice`);
-        labelButton.querySelector(".selection-mark").textContent = item ? "✓" : "+";
-
-        if (item) {
-          completed += 1;
-        }
+        const items = chosenFoods(category);
+        const label = items.map(item => item.label).join(' + ');
+        plateLabels[category].textContent = label || 'Choose foods';
+        const labelButton = plateLabels[category].closest('button');
+        labelButton.classList.toggle('has-choice', items.length > 0);
+        labelButton.setAttribute('aria-label', `${CATEGORY_META[category].label}: ${label || 'not selected'}. Edit foods`);
+        labelButton.querySelector('.selection-mark').textContent = items.length ? String(items.length) : '+';
+        if (items.length) completed += 1;
       });
 
       const percentage =
@@ -3001,7 +3061,7 @@
 
         plateFeedbackText.textContent =
           scenario?.feedback ||
-          "Choose one option from each food category.";
+          "Choose the foods that reflect your meal. You can save without filling every category.";
       } else if (completed < 3) {
         plateFeedbackTitle.textContent =
           "A Strong Start.";
@@ -3013,7 +3073,7 @@
           "The Plate Is Taking Shape.";
 
         plateFeedbackText.textContent =
-          `You have completed ${completed} of 6 categories. Add the remaining choices to finish this performance plate.`;
+          `You have covered ${completed} of 6 categories. Add what fits your meal, or save your choices now.`;
       } else {
         plateFeedbackTitle.textContent =
           "Performance Plate Complete.";
@@ -3022,81 +3082,54 @@
           `${scenario?.feedback || "You have created a balanced selection."} Save it to record today’s activity.`;
       }
 
-      savePlateButton.disabled =
-        completed !== 6;
-
+      applyBusyState();
       if (completed === 6) {
-        setSaveStatus(
-          "Plate complete. Save it to record today’s activity and earn up to 5 Performance Points.",
-          "success"
-        );
+        setSaveStatus('Six categories covered. Save for 2 points once a day, up to three days per week. Extra food selections do not add points.', 'success');
       } else {
-        setSaveStatus(
-          "Complete all six categories to save your plate and earn 5 Performance Points once today."
-        );
+        setSaveStatus('Save what fits your meal, including takeaway-only choices. Points are awarded only for a complete six-category plate.');
       }
     }
 
+    async function readMeal(table, scenario, date = getTodayDate()) {
+      const {data, error} = await supabase.from(table).select('*')
+        .eq('user_id', currentUser.id).eq('plate_date', date).eq('scenario', scenario).maybeSingle();
+      if (error) throw error;
+      return data;
+    }
+
     async function loadSavedPlate() {
-      const {
-        data,
-        error
-      } = await supabase
-        .from("player_nutrition_plates")
-        .select(
-          [
-            "scenario",
-            "protein_choice",
-            "carbohydrate_choice",
-            "fat_choice",
-            "fruit_choice",
-            "vegetable_choice",
-            "hydration_choice",
-            "updated_at"
-          ].join(",")
-        )
-        .eq("user_id", currentUser.id)
-        .eq("plate_date", getTodayDate())
-        .eq("scenario", activeScenario)
-        .maybeSingle();
-
-      if (error) {
-        throw error;
-      }
-
-      if (!data) {
+      const sequence = ++loadSequence;
+      const scenario = activeScenario;
+      isLoadingPlate = true;
+      plateLoaded = false;
+      hasSavedPlate = false;
+      applyBusyState();
+      try {
+        let data = await readMeal('player_nutrition_plate_selections', scenario);
+        const isMultiple = Boolean(data);
+        if (!data) data = await readMeal('player_nutrition_plates', scenario);
+        if (sequence !== loadSequence || scenario !== activeScenario) return;
+        clearSelections();
+        if (data) {
+          Object.keys(selections).forEach(category => {
+            const keys = isMultiple ? data.food_choices[category] : [data[`${category}_choice`]];
+            selections[category] = [...new Set(keys)].filter(key => findFood(category, key));
+          });
+          takeawaySelections = isMultiple ? [...data.takeaway_choices] : [];
+          hasSavedPlate = true;
+        }
+        plateLoaded = true;
         renderCategoryTabs();
         renderFoodOptions();
+        renderTakeaways();
         updatePlate();
-        return;
+        if (data) setSaveStatus('Today’s saved choices are loaded. Edit any selection without earning duplicate points.', 'success');
+      } finally {
+        if (sequence === loadSequence) {
+          isLoadingPlate = false;
+          applyBusyState();
+        }
       }
-
-      selections.protein =
-        data.protein_choice;
-
-      selections.carbohydrate =
-        data.carbohydrate_choice;
-
-      selections.fat =
-        data.fat_choice;
-
-      selections.fruit =
-        data.fruit_choice;
-
-      selections.vegetable =
-        data.vegetable_choice;
-
-      selections.hydration =
-        data.hydration_choice;
-
-      renderCategoryTabs();
-      renderFoodOptions();
-      updatePlate();
-
-      setSaveStatus(
-        "Today’s saved plate for this scenario has been loaded. You can update it without earning duplicate points.",
-        "success"
-      );
     }
 
     async function loadProgrammeAccess() {
@@ -3210,104 +3243,44 @@
     }
 
     async function savePerformancePlate() {
-      const allComplete =
-        Object.values(selections)
-          .every(Boolean);
-
-      if (!allComplete) {
-        setSaveStatus(
-          "Choose one option from every category before saving.",
-          "error"
-        );
-
-        return;
-      }
-
-      savePlateButton.disabled = true;
-      savePlateButton.textContent =
-        "Saving Plate...";
-
-      setSaveStatus(
-        "Securely saving your performance plate..."
-      );
-
+      if (isSaving || isLoadingPlate || !plateLoaded) return;
+      if (!hasSavedPlate && !takeawaySelections.length && !Object.values(selections).some(items => items.length)) return;
+      const scenario = activeScenario;
+      const foods = Object.fromEntries(Object.entries(selections).map(([category, items]) => [category, [...items]]));
+      const takeaways = [...takeawaySelections];
+      isSaving = true;
+      applyBusyState();
+      savePlateButton.textContent = 'Saving choices…';
+      setSaveStatus('Securely saving your choices…');
+      let savedMessage = '';
       try {
-        const {
-          data,
-          error
-        } = await supabase.rpc(
-          "save_nutrition_plate",
-          {
-            selected_scenario:
-              activeScenario,
-            selected_protein:
-              selections.protein,
-            selected_carbohydrate:
-              selections.carbohydrate,
-            selected_fat:
-              selections.fat,
-            selected_fruit:
-              selections.fruit,
-            selected_vegetable:
-              selections.vegetable,
-            selected_hydration:
-              selections.hydration
-          }
-        );
-
-        if (error) {
-          throw error;
-        }
-
-        const result =
-          Array.isArray(data)
-            ? data[0]
-            : data;
-
-        if (Number(result?.points_awarded || 0) > 0) {
-          let message =
-            `Performance plate saved — ${result.points_awarded} Performance Points earned.`;
-
-          if (result?.nutrition_program_unlocked) {
-            message +=
-              " Your personal Nutrition Programme is now unlocked.";
-          }
-
-          if (
-            Array.isArray(result?.newly_unlocked) &&
-            result.newly_unlocked.length
-          ) {
-            message +=
-              " You also unlocked a new Player Locker or reward item.";
-          }
-
-          setSaveStatus(
-            message,
-            "success"
-          );
-        } else {
-          setSaveStatus(
-            "Performance plate updated successfully. Today’s 5 Performance Points have already been awarded.",
-            "success"
-          );
-        }
-
-        await loadProgrammeAccess();
+        const {data, error} = await supabase.rpc('save_nutrition_plate_v2', {
+          selected_scenario: scenario, selected_foods: foods, selected_takeaways: takeaways
+        });
+        if (error) throw error;
+        const result = Array.isArray(data) ? data[0] : data;
+        if (!result?.saved || !result?.saved_plate_date) throw new Error('Your save could not be confirmed. Please try again.');
+        const stored = await readMeal('player_nutrition_plate_selections', scenario, result.saved_plate_date);
+        const matches = stored && Object.keys(foods).every(key => JSON.stringify(stored.food_choices[key]) === JSON.stringify(foods[key]))
+          && JSON.stringify(stored.takeaway_choices) === JSON.stringify(takeaways);
+        if (!matches) throw new Error('Your saved choices could not be verified. Please reload to check them before trying again.');
+        hasSavedPlate = true;
+        savedMessage = Number(result.points_awarded) > 0
+          ? `Choices saved — ${result.points_awarded} Performance Points earned.`
+          : result.plate_complete ? 'Choices saved. No additional points awarded: the daily or weekly reward limit has been reached.'
+          : 'Choices saved. You can return and edit them today. No points awarded for this partial plate.';
+        if (result.nutrition_program_unlocked) savedMessage += ' Your Nutrition Programme is unlocked.';
+        if (result.newly_unlocked?.length) savedMessage += ' You also unlocked a new Player Locker or reward item.';
+        setSaveStatus(savedMessage, 'success');
+        try { await loadProgrammeAccess(); }
+        catch (error) { console.warn('Programme refresh failed:', error); setSaveStatus(savedMessage + ' Programme progress will refresh when you reopen the page.', 'success'); }
       } catch (error) {
-        console.error(
-          "Nutrition plate save error:",
-          error
-        );
-
-        setSaveStatus(
-          error?.message ||
-          "Your performance plate could not be saved. Please try again.",
-          "error"
-        );
+        console.error('Nutrition choices save error:', error);
+        setSaveStatus(error?.message || 'Your choices could not be saved. Please try again.', 'error');
       } finally {
-        savePlateButton.disabled = false;
-        savePlateButton.textContent =
-          "Save Performance Plate";
+        isSaving = false;
+        applyBusyState();
+        savePlateButton.textContent = 'Save my choices';
       }
     }
 
@@ -3516,4 +3489,5 @@
   </script>
 </body>
 </html>
+
 
