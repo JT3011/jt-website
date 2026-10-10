@@ -1604,7 +1604,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-  <link rel="stylesheet" href="/performance-hub-nutrition-premium.css?v=20261010.1">
+  <link rel="stylesheet" href="/performance-hub-nutrition-premium.css?v=20261010.2">
 </head>
 
 <body>
@@ -1657,7 +1657,7 @@
           </h1>
 
           <p class="state-copy">
-            Preparing your interactive performance plate and personal nutrition progress.
+            Loading your plate and nutrition progress.
           </p>
         </div>
       </section>
@@ -1690,10 +1690,9 @@
             </h1>
 
             <p class="hero-intro">
-              Welcome, <strong id="playerName"></strong>. Build a performance plate,
-              find your rhythm for training, matchday and recovery.
+              Welcome, <strong id="playerName"></strong>. Choose your food for training, matchday and recovery.
             </p>
-            <a class="fuel-cta" href="#plateBuilder">Build my plate <span aria-hidden="true">↗</span></a>
+            <a class="fuel-cta" href="#plateBuilder">Build my plate</a>
             <div class="fuel-hero-meta"><span>01 / Choose your moment</span><span>02 / Build your plate</span><span>03 / Save your choices</span></div>
           </div>
 
@@ -1723,8 +1722,7 @@
           </div>
 
           <p>
-            Pick one or more foods from each category. The aim is not a perfect meal—it is
-            learning how different foods can combine to support the demands of football.
+            Select the foods in your meal. You can choose more than one per category.
           </p>
         </div>
 
@@ -1736,8 +1734,7 @@
             </div>
 
             <span>
-              Your guidance changes depending on whether you are building an everyday,
-              training, matchday or recovery plate.
+              Choose everyday, training, matchday or recovery.
             </span>
           </div>
 
@@ -1766,19 +1763,19 @@
               </div>
             </div>
             <p class="score-caption">More variety. One considered plate.</p>
-            <p class="score-explainer">Your score tracks the six categories covered, not portion size, nutrition quality or athletic readiness. Extra items do not add extra points.</p>
+            <p class="score-explainer">Score = categories covered. It does not measure portions, meal quality or performance.</p>
             <div class="plate-selections" aria-label="Your selected foods">
-              <button type="button" class="plate-label protein" data-jump-category="protein"><span>Protein</span><strong id="plateProtein">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label carbohydrate" data-jump-category="carbohydrate"><span>Carbohydrate</span><strong id="plateCarbohydrate">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label fat" data-jump-category="fat"><span>Healthy Fat</span><strong id="plateFat">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label fruit" data-jump-category="fruit"><span>Fruit</span><strong id="plateFruit">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label vegetable" data-jump-category="vegetable"><span>Vegetable</span><strong id="plateVegetable">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
-              <button type="button" class="plate-label hydration" data-jump-category="hydration"><span>Hydration</span><strong id="plateHydration">Choose foods</strong><span class="selection-mark" aria-hidden="true">+</span></button>
+              <button type="button" class="plate-label protein" data-jump-category="protein"><span>Protein</span><strong id="plateProtein">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
+              <button type="button" class="plate-label carbohydrate" data-jump-category="carbohydrate"><span>Carbohydrate</span><strong id="plateCarbohydrate">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
+              <button type="button" class="plate-label fat" data-jump-category="fat"><span>Healthy Fat</span><strong id="plateFat">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
+              <button type="button" class="plate-label fruit" data-jump-category="fruit"><span>Fruit</span><strong id="plateFruit">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
+              <button type="button" class="plate-label vegetable" data-jump-category="vegetable"><span>Vegetable</span><strong id="plateVegetable">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
+              <button type="button" class="plate-label hydration" data-jump-category="hydration"><span>Hydration</span><strong id="plateHydration">Choose foods</strong><span class="selection-mark" aria-hidden="true"></span></button>
             </div>
             <div class="plate-feedback">
               <strong id="plateFeedbackTitle">Begin Your Plate</strong>
               <p id="plateFeedbackText">
-                Choose a meal scenario, then work through each food category.
+                Choose your meal type, then add your foods.
               </p>
             </div>
           </article>
@@ -1791,12 +1788,12 @@
               </div>
 
               <p>
-                Tap a category and choose one or more foods. Tap a selected food again to remove it.
+                Choose your foods. Tap again to remove.
               </p>
             </div>
 
             <div class="category-tabs" id="categoryTabs" role="group" aria-label="Food categories"></div>
-            <div class="category-editorial" id="categoryEditorial"><div class="category-photo" aria-hidden="true"></div><div><span class="eyebrow" id="categoryStep">01 / 06</span><h4 id="categoryRole">Build your foundation.</h4><p>Explore the options below. Photography shows category examples.</p></div></div>
+            <div class="category-editorial" id="categoryEditorial"><div class="category-photo" aria-hidden="true"></div><div><span class="eyebrow" id="categoryStep">01 / 06</span><h4 id="categoryRole">Build your foundation.</h4><p>Photos show example foods.</p></div></div>
 
             <div class="category-heading">
               <strong id="categoryTitle">Protein</strong>
@@ -1804,7 +1801,7 @@
             </div>
 
             <div class="food-options" id="foodOptions" role="group" aria-label="Food choices"></div>
-            <div class="category-controls"><span id="categorySelection" aria-live="polite">Choose one or more foods</span><button type="button" id="nextCategory" class="fuel-next" disabled>Next category <span aria-hidden="true">→</span></button></div>
+            <div class="category-controls"><span id="categorySelection" aria-live="polite">Choose one or more foods</span><button type="button" id="nextCategory" class="fuel-next" disabled>Next category</button></div>
 
             <section class="insight-panel">
               <div class="eyebrow" id="insightEyebrow">Food Insight</div>
@@ -1835,18 +1832,17 @@
             </section>
 
             <details class="takeaway-panel" id="takeawayPanel">
-              <summary><span><span class="eyebrow">Something different</span><strong>Having a takeaway?</strong><span>Explore occasional choices · <span id="takeawayCount">0 selected</span></span></span><span class="takeaway-expand" aria-hidden="true">+</span></summary>
+              <summary><span><span class="eyebrow">Something different</span><strong>Having a takeaway?</strong><span>Optional · <span id="takeawayCount">0 selected</span></span></span><span class="takeaway-expand" aria-hidden="true"></span></summary>
               <div class="takeaway-content">
-                <p class="takeaway-guidance">An occasional choice, not your everyday routine. Keep your usual meals varied; foods high in salt, saturated fat or sugar are best chosen less often and in smaller amounts. You do not need to exercise to earn food.</p>
-                <p class="takeaway-context">Choose the items that reflect your meal. Recipes and menus vary; these are meal labels, not a nutritional assessment. Add any known ingredients in the food categories above if useful. Takeaway items do not change your Plate Score.</p>
+                <p class="takeaway-guidance">Keep takeaways occasional. Choose varied meals day to day, with foods high in salt, saturated fat or sugar less often and in smaller amounts.</p>
+                <p class="takeaway-context">Select your items below. Add known ingredients above if useful. Takeaway choices do not increase your Plate Score.</p>
                 <div id="takeawayGroups" class="takeaway-groups"></div>
-                <a class="takeaway-source" href="https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/the-eatwell-guide/" target="_blank" rel="noopener noreferrer">Everyday balance · NHS Eatwell Guide <span aria-hidden="true">↗</span></a>
               </div>
             </details>
             <div id="takeawaySummary" class="takeaway-summary" aria-live="polite"></div>
             <div class="builder-actions">
               <p class="save-status" id="saveStatus" aria-live="polite">
-                Save any choices. A complete six-category plate earns 2 points once a day, up to three days per week.
+                Save any choices. Cover all six categories for 2 points, once daily, up to three days a week.
               </p>
 
               <button
@@ -1874,8 +1870,7 @@
           </div>
 
           <p>
-            Consistent use of the Performance Hub builds lifetime points. Reach the
-            target to unlock your detailed personal nutrition-programme questionnaire.
+            Reach the points target to unlock your personal nutrition questionnaire.
           </p>
         </div>
 
@@ -1885,9 +1880,7 @@
             <h3 id="programmeTitle">Earn The Next Level.</h3>
 
             <p id="programmeDescription">
-              Keep completing meaningful activities across the Hub. When your lifetime
-              total reaches the target, access to the professional nutrition intake form
-              unlocks automatically.
+              Earn points across the Hub to unlock your nutrition questionnaire.
             </p>
 
             <div class="programme-badge" id="programmeBadge">
@@ -1934,8 +1927,7 @@
           </div>
 
           <p>
-            Familiar foods and regular habits usually beat complicated plans. Use these
-            four checkpoints as a simple match and training framework.
+            Four simple checkpoints for training and matchdays.
           </p>
         </div>
 
@@ -2720,7 +2712,7 @@
           button.dataset.takeaway = item.key;
           const selected = takeawaySelections.includes(item.key);
           button.setAttribute('aria-pressed', String(selected));
-          button.innerHTML = `<span aria-hidden="true">${selected ? '✓' : '+'}</span><span>${item.label}</span>`;
+          button.innerHTML = `<span class="takeaway-indicator" aria-hidden="true"></span><span>${item.label}</span>`;
           button.addEventListener('click', () => {
             if (isSaving || isLoadingPlate) return;
             takeawaySelections = selected ? takeawaySelections.filter(key => key !== item.key) : [...takeawaySelections, item.key];
@@ -2928,7 +2920,7 @@
       const next = document.getElementById("nextCategory");
       next.disabled = !chosenFood;
       const nextKey = categoryKeys.find((key, index) => index > categoryIndex && !selections[key].length) || categoryKeys.find(key => !selections[key].length);
-      next.textContent = nextKey ? `Next: ${CATEGORY_META[nextKey].label} →` : "Review & save →";
+      next.textContent = nextKey ? `Next: ${CATEGORY_META[nextKey].label}` : "Review & save";
       next.dataset.nextCategory = nextKey || "";
 
 
@@ -2951,7 +2943,7 @@
           }
 
           button.innerHTML = `
-            <span class="food-monogram" aria-hidden="true">${selections[activeCategory].includes(item.key) ? "✓" : "+"}</span>
+            <span class="food-monogram" aria-hidden="true"></span>
             <strong>${item.label}</strong>
             <span>${item.note}</span>
           `;
@@ -3025,7 +3017,7 @@
         const labelButton = plateLabels[category].closest('button');
         labelButton.classList.toggle('has-choice', items.length > 0);
         labelButton.setAttribute('aria-label', `${CATEGORY_META[category].label}: ${label || 'not selected'}. Edit foods`);
-        labelButton.querySelector('.selection-mark').textContent = items.length ? String(items.length) : '+';
+        labelButton.querySelector('.selection-mark').textContent = items.length ? String(items.length) : '';
         if (items.length) completed += 1;
       });
 
@@ -3067,13 +3059,13 @@
           "A Strong Start.";
 
         plateFeedbackText.textContent =
-          "Keep working through the categories. A useful plate combines several roles rather than relying on one food.";
+          "Add the foods in your meal. Multiple choices are welcome.";
       } else if (completed < 6) {
         plateFeedbackTitle.textContent =
           "The Plate Is Taking Shape.";
 
         plateFeedbackText.textContent =
-          `You have covered ${completed} of 6 categories. Add what fits your meal, or save your choices now.`;
+          `${completed} of 6 categories covered. Add more or save now.`;
       } else {
         plateFeedbackTitle.textContent =
           "Performance Plate Complete.";
@@ -3084,9 +3076,9 @@
 
       applyBusyState();
       if (completed === 6) {
-        setSaveStatus('Six categories covered. Save for 2 points once a day, up to three days per week. Extra food selections do not add points.', 'success');
+        setSaveStatus('Six categories covered. Save for 2 points, once daily, up to three days a week.', 'success');
       } else {
-        setSaveStatus('Save what fits your meal, including takeaway-only choices. Points are awarded only for a complete six-category plate.');
+        setSaveStatus('Save any choices. Cover all six categories to qualify for points.');
       }
     }
 
@@ -3123,7 +3115,7 @@
         renderFoodOptions();
         renderTakeaways();
         updatePlate();
-        if (data) setSaveStatus('Today’s saved choices are loaded. Edit any selection without earning duplicate points.', 'success');
+        if (data) setSaveStatus('Saved choices loaded. Tap to edit.', 'success');
       } finally {
         if (sequence === loadSequence) {
           isLoadingPlate = false;
@@ -3196,7 +3188,7 @@
           "Your Programme Is Unlocked.";
 
         programmeDescription.textContent =
-          "You have earned access to the JT personal nutrition-programme questionnaire. Complete it carefully so your current routine, goals and practical needs can be reviewed.";
+          "Complete your questionnaire so we can review your routine, goals and needs.";
 
         programmeBadge.textContent =
           "Programme Unlocked";
@@ -3267,8 +3259,8 @@
         hasSavedPlate = true;
         savedMessage = Number(result.points_awarded) > 0
           ? `Choices saved — ${result.points_awarded} Performance Points earned.`
-          : result.plate_complete ? 'Choices saved. No additional points awarded: the daily or weekly reward limit has been reached.'
-          : 'Choices saved. You can return and edit them today. No points awarded for this partial plate.';
+          : result.plate_complete ? 'Choices saved. Daily or weekly points limit reached.'
+          : 'Choices saved. No points awarded for this partial plate.';
         if (result.nutrition_program_unlocked) savedMessage += ' Your Nutrition Programme is unlocked.';
         if (result.newly_unlocked?.length) savedMessage += ' You also unlocked a new Player Locker or reward item.';
         setSaveStatus(savedMessage, 'success');
@@ -3489,5 +3481,6 @@
   </script>
 </body>
 </html>
+
 
 

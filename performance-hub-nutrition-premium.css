@@ -113,7 +113,8 @@ h1 .gold-text{font-family:"Playfair Display",serif;font-weight:500;font-style:it
 .takeaway-panel summary strong { font-size:clamp(21px,3vw,27px); font-weight:500; letter-spacing:-.03em; color:#f4eee1; }
 .takeaway-panel summary > span:first-child > span:last-child { color:#bcb7aa; font-size:13px; line-height:1.5; }
 .takeaway-expand { flex-shrink:0; width:36px; height:36px; display:grid; place-items:center; border:1px solid #766340; color:#dbc181; border-radius:50%; font-size:23px; transition:transform .25s ease; }
-.takeaway-panel[open] .takeaway-expand { transform:rotate(45deg); }
+.takeaway-expand::after { content:""; width:8px; height:8px; border-right:1px solid currentColor; border-bottom:1px solid currentColor; transform:translateY(-2px) rotate(45deg); }
+.takeaway-panel[open] .takeaway-expand { transform:rotate(180deg); }
 .takeaway-content { padding:0 22px 24px; }
 .takeaway-guidance { font-size:14px; line-height:1.75; color:#e0dacd; margin:0 0 12px; }
 .takeaway-context { font-size:13px; line-height:1.7; color:#aaa79e; margin:0 0 20px; }
@@ -121,13 +122,14 @@ h1 .gold-text{font-family:"Playfair Display",serif;font-weight:500;font-style:it
 .takeaway-groups h4 { margin:0 0 10px; color:#dbc181; font-size:15px; font-weight:600; }
 .takeaway-options { display:flex; flex-wrap:wrap; gap:8px; }
 .takeaway-option { display:flex; align-items:center; gap:9px; min-height:44px; padding:10px 14px; border:1px solid #3b3933; border-radius:12px; background:#171818; color:#ddd9cf; font:inherit; font-size:13px; cursor:pointer; transition:background .2s,border-color .2s; }
-.takeaway-option > span:first-child { color:#dbc181; width:12px; }
+.takeaway-indicator { flex-shrink:0; width:12px; height:12px; border:1px solid #847653; border-radius:50%; }
+.takeaway-option[aria-pressed="true"] .takeaway-indicator { background:#dbc181; border-color:#dbc181; box-shadow:inset 0 0 0 3px #302b20; }
 .takeaway-option:hover { border-color:#a88c56; }
 .takeaway-option[aria-pressed="true"] { background:#302b20; border-color:#dbc181; color:#fff1cc; }
-.takeaway-panel summary:focus-visible, .takeaway-option:focus-visible, .takeaway-source:focus-visible { outline:2px solid #f4dea0; outline-offset:4px; }
-.takeaway-source { display:inline-block; margin-top:23px; color:#d8bd7d; font-size:12px; line-height:1.8; text-underline-offset:4px; }
+.takeaway-panel summary:focus-visible, .takeaway-option:focus-visible { outline:2px solid #f4dea0; outline-offset:4px; }
 .takeaway-summary:empty { display:none; }
 .takeaway-summary { margin:15px 0 0; padding:14px 16px; color:#d8cfbb; background:rgba(219,193,129,.05); border-left:2px solid #9c7840; font-size:13px; line-height:1.7; overflow-wrap:anywhere; }
 .food-option:disabled, .takeaway-option:disabled { opacity:.6; cursor:wait; }
 @media (max-width:480px) { .takeaway-panel summary {padding:18px;} .takeaway-content {padding:0 18px 20px;} }
 @media (prefers-reduced-motion:reduce) { .takeaway-expand,.takeaway-option {transition:none;} }
+
