@@ -2505,7 +2505,37 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
     .football-location-body .football-booking-note { margin: 24px 0 0; }
     @media(max-width: 600px) { .football-location .btn { width: 100%; text-align: center; padding: 14px 20px; } }
 
-  </style>
+  
+/* Location booking — editorial treatment shared with the clothing collection. */
+#football-booking{background:#0c0b0d;scroll-margin-top:80px}
+.booking-editorial-head{max-width:780px;margin-bottom:48px}
+.booking-kicker{color:#dbc181;font-size:10px;letter-spacing:.19em;text-transform:uppercase;line-height:1.8;margin-bottom:20px}
+.booking-editorial-head h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(44px,6.5vw,88px);line-height:1.08;letter-spacing:-.048em;margin-bottom:24px;color:#f3eee4}
+.booking-editorial-head em,.booking-destination h3 em,.booking-editorial-foot em{color:#dbc181;font-weight:400}
+.booking-editorial-head>p:last-child{color:#c1b9ad;line-height:1.9;max-width:58ch}
+.booking-destinations{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.booking-destination{background:#141215;border:1px solid #dbc18133;overflow:hidden}
+.booking-destination-art{position:relative;height:260px;overflow:hidden;background:radial-gradient(ellipse at 65% 30%,#433a29,#141215 76%)}
+.booking-berkeley{background:radial-gradient(ellipse at 30% 35%,#3d3e31,#111314 76%)}
+.booking-place-number{position:absolute;top:-30px;right:24px;color:#dbc18112;font-family:'Playfair Display',serif;font-size:240px;line-height:1}
+.booking-place-tag{position:absolute;left:28px;bottom:24px;font-size:10px;letter-spacing:.19em;color:#dbc181}
+.booking-pitch{position:absolute;width:210px;height:140px;left:calc(50% - 105px);top:40px;border:1px solid #dbc18166;transform:perspective(500px) rotateX(32deg) rotate(-14deg);box-shadow:0 0 50px #dbc1810d}
+.booking-pitch:before{content:"";position:absolute;left:50%;top:0;height:100%;border-left:1px solid #dbc18166}
+.booking-pitch:after{content:"";position:absolute;width:48px;height:48px;left:calc(50% - 24px);top:calc(50% - 24px);border:1px solid #dbc18166;border-radius:50%}
+.booking-destination-copy{padding:32px}
+.booking-destination h3{font-family:'Playfair Display',serif;font-size:clamp(34px,4vw,54px);font-weight:400;letter-spacing:-.04em;line-height:1.1;margin-bottom:20px}
+.booking-destination-copy>p:not(.booking-kicker){color:#c1b9ad;line-height:1.8;font-size:14px;margin-bottom:20px}
+.booking-destination-copy .booking-session-label{color:#e7dcc1}
+.booking-coach-links{display:grid;gap:12px}
+.booking-coach-links a{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:54px;padding:16px 20px;background:#dbc181;color:#101012;font-size:12px;font-weight:700;transition:background .2s}
+.booking-coach-links a:hover{background:#f3e8c5}
+.booking-coach-links a:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.booking-editorial-foot{display:grid;grid-template-columns:1fr 1fr;gap:32px;border-bottom:1px solid #dbc18133;padding:36px 0}
+.booking-editorial-foot p{font-family:'Playfair Display',serif;font-size:26px;line-height:1.4}
+.booking-editorial-foot span{color:#c1b9ad;font-size:13px;line-height:1.9}
+@media(max-width:700px){.booking-destinations,.booking-editorial-foot{grid-template-columns:1fr}.booking-destination-copy{padding:24px}.booking-destination-art{height:220px}.booking-editorial-head{margin-bottom:32px}}
+
+</style>
 
   <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
   <link rel="stylesheet" href="/jt-collection-cinema.css?v=20261008.1">
@@ -2640,152 +2670,6 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
 
       
       <!-- SHOP: JT collection; all purchases route directly to Shopify. -->
-      <section class="section shop-section" id="shop" aria-labelledby="collection-title">
-        <div class="section-inner">
-          <div class="jt-cinema" id="jt-cinema">
-            <div class="jt-cinema-stage">
-              <div class="jt-cinema-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
-              <div class="jt-cinema-top"><span>JT / THE SIGNATURE EDIT</span><a href="https://xtkzjd-5g.myshopify.com/">Enter the store</a></div>
-              <span class="jt-cinema-watermark" aria-hidden="true">JT</span>
-              <div class="jt-cinema-product" role="img" aria-label="Campaign visual of a floating black JT oversized tee with the gold chest emblem">
-                <div class="jt-cinema-garment"></div><div class="jt-cinema-gold-light" aria-hidden="true"></div>
-              </div>
-              <div class="jt-cinema-floor" aria-hidden="true"></div>
-              <div class="jt-cinema-copy">
-                <div class="jt-cinema-panel" data-scene="0">
-                  <p class="jt-cinema-eyebrow">Elite Performance Collection / 01</p>
-                  <h2 id="collection-title">Presence.<br>Without <em>permission.</em></h2>
-                  <p class="jt-cinema-description">For the session. For the slow days.<br>For those who set their own standard.</p>
-                </div>
-                <div class="jt-cinema-panel" data-scene="1" aria-hidden="true" inert>
-                  <p class="jt-cinema-eyebrow">The detail / 02</p>
-                  <h3>Quiet detail.<br><em>Strong identity.</em></h3>
-                  <p class="jt-cinema-description">One uninterrupted silhouette.<br>The gold signature. Look closer.</p>
-                </div>
-                <div class="jt-cinema-panel" data-scene="2" aria-hidden="true" inert>
-                  <p class="jt-cinema-eyebrow">The signature / 03</p>
-                  <h3>More than<br><em>a mark.</em></h3>
-                  <p class="jt-cinema-description">Mind. Body. Balance.<br>A mindset you take with you.</p>
-                </div>
-              </div>
-              <div class="jt-cinema-bottom">
-                <div class="jt-cinema-shop"><a class="collection-primary" href="https://xtkzjd-5g.myshopify.com/">Shop the JT collection</a></div>
-                <div class="jt-cinema-controls"><span class="jt-cinema-scroll">Scroll to discover</span><span class="jt-cinema-counter" aria-hidden="true">01 — 03</span><button type="button" class="jt-cinema-motion" aria-pressed="true" hidden>Motion on</button></div>
-              </div>
-              <div class="jt-cinema-progress" aria-hidden="true"><span></span></div>
-            </div>
-          </div>
-          <div class="collection-manifesto wear-reveal">
-            <p>Carry the same intention into every session. Every slow morning. <em>Every version of you.</em></p>
-          </div>
-          <div class="collection-footer wear-reveal">
-            <div><div class="collection-kicker">Unmistakably yours</div><h3>Find your next<br><em>signature piece.</em></h3></div>
-            <a class="collection-primary" href="https://xtkzjd-5g.myshopify.com/">Shop the JT collection</a>
-          </div>
-        </div>
-      </section>
-
-
-<!-- JT PERFORMANCE HUB -->
-<section class="jt-hub-reel" id="performance-hub" data-refreshed="true" aria-labelledby="hub-reel-title">
-  <div class="hub-reel-stage">
-    <div class="hub-reel-light" aria-hidden="true"></div>
-    <div class="hub-reel-top"><span>JT / PERFORMANCE HUB</span><a href="/performance-hub-login.html">Player login</a></div>
-    <div class="hub-reel-layout">
-      <div class="hub-reel-editorial">
-        <p class="hub-reel-kicker">Your game. Wherever you are.</p>
-        <h2 id="hub-reel-title">Your next level.<br><em>Starts today.</em></h2>
-        <div class="hub-reel-stories">
-          <div class="hub-reel-story" data-hub-scene="0"><h3>Start with a clear plan.</h3><p>Open your Hub. Find today’s focus.</p></div>
-          <div class="hub-reel-story" data-hub-scene="1" hidden><h3>Make the work count.</h3><p>Training. Nutrition. Mindset. Recovery.</p></div>
-          <div class="hub-reel-story" data-hub-scene="2" hidden><h3>See your consistency.</h3><p>Track your progress. Build your next day.</p></div>
-        </div>
-        <div class="hub-reel-actions">
-          <a class="hub-reel-primary" href="/performance-hub-free-signup.html">Create your free account</a>
-          <a class="hub-reel-trial" href="https://buy.stripe.com/fZucMYcQuaGx2OA3y56Vq05">Try Premium</a>
-        </div>
-        <p class="hub-reel-price"><strong>Free player account: £0.</strong> Premium includes a 30-day free trial, then £12.99/month. Cancel anytime. Use the same account when you upgrade.</p>
-      </div>
-      <div class="hub-reel-device" aria-label="Illustrative Performance Hub walkthrough">
-        <div class="hub-device-bar"><img src="/images/jt-crest-transparent-v2.png" width="36" height="36" alt=""><span>JT HUB</span><span class="hub-preview-label">Preview</span></div>
-        <div class="hub-device-viewport">
-          <article class="hub-demo-screen" data-hub-screen="0" aria-labelledby="hub-demo-plan">
-            <p class="hub-demo-eyebrow">01 / Open your dashboard</p><h3 id="hub-demo-plan">Today’s<br>performance plan.</h3>
-            <div class="hub-demo-checkin"><div><span>Daily sign-in</span><strong>Day 4 of 7</strong></div><div class="hub-demo-days" aria-label="Four of seven sign-in days"><b>1</b><b>2</b><b>3</b><b>4</b><i>5</i><i>6</i><i>7</i></div><div class="hub-demo-day-track"><span></span></div></div>
-            <p class="hub-demo-label">Your next moves</p>
-            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Set your session focus</strong><span>One intention. Start here.</span></div><span>01</span></div>
-            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Build your performance plate</strong><span>Choose your fuel.</span></div><span>02</span></div>
-            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Reflect on your day</strong><span>Keep the useful details.</span></div><span>03</span></div>
-            <div class="hub-demo-selection">Start with today.</div>
-          </article>
-          <article class="hub-demo-screen" data-hub-screen="1" aria-labelledby="hub-demo-routine" hidden>
-            <p class="hub-demo-eyebrow">02 / Build your routine</p><h3 id="hub-demo-routine">The work.<br>The whole picture.</h3>
-            <div class="hub-demo-tools"><div><span>01</span><strong>Training</strong><small>Your next session</small></div><div><span>02</span><strong>Mindset</strong><small>Prepare your mind</small></div><div><span>03</span><strong>Nutrition</strong><small>Fuel your routine</small></div><div><span>04</span><strong>Recovery</strong><small>Reset for tomorrow</small></div></div>
-            <div class="hub-demo-plate"><div class="hub-demo-plate-ring"><strong>4<span>/ 6</span></strong></div><div><span>Performance plate</span><strong>Choose your foods.</strong><small>Protein. Carbs. Colour. Fluids.</small></div></div>
-            <div class="hub-demo-selection">Premium tools. One connected routine.</div>
-          </article>
-          <article class="hub-demo-screen" data-hub-screen="2" aria-labelledby="hub-demo-progress" hidden>
-            <p class="hub-demo-eyebrow">03 / Review your progress</p><h3 id="hub-demo-progress">Every day.<br>A little more intent.</h3>
-            <div class="hub-demo-chart"><div><span>Your activity</span><strong>A week of showing up.</strong></div><div class="hub-demo-bars" aria-label="Example activity chart"><i style="--bar:35%"></i><i style="--bar:58%"></i><i style="--bar:44%"></i><i style="--bar:72%"></i><i style="--bar:65%"></i><i style="--bar:84%"></i><i style="--bar:94%"></i></div><div class="hub-demo-week"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
-            <div class="hub-demo-reflection"><span>Your journal</span><strong>What worked today?</strong><p>Keep it. Build on it tomorrow.</p></div>
-            <div class="hub-demo-selection">Your progress. In one place.</div>
-          </article>
-        </div>
-        <div class="hub-device-footer"><span>Illustrative preview</span><span>Free + Premium features</span></div>
-      </div>
-    </div>
-    <div class="hub-reel-bottom"><div class="hub-reel-chapters" role="group" aria-label="Hub walkthrough chapters"><button type="button" data-hub-chapter="0" aria-pressed="true">01 <span>Plan</span></button><button type="button" data-hub-chapter="1" aria-pressed="false">02 <span>Prepare</span></button><button type="button" data-hub-chapter="2" aria-pressed="false">03 <span>Progress</span></button></div><div class="hub-reel-controls"><span class="hub-reel-scroll">Scroll to explore</span><button type="button" class="hub-reel-motion" hidden aria-pressed="true">Motion on</button></div></div>
-    <div class="hub-reel-progress" aria-hidden="true"><span></span></div>
-  </div>
-</section>
-      
-      <!-- PATHWAY -->
-      <section class="section pathway" id="pathway">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">The JT System</div>
-              <h2 class="section-title">Complete Performance <span class="gold-text">Pathway.</span></h2>
-            </div>
-            <p>
-            </p>
-          </div>
-
-          <div class="pathway-grid">
-            <article class="path-card lux-card reveal">
-              <div class="path-card-top">
-                <span>01 / On The Pitch</span>
-              </div>
-              <div>
-                <h3>Football Development</h3>
-                <p>1:1 football coaching, position-specific work, ball mastery, agility, movement, technical detail and game-realistic outcomes.</p>
-              </div>
-            </article>
-
-            <article class="path-card lux-card reveal">
-              <div class="path-card-top">
-                <span>02 / In The Gym</span>
-              </div>
-              <div>
-                <h3>Physical Performance</h3>
-                <p>Strength, speed, power, mobility, injury resilience and football-specific gym programming to support real performance.</p>
-              </div>
-            </article>
-
-            <article class="path-card lux-card reveal">
-              <div class="path-card-top">
-                <span>03 / Inside The Mind</span>
-              </div>
-              <div>
-                <h3>Mentoring & Mindset</h3>
-                <p>Confidence, emotional control, discipline, resilience and the standards required to improve consistently.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- STATS -->
       <section class="section" id="results">
         <div class="section-inner">
           <div class="stats-grid">
@@ -2809,265 +2693,9 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
         </div>
       </section>
 
-      <!-- SERVICES -->
-      <section class="section" id="services">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Services</div>
-              <h2 class="section-title">Choose Your <span class="gold-text">Route.</span></h2>
-            </div>
-            <p>
-            </p>
-          </div>
 
-          <div class="service-list">
-            <a class="service-row reveal" href="#football-booking">
-              <span class="num">01</span>
-              <h3>1:1 Football Session</h3>
-              <p>Technical and position-specific football development built around the individual player.</p>
-              <span class="arrow">→</span>
-            </a>
-
-            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
-              <span class="num">02</span>
-              <h3>Gym Personal Training</h3>
-              <p>Strength, speed, power and football-specific physical performance coaching.</p>
-              <span class="arrow">→</span>
-            </a>
-
-            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
-              <span class="num">03</span>
-              <h3>Nutrition Program</h3>
-              <p>Simple and effective nutrition support for energy, recovery and performance.</p>
-              <span class="arrow">→</span>
-            </a>
-
-            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
-              <span class="num">04</span>
-              <h3>Mentoring Session</h3>
-              <p>Mindset, confidence, discipline and resilience support for players and individuals.</p>
-              <span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-<!-- PARTNERSHIP -->
-      <section class="section" id="partnership">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Partnership</div>
-              <h2 class="section-title">Trusted Performance <span class="gold-text">Connections.</span></h2>
-            </div>
-            <p>
-            </p>
-          </div>
-      </section>
-         
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-          <img src="images/evolve.png" loading="eager" alt="evolve">
-          <img src="images/repl.png" loading="eager" alt="replaicam">
-          <img src="images/pro11.png" loading="eager" alt="pro11">
-          <img src="images/yate.png" loading="eager" alt="yate">
-          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
-          <img src="images/evolve.png" loading="eager" alt="evolve">
-          <img src="images/repl.png" loading="eager" alt="replaicam">
-          <img src="images/pro11.png" loading="eager" alt="pro11">
-          <img src="images/yate.png" loading="eager" alt="yate">
-          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
-           <img src="images/evolve.png" loading="eager" alt="evolve">
-          <img src="images/repl.png" loading="eager" alt="replaicam">
-          <img src="images/pro11.png" loading="eager" alt="pro11">
-          <img src="images/yate.png" loading="eager" alt="yate">
-          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
-          <img src="images/evolve.png" loading="eager" alt="evolve">
-          <img src="images/repl.png" loading="eager" alt="replaicam">
-          <img src="images/pro11.png" loading="eager" alt="pro11">
-          <img src="images/yate.png" loading="eager" alt="yate">
-          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
-        </div>
-      </div>
- 
-      
-
-      <!-- MEDIA -->
-      <section class="section" id="media">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Inside The Work</div>
-              <h2 class="section-title">Elite Player <span class="gold-text">Development.</span></h2>
-            </div>
-            </p>
-          </div>
-
-          <div class="media-grid">
-            <div class="carousel reveal-left" data-carousel="main">
-              <img src="images/IMG_1486.PNG" class="active" loading="lazy" alt="James coaching and football performance">
-              <img src="images/img6.jpg.JPEG" loading="lazy" alt="James Taylor football image">
-              <img src="images/img15.jpg.jpeg" loading="lazy" alt="Football coaching session">
-              <img src="images/img18.jpg.jpeg" loading="lazy" alt="Performance coaching image">
-              <img src="images/img2.jpg.jpeg" loading="lazy" alt="JT Mind and Body Balance">
-              <img src="images/img3.jpg.jpeg" loading="lazy" alt="Football training">
-              <img src="images/img4.jpg.jpeg" loading="lazy" alt="Football training detail">
-              <img src="images/img5.jpg.jpeg" loading="lazy" alt="Player development">
-              <img src="images/img7.jpg.jpeg" loading="lazy" alt="Football coaching Bristol">
-              <img src="images/img8.jpg.jpeg" loading="lazy" alt="JT coaching image">
-              <img src="images/img9.jpg.JPEG" loading="lazy" alt="James Taylor football">
-              <div class="carousel-label">
-                <span>Football • Gym • Mindset</span>
-                <h3>Built Through Detail</h3>
-              </div>
-              <div class="dots" id="mainDots" aria-label="Carousel controls"></div>
-            </div>
-
-            <div class="media-side">
-              <div class="media-tile tile-1 reveal-right">
-                <span>Technical Work</span>
-                <h3>Sharper Detail</h3>
-              </div>
-              <div class="media-tile tile-2 reveal-right">
-                <span>Performance</span>
-                <h3>Higher Standards</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- QUALIFICATIONS -->
-      <section class="section" id="qualifications">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Experience & Standards</div>
-              <h2 class="section-title">Qualified To Build <span class="gold-text">Performance.</span></h2>
-            </div>
-            <p>
-            </p>
-          </div>
-
-          <div class="qual-grid">
-            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Performance</div>
-            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Nutrition & Excellence</div>
-            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sport & Exercise Massage</div>
-            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Psychology</div>
-            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Physiology of Fitness</div>
-            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Fitness Training & Programming</div>
-            <div class="qual-item reveal"><span>✓</span>FA Level 2 Football Coaching Badge</div>
-            <div class="qual-item reveal"><span>✓</span>Adverse Childhood Trauma Certificate</div>
-            <div class="qual-item reveal"><span>✓</span>Food Safety Awareness Certificate</div>
-            <div class="qual-item reveal"><span>✓</span>Health & Safety Certificate</div>
-            <div class="qual-item reveal"><span>✓</span>Safeguarding Certificate</div>
-            <div class="qual-item reveal"><span>✓</span>Enhanced DBS Certificate</div>
-            <div class="qual-item reveal"><span>✓</span>Ex-Professional Footballer</div>
-            <div class="qual-item reveal"><span>✓</span>Semi-Professional Footballer</div>
-            <div class="qual-item reveal"><span>✓</span>Certified PT Coach</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BOOKING / PRICING -->
-      
-      <section class="section" id="football-booking" aria-labelledby="football-booking-title">
-        <div class="section-inner">
-          <div class="section-head">
-            <div>
-              <div class="eyebrow">Book an individual session</div>
-              <h2 class="section-title" id="football-booking-title">Choose your <span class="gold-text">location.</span></h2>
-            </div>
-            <p>Choose your location, choose your coach, then select one date and time. Every booking is for one session. Want the same coach each week? Return to their calendar and book each date separately, subject to availability.</p>
-          </div>
-          <div class="football-locations">
-            <details class="lux-card football-location">
-              <summary>Portway RDC <span>Bristol · BS9 2HS — choose your coach</span></summary>
-              <div class="football-location-body">
-                <h3>Choose your coach</h3>
-                <p>60-minute, 1-to-1 football sessions. Select a coach to see their available dates.</p>
-                <div class="btn-row">
-                  <a class="btn btn-primary" href="https://calendly.com/george-jtmindbodybalance/football?primary_color=dcbc09" target="_blank" rel="noopener">Choose a date with George</a>
-                  <a class="btn btn-outline" href="https://calendly.com/charlie-jtmindbodybalance/1-1-football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener">Choose a date with Charlie</a>
-                </div>
-                <p class="football-booking-note">No coach preference? Check either coach’s calendar and choose a date that suits you. To train regularly with one coach, book each of your preferred dates on that coach’s calendar. A single booking does not reserve future weeks.</p>
-              </div>
-            </details>
-            <details class="lux-card football-location">
-              <summary>Berkeley <span>With Billy — bookings coming soon</span></summary>
-              <div class="football-location-body">
-                <h3>Football coaching with Billy</h3>
-                <p>2 Hamfield Cottages, Berkeley, GL13 9TN.</p>
-                <p>Online booking will open here when Billy’s calendar is available.</p>
-              </div>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="pricing">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Secure Session</div>
-              <h2 class="section-title">Book Your Next <span class="gold-text">Move.</span></h2>
-            </div>
-            <p>
-            </p>
-          </div>
-
-          <div class="booking-grid">
-            <article class="booking-card featured lux-card reveal">
-              <div>
-                <div class="eyebrow">Free Performance Consultation</div>
-                <h3>Start With A Free 15-Minute Call</h3>
-                <p>All new clients are entitled to a free phone consultation with James to discuss goals, ask questions and work out the best starting point.</p>
-              </div>
-              <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Free Call</a>
-            </article>
-
-            <article class="booking-card lux-card reveal">
-              <div>
-                <h3>1:1 Football Session</h3>
-                <div class="price">£45 per session</div>
-                <p>Individual football coaching with George or Charlie, built around technical detail, confidence and player-specific development. Choose your coach or the next available session.</p>
-              </div>
-              <a class="btn btn-outline" href="#football-booking">Book Football</a>
-            </article>
-
-            <article class="booking-card lux-card reveal">
-              <div>
-                <h3>1:1 Gym Personal Training</h3>
-                <div class="price">£45 per session</div>
-                <p>Physical coaching for strength, speed, movement quality and football-specific performance.</p>
-              </div>
-              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
-            </article>
-
-            <article class="booking-card lux-card reveal">
-              <div>
-                <h3>Online Mentor Coaching</h3>
-                <div class="price">£60 per session</div>
-                <p>Support around mindset, confidence, emotional resilience, discipline and standards.</p>
-              </div>
-              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
-            </article>
-
-            <article class="booking-card lux-card reveal">
-              <div>
-                <h3>Nutrition Plan</h3>
-                <div class="price">£80 per month</div>
-                <p>Nutrition structure to support recovery, performance, energy and long-term consistency.</p>
-              </div>
-              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- REVIEWS -->
-      <section class="section jt-reviews" id="reviews" aria-labelledby="jt-reviews-title">
+<!-- JT PERFORMANCE HUB -->
+<section class="section jt-reviews" id="reviews" aria-labelledby="jt-reviews-title">
         <div class="section-inner">
           <div class="jt-reviews-intro"><span class="collection-kicker">The JT experience / Client reviews</span><h2 id="jt-reviews-title">Trust, built<br><em>through experience.</em></h2><p>In their own words.</p></div>
           <div class="jt-review-stage" aria-roledescription="carousel" aria-label="Selected Google review excerpts">
@@ -3082,14 +2710,14 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
           <details class="jt-all-reviews"><summary>Explore all Google reviews <span aria-hidden="true">+</span></summary><div class="reviews-frame"><iframe src="https://widgets.sociablekit.com/google-reviews/iframe/25636685" title="JT Mind &amp; Body Balance Google Reviews" loading="lazy"></iframe></div></details>
         </div>
       </section>
-
-      <!-- ABOUT -->
+      
+      <!-- PATHWAY -->
       <section class="section" id="about">
         <div class="section-inner">
           <div class="section-head reveal">
             <div>
               <div class="eyebrow">Built From Experience</div>
-              <h2 class="section-title">Train Like An <span class="gold-text">Athlete.</span><br>Think Like A <span class="gold-text", span class="small-word">Professional.</span></h2>
+              <h2 class="section-title">Train Like An <span class="gold-text">Athlete.</span><br>Think Like A <span class="gold-text small-word">Professional.</span></h2>
             </div>
             <p>
             </p>
@@ -3122,7 +2750,27 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
         </div>
       </section>
 
-      <!-- Team -->
+      <!-- STATS -->
+      <section class="section" id="football-booking" aria-labelledby="football-booking-title">
+<div class="section-inner">
+  <div class="booking-editorial-head"><p class="booking-kicker">JT / YOUR NEXT SESSION</p><h2 id="football-booking-title">Your location.<br><em>Your next level.</em></h2><p>Choose where you train. Choose your coach. Book a single date and take the next step.</p></div>
+  <div class="booking-destinations">
+    <article class="booking-destination">
+      <div class="booking-destination-art" aria-hidden="true"><span class="booking-place-number">01</span><div class="booking-pitch"></div><span class="booking-place-tag">BRISTOL / PORTWAY RDC</span></div>
+      <div class="booking-destination-copy"><p class="booking-kicker">Technique. Confidence. Match performance.</p><h3>Portway <em>RDC.</em></h3><p>Portway Rugby Development Centre<br>Bristol, BS9 2HS</p><p class="booking-session-label">1-to-1 football · 60 minutes</p>
+      <div class="booking-coach-links"><a href="https://calendly.com/george-jtmindbodybalance/football?primary_color=dcbc09" target="_blank" rel="noopener">Book with George <span aria-hidden="true">↗</span></a><a href="https://calendly.com/charlie-jtmindbodybalance/1-1-football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener">Book with Charlie <span aria-hidden="true">↗</span></a></div></div>
+    </article>
+    <article class="booking-destination">
+      <div class="booking-destination-art booking-berkeley" aria-hidden="true"><span class="booking-place-number">02</span><div class="booking-pitch"></div><span class="booking-place-tag">GLOUCESTERSHIRE / BERKELEY</span></div>
+      <div class="booking-destination-copy"><p class="booking-kicker">Focused coaching. Individual attention.</p><h3>Berkeley<em>.</em></h3><p>2 Hamfield Cottages<br>Berkeley, GL13 9TN</p><p class="booking-session-label">1-to-1 football with Billy · 60 minutes</p>
+      <div class="booking-coach-links"><a href="https://calendly.com/jt-mind-body-balance/1-1-football-sessions?primary_color=dcbc09" target="_blank" rel="noopener">Book with Billy <span aria-hidden="true">↗</span></a></div></div>
+    </article>
+  </div>
+  <div class="booking-editorial-foot"><p>One session. One date. <em>Your choice of coach.</em></p><span>Want the same coach each week? Book each date separately through their calendar. Future weeks are only reserved once booked.</span></div>
+</div>
+</section>
+
+      <!-- SERVICES -->
       <section class="section shop-section" id="team">
         <div class="section-inner">
           <div class="section-head reveal">
@@ -3209,8 +2857,276 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
           </div>
         </div>
       </section>
+
+<!-- PARTNERSHIP -->
+      <section class="section pathway" id="pathway">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">The JT System</div>
+              <h2 class="section-title">Complete Performance <span class="gold-text">Pathway.</span></h2>
+            </div>
+            <p>
+            </p>
+          </div>
+
+          <div class="pathway-grid">
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>01 / On The Pitch</span>
+              </div>
+              <div>
+                <h3>Football Development</h3>
+                <p>1:1 football coaching, position-specific work, ball mastery, agility, movement, technical detail and game-realistic outcomes.</p>
+              </div>
+            </article>
+
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>02 / In The Gym</span>
+              </div>
+              <div>
+                <h3>Physical Performance</h3>
+                <p>Strength, speed, power, mobility, injury resilience and football-specific gym programming to support real performance.</p>
+              </div>
+            </article>
+
+            <article class="path-card lux-card reveal">
+              <div class="path-card-top">
+                <span>03 / Inside The Mind</span>
+              </div>
+              <div>
+                <h3>Mentoring & Mindset</h3>
+                <p>Confidence, emotional control, discipline, resilience and the standards required to improve consistently.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+         
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <img src="images/evolve.png" loading="eager" alt="evolve">
+          <img src="images/repl.png" loading="eager" alt="replaicam">
+          <img src="images/pro11.png" loading="eager" alt="pro11">
+          <img src="images/yate.png" loading="eager" alt="yate">
+          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
+          <img src="images/evolve.png" loading="eager" alt="evolve">
+          <img src="images/repl.png" loading="eager" alt="replaicam">
+          <img src="images/pro11.png" loading="eager" alt="pro11">
+          <img src="images/yate.png" loading="eager" alt="yate">
+          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
+           <img src="images/evolve.png" loading="eager" alt="evolve">
+          <img src="images/repl.png" loading="eager" alt="replaicam">
+          <img src="images/pro11.png" loading="eager" alt="pro11">
+          <img src="images/yate.png" loading="eager" alt="yate">
+          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
+          <img src="images/evolve.png" loading="eager" alt="evolve">
+          <img src="images/repl.png" loading="eager" alt="replaicam">
+          <img src="images/pro11.png" loading="eager" alt="pro11">
+          <img src="images/yate.png" loading="eager" alt="yate">
+          <img class="tidal-partner" src="/images/tidal-tank.svg" loading="eager" alt="Tidal Tank Training">
+        </div>
+      </div>
+ 
       
-      <!-- CANCELLATION POLICY -->
+
+      <!-- MEDIA -->
+      <section class="section" id="services">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Services</div>
+              <h2 class="section-title">Choose Your <span class="gold-text">Route.</span></h2>
+            </div>
+            <p>
+            </p>
+          </div>
+
+          <div class="service-list">
+            <a class="service-row reveal" href="#football-booking">
+              <span class="num">01</span>
+              <h3>1:1 Football Session</h3>
+              <p>Technical and position-specific football development built around the individual player.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">02</span>
+              <h3>Gym Personal Training</h3>
+              <p>Strength, speed, power and football-specific physical performance coaching.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">03</span>
+              <h3>Nutrition Program</h3>
+              <p>Simple and effective nutrition support for energy, recovery and performance.</p>
+              <span class="arrow">→</span>
+            </a>
+
+            <a class="service-row reveal" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">
+              <span class="num">04</span>
+              <h3>Mentoring Session</h3>
+              <p>Mindset, confidence, discipline and resilience support for players and individuals.</p>
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUALIFICATIONS -->
+      <section class="section" id="pricing">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Secure Session</div>
+              <h2 class="section-title">Book Your Next <span class="gold-text">Move.</span></h2>
+            </div>
+            <p>
+            </p>
+          </div>
+
+          <div class="booking-grid">
+            <article class="booking-card featured lux-card reveal">
+              <div>
+                <div class="eyebrow">Free Performance Consultation</div>
+                <h3>Start With A Free 15-Minute Call</h3>
+                <p>All new clients are entitled to a free phone consultation with James to discuss goals, ask questions and work out the best starting point.</p>
+              </div>
+              <a class="btn btn-primary" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Book Free Call</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>1:1 Football Session</h3>
+                <div class="price">£45 per session</div>
+                <p>Individual football coaching with George or Charlie, built around technical detail, confidence and player-specific development. Choose your coach or the next available session.</p>
+              </div>
+              <a class="btn btn-outline" href="#football-booking">Book Football</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>1:1 Gym Personal Training</h3>
+                <div class="price">£45 per session</div>
+                <p>Physical coaching for strength, speed, movement quality and football-specific performance.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>Online Mentor Coaching</h3>
+                <div class="price">£60 per session</div>
+                <p>Support around mindset, confidence, emotional resilience, discipline and standards.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
+            </article>
+
+            <article class="booking-card lux-card reveal">
+              <div>
+                <h3>Nutrition Plan</h3>
+                <div class="price">£80 per month</div>
+                <p>Nutrition structure to support recovery, performance, energy and long-term consistency.</p>
+              </div>
+              <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Enquire — Free Call</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOOKING / PRICING -->
+      
+      <section class="section" id="partnership">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Partnership</div>
+              <h2 class="section-title">Trusted Performance <span class="gold-text">Connections.</span></h2>
+            </div>
+            <p>
+            </p>
+          </div>
+      </section>
+
+      <section class="section" id="media">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Inside The Work</div>
+              <h2 class="section-title">Elite Player <span class="gold-text">Development.</span></h2>
+            </div>
+            </p>
+          </div>
+
+          <div class="media-grid">
+            <div class="carousel reveal-left" data-carousel="main">
+              <img src="images/IMG_1486.PNG" class="active" loading="lazy" alt="James coaching and football performance">
+              <img src="images/img6.jpg.JPEG" loading="lazy" alt="James Taylor football image">
+              <img src="images/img15.jpg.jpeg" loading="lazy" alt="Football coaching session">
+              <img src="images/img18.jpg.jpeg" loading="lazy" alt="Performance coaching image">
+              <img src="images/img2.jpg.jpeg" loading="lazy" alt="JT Mind and Body Balance">
+              <img src="images/img3.jpg.jpeg" loading="lazy" alt="Football training">
+              <img src="images/img4.jpg.jpeg" loading="lazy" alt="Football training detail">
+              <img src="images/img5.jpg.jpeg" loading="lazy" alt="Player development">
+              <img src="images/img7.jpg.jpeg" loading="lazy" alt="Football coaching Bristol">
+              <img src="images/img8.jpg.jpeg" loading="lazy" alt="JT coaching image">
+              <img src="images/img9.jpg.JPEG" loading="lazy" alt="James Taylor football">
+              <div class="carousel-label">
+                <span>Football • Gym • Mindset</span>
+                <h3>Built Through Detail</h3>
+              </div>
+              <div class="dots" id="mainDots" aria-label="Carousel controls"></div>
+            </div>
+
+            <div class="media-side">
+              <div class="media-tile tile-1 reveal-right">
+                <span>Technical Work</span>
+                <h3>Sharper Detail</h3>
+              </div>
+              <div class="media-tile tile-2 reveal-right">
+                <span>Performance</span>
+                <h3>Higher Standards</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section class="section" id="qualifications">
+        <div class="section-inner">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Experience & Standards</div>
+              <h2 class="section-title">Qualified To Build <span class="gold-text">Performance.</span></h2>
+            </div>
+            <p>
+            </p>
+          </div>
+
+          <div class="qual-grid">
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Performance</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sports Nutrition & Excellence</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Sport & Exercise Massage</div>
+            <div class="qual-item reveal"><span>✓</span>Extended Diploma in Psychology</div>
+            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Physiology of Fitness</div>
+            <div class="qual-item reveal"><span>✓</span>Level 3 Distinction in Fitness Training & Programming</div>
+            <div class="qual-item reveal"><span>✓</span>FA Level 2 Football Coaching Badge</div>
+            <div class="qual-item reveal"><span>✓</span>Adverse Childhood Trauma Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Food Safety Awareness Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Health & Safety Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Safeguarding Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Enhanced DBS Certificate</div>
+            <div class="qual-item reveal"><span>✓</span>Ex-Professional Footballer</div>
+            <div class="qual-item reveal"><span>✓</span>Semi-Professional Footballer</div>
+            <div class="qual-item reveal"><span>✓</span>Certified PT Coach</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
       <section class="section" id="cancellation">
         <div class="section-inner">
           <div class="policy-card lux-card reveal">
@@ -3226,7 +3142,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
         </div>
       </section>
 
-      <!-- CONTACT AND FIND US -->
+      <!-- Team -->
       <section class="section" id="contact">
         <div class="section-inner">
           <div class="contact-grid">
@@ -3263,6 +3179,105 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
           </div>
         </div>
       </section>
+      
+      <!-- CANCELLATION POLICY -->
+      <section class="section shop-section" id="shop" aria-labelledby="collection-title">
+        <div class="section-inner">
+          <div class="jt-cinema" id="jt-cinema">
+            <div class="jt-cinema-stage">
+              <div class="jt-cinema-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="jt-cinema-top"><span>JT / THE SIGNATURE EDIT</span><a href="https://xtkzjd-5g.myshopify.com/">Enter the store</a></div>
+              <span class="jt-cinema-watermark" aria-hidden="true">JT</span>
+              <div class="jt-cinema-product" role="img" aria-label="Campaign visual of a floating black JT oversized tee with the gold chest emblem">
+                <div class="jt-cinema-garment"></div><div class="jt-cinema-gold-light" aria-hidden="true"></div>
+              </div>
+              <div class="jt-cinema-floor" aria-hidden="true"></div>
+              <div class="jt-cinema-copy">
+                <div class="jt-cinema-panel" data-scene="0">
+                  <p class="jt-cinema-eyebrow">Elite Performance Collection / 01</p>
+                  <h2 id="collection-title">Presence.<br>Without <em>permission.</em></h2>
+                  <p class="jt-cinema-description">For the session. For the slow days.<br>For those who set their own standard.</p>
+                </div>
+                <div class="jt-cinema-panel" data-scene="1" aria-hidden="true" inert>
+                  <p class="jt-cinema-eyebrow">The detail / 02</p>
+                  <h3>Quiet detail.<br><em>Strong identity.</em></h3>
+                  <p class="jt-cinema-description">One uninterrupted silhouette.<br>The gold signature. Look closer.</p>
+                </div>
+                <div class="jt-cinema-panel" data-scene="2" aria-hidden="true" inert>
+                  <p class="jt-cinema-eyebrow">The signature / 03</p>
+                  <h3>More than<br><em>a mark.</em></h3>
+                  <p class="jt-cinema-description">Mind. Body. Balance.<br>A mindset you take with you.</p>
+                </div>
+              </div>
+              <div class="jt-cinema-bottom">
+                <div class="jt-cinema-shop"><a class="collection-primary" href="https://xtkzjd-5g.myshopify.com/">Shop the JT collection</a></div>
+                <div class="jt-cinema-controls"><span class="jt-cinema-scroll">Scroll to discover</span><span class="jt-cinema-counter" aria-hidden="true">01 — 03</span><button type="button" class="jt-cinema-motion" aria-pressed="true" hidden>Motion on</button></div>
+              </div>
+              <div class="jt-cinema-progress" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+          <div class="collection-manifesto wear-reveal">
+            <p>Carry the same intention into every session. Every slow morning. <em>Every version of you.</em></p>
+          </div>
+          <div class="collection-footer wear-reveal">
+            <div><div class="collection-kicker">Unmistakably yours</div><h3>Find your next<br><em>signature piece.</em></h3></div>
+            <a class="collection-primary" href="https://xtkzjd-5g.myshopify.com/">Shop the JT collection</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT AND FIND US -->
+      <section class="jt-hub-reel" id="performance-hub" data-refreshed="true" aria-labelledby="hub-reel-title">
+  <div class="hub-reel-stage">
+    <div class="hub-reel-light" aria-hidden="true"></div>
+    <div class="hub-reel-top"><span>JT / PERFORMANCE HUB</span><a href="/performance-hub-login.html">Player login</a></div>
+    <div class="hub-reel-layout">
+      <div class="hub-reel-editorial">
+        <p class="hub-reel-kicker">Your game. Wherever you are.</p>
+        <h2 id="hub-reel-title">Your next level.<br><em>Starts today.</em></h2>
+        <div class="hub-reel-stories">
+          <div class="hub-reel-story" data-hub-scene="0"><h3>Start with a clear plan.</h3><p>Open your Hub. Find today’s focus.</p></div>
+          <div class="hub-reel-story" data-hub-scene="1" hidden><h3>Make the work count.</h3><p>Training. Nutrition. Mindset. Recovery.</p></div>
+          <div class="hub-reel-story" data-hub-scene="2" hidden><h3>See your consistency.</h3><p>Track your progress. Build your next day.</p></div>
+        </div>
+        <div class="hub-reel-actions">
+          <a class="hub-reel-primary" href="/performance-hub-free-signup.html">Create your free account</a>
+          <a class="hub-reel-trial" href="https://buy.stripe.com/fZucMYcQuaGx2OA3y56Vq05">Try Premium</a>
+        </div>
+        <p class="hub-reel-price"><strong>Free player account: £0.</strong> Premium includes a 30-day free trial, then £12.99/month. Cancel anytime. Use the same account when you upgrade.</p>
+      </div>
+      <div class="hub-reel-device" aria-label="Illustrative Performance Hub walkthrough">
+        <div class="hub-device-bar"><img src="/images/jt-crest-transparent-v2.png" width="36" height="36" alt=""><span>JT HUB</span><span class="hub-preview-label">Preview</span></div>
+        <div class="hub-device-viewport">
+          <article class="hub-demo-screen" data-hub-screen="0" aria-labelledby="hub-demo-plan">
+            <p class="hub-demo-eyebrow">01 / Open your dashboard</p><h3 id="hub-demo-plan">Today’s<br>performance plan.</h3>
+            <div class="hub-demo-checkin"><div><span>Daily sign-in</span><strong>Day 4 of 7</strong></div><div class="hub-demo-days" aria-label="Four of seven sign-in days"><b>1</b><b>2</b><b>3</b><b>4</b><i>5</i><i>6</i><i>7</i></div><div class="hub-demo-day-track"><span></span></div></div>
+            <p class="hub-demo-label">Your next moves</p>
+            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Set your session focus</strong><span>One intention. Start here.</span></div><span>01</span></div>
+            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Build your performance plate</strong><span>Choose your fuel.</span></div><span>02</span></div>
+            <div class="hub-demo-task"><span class="hub-demo-dot"></span><div><strong>Reflect on your day</strong><span>Keep the useful details.</span></div><span>03</span></div>
+            <div class="hub-demo-selection">Start with today.</div>
+          </article>
+          <article class="hub-demo-screen" data-hub-screen="1" aria-labelledby="hub-demo-routine" hidden>
+            <p class="hub-demo-eyebrow">02 / Build your routine</p><h3 id="hub-demo-routine">The work.<br>The whole picture.</h3>
+            <div class="hub-demo-tools"><div><span>01</span><strong>Training</strong><small>Your next session</small></div><div><span>02</span><strong>Mindset</strong><small>Prepare your mind</small></div><div><span>03</span><strong>Nutrition</strong><small>Fuel your routine</small></div><div><span>04</span><strong>Recovery</strong><small>Reset for tomorrow</small></div></div>
+            <div class="hub-demo-plate"><div class="hub-demo-plate-ring"><strong>4<span>/ 6</span></strong></div><div><span>Performance plate</span><strong>Choose your foods.</strong><small>Protein. Carbs. Colour. Fluids.</small></div></div>
+            <div class="hub-demo-selection">Premium tools. One connected routine.</div>
+          </article>
+          <article class="hub-demo-screen" data-hub-screen="2" aria-labelledby="hub-demo-progress" hidden>
+            <p class="hub-demo-eyebrow">03 / Review your progress</p><h3 id="hub-demo-progress">Every day.<br>A little more intent.</h3>
+            <div class="hub-demo-chart"><div><span>Your activity</span><strong>A week of showing up.</strong></div><div class="hub-demo-bars" aria-label="Example activity chart"><i style="--bar:35%"></i><i style="--bar:58%"></i><i style="--bar:44%"></i><i style="--bar:72%"></i><i style="--bar:65%"></i><i style="--bar:84%"></i><i style="--bar:94%"></i></div><div class="hub-demo-week"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
+            <div class="hub-demo-reflection"><span>Your journal</span><strong>What worked today?</strong><p>Keep it. Build on it tomorrow.</p></div>
+            <div class="hub-demo-selection">Your progress. In one place.</div>
+          </article>
+        </div>
+        <div class="hub-device-footer"><span>Illustrative preview</span><span>Free + Premium features</span></div>
+      </div>
+    </div>
+    <div class="hub-reel-bottom"><div class="hub-reel-chapters" role="group" aria-label="Hub walkthrough chapters"><button type="button" data-hub-chapter="0" aria-pressed="true">01 <span>Plan</span></button><button type="button" data-hub-chapter="1" aria-pressed="false">02 <span>Prepare</span></button><button type="button" data-hub-chapter="2" aria-pressed="false">03 <span>Progress</span></button></div><div class="hub-reel-controls"><span class="hub-reel-scroll">Scroll to explore</span><button type="button" class="hub-reel-motion" hidden aria-pressed="true">Motion on</button></div></div>
+    <div class="hub-reel-progress" aria-hidden="true"><span></span></div>
+  </div>
+</section>
 
   
       <!-- FINAL CTA -->
