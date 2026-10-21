@@ -2517,6 +2517,9 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
 .booking-destination{background:#141215;border:1px solid #dbc18133;overflow:hidden}
 .booking-destination-art{position:relative;height:260px;overflow:hidden;background:radial-gradient(ellipse at 65% 30%,#433a29,#141215 76%)}
 .booking-berkeley{background:radial-gradient(ellipse at 30% 35%,#3d3e31,#111314 76%)}
+.booking-location-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.booking-destination-art:has(.booking-location-photo)::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.booking-destination-art:has(.booking-location-photo) .booking-place-tag{z-index:1;color:#fff}
 .booking-place-number{position:absolute;top:-30px;right:24px;color:#dbc18112;font-family:'Playfair Display',serif;font-size:240px;line-height:1}
 .booking-place-tag{position:absolute;left:28px;bottom:24px;font-size:10px;letter-spacing:.19em;color:#dbc181}
 .booking-pitch{position:absolute;width:210px;height:140px;left:calc(50% - 105px);top:40px;border:1px solid #dbc18166;transform:perspective(500px) rotateX(32deg) rotate(-14deg);box-shadow:0 0 50px #dbc1810d}
@@ -2756,7 +2759,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
   <div class="booking-editorial-head"><p class="booking-kicker">JT / YOUR NEXT SESSION</p><h2 id="football-booking-title">Your location.<br><em>Your next level.</em></h2><p>Choose where you train. Choose your coach. Book a single date and take the next step.</p></div>
   <div class="booking-destinations">
     <article class="booking-destination">
-      <div class="booking-destination-art" aria-hidden="true"><span class="booking-place-number">01</span><div class="booking-pitch"></div><span class="booking-place-tag">BRISTOL / PORTWAY RDC</span></div>
+      <div class="booking-destination-art"><img class="booking-location-photo" src="images/portway-coaching.webp" alt="Individual football coaching at Portway RDC" width="1366" height="768" loading="lazy"><span class="booking-place-tag">BRISTOL / PORTWAY RDC</span></div>
       <div class="booking-destination-copy"><p class="booking-kicker">Technique. Confidence. Match performance.</p><h3>Portway <em>RDC.</em></h3><p>Portway Rugby Development Centre<br>Bristol, BS9 2HS</p><p class="booking-session-label">1-to-1 football · 60 minutes</p>
       <div class="booking-coach-links"><a href="https://calendly.com/george-jtmindbodybalance/football?primary_color=dcbc09" target="_blank" rel="noopener">Book with George <span aria-hidden="true">↗</span></a><a href="https://calendly.com/charlie-jtmindbodybalance/1-1-football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener">Book with Charlie <span aria-hidden="true">↗</span></a></div></div>
     </article>
