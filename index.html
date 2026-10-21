@@ -2493,7 +2493,19 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
  #jtMotionToggle { display:none; }
 }
 
-</style>
+
+    #football-booking { scroll-margin-top: 92px; }
+    .football-locations { display: grid; gap: 20px; }
+    .football-location summary { cursor: pointer; padding: 28px; font-size: clamp(1.4rem,3vw,2rem); font-weight: 800; color: var(--gold); }
+    .football-location summary span { display: block; margin-top: 12px; color: var(--muted); font-size: 1rem; font-weight: 500; line-height: 1.6; }
+    .football-location summary:focus-visible { outline: 3px solid var(--gold); outline-offset: -5px; border-radius: var(--radius-xl); }
+    .football-location-body { padding: 0 28px 28px; }
+    .football-location-body h3 { font-size: 1.4rem; margin-bottom: 16px; }
+    .football-location-body p { color: var(--muted); line-height: 1.8; margin-bottom: 24px; }
+    .football-location-body .football-booking-note { margin: 24px 0 0; }
+    @media(max-width: 600px) { .football-location .btn { width: 100%; text-align: center; padding: 14px 20px; } }
+
+  </style>
 
   <link rel="stylesheet" href="/jt-collection.css?v=20261007.1">
   <link rel="stylesheet" href="/jt-collection-cinema.css?v=20261008.1">
@@ -2510,7 +2522,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
 <meta name="twitter:title" content="1-to-1 Football Coaching Bristol | JT Mind &amp; Body Balance">
 <meta name="twitter:description" content="Book 1-to-1 football coaching in Bristol with George or Charlie at Portway Rugby Development Centre. Build technique, confidence and match performance.">
 <meta name="twitter:image" content="https://jt-website-orpin.vercel.app/images/applogo512.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://jt-website-orpin.vercel.app/#business","name":"JT Mind & Body Balance","url":"https://jt-website-orpin.vercel.app/","image":"https://jt-website-orpin.vercel.app/images/applogo512.png","telephone":"+447885470111","description":"Book 1-to-1 football coaching in Bristol with George or Charlie at Portway Rugby Development Centre. Build technique, confidence and match performance.","address":{"@type":"PostalAddress","streetAddress":"Portway Rugby Development Centre, Portway","addressLocality":"Bristol","postalCode":"BS9 2HS","addressCountry":"GB"},"areaServed":{"@type":"City","name":"Bristol"},"hasMap":"https://maps.app.goo.gl/gaeSyhXionQeB2zK9"},{"@type":"Service","name":"1-to-1 football coaching","serviceType":"Individual football coaching","provider":{"@id":"https://jt-website-orpin.vercel.app/#business"},"areaServed":"Bristol","url":"https://calendly.com/jt-football-coaching"},{"@type":"WebSite","name":"JT Mind & Body Balance","url":"https://jt-website-orpin.vercel.app/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://jt-website-orpin.vercel.app/#business","name":"JT Mind & Body Balance","url":"https://jt-website-orpin.vercel.app/","image":"https://jt-website-orpin.vercel.app/images/applogo512.png","telephone":"+447885470111","description":"Book 1-to-1 football coaching in Bristol with George or Charlie at Portway Rugby Development Centre. Build technique, confidence and match performance.","address":{"@type":"PostalAddress","streetAddress":"Portway Rugby Development Centre, Portway","addressLocality":"Bristol","postalCode":"BS9 2HS","addressCountry":"GB"},"areaServed":{"@type":"City","name":"Bristol"},"hasMap":"https://maps.app.goo.gl/gaeSyhXionQeB2zK9"},{"@type":"Service","name":"1-to-1 football coaching","serviceType":"Individual football coaching","provider":{"@id":"https://jt-website-orpin.vercel.app/#business"},"areaServed":"Bristol","url":"https://jt-website-orpin.vercel.app/#football-booking"},{"@type":"WebSite","name":"JT Mind & Body Balance","url":"https://jt-website-orpin.vercel.app/"}]}</script>
 <style>.hero-service-heading{font-family:'Montserrat',sans-serif;font-size:clamp(1.25rem,2.5vw,2.1rem);line-height:1.25;margin:0 0 24px;max-width:760px;letter-spacing:0;}</style>
 <link rel="stylesheet" href="/jt-premium-refinements.css?v=20261008.1">
 <link rel="stylesheet" href="/jt-hub-reel.css?v=20261011.1">
@@ -2584,7 +2596,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
               Develop your technique, confidence and match performance with George or Charlie at Portway Rugby Development Centre, Bristol. Explore gym training, nutrition and mentoring for your wider development.
             </p>
             <div class="btn-row" style="margin-top:30px;">
-              <a class="btn btn-primary" href="https://calendly.com/jt-football-coaching" target="_blank" rel="noopener">Book Team Football</a>
+              <a class="btn btn-primary" href="#football-booking">Book Team Football</a>
               <a class="btn btn-outline" href="#pathway">Enter The System</a>
             </div>
           </div>
@@ -2810,7 +2822,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
           </div>
 
           <div class="service-list">
-            <a class="service-row reveal" href="https://calendly.com/jt-football-coaching?primary_color=dcbc09" target="_blank" rel="noopener">
+            <a class="service-row reveal" href="#football-booking">
               <span class="num">01</span>
               <h3>1:1 Football Session</h3>
               <p>Technical and position-specific football development built around the individual player.</p>
@@ -2959,6 +2971,41 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
       </section>
 
       <!-- BOOKING / PRICING -->
+      
+      <section class="section" id="football-booking" aria-labelledby="football-booking-title">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Book an individual session</div>
+              <h2 class="section-title" id="football-booking-title">Choose your <span class="gold-text">location.</span></h2>
+            </div>
+            <p>Choose your location, choose your coach, then select one date and time. Every booking is for one session. Want the same coach each week? Return to their calendar and book each date separately, subject to availability.</p>
+          </div>
+          <div class="football-locations">
+            <details class="lux-card football-location">
+              <summary>Portway RDC <span>Bristol · BS9 2HS — choose your coach</span></summary>
+              <div class="football-location-body">
+                <h3>Choose your coach</h3>
+                <p>60-minute, 1-to-1 football sessions. Select a coach to see their available dates.</p>
+                <div class="btn-row">
+                  <a class="btn btn-primary" href="https://calendly.com/george-jtmindbodybalance/football?primary_color=dcbc09" target="_blank" rel="noopener">Choose a date with George</a>
+                  <a class="btn btn-outline" href="https://calendly.com/charlie-jtmindbodybalance/1-1-football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener">Choose a date with Charlie</a>
+                </div>
+                <p class="football-booking-note">No coach preference? Check either coach’s calendar and choose a date that suits you. To train regularly with one coach, book each of your preferred dates on that coach’s calendar. A single booking does not reserve future weeks.</p>
+              </div>
+            </details>
+            <details class="lux-card football-location">
+              <summary>Berkeley <span>With Billy — bookings coming soon</span></summary>
+              <div class="football-location-body">
+                <h3>Football coaching with Billy</h3>
+                <p>2 Hamfield Cottages, Berkeley, GL13 9TN.</p>
+                <p>Online booking will open here when Billy’s calendar is available.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="pricing">
         <div class="section-inner">
           <div class="section-head reveal">
@@ -2986,7 +3033,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
                 <div class="price">£45 per session</div>
                 <p>Individual football coaching with George or Charlie, built around technical detail, confidence and player-specific development. Choose your coach or the next available session.</p>
               </div>
-              <a class="btn btn-outline" href="https://calendly.com/jt-football-coaching?primary_color=dcbc09" target="_blank" rel="noopener">Book Football</a>
+              <a class="btn btn-outline" href="#football-booking">Book Football</a>
             </article>
 
             <article class="booking-card lux-card reveal">
@@ -3067,7 +3114,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
               </div>
 
               <div class="btn-row" style="margin-top:30px;">
-                <a class="btn btn-primary" href="https://calendly.com/jt-football-coaching" target="_blank" rel="noopener">Secure Your Spot</a>
+                <a class="btn btn-primary" href="#football-booking">Secure Your Spot</a>
                 <a class="btn btn-outline" href="#pricing">View Sessions</a>
               </div>
             </div>
@@ -3109,7 +3156,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
                 <h3>George Bellis</h3>
                 <p>Ex-Academy. Current Semi-Pro. FA Coach.</p>
                 <span class="product-price">Coach</span>
-                <a href="https://calendly.com/jt-football-coaching/football-session-with-george?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">Book with George</a>
+                <a href="https://calendly.com/george-jtmindbodybalance/football?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">Book with George</a>
               </div>
             </article>
 
@@ -3121,7 +3168,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
                 <h3>Charlie Rogers</h3>
                 <p>1-to-1 football coaching at Portway, Bristol. Develop your technique, confidence and match performance.</p>
                 <span class="product-price">Football Coach</span>
-                <a href="https://calendly.com/jt-football-coaching/football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">Book with Charlie</a>
+                <a href="https://calendly.com/charlie-jtmindbodybalance/1-1-football-session-with-charlie?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">Book with Charlie</a>
               </div>
             </article>
 
@@ -3133,7 +3180,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
                 <h3>Joe Cattermole</h3>
                 <p>Ex-Semi Pro. Movement Specialist. Elite Mentor.</p>
                 <span class="product-price">Coach</span>
-                <a href="https://calendly.com/jt-football-coaching?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">BOOK WITH THE TEAM</a>
+                <a href="#football-booking" class="btn btn-outline">BOOK WITH THE TEAM</a>
               </div>
             </article>
 
@@ -3145,7 +3192,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
                 <h3>Lucy Groves</h3>
                 <p>County Footballer. Sports Therapist. FA Coach.</p>
                 <span class="product-price">Coach</span>
-                <a href="https://calendly.com/jt-football-coaching?primary_color=dcbc09" target="_blank" rel="noopener" class="btn btn-outline">BOOK WITH THE TEAM</a>
+                <a href="#football-booking" class="btn btn-outline">BOOK WITH THE TEAM</a>
               </div>
             </article>
             
@@ -3227,7 +3274,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
             Book 1:1 football coaching with the JT Football Coaching team, or a free consultation with James to discuss your goals.
           </p>
           <div class="btn-row" style="justify-content:center;">
-            <a class="btn btn-primary" href="https://calendly.com/jt-football-coaching" target="_blank" rel="noopener">Book Team Football</a>
+            <a class="btn btn-primary" href="#football-booking">Book Team Football</a>
             <a class="btn btn-outline" href="#contact">Send A Message</a>
             <a class="btn btn-outline" href="https://calendly.com/jt-mind-body-balance/introduction-meeting-online?primary_color=dcbc09" target="_blank" rel="noopener">Free Consultation With James</a>
           </div>
