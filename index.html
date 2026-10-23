@@ -2559,6 +2559,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
 <style>.hero-service-heading{font-family:'Montserrat',sans-serif;font-size:clamp(1.25rem,2.5vw,2.1rem);line-height:1.25;margin:0 0 24px;max-width:760px;letter-spacing:0;}</style>
 <link rel="stylesheet" href="/jt-premium-refinements.css?v=20261008.1">
 <link rel="stylesheet" href="/jt-hub-reel.css?v=20261011.1">
+<link rel="stylesheet" href="/jt-about-story.css?v=20261023.1">
 </head>
 
 <body>
@@ -2714,23 +2715,52 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
         </div>
       </section>
       
-      <!-- PATHWAY -->
-      <section class="section" id="about">
-        <div class="section-inner">
-          <div class="section-head reveal">
-            <div>
-              <div class="eyebrow">Built From Experience</div>
-              <h2 class="section-title">Train Like An <span class="gold-text">Athlete.</span><br>Think Like A <span class="gold-text small-word">Professional.</span></h2>
-            </div>
-            <p>
-            </p>
+      <!-- JAMES TAYLOR / THE STORY -->
+      <section class="jt-about" id="about" aria-labelledby="jt-about-title">
+        <div class="jt-about-stage">
+          <div class="jt-about-top"><span>The person behind JT</span><a href="#jt-about-full-story">Read my story <span aria-hidden="true">↗</span></a></div>
+          <div class="jt-about-name" aria-hidden="true"><span>JAMES</span><span>TAYLOR</span></div>
+          <div class="jt-about-portrait"><img src="/images/jt-about-portrait-v1.png" width="1024" height="1536" alt="James Taylor in his black and gold JT coaching kit" loading="lazy" decoding="async"></div>
+          <div class="jt-about-intro">
+            <p class="jt-about-label">James Taylor / Founder</p>
+            <h2 id="jt-about-title">Built by the game.<br><em>Defined by the comeback.</em></h2>
+            <p>Footballer. Coach. Performance mentor.</p>
           </div>
-
-          <div class="about-grid">
-            <div class="about-portrait reveal-left" data-parallax></div>
-
-            <div class="about-copy lux-card reveal-right">
-              <p>Hi, I’m <strong>James Taylor</strong> — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, semi-professional footballer, coach and performance mentor.</p>
+          <div class="jt-about-stories">
+            <article class="jt-about-chapter">
+              <p class="jt-about-chapter-index">01 / The player</p>
+              <h3>A childhood dream.<br><em>A professional reality.</em></h3>
+              <p>I grew up supporting Bristol City. At seven, football became my world. Playing professionally for the club I loved was a dream I shared with my Dad and Grandad.</p>
+              <div class="jt-about-signoff">Bristol beginnings. Professional standards.</div>
+            </article>
+            <article class="jt-about-chapter">
+              <p class="jt-about-chapter-index">02 / The comeback</p>
+              <h3>The setback was real.<br><em>So was the belief.</em></h3>
+              <p>Four knee dislocations. Double knee surgery. Being told I would never play again. With support, discipline and determination, I found my way back to semi-professional football.</p>
+              <div class="jt-about-signoff">Strength is built from the inside.</div>
+            </article>
+            <article class="jt-about-chapter">
+              <p class="jt-about-chapter-index">03 / The purpose</p>
+              <h3>Now, your story<br><em>is my focus.</em></h3>
+              <p>I built JT Mind &amp; Body Balance to help you develop the complete player. The skill. The athleticism. The confidence to back yourself. <strong>Because the person matters as much as the performance.</strong></p>
+              <div class="jt-about-signoff"><img src="/images/jt-crest-transparent-v2.png" width="48" height="48" alt=""><span>Mind. Body. Balance.</span></div>
+            </article>
+          </div>
+          <div class="jt-about-bottom">
+            <div class="jt-about-chapters" role="group" aria-label="Explore James's story">
+              <button type="button" data-about-chapter="0" aria-pressed="false"><span>01</span>The player</button>
+              <button type="button" data-about-chapter="1" aria-pressed="false"><span>02</span>The comeback</button>
+              <button type="button" data-about-chapter="2" aria-pressed="false"><span>03</span>The purpose</button>
+            </div>
+            <div class="jt-about-controls"><span class="jt-about-scroll">Scroll to discover ↓</span><button type="button" class="jt-about-motion" aria-pressed="false" hidden>Pause motion</button></div>
+          </div>
+          <div class="jt-about-track" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
+      <div class="jt-about-read" id="jt-about-full-story">
+        <div class="jt-about-read-inner">
+          <details><summary>James Taylor — the full story <span aria-hidden="true">+</span></summary>
+          <p>Hi, I’m <strong>James Taylor</strong> — founder of <strong>JT Mind & Body Balance</strong>, former professional footballer, semi-professional footballer, coach and performance mentor.</p>
 
               <p>Football has shaped my life from a young age. I started playing at 7, supported Bristol City FC from the age of 4, and went on to play professionally for the club I loved, sharing that dream with my Dad and Grandad.</p>
 
@@ -2740,18 +2770,11 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
 
               <p>Now I use that experience to help players build the complete package: skill, athleticism, resilience, confidence and standards.</p>
 
-              <div class="quote-box">
-                Your journey starts now. Let’s build the player, the athlete and the mindset together.
-              </div>
 
-              <div class="btn-row" style="margin-top:30px;">
-                <a class="btn btn-primary" href="#football-booking">Secure Your Spot</a>
-                <a class="btn btn-outline" href="#pricing">View Sessions</a>
-              </div>
-            </div>
-          </div>
+          </details>
+          <div class="jt-about-read-cta"><p>Your next chapter<br>starts here.</p><a class="jt-about-book" href="#football-booking">Find your coach <span aria-hidden="true">↗</span></a></div>
         </div>
-      </section>
+      </div>
 
       <!-- STATS -->
       <section class="section" id="football-booking" aria-labelledby="football-booking-title">
@@ -3615,6 +3638,7 @@ body.jt-motion-paused .jt-directory .jt-ambient i,body.jt-motion-paused .navbar:
   <script src="/performance-hub-website-refresh.js?v=20261008.1"></script>
 <script defer src="/jt-premium-refinements.js?v=20261008.1"></script>
 <script defer src="/jt-hub-reel.js?v=20261011.1"></script>
+<script defer src="/jt-about-story.js?v=20261023.1"></script>
 </body>
 </html>
 
