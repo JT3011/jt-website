@@ -1,0 +1,12 @@
+(()=>{const root=document.querySelector('.jt-team');if(!root)return;
+const stage=root.querySelector('.jt-team-stage'),profiles=[...root.querySelectorAll('.jt-team-profile')],buttons=[...root.querySelectorAll('[data-team-select]')],motion=root.querySelector('.jt-team-motion'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
+let paused=false,active=-1,frame=0,visible=false;
+function set(i){if(i===active)return;active=i;profiles.forEach((p,n)=>{p.classList.toggle('is-current',n===i);p.inert=root.classList.contains('is-animated')&&n!==i;if(p.inert)p.setAttribute('aria-hidden','true');else p.removeAttribute('aria-hidden')});buttons.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)))}
+function draw(){frame=0;if(!root.classList.contains('is-animated'))return;const top=innerWidth<=640?64:74,range=root.offsetHeight-stage.offsetHeight,progress=Math.max(0,Math.min(1,(top-root.getBoundingClientRect().top)/range));root.style.setProperty('--team-progress',progress);set(Math.min(profiles.length-1,Math.floor(progress*profiles.length)))}
+function request(){if(visible&&!frame)frame=requestAnimationFrame(draw)}
+function mode(){const animate=!reduced.matches&&!paused&&innerHeight>=620;root.classList.toggle('is-animated',animate);motion.hidden=reduced.matches||innerHeight<620;motion.textContent=paused?'Resume motion':'Pause motion';motion.setAttribute('aria-pressed',String(paused));active=-1;if(animate)draw();else{profiles.forEach(p=>{p.inert=false;p.removeAttribute('aria-hidden');p.classList.remove('is-current')});buttons.forEach(b=>b.setAttribute('aria-pressed','false'))}}
+buttons.forEach((b,i)=>b.addEventListener('click',()=>{if(!root.classList.contains('is-animated'))return;const top=innerWidth<=640?64:74,range=root.offsetHeight-stage.offsetHeight;window.scrollTo({top:scrollY+root.getBoundingClientRect().top-top+range*((i+.15)/profiles.length),behavior:reduced.matches?'auto':'smooth'})}));
+motion.addEventListener('click',()=>{const y=root.getBoundingClientRect().top;paused=!paused;mode();if(y<0)root.scrollIntoView({block:'start',behavior:'instant'})});
+new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)request()},{rootMargin:'100px'}).observe(root);
+window.addEventListener('scroll',request,{passive:true});window.addEventListener('resize',mode,{passive:true});reduced.addEventListener('change',mode);mode();
+})();
