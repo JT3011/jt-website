@@ -10,7 +10,7 @@
 .jt-team-profile{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:clamp(30px,6vw,100px);padding:35px 0;border-bottom:1px solid #d8bd832b;scroll-margin-top:100px}
 .jt-team-photo{height:clamp(300px,42vw,620px);overflow:hidden;position:relative;background:#181817}
 .jt-team-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#0b0b0c80,transparent 40%);border:1px solid #d8bd8320}
-.jt-team-photo img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center 25%;filter:saturate(.7);transform:scale(1);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.jt-team-photo img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center 25%;filter:saturate(1.16) contrast(1.06) brightness(1.04);transform:scale(1);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
 .jt-team-copy{position:relative;max-width:500px}
 .jt-team-copy h3{font:500 clamp(40px,5.5vw,86px)/1.03 'Playfair Display',serif;letter-spacing:-.045em;text-transform:none;margin:20px 0 25px;text-wrap:balance}
 .jt-team-copy p:not(.jt-team-index){font-size:14px;line-height:1.9;color:#c5c0b6;max-width:420px}
