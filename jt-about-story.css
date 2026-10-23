@@ -93,3 +93,11 @@ body.jt-about-in-view #backToTop{visibility:hidden!important;pointer-events:none
 .jt-about-chapter p:not(.jt-about-chapter-index){font-size:clamp(13px,1.05vw,16px);line-height:1.8}
 @media(max-width:900px){.is-animated .jt-about-intro{width:35%}.is-animated .jt-about-intro h2{font-size:clamp(32px,4.3vw,44px)}.is-animated .jt-about-chapter h3{font-size:clamp(32px,4.5vw,46px)}}
 @media(max-width:640px){.jt-about-name{font-size:21vw}.jt-about-intro h2{font-size:40px}.jt-about-chapter h3{font-size:35px}.is-animated .jt-about-name{font-size:21vw;top:16%}.is-animated .jt-about-portrait{width:115%;height:77%;bottom:8%}.is-animated .jt-about-intro{left:22px;bottom:17%;width:calc(100% - 44px)}.is-animated .jt-about-intro h2{font-size:clamp(32px,8.8vw,48px);max-width:360px}.is-animated .jt-about-chapter h3{font-size:clamp(30px,8.5vw,44px)}.jt-about-chapter p:not(.jt-about-chapter-index){font-size:12px}}
+
+/* Restore the website's original editorial serif typography. */
+.jt-about-intro h2,.jt-about-chapter h3{font-family:'Playfair Display',serif;font-weight:500;text-transform:none;letter-spacing:-.045em;line-height:1.03}
+.jt-about-intro h2 em,.jt-about-chapter h3 em{font-style:italic;font-weight:500}
+.is-animated .jt-about-intro h2{font-size:clamp(40px,5.25vw,86px)}
+.is-animated .jt-about-chapter h3{font-size:clamp(35px,4.9vw,76px)}
+@media(max-width:900px){.is-animated .jt-about-chapter h3{font-size:clamp(34px,5vw,55px)}}
+@media(max-width:640px){.jt-about-intro h2{font-size:45px}.jt-about-chapter h3{font-size:36px}.is-animated .jt-about-intro h2{font-size:clamp(38px,10.4vw,57px)}.is-animated .jt-about-chapter h3{font-size:clamp(32px,9.4vw,48px)}}
