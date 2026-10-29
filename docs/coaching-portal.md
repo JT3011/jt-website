@@ -15,7 +15,7 @@ credits and assigned programmes do not require a paid Hub subscription.
 
 Base: Client Profile (`appfxqoZZWAqFgaIu`). Players: `tblLqAsqaegQarJwG`. Payments: `tblbALLdCCcML7lHG`.
 Use a dedicated Airtable PAT with only `data.records:read`, restricted to this base.
-Store it as **AIRTABLE_READ_TOKEN**, marked Sensitive, in the Vercel project's Production environment,
+Store it as **AIRTABLE_READ_TOKEN**, with type Secret, in the Vercel project's Production environment,
 then redeploy. Do not put it in source code, browser storage or client JavaScript.
 
 No Airtable writes are performed. Credits use the existing **Sessions Remaining** formula, linked
