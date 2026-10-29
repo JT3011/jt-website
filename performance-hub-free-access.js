@@ -64,11 +64,7 @@ export async function routeSignedInUser() {
 
   if (!access.user) return access;
 
-  window.location.replace(
-    access.isPremium
-      ? "/performance-hub-dashboard.html"
-      : "/performance-hub-free.html"
-  );
+  window.location.replace("/performance-hub-portal.html");
 
   return access;
 }

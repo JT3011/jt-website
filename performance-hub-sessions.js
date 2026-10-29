@@ -366,7 +366,7 @@ async function initialise() {
   }
 
   const {
-    data: players,
+    data: ownPlayers,
     error
   } = await supabase.rpc(
     "session_connect_get_my_players"
@@ -377,6 +377,9 @@ async function initialise() {
       error.message;
     return;
   }
+
+  const { data: coachPlayers } = await supabase.rpc("session_connect_search_players", { p_query: "" });
+  const players = coachPlayers?.length ? coachPlayers : ownPlayers;
 
   const requestedPlayer =
     new URLSearchParams(

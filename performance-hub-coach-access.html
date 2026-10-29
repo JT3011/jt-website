@@ -127,9 +127,10 @@
             <label for="loginPassword">Password</label>
             <input id="loginPassword" type="password" autocomplete="current-password" required>
           </div>
-          <button class="primary" id="loginButton" type="submit">Open Coach Dashboard</button>
+          <button class="primary" id="loginButton" type="submit">Open Coaching Workspace</button>
         </form>
 
+        <a class="secondary" href="/performance-hub-login.html">Player / Parent Login</a>
         <a class="secondary" href="/performance-hub-reset-password.html">Forgot Password?</a>
         <p class="small">Coach permissions are granted only when the email matches an active JT staff invitation.</p>
       </div>
@@ -176,7 +177,7 @@
       $("cardTitle").textContent = activate ? "Activate Account." : "Coach Login.";
       $("cardCopy").textContent = activate
         ? "Use the JT work email you were invited with and choose your own password."
-        : "Sign in with your JT coach email to open Session Connect.";
+        : "Sign in with your JT coach email to open your players, sessions and programmes.";
     }
 
     async function assertCoach() {
@@ -192,9 +193,9 @@
       if (!session) return;
       try {
         await assertCoach();
-        location.replace("/performance-hub-coach-dashboard.html");
+        location.replace("/performance-hub-portal.html");
       } catch {
-        await supabase.auth.signOut();
+        show("This account has player access. Use the main Hub login, or sign in with your approved coach email.");
       }
     }
 
@@ -256,7 +257,7 @@
 
         if (data?.session) {
           await assertCoach();
-          location.replace("/performance-hub-coach-dashboard.html");
+          location.replace("/performance-hub-portal.html");
           return;
         }
 
@@ -301,15 +302,16 @@
         }
 
         await assertCoach();
-        location.replace("/performance-hub-coach-dashboard.html");
+        location.replace("/performance-hub-portal.html");
       } catch (error) {
         show(error?.message || "The coach account could not be signed in.");
       } finally {
         button.disabled = false;
-        button.textContent = "Open Coach Dashboard";
+        button.textContent = "Open Coaching Workspace";
       }
     });
 
+    setMode("login");
     routeExistingSession();
   </script>
 </body>

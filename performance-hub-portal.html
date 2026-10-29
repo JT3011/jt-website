@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Coaching | JT Performance Hub</title>
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#080908">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/images/jt-hub-applogo-192-v3.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/performance-hub-portal.css?v=20261029">
+  <script type="module" src="/performance-hub-portal.js?v=20261029"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to coaching record</a>
+<header class="topbar">
+  <a class="brand" href="/performance-hub-portal.html"><img src="/images/jt-hub-applogo-192-v3.png" alt="JT"><span>PERFORMANCE HUB<small>Mind. Body. Balance.</small></span></a>
+  <nav aria-label="Hub navigation"><a id="trainingLink" href="/performance-hub-free.html">Training Hub</a><a id="coachLink" href="/performance-hub-coach-dashboard.html" hidden>Coach sessions</a><button id="signOut" type="button">Sign out</button></nav>
+</header>
+<main id="main">
+  <div class="intro"><div><p class="eyebrow" id="roleLabel">Your JT coaching space</p><h1>Progress, <em>together.</em></h1><p id="welcome">Your sessions, your plan, your next step.</p></div><button id="manageAccess" class="button outline" hidden>Manage access</button></div>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <div id="loading" class="empty">Opening your private coaching record…</div>
+  <div id="portal" class="workspace" hidden>
+    <aside class="roster panel"><p class="eyebrow" id="rosterTitle">Connected players</p><label for="playerSearch">Find a player</label><input id="playerSearch" type="search" placeholder="Search by name"><div id="playerList" class="player-list" aria-label="Choose a player"></div></aside>
+    <section id="record" aria-live="polite"><div class="empty">Choose a player to open their record.</div></section>
+  </div>
+  <footer>JT Mind &amp; Body Balance <span>Personal coaching. Shared progress.</span></footer>
+</main>
+<dialog id="programmeDialog">
+  <form id="programmeForm">
+    <div class="dialog-head"><div><p class="eyebrow" id="programmeType">Personal programme</p><h2 id="programmeHeading">Create a plan.</h2></div><button type="button" class="close" data-close="programmeDialog" aria-label="Close programme editor">×</button></div>
+    <p class="muted" id="programmePlayer"></p><input id="programmeKind" type="hidden"><input id="programmePlayerId" type="hidden">
+    <label for="programmeTitle">Programme title</label><input id="programmeTitle" maxlength="150" required placeholder="e.g. Strength foundations · Block 1">
+    <label for="programmeGoal">Player’s goal</label><textarea id="programmeGoal" maxlength="1000" rows="2" placeholder="What are we working towards?"></textarea>
+    <div class="form-grid"><div><label for="programmeStart">Start date <small>(optional)</small></label><input id="programmeStart" type="date"></div><div><label for="programmeReview">Review date <small>(optional)</small></label><input id="programmeReview" type="date"></div></div>
+    <label for="programmeContent">Programme instructions</label><textarea id="programmeContent" required maxlength="20000" rows="12" placeholder="Add the individual plan here. Include the schedule, instructions, progression and any player-specific adjustments."></textarea>
+    <p class="muted small">Write the player’s coach-approved plan. Published plans are visible to the player and their connected parent. Drafts are visible to their coaching team.</p>
+    <div class="form-grid"><div><label for="programmeStatus">Visibility</label><select id="programmeStatus"><option value="draft">Draft · coaches only</option><option value="published">Published · player &amp; parent</option></select></div><button class="button" type="submit" id="saveProgramme">Save programme</button></div>
+    <p id="programmeError" class="error" role="alert"></p>
+  </form>
+</dialog>
+<dialog id="accessDialog">
+  <div class="dialog-head"><div><p class="eyebrow">JT administration</p><h2>Connect your team.</h2></div><button class="close" type="button" data-close="accessDialog" aria-label="Close access settings">×</button></div>
+  <p class="muted">Approve coaches, connect family accounts and match each player to their Airtable record.</p>
+  <p id="accessNotice" role="status" aria-live="polite"></p><div id="accessContent"></div>
+</dialog>
+</body>
+</html>

@@ -82,7 +82,7 @@
   </main>
 
   <script type="module">
-    import { supabase, routeSignedInUser } from "/performance-hub-free-access.js?v=1";
+    import { supabase, routeSignedInUser } from "/performance-hub-free-access.js?v=2";
 
     const loginForm = document.getElementById("loginForm");
     const loginButton = document.getElementById("loginButton");
@@ -133,7 +133,7 @@
           throw new Error("Please confirm your email before entering the Performance Hub.");
         }
 
-        showMessage("Login successful. Opening your player environment…", "success");
+        showMessage("Login successful. Opening your coaching space…", "success");
         await routeSignedInUser();
       } catch (error) {
         console.error("Login error", error);
