@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>JT Coach · Session Connect</title>
+  <title>Coach Command Centre | JT Performance Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -49,6 +49,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
+<link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261030"><script type="module" src="/performance-hub-coach-schedule.js?v=20261030"></script>
 </head>
 <body>
 <header class="topbar"><div class="topbar-inner">
@@ -60,9 +61,10 @@
   <div id="loading" class="empty">Loading your coaching environment…</div>
   <div id="app" class="hidden">
     <section class="hero">
-      <div><div class="eyebrow">JT Session Connect</div><h1>Coach <span>Dashboard.</span></h1><p>Every session in one place. Open a player, record the work, upload clips and leave the next coach or parent with a clear development picture.</p></div>
+      <div><div class="eyebrow">JT Session Connect</div><h1>Coach <span>Command Centre.</span></h1><p>Every session in one place. Open a player, record the work, upload clips and leave the next coach or parent with a clear development picture.</p></div>
       <div class="date-chip"><strong id="coachName">JT Coach</strong><span id="todayLabel"></span></div>
     </section>
+    <section data-coach-schedule></section>
     <section class="stats"><div class="stat"><strong id="sessionCount">0</strong><span>Sessions Today</span></div><div class="stat"><strong id="completedCount">0</strong><span>Completed</span></div><div class="stat"><strong id="mediaCount">0</strong><span>Clips / Photos</span></div></section>
     <div class="section-head"><div><div class="eyebrow">Today</div><h2>Your Sessions.</h2></div><button class="pill-btn gold" id="addSession">+ Add Session</button></div>
     <section class="session-list" id="sessionList"></section>
@@ -97,7 +99,7 @@
 </div></div>
 
 <div class="toast hidden" id="toast"></div>
-<script type="module" src="/performance-hub-coach-dashboard.js?v=gold-20261005"></script>
+<script type="module" src="/performance-hub-coach-dashboard.js?v=20261030"></script>
   <script type="module" src="/performance-hub-needs-linking.js?v=gold-20261005"></script>
 <script src="/performance-hub-portal-link.js?v=20261029"></script>
 </body>

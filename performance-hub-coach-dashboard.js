@@ -40,6 +40,7 @@ function escapeHtml(value = "") {
 
 function fmtTime(iso) {
   return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
     hour: "2-digit",
     minute: "2-digit"
   }).format(new Date(iso));
@@ -47,6 +48,7 @@ function fmtTime(iso) {
 
 function fmtDateLong(date = new Date()) {
   return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
     weekday: "long",
     day: "numeric",
     month: "long"
@@ -54,10 +56,7 @@ function fmtDateLong(date = new Date()) {
 }
 
 function localDateISO(date = new Date()) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
 }
 
 function setDefaultStart() {
@@ -162,8 +161,7 @@ function renderSessions() {
     wrap.innerHTML = `
       <div class="empty">
         No sessions are connected for today yet.<br>
-        Add one manually now; Calendly automation can plug
-        into the same session table next.
+        Use the calendar above for your bookings. Add a session here to write feedback and upload clips.
       </div>
     `;
     return;

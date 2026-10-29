@@ -1,0 +1,1 @@
+query HubShop { shop { id name myshopifyDomain currencyCode } currentAppInstallation { accessScopes { handle } } }

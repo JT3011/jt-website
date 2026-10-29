@@ -1,0 +1,1 @@
+query HubRewardLookup($code: String!) { codeDiscountNodeByCode(code: $code) { id } }

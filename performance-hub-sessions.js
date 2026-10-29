@@ -146,6 +146,7 @@ async function mediaHtml(session) {
             "Session media"
           )}
         </div>
+        <button type="button" class="save-media" data-media-id="${escapeHtml(media.id)}">Save ${media.media_type === 'video' ? 'video' : 'photo'}</button>
       </div>
     `);
   }
@@ -344,6 +345,32 @@ async function render(playerId) {
 
   $("timeline").innerHTML =
     html.join("");
+
+  $("timeline").querySelectorAll('[data-media-id]').forEach(button => {
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      button.textContent = 'Preparing download…';
+      try {
+        // Recheck the row under the current viewer's RLS on every download.
+        const { data: media, error } = await supabase.from('session_connect_media')
+          .select('storage_path,original_name').eq('id', button.dataset.mediaId)
+          .eq('visibility','player_parent').single();
+        if (error || !media) throw new Error('This file is no longer available to your account.');
+        const filename = (media.original_name || 'JT-session-video.mp4').replace(/[\x00-\x1f/\\]/g,'_');
+        const { data, error: signError } = await supabase.storage.from('session-media')
+          .createSignedUrl(media.storage_path, 60, { download: filename });
+        if (signError || !data?.signedUrl) throw new Error('Unable to prepare this download. Please try again.');
+        const link = document.createElement('a');
+        link.href = data.signedUrl;
+        link.download = filename;
+        link.rel = 'noopener noreferrer';
+        link.referrerPolicy = 'no-referrer';
+        document.body.appendChild(link); link.click(); link.remove();
+        button.textContent = 'Download started · tap to save again';
+      } catch (error) { button.textContent = 'Try download again'; button.title = error.message; }
+      finally { button.disabled = false; }
+    });
+  });
 
   $("loading")
     .classList
