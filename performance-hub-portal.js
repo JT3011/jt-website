@@ -1,5 +1,5 @@
 import { supabase } from '/performance-hub-free-access.js?v=2';
-import {mountPlayerSchedule} from '/performance-hub-coach-schedule.js?v=20261030-coaches';
+import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261030-home';
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/London'}).format(new Date(value)) : '';
@@ -7,6 +7,27 @@ const time = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',mon
 const number = n => new Intl.NumberFormat('en-GB',{maximumFractionDigits:2}).format(n);
 let overview, selected, current, accessData, loadVersion = 0;
 let signingOut = false;
+let stopCoachSchedule;
+const isStaff = () => ['owner','admin','coach'].includes(overview?.role);
+function showWorkspace(view) {
+  const sessions = view==='sessions' && isStaff();
+  $('teamCalendar').hidden=!sessions;
+  $('portal').hidden=sessions;
+  $('sessionsView').setAttribute('aria-pressed',String(sessions));
+  $('playersView').setAttribute('aria-pressed',String(!sessions));
+  if(sessions) {
+    history.replaceState(null,'','/performance-hub-portal.html');
+    if(!stopCoachSchedule) stopCoachSchedule=mountCoachSchedule($('teamCalendar'));
+  } else if(selected) {
+    history.replaceState(null,'',`?player=${encodeURIComponent(selected)}`);
+  } else if(overview.players[0]) {
+    openPlayer(overview.players[0].id);
+  } else {
+    $('record').innerHTML='<div class="empty">No player records are connected yet.</div>';
+  }
+}
+$('sessionsView').addEventListener('click',()=>showWorkspace('sessions'));
+$('playersView').addEventListener('click',()=>showWorkspace('players'));
 function notice(message,error=false) { $('notice').textContent=message; $('notice').hidden=!message; $('notice').classList.toggle('error',error); }
 async function api(action, payload, query={}) {
   const {data,error} = await supabase.auth.getSession();
@@ -56,7 +77,7 @@ async function openPlayer(id,refresh=false) {
     $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">The next step starts here</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits in Airtable ↗</a></p><p class="small muted">Update the linked payment’s Completed +1 value after delivery, then refresh this record. Booking a session does not deduct credits.</p>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session history & feedback ↗</a><button class="button outline small" id="refreshRecord">Refresh record</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
     $('record').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
     $('refreshRecord').addEventListener('click',()=>openPlayer(selected,true));
-    mountPlayerSchedule($('playerCalendar'),id);
+    mountPlayerSchedule($('playerCalendar'),id,{name:current.profile.name,staff:isStaff(),scheduleLabel:$('sessionsView').textContent});
   } catch(error) {
     if(version!==loadVersion) return;
     $('record').innerHTML=`<div class="empty"><p>${esc(error.message)}</p><button class="button outline small" id="retryPlayer">Try again</button></div>`;
@@ -125,24 +146,30 @@ async function runAccess(button,action,payload,success) {
 }
 $('manageAccess').addEventListener('click',async()=>{ $('accessDialog').showModal(); $('accessNotice').textContent=''; try{await loadAccess();}catch(error){$('accessContent').textContent=error.message;} });
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
-$('signOut').addEventListener('click',async()=>{ signingOut=true; ++loadVersion; $('portal').hidden=true; $('record').replaceChildren(); await supabase.auth.signOut(); location.replace('/performance-hub-login.html'); });
+function clearWorkspace() { stopCoachSchedule?.(); signingOut=true; ++loadVersion; $('portal').hidden=true; $('teamCalendar').hidden=true; $('teamCalendar').replaceChildren(); $('workspaceViews').hidden=true; $('record').replaceChildren(); }
+$('signOut').addEventListener('click',async()=>{ clearWorkspace(); await supabase.auth.signOut(); location.replace('/performance-hub-login.html'); });
 $('playerSearch').addEventListener('input',renderPlayers);
-supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){ signingOut=true; ++loadVersion; $('portal').hidden=true; $('record').replaceChildren(); location.replace('/performance-hub-login.html'); }});
+supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){ clearWorkspace(); location.replace('/performance-hub-login.html'); }});
 async function init() {
   try {
-    overview=await api('overview'); $('loading').hidden=true; $('portal').hidden=false;
+    overview=await api('overview'); $('loading').hidden=true;
     $('trainingLink').href=overview.trainingUrl;
-    $('coachLink').hidden=overview.role==='client'; $('manageAccess').hidden=overview.role!=='owner'; $('ownerActions').hidden=overview.role!=='owner';
+    $('coachLink').hidden=!isStaff(); $('manageAccess').hidden=overview.role!=='owner'; $('ownerActions').hidden=overview.role!=='owner';
+    $('workspaceViews').hidden=!isStaff();
+    $('sessionsView').textContent=['owner','admin'].includes(overview.role)?'All team sessions':'My coaching sessions';
     $('trainingLink').textContent=overview.role==='client'?'Training Hub':'My player Hub';
     $('roleLabel').textContent=overview.role==='owner'?'JT · Team overview':overview.role==='coach'?'JT · Coach workspace':'JT · My coaching';
-    $('welcome').textContent=overview.role==='owner'?'Your team controls, coaching tools and player profile in one place.':overview.role==='client'?'Your session credits and personal programmes, all in one place.':'Your players, their programmes and the next step forward.';
+    $('welcome').textContent=overview.role==='owner'?'Every coach’s sessions, with player records one tap away.':overview.role==='client'?'Your session credits and personal programmes, all in one place.':'Your coaching sessions, players and programmes in one place.';
     if (overview.players.length===1 && overview.role==='client') {
       document.querySelector('.roster').hidden=true;
       $('portal').style.gridTemplateColumns='1fr';
     }
     renderPlayers();
     const requested=new URLSearchParams(location.search).get('player');
-    const initial=overview.players.find(p=>p.id===requested)||overview.players[0];
+    const requestedPlayer=overview.players.find(p=>p.id===requested);
+    if(isStaff()&&!requestedPlayer) { showWorkspace('sessions'); return; }
+    $('portal').hidden=false; $('playersView').setAttribute('aria-pressed','true');
+    const initial=requestedPlayer||overview.players[0];
     if(initial) await openPlayer(initial.id); else $('record').innerHTML='<div class="empty">Your account is ready. JT can now connect your player record. <a href="/performance-hub-free.html">Open the Training Hub</a>.</div>';
   } catch(error) { $('loading').innerHTML=`<p>${esc(error.message)}</p><button class="button outline small" id="retryPortal">Try again</button> <a href="/performance-hub-login.html">Return to login</a>`; $('retryPortal').addEventListener('click',init); }
 }

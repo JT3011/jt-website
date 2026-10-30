@@ -8,9 +8,9 @@
   <link rel="icon" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/performance-hub-portal.css?v=20261030-coaches">
-  <link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261030-coaches">
-  <script type="module" src="/performance-hub-portal.js?v=20261030-coaches"></script>
+  <link rel="stylesheet" href="/performance-hub-portal.css?v=20261030-home">
+  <link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261030-home">
+  <script type="module" src="/performance-hub-portal.js?v=20261030-home"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to coaching record</a>
@@ -22,6 +22,11 @@
   <div class="intro"><div><p class="eyebrow" id="roleLabel">Your JT coaching space</p><h1>Progress, <em>together.</em></h1><p id="welcome">Your sessions, your plan, your next step.</p></div><div id="ownerActions" class="owner-actions" hidden><a class="button" href="/performance-hub-command-centre.html">Owner Command Centre</a><button id="manageAccess" class="button outline" hidden>Manage access</button></div></div>
   <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
   <div id="loading" class="empty">Opening your private coaching record…</div>
+  <nav id="workspaceViews" class="workspace-views" aria-label="Coaching workspace" hidden>
+    <button id="sessionsView" type="button" aria-controls="teamCalendar" aria-pressed="false">All team sessions</button>
+    <button id="playersView" type="button" aria-controls="portal" aria-pressed="false">Player records</button>
+  </nav>
+  <section id="teamCalendar" aria-label="Coaching sessions" hidden></section>
   <div id="portal" class="workspace" hidden>
     <aside class="roster panel"><p class="eyebrow" id="rosterTitle">Connected players</p><label for="playerSearch">Find a player</label><input id="playerSearch" type="search" placeholder="Search by name"><div id="playerList" class="player-list" aria-label="Choose a player"></div></aside>
     <section id="record" aria-live="polite"><div class="empty">Choose a player to open their record.</div></section>

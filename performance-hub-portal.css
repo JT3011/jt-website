@@ -8,3 +8,4 @@ dialog{width:min(760px,calc(100% - 28px));max-height:90vh;border:1px solid #cbb7
 @media(prefers-reduced-motion:no-preference){.plan,.credits-panel{animation:arrive .35s ease both}@keyframes arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}}
 
 .owner-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.owner-actions[hidden]{display:none}
+.workspace-views{display:flex;gap:8px;padding:6px;margin:0 0 24px;border:1px solid #cbb77740;border-radius:12px;background:#111310}.workspace-views button{flex:1;min-height:48px;padding:12px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-size:13px;font-weight:600}.workspace-views button[aria-pressed=true]{background:#cbb777;color:#171a13}.workspace-views button:focus-visible{outline:2px solid var(--gold)}#teamCalendar{margin-top:0}
