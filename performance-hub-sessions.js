@@ -215,7 +215,7 @@ async function render(playerId) {
       await mediaHtml(session);
 
     html.push(`
-      <article class="session">
+      <article class="session"><a class="save-media" href="/performance-hub-plans.html?session=${encodeURIComponent(session.session_id)}">Session plan ↗</a>
         <div class="session-head">
           <div>
             <div class="session-date">
