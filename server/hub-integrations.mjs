@@ -32,9 +32,9 @@ export function endpoint(work,{env=process.env,fetchImpl=fetch}={}) {
         if(asUser||secret.startsWith('eyJ'))headers.Authorization=`Bearer ${asUser?token:secret}`;
         const response=await fetchImpl(target,{method,headers,...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(12000)});
         if(!response.ok){
-          if(asUser&&['rpc/hub_save_session_plan','rpc/hub_link_session_plan'].includes(table)){
+          if(asUser&&['rpc/hub_save_session_plan','rpc/hub_link_session_plan','rpc/hub_create_booking_plan'].includes(table)){
             let detail;try{detail=await response.json();}catch{}
-            const allowed=['Invalid session plan','Session plan access denied','Plan changed; reload before saving','Connect the player before publishing','Choose an active session','This session already has a plan','Only JT can connect imported plans','Choose an imported plan','Choose a player account','Choose a coach calendar'];
+            const allowed=['Choose a booking','Invalid session plan','Session plan access denied','Plan changed; reload before saving','Connect the player before publishing','Choose an active session','This session already has a plan','Only JT can connect imported plans','Choose an imported plan','Choose a player account','Choose a coach calendar'];
             if(allowed.includes(detail?.message))fail(detail.message.includes('access denied')||detail.message.startsWith('Only JT')?403:detail.message.includes('changed')?409:400,detail.message+'.');
           }
           if(asUser&&['rpc/hub_link_booking','rpc/hub_set_coach_calendar_email'].includes(table)){

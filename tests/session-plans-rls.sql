@@ -65,6 +65,52 @@ select set_config('request.jwt.claims',json_build_object('sub',id,'role','authen
 set local role authenticated;
 do $$begin assert(select count(*) from public.hub_session_plans where title like 'plan-test-%')=5,'JT retains all session plans'; perform public.hub_link_session_plan((select id from public.hub_session_plans where title='plan-test-pending'),(select id from plan_test_users where label='player'),'plan_test_cal',1); assert(select status='draft' and player_user_id=(select id from plan_test_users where label='player') from public.hub_session_plans where title='plan-test-pending'),'Owner can connect an import without automatically publishing';end$$;
 reset role;
+-- An approved coach can plan for a booking whose player has no login.
+insert into public.hub_calendly_coach_rules(event_name,calendar_id,coach_user_id,display_name)
+ select 'Unlinked plan fixture','plan_test_cal',id,'Plan coach' from plan_test_users where label='coach';
+create temporary table plan_test_booking(id uuid default gen_random_uuid());
+insert into plan_test_booking default values;
+insert into public.session_connect_booking_queue(id,external_booking_id,external_event_uri,event_name,invitee_name,invitee_email,start_at,end_at,booking_status)
+ select id,'plan-fixture-'||id,'https://api.calendly.com/scheduled_events/'||id,'Unlinked plan fixture','No login player','no-login-'||id||'@example.invalid',now()+interval '1 day',now()+interval '1 day 1 hour','active' from plan_test_booking;
+grant select on plan_test_booking to authenticated;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from plan_test_users where label='coach';
+set local role authenticated;
+do $$declare a uuid;b uuid;begin
+ a:=public.hub_create_booking_plan((select id from plan_test_booking),'unlinked-fixture','','A proposed plan','No login player',null,'No matching profile',null);
+ b:=public.hub_create_booking_plan((select id from plan_test_booking),'duplicate','','Must not overwrite','No login player',null,'',null);
+ assert a=b,'Repeated create must return the same plan';
+ assert(select count(*) from public.hub_session_plans where id=a and player_user_id is null and status='draft')=1,'Coach sees a plan without any player account';
+ perform public.hub_save_session_plan(a,null,'unlinked-fixture','','Coach updated this plan','draft',1);
+ begin perform public.hub_save_session_plan(a,null,'unlinked-fixture','','No family access yet','published',2);raise exception 'Unlinked plan published';exception when raise_exception then if sqlerrm<>'Connect the player before publishing' then raise;end if;end;
+ begin perform count(*) from public.hub_apex_context;raise exception 'Coach read all coaching context';exception when insufficient_privilege then null;end;
+end$$;
+reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from plan_test_users where label='other_coach';
+set local role authenticated;
+do $$begin
+ assert(select count(*) from public.hub_session_plans where title='unlinked-fixture')=0,'Another coach cannot see the unlinked plan';
+ begin perform public.hub_create_booking_plan((select id from plan_test_booking),'bad','','bad','bad',null,'',null);raise exception 'Other coach created a plan';exception when raise_exception then if sqlerrm<>'Session plan access denied' then raise;end if;end;
+end$$;
+reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from plan_test_users where label='parent';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_session_plans where title='unlinked-fixture')=0,'A parent cannot see a name-matched unlinked plan';end$$;
+reset role;
+update public.session_connect_booking_queue set player_user_id=(select id from plan_test_users where label='player'),coach_user_id=(select id from plan_test_users where label='coach'),converted_session_id=(select id from plan_test_sessions where label='draft') where id=(select id from plan_test_booking);
+update public.session_connect_coach_players set active=false where coach_user_id=(select id from plan_test_users where label='coach');
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from plan_test_users where label='coach';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_session_plans where title='unlinked-fixture')=0,'A booking linked later still enforces a revoked player assignment';end$$;
+reset role;
+update public.session_connect_coach_players set active=true where coach_user_id=(select id from plan_test_users where label='coach');
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_session_plans where title='unlinked-fixture')=1,'Restoring the assignment restores the coach plan';end$$;
+reset role;
+update public.hub_coach_calendars set enabled=false where id='plan_test_cal';
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from plan_test_users where label='coach';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_session_plans where title='unlinked-fixture')=0,'Disabling a coach calendar immediately revokes plan access';end$$;
+reset role;
 set local role anon;
 do $$begin
  begin perform count(*) from public.hub_session_plans;raise exception 'Anonymous table read permitted';exception when insufficient_privilege then null;end;

@@ -1,5 +1,5 @@
 import { supabase } from '/performance-hub-free-access.js?v=2';
-import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261030-plans';
+import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261030-unlinked';
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/London'}).format(new Date(value)) : '';
