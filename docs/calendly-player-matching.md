@@ -30,3 +30,15 @@ Calendly booking creation never deducts a credit or marks a session completed. A
 - Berkeley venues display **Berkeley, GL13 9TN** rather than the private street address.
 
 Schema: `supabase/jt-booking-matching.sql`. Tests: `tests/hub-booking-matching.sql` (transactional, rolled back), `tests/calendly-sync.test.mjs`, existing portal and integration tests. UI checks use synthetic records, never live family accounts.
+
+## Individual coach calendars (30 October 2026)
+
+`hub_coach_calendars` gives JT, George, Charlie and Billy separate calendar identities and verified booking links, even before a coach finishes Hub signup. The CEO can select All coaches, each named calendar or My sessions. Coaches can select only their authorised calendar; the server rejects changed query parameters. Other approved coaches retain their own existing schedule. Upcoming lists paginate from the selected day without a four-week cutoff.
+
+Billy’s verified booking link is hosted by JT. Named event rules assign those bookings to Billy’s calendar, and his login never takes ownership of JT’s Calendly host. The CEO’s personal football booking link is distinct. Charlie’s Calendly email is approved for signup. Billy’s email is unset until the CEO supplies it in **Coach booking links & login access**. No emails are sent by this setup.
+
+The CEO-only `hub_set_coach_calendar_email` RPC normalises the supplied email, refuses a calendar already assigned to a different login, and activates a coach only after email verification. An auth trigger binds the verified approved account and reconciles its pending bookings. The roster is server-only with RLS enabled; account metadata cannot grant access.
+
+Family calendars also include their own email-matched bookings while the delivering coach is awaiting signup. They return no booking email or unrelated player data. A public booking link alone cannot read private appointments: automatic sync still requires the secure Calendly connection described above.
+
+Schema changes: `supabase/jt-coach-calendars.sql`, applied as `individual_coach_booking_calendars` plus `preserve_coach_calendar_session_insert_status` (the file contains the final corrected definition). Additional checks: `tests/coach-calendars.test.mjs` and transactional `tests/coach-calendars.sql`.

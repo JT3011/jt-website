@@ -14,6 +14,7 @@ const $ = (id) => document.getElementById(id);
 let currentUser = null;
 let currentSession = null;
 let todaySessions = [];
+let calendarSessionIds=null, dayLoadVersion=0;
 let selectedDay=new URLSearchParams(location.search).get("day")||localDateISO();
 
 function toast(message, error = false) {
@@ -123,6 +124,7 @@ async function load() {
 }
 
 async function loadToday() {
+  const version=++dayLoadVersion;
   const {
     data,
     error
@@ -136,7 +138,8 @@ async function loadToday() {
     return;
   }
 
-  todaySessions = data || [];
+  if(version!==dayLoadVersion)return;
+  todaySessions = (data || []).filter(s=>!calendarSessionIds||calendarSessionIds.has(s.session_id));
   renderSessions();
   $("todayLabel").textContent=fmtDateLong(new Date(`${selectedDay}T12:00:00Z`));
   const requested=new URLSearchParams(location.search).get("session");
@@ -771,4 +774,4 @@ load().catch((error) => {
   console.error(error);
 });
 
-window.addEventListener("jt-calendar-day",event=>{if(currentUser&&selectedDay!==event.detail.day){selectedDay=event.detail.day;loadToday();}});
+window.addEventListener("jt-calendar-day",event=>{selectedDay=event.detail.day;calendarSessionIds=event.detail.sessionIds?new Set(event.detail.sessionIds):null;if(currentUser)loadToday();});

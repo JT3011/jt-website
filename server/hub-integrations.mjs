@@ -32,9 +32,9 @@ export function endpoint(work,{env=process.env,fetchImpl=fetch}={}) {
         if(asUser||secret.startsWith('eyJ'))headers.Authorization=`Bearer ${asUser?token:secret}`;
         const response=await fetchImpl(target,{method,headers,...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(12000)});
         if(!response.ok){
-          if(asUser&&table==='rpc/hub_link_booking'){
+          if(asUser&&['rpc/hub_link_booking','rpc/hub_set_coach_calendar_email'].includes(table)){
             let detail;try{detail=await response.json();}catch{}
-            const messages=['Manager access required','Active booking not found','Choose an approved coach','Shared family email: link this booking only','This booking identity is already linked to a different player'];
+            const messages=['Only the CEO can assign coach logins','Enter a valid coach email','Coach calendar not found','This calendar already has a coach login','This email already belongs to another coach calendar','Manager access required','Active booking not found','Choose an approved coach','Shared family email: link this booking only','This booking identity is already linked to a different player'];
             if(messages.includes(detail?.message))fail(400,detail.message+'.');
           }
           fail(response.status===409?409:502,response.status===409?'This request is already being processed. Try again.':'Hub data could not be loaded or saved.');
