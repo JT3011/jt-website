@@ -1,5 +1,4 @@
-import {supabase} from '/performance-hub-free-access.js?v=2';
-import {hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
+import {supabase,hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),player=params.get('player');
 const date=value=>ukDate(value.length===10?value+'T12:00:00Z':value,{day:'numeric',month:'short',year:'numeric'});
 let overview,detail,opening=0,loading=0,signedOut=false;
