@@ -118,3 +118,10 @@ revoke all on function public.session_connect_accept_coach_invite() from public,
 drop trigger session_connect_accept_coach_invite_trigger on auth.users;
 create trigger session_connect_accept_coach_invite_trigger after insert or update of email,email_confirmed_at
 on auth.users for each row execute function public.session_connect_accept_coach_invite();
+
+-- The portal authenticates the caller before using these server-only privileges.
+-- Existing projects may have revoked service_role's default table grants.
+grant select on public.profiles to service_role;
+grant select, insert, update on public.hub_staff,
+  public.session_connect_coach_players, public.session_connect_parent_players,
+  public.session_connect_coach_invites to service_role;

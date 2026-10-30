@@ -58,3 +58,8 @@ create index hub_store_reward_claims_tier_idx on public.hub_store_reward_claims(
 
 -- The unique user/tier constraint reserves a single code even for concurrent retries.
 -- Only the server may reserve or mark a code issued, after verifying the existing reward ladder.
+
+-- Required legacy-table access for the authenticated store/calendar endpoints.
+grant select on public.hub_staff, public.player_performance_accounts,
+  public.session_connect_sessions, public.session_connect_booking_queue to service_role;
+grant select, insert, update on public.session_connect_calendly_hosts to service_role;

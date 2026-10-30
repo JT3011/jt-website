@@ -21,7 +21,7 @@ async function api(action, payload, query={}) {
 function renderPlayers() {
   const query=$('playerSearch').value.trim().toLowerCase();
   const players=overview.players.filter(p=>p.name.toLowerCase().includes(query));
-  $('playerList').innerHTML=players.length ? players.map(p=>`<button class="player-button" data-player="${esc(p.id)}" aria-pressed="${p.id===selected}"><span class="avatar">${esc(p.name.split(/\s+/).slice(0,2).map(n=>n[0]).join(''))}</span><span><strong>${esc(p.name)}</strong><small>${p.canEdit?'Coaching record':'View your record'}</small></span></button>`).join('') : '<p class="muted small">No players match that name.</p>';
+  $('playerList').innerHTML=players.length ? players.map(p=>`<button class="player-button" data-player="${esc(p.id)}" aria-pressed="${p.id===selected}"><span class="avatar">${esc(p.name.split(/\s+/).slice(0,2).map(n=>n[0]).join(''))}</span><span><strong>${esc(p.name)}</strong><small>${p.isSelf?'My player profile':p.canEdit?'Coaching record':'View your record'}</small></span></button>`).join('') : '<p class="muted small">No players match that name.</p>';
   $('playerList').querySelectorAll('[data-player]').forEach(b=>b.addEventListener('click',()=>openPlayer(b.dataset.player)));
 }
 function creditsHtml(data) {
@@ -130,9 +130,10 @@ async function init() {
   try {
     overview=await api('overview'); $('loading').hidden=true; $('portal').hidden=false;
     $('trainingLink').href=overview.trainingUrl;
-    $('coachLink').hidden=overview.role==='client'; $('manageAccess').hidden=overview.role!=='owner';
+    $('coachLink').hidden=overview.role==='client'; $('manageAccess').hidden=overview.role!=='owner'; $('ownerActions').hidden=overview.role!=='owner';
+    $('trainingLink').textContent=overview.role==='client'?'Training Hub':'My player Hub';
     $('roleLabel').textContent=overview.role==='owner'?'JT · Team overview':overview.role==='coach'?'JT · Coach workspace':'JT · My coaching';
-    $('welcome').textContent=overview.role==='client'?'Your session credits and personal programmes, all in one place.':'Your players, their programmes and the next step forward.';
+    $('welcome').textContent=overview.role==='owner'?'Your team controls, coaching tools and player profile in one place.':overview.role==='client'?'Your session credits and personal programmes, all in one place.':'Your players, their programmes and the next step forward.';
     if (overview.players.length===1 && overview.role==='client') {
       document.querySelector('.roster').hidden=true;
       $('portal').style.gridTemplateColumns='1fr';

@@ -41,3 +41,26 @@ test('clients cannot change their own programmes, staff, links, or sync data thr
 });
 test('a coach cannot list the owner account directory',async()=>{const r=await run({action:'access',role:'coach'});assert.equal(r.status,403);});
 test('unsupported methods do not access providers',async()=>{const r=await run({method:'PUT'});assert.equal(r.status,405);assert.equal(r.calls.length,0);});
+
+test('owner has management access and keeps their own player profile alongside clients',async()=>{
+  const fetchImpl=async(input)=>{
+    const u=new URL(input),json=data=>new Response(JSON.stringify(data),{status:200});
+    if(u.pathname==='/auth/v1/user')return json({id:self,email:'james@example.test',email_confirmed_at:'2026-01-01',user_metadata:{role:'player'}});
+    if(u.pathname.endsWith('/hub_staff'))return json(u.searchParams.has('user_id')?[{user_id:self,role:'owner'}]:[{user_id:self,role:'owner'},{user_id:child,role:'coach'}]);
+    if(u.pathname.endsWith('/profiles'))return json([{id:self,player_name:'JT',account_type:'player'},{id:child,player_name:'Other coach'},{id:stranger,player_name:'Client'}]);
+    if(u.pathname.endsWith('/memberships'))return json([{subscription_status:'active'}]);
+    if(u.pathname.endsWith('/session_connect_coach_players')||u.pathname.endsWith('/session_connect_parent_players'))return json([]);
+    throw Error('Unexpected call '+u.pathname);
+  };
+  let status,payload;const res={setHeader(){},status(n){status=n;return this;},json(value){payload=value;}};
+  await createHandler({env,fetchImpl})({method:'GET',url:'/api/hub-portal?action=overview',headers:{authorization:'Bearer test'}},res);
+  assert.equal(status,200);assert.equal(payload.role,'owner');assert.equal(payload.trainingUrl,'/performance-hub-dashboard.html');
+  assert.deepEqual(payload.players.map(p=>p.id),[self,stranger]);assert.equal(payload.players[0].isSelf,true);assert.ok(payload.players.every(p=>p.canEdit));
+});
+
+test('missing server grants produce a service error rather than denying the users role',async()=>{
+  const fetchImpl=async input=>new URL(input).pathname==='/auth/v1/user'?new Response(JSON.stringify({id:self,email_confirmed_at:'2026-01-01'}),{status:200}):new Response(JSON.stringify({code:'42501'}),{status:403});
+  let status,payload;const res={setHeader(){},status(n){status=n;return this;},json(value){payload=value;}};
+  await createHandler({env,fetchImpl})({method:'GET',url:'/api/hub-portal',headers:{authorization:'Bearer test'}},res);
+  assert.equal(status,503);assert.match(payload.error,/could not load your account access/);assert.doesNotMatch(payload.error,/do not have permission/);
+});

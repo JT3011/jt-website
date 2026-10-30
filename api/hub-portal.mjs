@@ -64,6 +64,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         const response = await fetchImpl(target, {method,headers,body:body === undefined ? undefined : JSON.stringify(body), signal:AbortSignal.timeout(10000)});
         if (!response.ok) {
           if (response.status === 409) fail(409, 'That record is already linked. Review the existing connection first.');
+          if (response.status === 403 && !asUser) fail(503, 'The Hub could not load your account access. Please try again shortly.');
           fail(response.status === 403 ? 403 : 502, response.status === 403 ? 'You do not have permission to make this change.' : 'Your record could not be loaded or saved. Please try again.');
         }
         const text = await response.text();
@@ -133,7 +134,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         const membership = await db('memberships',{user_id:`eq.${user.id}`,select:'subscription_status'});
         return send(200,{role:ctx.role,name:user.user_metadata?.full_name || profiles.find(p=>p.id===user.id)?.first_name || 'Welcome',
           trainingUrl:['active','trialing'].includes(membership[0]?.subscription_status) ? '/performance-hub-dashboard.html' : '/performance-hub-free.html',
-          players:profiles.filter(p=>!staffIds.includes(p.id)).map(p=>({...p,name:profileName(p),canEdit:canEdit(ctx,p.id)})),airtableConfigured:manager ? airtableConfigured : undefined});
+          players:profiles.filter(p=>p.id===user.id||!staffIds.includes(p.id)).map(p=>({...p,name:profileName(p),isSelf:p.id===user.id,canEdit:canEdit(ctx,p.id)})),airtableConfigured:manager ? airtableConfigured : undefined});
       }
       if (req.method === 'GET' && action === 'player') {
         requirePlayer();
