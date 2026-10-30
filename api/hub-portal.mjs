@@ -1,4 +1,5 @@
 // Private coaching portal. All provider credentials stay on the server.
+import {connectionToken} from '../server/hub-integrations.mjs';
 const BASE = 'appfxqoZZWAqFgaIu';
 const PLAYERS = 'tblLqAsqaegQarJwG';
 const PAYMENTS = 'tblbALLdCCcML7lHG';
@@ -91,7 +92,18 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
       const requireOwner = () => { if (!owner) fail(403,'Only JT can manage account access.'); };
       const profileFields = 'id,player_name,first_name,primary_position,playing_level,development_goal,account_type';
       const profileName = p => p.player_name || p.first_name || 'Player';
-      const airtableConfigured = Boolean(env.AIRTABLE_READ_TOKEN);
+      let airtableToken=env.AIRTABLE_READ_TOKEN;
+      async function configureAirtable(){
+      if(!airtableToken){
+        const owners=await db('hub_staff',{role:'eq.owner',select:'user_id'});
+        for(const account of owners){
+          const saved=await connectionToken({secret,db:(table,query)=>db(table,query)},'airtable',account.user_id);
+          if(saved?.metadata.base===BASE){airtableToken=saved.token;break;}
+        }
+      }
+      airtableConfigured=Boolean(airtableToken);
+      }
+      let airtableConfigured = Boolean(airtableToken);
 
       async function verifiedAccounts() {
         const accounts = []; let page = 1;
@@ -113,7 +125,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
           target.searchParams.set('returnFieldsByFieldId', 'true');
           if (!record) { target.searchParams.set('pageSize','100'); for (const field of fields) target.searchParams.append('fields[]',field); }
           if (offset) target.searchParams.set('offset', offset);
-          const response = await fetchImpl(target, {headers:{Authorization:`Bearer ${env.AIRTABLE_READ_TOKEN}`},signal:AbortSignal.timeout(10000)});
+          const response = await fetchImpl(target, {headers:{Authorization:`Bearer ${airtableToken}`},signal:AbortSignal.timeout(10000)});
           if (!response.ok) fail(502,'Airtable is unavailable. Your last saved balance is shown with its sync date.');
           const data = await response.json();
           if (record) return data;
@@ -128,6 +140,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         return snapshot;
       }
       if (req.method === 'GET' && action === 'overview') {
+        if(manager)await configureAirtable();
         const permitted = [...new Set([user.id,...ctx.parentPlayers,...(ctx.role === 'coach' ? ctx.coachPlayers : [])])];
         const profiles = await db('profiles',{select:profileFields,...(manager ? {} : {id:`in.(${permitted.join(',')})`}),order:'player_name.asc.nullslast'});
         const staffIds = manager ? (await db('hub_staff',{select:'user_id'})).map(s=>s.user_id) : ctx.role==='coach' ? [user.id] : [];
@@ -138,6 +151,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
       }
       if (req.method === 'GET' && action === 'player') {
         requirePlayer();
+        await configureAirtable();
         const [profiles, programmes, links] = await Promise.all([
           db('profiles',{id:`eq.${player}`,select:profileFields}),
           db('hub_player_programmes',{player_user_id:`eq.${player}`,select:'*'},{asUser:true}),
@@ -148,7 +162,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         if (links[0]) {
           credit = (await db('hub_airtable_players',{airtable_record_id:`eq.${links[0].airtable_record_id}`,select:'*'},{asUser:true}))[0] || null;
           syncStatus = airtableConfigured ? 'cached' : 'connection_pending';
-          if (airtableConfigured && (!credit || Date.now()-new Date(credit.synced_at).getTime()>300000)) {
+          if (airtableConfigured && (requestUrl.searchParams.get('refresh')==='1' || !credit || Date.now()-new Date(credit.synced_at).getTime()>300000)) {
             try {
               const record = await airtable(PLAYERS,links[0].airtable_record_id);
               const payments = [];
@@ -161,7 +175,8 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
           }
         }
         return send(200,{profile:{...profiles[0],name:profileName(profiles[0])},canEdit:canEdit(ctx,player),programmes,
-          credit:credit ? {credits:credit.credits,synced_at:credit.synced_at} : null,syncStatus});
+          credit:credit ? {credits:credit.credits,synced_at:credit.synced_at} : null,syncStatus,
+          airtableUrl:canEdit(ctx,player)&&links[0]?`https://airtable.com/${BASE}/${PLAYERS}/${links[0].airtable_record_id}`:null});
       }
       if (req.method === 'POST' && action === 'save-programme') {
         requirePlayer(); if (!canEdit(ctx,player)) fail(403,'Only your connected coach or JT can edit a programme.');
@@ -222,7 +237,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         return send(200,{ok:true});
       }
       if (req.method === 'POST' && action === 'sync-airtable') {
-        requireOwner();
+        requireOwner(); await configureAirtable();
         const players = await airtable(PLAYERS,null,[F.name,F.fallbackName,F.payments]);
         const payments = await airtable(PAYMENTS,null,[F.remaining,F.purchased,F.used,F.service,F.players,F.usageDate,F.paymentDate]);
         const now = new Date().toISOString();

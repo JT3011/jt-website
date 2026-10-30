@@ -48,6 +48,7 @@ test('owner has management access and keeps their own player profile alongside c
     if(u.pathname==='/auth/v1/user')return json({id:self,email:'james@example.test',email_confirmed_at:'2026-01-01',user_metadata:{role:'player'}});
     if(u.pathname.endsWith('/hub_staff'))return json(u.searchParams.has('user_id')?[{user_id:self,role:'owner'}]:[{user_id:self,role:'owner'},{user_id:child,role:'coach'}]);
     if(u.pathname.endsWith('/profiles'))return json([{id:self,player_name:'JT',account_type:'player'},{id:child,player_name:'Other coach'},{id:stranger,player_name:'Client'}]);
+    if(u.pathname.endsWith('/hub_provider_connections'))return json([]);
     if(u.pathname.endsWith('/memberships'))return json([{subscription_status:'active'}]);
     if(u.pathname.endsWith('/session_connect_coach_players')||u.pathname.endsWith('/session_connect_parent_players'))return json([]);
     throw Error('Unexpected call '+u.pathname);

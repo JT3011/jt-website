@@ -14,6 +14,7 @@ const $ = (id) => document.getElementById(id);
 let currentUser = null;
 let currentSession = null;
 let todaySessions = [];
+let selectedDay=new URLSearchParams(location.search).get("day")||localDateISO();
 
 function toast(message, error = false) {
   const el = $("toast");
@@ -127,7 +128,7 @@ async function loadToday() {
     error
   } = await supabase.rpc(
     "session_connect_get_coach_dashboard",
-    { p_day: localDateISO() }
+    { p_day: selectedDay }
   );
 
   if (error) {
@@ -137,6 +138,9 @@ async function loadToday() {
 
   todaySessions = data || [];
   renderSessions();
+  $("todayLabel").textContent=fmtDateLong(new Date(`${selectedDay}T12:00:00Z`));
+  const requested=new URLSearchParams(location.search).get("session");
+  if(requested&&todaySessions.some(s=>s.session_id===requested)){history.replaceState(null,"",`?day=${selectedDay}`);await openSession(requested);}
 }
 
 function renderSessions() {
@@ -766,3 +770,5 @@ load().catch((error) => {
 
   console.error(error);
 });
+
+window.addEventListener("jt-calendar-day",event=>{if(currentUser&&selectedDay!==event.detail.day){selectedDay=event.detail.day;loadToday();}});

@@ -1,4 +1,5 @@
 import { supabase } from '/performance-hub-free-access.js?v=2';
+import {mountPlayerSchedule} from '/performance-hub-coach-schedule.js?v=20261030-matching';
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/London'}).format(new Date(value)) : '';
@@ -44,17 +45,18 @@ function programmeHtml(kind) {
   const title=kind==='gym'?'Your gym programme.':'Your nutrition programme.';
   return `<article class="panel plan"><div class="plan-top"><span class="plan-icon">${kind==='gym'?'01 / TRAIN':'02 / FUEL'}</span>${programme?`<span class="tag">${programme.status==='draft'?'Draft':'Personal plan'}</span>`:''}</div><h3>${esc(programme?.title||title)}</h3>${programme?`${programme.goal?`<p class="plan-goal">${esc(programme.goal)}</p>`:''}<div class="plan-dates">${programme.starts_on?`<span>Starts ${esc(date(programme.starts_on))}</span>`:''}${programme.review_on?`<span>Review ${esc(date(programme.review_on))}</span>`:''}</div><div class="plan-content">${esc(programme.content)}</div><p class="small muted">Updated ${esc(date(programme.updated_at))}</p>`:`<p class="plan-empty">${current.canEdit?'Create an individual plan for this player. Save a draft while you work, then publish it for the player and parent.':'Your coach will add your personal programme here. Once shared, you and your connected parent can open it any time.'}</p>`}${current.canEdit?`<button class="button outline small" data-edit="${kind}">${programme?'Edit programme':'Create programme'}</button>`:''}</article>`;
 }
-async function openPlayer(id) {
+async function openPlayer(id,refresh=false) {
   selected=id; current=null; const version=++loadVersion;
   renderPlayers(); $('record').innerHTML='<div class="empty">Loading player information…</div>';
   history.replaceState(null,'',`?player=${encodeURIComponent(id)}`);
   try {
-    const data=await api('player',null,{player:id});
+    const data=await api('player',null,{player:id,...(refresh?{refresh:'1'}:{})});
     if (version!==loadVersion || signingOut) return;
     current=data;
-    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">The next step starts here</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}<div class="record-links"><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session history & feedback ↗</a><button class="button outline small" id="refreshRecord">Refresh record</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
+    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">The next step starts here</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits in Airtable ↗</a></p><p class="small muted">Update the linked payment’s Completed +1 value after delivery, then refresh this record. Booking a session does not deduct credits.</p>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session history & feedback ↗</a><button class="button outline small" id="refreshRecord">Refresh record</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
     $('record').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
-    $('refreshRecord').addEventListener('click',()=>openPlayer(selected));
+    $('refreshRecord').addEventListener('click',()=>openPlayer(selected,true));
+    mountPlayerSchedule($('playerCalendar'),id);
   } catch(error) {
     if(version!==loadVersion) return;
     $('record').innerHTML=`<div class="empty"><p>${esc(error.message)}</p><button class="button outline small" id="retryPlayer">Try again</button></div>`;

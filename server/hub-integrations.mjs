@@ -31,7 +31,14 @@ export function endpoint(work,{env=process.env,fetchImpl=fetch}={}) {
         const headers={apikey:asUser?publicKey:secret,'Content-Type':'application/json',Prefer:prefer};
         if(asUser||secret.startsWith('eyJ'))headers.Authorization=`Bearer ${asUser?token:secret}`;
         const response=await fetchImpl(target,{method,headers,...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(12000)});
-        if(!response.ok)fail(response.status===409?409:502,response.status===409?'This request is already being processed. Try again.':'Hub data could not be loaded or saved.');
+        if(!response.ok){
+          if(asUser&&table==='rpc/hub_link_booking'){
+            let detail;try{detail=await response.json();}catch{}
+            const messages=['Manager access required','Active booking not found','Choose an approved coach','Shared family email: link this booking only','This booking identity is already linked to a different player'];
+            if(messages.includes(detail?.message))fail(400,detail.message+'.');
+          }
+          fail(response.status===409?409:502,response.status===409?'This request is already being processed. Try again.':'Hub data could not be loaded or saved.');
+        }
         const text=await response.text();return text?JSON.parse(text):[];
       };
       const staff=(await db('hub_staff',{user_id:`eq.${user.id}`,select:'role'}))[0];
