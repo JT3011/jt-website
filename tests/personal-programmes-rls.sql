@@ -1,0 +1,54 @@
+begin;
+create temporary table personal_test_users(label text,id uuid default gen_random_uuid());
+insert into personal_test_users(label) values('owner'),('coach'),('other_coach'),('player'),('other_player'),('parent'),('stranger');
+insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data,raw_app_meta_data) select id,'programme-test-'||id||'@example.invalid',now(),'{}','{}' from personal_test_users;
+insert into public.profiles(id,account_type,player_name) select id,'player','Programme fixture' from personal_test_users on conflict(id) do nothing;
+insert into public.hub_staff(user_id,role) select id,case when label='owner' then 'owner' else 'coach' end from personal_test_users where label in('owner','coach','other_coach');
+insert into public.session_connect_coach_players(coach_user_id,player_user_id) select c.id,p.id from personal_test_users c,personal_test_users p where c.label='coach' and p.label='player';
+insert into public.session_connect_parent_players(parent_user_id,player_user_id) select c.id,p.id from personal_test_users c,personal_test_users p where c.label='parent' and p.label='player';
+insert into public.hub_programme_intakes(player_user_id,kind,answers,status) select id,'nutrition','{"age":15,"allergies":"fixture"}','submitted' from personal_test_users where label in('player','other_player');
+insert into public.hub_personal_plans(player_user_id,kind,intake_id,intake_revision,status,plan) select i.player_user_id,'nutrition',i.id,1,s,'{"title":"fixture"}' from public.hub_programme_intakes i join personal_test_users u on u.id=i.player_user_id cross join unnest(array['draft','published']) s;
+grant select on personal_test_users to authenticated;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from personal_test_users where label='parent';
+set local role authenticated;
+do $$begin
+ assert(select count(*) from public.hub_programme_intakes where player_user_id in(select id from personal_test_users))=1,'Parent sees only linked questionnaire';
+ assert(select count(*) from public.hub_personal_plans where player_user_id in(select id from personal_test_users))=1,'Parent sees only linked published plan';
+ begin update public.hub_personal_plans set status='published';raise exception 'Parent wrote plan';exception when insufficient_privilege then null;end;
+end$$;
+reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from personal_test_users where label='coach';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_personal_plans where player_user_id in(select id from personal_test_users))=2,'Coach sees draft and published for assigned player only';end$$;
+reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated','user_metadata',json_build_object('role','owner'))::text,true) from personal_test_users where label='other_coach';
+set local role authenticated;
+do $$begin
+ assert(select count(*) from public.hub_personal_plans where player_user_id in(select id from personal_test_users))=0,'Other coach cannot read plan';
+ assert(select count(*) from public.hub_programme_intakes where player_user_id in(select id from personal_test_users))=0,'Other coach cannot read sensitive questionnaire';
+end$$;
+reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from personal_test_users where label='owner';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_personal_plans where player_user_id in(select id from personal_test_users))=4,'Owner sees all plans';end$$;
+reset role;
+update public.session_connect_coach_players set active=false where coach_user_id in(select id from personal_test_users where label='coach');
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from personal_test_users where label='coach';
+set local role authenticated;
+do $$begin assert(select count(*) from public.hub_personal_plans where player_user_id in(select id from personal_test_users))=0,'Revoked coach immediately loses access';end$$;
+reset role;
+do $$declare p public.hub_personal_plans; owner_id uuid; begin
+ select * into p from public.hub_personal_plans where status='draft' and player_user_id in(select id from personal_test_users) limit 1;
+ select id into owner_id from personal_test_users where label='owner';
+ update public.hub_programme_intakes set revision=2 where id=p.intake_id;
+ begin
+  update public.hub_personal_plans set status='published',approved_by=owner_id,approved_at=now() where id=p.id;
+  raise exception 'Stale plan was published';
+ exception when check_violation then null;
+ end;
+ update public.hub_programme_intakes set revision=1 where id=p.intake_id;
+ update public.hub_personal_plans set status='published',approved_by=owner_id,approved_at=now() where id=p.id;
+ assert(select status from public.hub_personal_plans where id=p.id)='published','Current plan can be shared';
+ update public.hub_personal_plans set status='draft' where id=p.id;
+end$$;
+rollback;
