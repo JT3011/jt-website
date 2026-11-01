@@ -3,7 +3,7 @@ import {plate,movement} from '/performance-hub-programme-visuals.js';
 import {DAYS,SHOP_LABELS,answersHTML,wizardStep} from '/performance-hub-programme-form.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
 let kind=params.get('kind')==='gym'?'gym':'nutrition',player=params.get('player'),state,view='today',selectedDay=DAYS.indexOf(new Intl.DateTimeFormat('en-GB',{weekday:'long',timeZone:'Europe/London'}).format(new Date())),showDraft=true,busy=false,version=0,step=0,answers={},revision=0;
-const call=(body)=>hubApi('hub-programmes',body?{...body,kind,player}:null,body?'':'?'+new URLSearchParams({kind,player}));
+const call=(body)=>hubApi('hub-session-plans',body?{...body,kind,player,programme:'personal'}:null,body?'':'?'+new URLSearchParams({kind,player,programme:'personal'}));
 const date=s=>new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',timeZone:'Europe/London'}).format(new Date(s));
 const labelKind=()=>kind==='nutrition'?'nutrition':'gym';
 function notice(s){$('notice').textContent=s;$('notice').hidden=!s;}

@@ -25,6 +25,6 @@ Questionnaires are sent to OpenAI only after explicit consent to create a plan. 
 ## Deployment and validation
 
 - Apply `supabase/jt-personal-programmes.sql`, then `supabase/jt-personal-programmes-guards.sql` (both already applied to the JT project on 1 November 2026).
-- Existing production `OPENAI_API_KEY` and Supabase server variables are used. Optional `APEX_PROGRAMME_MODEL` overrides `gpt-5-mini`. The function timeout is 300 seconds; upstream AI requests abort at 220 seconds.
+- Existing production `OPENAI_API_KEY` and Supabase server variables are used. Optional `APEX_PROGRAMME_MODEL` overrides `gpt-5-mini`. Personal programmes use `/api/hub-session-plans` with `programme=personal`, retaining the existing 12-function hosting footprint. The function timeout is 300 seconds; upstream AI requests abort at 220 seconds.
 - Run `node --test tests/*.test.mjs`. `tests/personal-programmes-rls.sql` exercises actual RLS and stale approvals inside a rollback transaction.
 - Preview fixtures are local only and must not be published. UI tests use synthetic player data. The first real end-to-end AI generation requires a consented live questionnaire; the production OpenAI secret is not exposed to local tests.

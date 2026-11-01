@@ -1,7 +1,7 @@
 import {randomUUID} from 'node:crypto';
-import {endpoint,fail} from '../server/hub-integrations.mjs';
-import {normaliseIntake,needsReview,basketNeeds,basketSummary,cleanCheckin} from '../server/programmes/core.mjs';
-import {makePersonalPlan,priceBasket} from '../server/programmes/ai.mjs';
+import {fail} from '../hub-integrations.mjs';
+import {normaliseIntake,needsReview,basketNeeds,basketSummary,cleanCheckin} from './core.mjs';
+import {makePersonalPlan,priceBasket} from './ai.mjs';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const day=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 export async function programmeAccess(ctx,player){
@@ -84,4 +84,4 @@ export async function programmesWork(ctx){
  }
  fail(404,'Action not found.');
 }
-export default endpoint(programmesWork);
+
