@@ -1,9 +1,9 @@
 # Connected JT navigation
 
-Draft theme: `207790375260` — **JT — Connected Website, Hub & Store**.
-Copied from live theme `206993129820` on 1 November 2026. The draft retains all products, page templates, storefront settings and checkout behaviour. Only the header, shared menu and associated assets/translations change.
+Draft theme: `207816327516` — **JT — Menu, Search & Bag**.
+Copied from live theme `207790375260` (JT — Connected Website, Hub & Store) on 1 November 2026. This revision places the store menu and native Search link on the left, keeps the crest centred, and puts the bag on the right. The draft retains the live theme's templates, storefront settings and checkout behaviour.
 
-The common header uses `jt-navigation.css` and `jt-navigation.js` from the website root. `jt-navigation.html` is the website markup reference; the Shopify section uses the same markup with translated labels and native Shopify routes. Keep those copies aligned when updating the navigation. Hub-specific links remain in `performance-hub-ui.js` so existing auth listeners and role-controlled tools are retained.
+The common header uses `jt-navigation.css` and `jt-navigation.js` from the website root. `jt-navigation.html` is the website markup reference; the Shopify section uses translated labels and native Shopify routes. The Shopify CSS copy additionally styles the store's menu/search group and Search icon. Preserve these store-specific controls when aligning shared navigation styles. Hub-specific links remain in `performance-hub-ui.js` so existing auth listeners and role-controlled tools are retained.
 
 The original Shopify header remains disabled in `sections/header-group.json`. The shared header, native search/account/cart links, collection navigation and pre-order banner replace it. To roll back, publish the previous theme through Shopify admin.
 

@@ -3,9 +3,12 @@
 {% endstyle %}
 <header class="jt-global-header" data-jt-navigation data-jt-area="store">
   <nav class="jt-global-bar" aria-label="{{ 'jt_navigation.navigation' | t | escape }}">
-    <div class="jt-global-leading"><a class="jt-global-bag" href="{{ routes.cart_url }}" aria-label="{{ 'jt_navigation.bag' | t | escape }}"><svg viewBox="0 0 24 26" aria-hidden="true"><path d="M5 8h14l1 16H4L5 8Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>{% if cart.item_count > 0 %}<span class="jt-global-bag-count" aria-hidden="true">{{ cart.item_count }}</span>{% endif %}</a></div>
+    <div class="jt-global-leading">
+      <button class="jt-global-toggle" type="button" aria-label="{{ 'jt_navigation.open_menu' | t | escape }}" aria-expanded="false" aria-controls="jtGlobalMenu"><span></span><span></span></button>
+      <a class="jt-global-search" href="{{ routes.search_url }}" aria-label="{{ 'jt_navigation.search' | t | escape }}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></a>
+    </div>
     <a class="jt-global-crest" href="https://jt-website-orpin.vercel.app/" aria-label="{{ 'jt_navigation.home' | t | escape }}"><img src="https://jt-website-orpin.vercel.app/images/jt-crest-transparent-v2.png" width="1254" height="1254" alt="{{ 'jt_navigation.logo' | t | escape }}"></a>
-    <div class="jt-global-actions"><button class="jt-global-toggle" type="button" aria-label="{{ 'jt_navigation.open_menu' | t | escape }}" aria-expanded="false" aria-controls="jtGlobalMenu"><span></span><span></span></button></div>
+    <div class="jt-global-actions"><a class="jt-global-bag" href="{{ routes.cart_url }}" aria-label="{{ 'jt_navigation.bag' | t | escape }}"><svg viewBox="0 0 24 26" aria-hidden="true"><path d="M5 8h14l1 16H4L5 8Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>{% if cart.item_count > 0 %}<span class="jt-global-bag-count" aria-hidden="true">{{ cart.item_count }}</span>{% endif %}</a></div>
   </nav>
 </header>
 <dialog class="jt-global-menu" id="jtGlobalMenu" aria-labelledby="jtGlobalMenuTitle">
