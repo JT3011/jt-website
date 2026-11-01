@@ -42,3 +42,13 @@ The CEO-only `hub_set_coach_calendar_email` RPC normalises the supplied email, r
 Family calendars also include their own email-matched bookings while the delivering coach is awaiting signup. They return no booking email or unrelated player data. A public booking link alone cannot read private appointments: automatic sync still requires the secure Calendly connection described above.
 
 Schema changes: `supabase/jt-coach-calendars.sql`, applied as `individual_coach_booking_calendars` plus `preserve_coach_calendar_session_insert_status` (the file contains the final corrected definition). Additional checks: `tests/coach-calendars.test.mjs` and transactional `tests/coach-calendars.sql`.
+
+## Booking names and players (1 November 2026)
+
+After resolving the delivering coach, each incoming or reconciled booking checks verified email/phone links, exact normalized player names, and recorded Airtable parent/child aliases in `hub_apex_context`. Unique matches can assign an existing verified Hub player to that coach. A match to an Airtable player without a Hub login is stored on the booking and displayed by player name on the coach calendar; account creation is not required to see or plan that booking. This uses the reviewed name directory, not fuzzy guesses or continuously refreshed Airtable data.
+
+Conflicting names/contact details and duplicate names require JT review. A shared family email can be disambiguated only to a child already linked to that parent. Names never create a parent relationship, log in a client, spend credits, or mark a session delivered. Existing manual booking links and completed session history are preserved. Coaches see only their calendar, and linked players still require an active assignment.
+
+The database applies these rules to future bookings received through the existing signed webhook or dashboard refresh. Continuous Calendly delivery requires the secure team connection in the Hub. The ChatGPT Calendly connector is separate and cannot provide a persistent website credential. A one-time import is labelled as saved data until that connection is completed.
+
+Verification: `tests/booking-name-links.sql` rolls back its fixtures and covers exact/alias matches, accountless players, duplicate/conflicting names, family boundaries, coach assignments and cross-coach access. Run the existing booking-matching and plan RLS suites too.
