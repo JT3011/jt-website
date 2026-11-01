@@ -20,7 +20,8 @@
   const training = take('/performance-hub-dashboard.html', 'Training', 'trainingLink');
   const locker = take('/performance-hub-avatar.html', 'Player locker');
   const rewards = take('/performance-hub-rewards.html', 'Rewards');
-  const primary = [home, plans, training, locker, rewards];
+  const programmes = take('/performance-hub-programmes.html', 'Nutrition & gym');
+  const primary = [home, plans, programmes, training, locker, rewards];
   const {header, menu} = window.JTNavigation.create('hub');
   const tools = menu.querySelector('[data-jt-tools]');
   tools.hidden = false;
