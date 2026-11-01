@@ -1,5 +1,5 @@
 import { supabase } from '/performance-hub-free-access.js?v=2';
-import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261101-name-link';
+import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261101-premium';
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/London'}).format(new Date(value)) : '';
@@ -43,7 +43,7 @@ async function api(action, payload, query={}) {
 function renderPlayers() {
   const query=$('playerSearch').value.trim().toLowerCase();
   const players=overview.players.filter(p=>p.name.toLowerCase().includes(query));
-  $('playerList').innerHTML=players.length ? players.map(p=>`<button class="player-button" data-player="${esc(p.id)}" aria-pressed="${p.id===selected}"><span class="avatar">${esc(p.name.split(/\s+/).slice(0,2).map(n=>n[0]).join(''))}</span><span><strong>${esc(p.name)}</strong><small>${p.isSelf?'My player profile':p.canEdit?'Coaching record':'View your record'}</small></span></button>`).join('') : '<p class="muted small">No players match that name.</p>';
+  $('playerList').innerHTML=players.length ? players.map(p=>`<button class="player-button" data-player="${esc(p.id)}" aria-pressed="${p.id===selected}"><span class="avatar">${esc(p.name.split(/\s+/).slice(0,2).map(n=>n[0]).join(''))}</span><span><strong>${esc(p.name)}</strong><small>${p.isSelf?'My profile':p.canEdit?'Player':'My player'}</small></span></button>`).join('') : '<p class="muted small">No players match that name.</p>';
   $('playerList').querySelectorAll('[data-player]').forEach(b=>b.addEventListener('click',()=>openPlayer(b.dataset.player)));
 }
 function creditsHtml(data) {
@@ -56,15 +56,15 @@ function creditsHtml(data) {
     grouped.set(key,group);
   }
   let content;
-  if (grouped.size) content=`<div class="credit-grid">${[...grouped].map(([service,g])=>`<div class="credit-block"><p>${esc(service)}</p><div class="balance"><b>${g.unknown?'—':number(g.remaining)}</b><span>${g.unknown?'Balance under review':'sessions remaining'}</span></div>${!g.unknown&&g.remaining<0?'<p>Please contact JT to review your session balance.</p>':''}</div>`).join('')}</div>`;
+  if (grouped.size) content=`<div class="credit-grid">${[...grouped].map(([service,g])=>`<div class="credit-block"><p>${esc(service)}</p><div class="balance"><b>${g.unknown?'—':number(g.remaining)}</b><span>${g.unknown?'Balance under review':'left'}</span></div>${!g.unknown&&g.remaining<0?'<p>Please contact JT to review your session balance.</p>':''}</div>`).join('')}</div>`;
   else content=`<p class="muted">${data.syncStatus==='unlinked'?'JT is connecting your session balance. It will appear here once your record is linked.':'No linked session balance yet. JT can check the payment link in Airtable.'}</p>`;
   const states={unlinked:'Awaiting connection',connection_pending:'Saved Airtable balance',unavailable:'Last saved balance · updates unavailable',live:'Connected to Airtable',cached:'Connected to Airtable'};
-  return `<section class="panel credits-panel"><div class="section-head"><p class="eyebrow">Your session credits</p><span class="tag">Read only</span></div>${content}<p class="credit-note">${esc(states[data.syncStatus]||'Balance pending')}${data.credit?.synced_at?` · Synced ${esc(time(data.credit.synced_at))} (UK time)`:''}. Balances are managed by JT.</p>${data.syncStatus==='connection_pending'?'<p class="credit-note">Automatic updates are awaiting connection. Contact JT to confirm a recent payment or session.</p>':''}</section>`;
+  return `<section class="panel credits-panel"><div class="section-head"><p class="eyebrow">Session credits</p><span class="tag">Read only</span></div>${content}<p class="credit-note">${esc(states[data.syncStatus]||'Balance pending')}${data.credit?.synced_at?` · Synced ${esc(time(data.credit.synced_at))} (UK time)`:''}. Balances are managed by JT.</p>${data.syncStatus==='connection_pending'?'<p class="credit-note">Updates not connected. Ask JT to confirm recent changes.</p>':''}</section>`;
 }
 function programmeHtml(kind) {
   const programme=current.programmes.find(p=>p.kind===kind);
-  const title=kind==='gym'?'Your gym programme.':'Your nutrition programme.';
-  return `<article class="panel plan"><div class="plan-top"><span class="plan-icon">${kind==='gym'?'01 / TRAIN':'02 / FUEL'}</span>${programme?`<span class="tag">${programme.status==='draft'?'Draft':'Personal plan'}</span>`:''}</div><h3>${esc(programme?.title||title)}</h3>${programme?`${programme.goal?`<p class="plan-goal">${esc(programme.goal)}</p>`:''}<div class="plan-dates">${programme.starts_on?`<span>Starts ${esc(date(programme.starts_on))}</span>`:''}${programme.review_on?`<span>Review ${esc(date(programme.review_on))}</span>`:''}</div><div class="plan-content">${esc(programme.content)}</div><p class="small muted">Updated ${esc(date(programme.updated_at))}</p>`:`<p class="plan-empty">${current.canEdit?'Create an individual plan for this player. Save a draft while you work, then publish it for the player and parent.':'Your coach will add your personal programme here. Once shared, you and your connected parent can open it any time.'}</p>`}${current.canEdit?`<button class="button outline small" data-edit="${kind}">${programme?'Edit programme':'Create programme'}</button>`:''}</article>`;
+  const title=kind==='gym'?'Gym programme':'Nutrition programme';
+  return `<article class="panel plan"><div class="plan-top"><span class="plan-icon">${kind==='gym'?'01 / TRAIN':'02 / FUEL'}</span>${programme?`<span class="tag">${programme.status==='draft'?'Draft':'Personal plan'}</span>`:''}</div><h3>${esc(programme?.title||title)}</h3>${programme?`${programme.goal?`<p class="plan-goal">${esc(programme.goal)}</p>`:''}<div class="plan-dates">${programme.starts_on?`<span>Starts ${esc(date(programme.starts_on))}</span>`:''}${programme.review_on?`<span>Review ${esc(date(programme.review_on))}</span>`:''}</div><div class="plan-content">${esc(programme.content)}</div><p class="small muted">Updated ${esc(date(programme.updated_at))}</p>`:`<p class="plan-empty">${current.canEdit?'Add a personal plan for this player.':'Your coach will share your programme here.'}</p>`}${current.canEdit?`<button class="button outline small" data-edit="${kind}">${programme?'Edit programme':'Create programme'}</button>`:''}</article>`;
 }
 async function openPlayer(id,refresh=false) {
   selected=id; current=null; const version=++loadVersion;
@@ -74,7 +74,7 @@ async function openPlayer(id,refresh=false) {
     const data=await api('player',null,{player:id,...(refresh?{refresh:'1'}:{})});
     if (version!==loadVersion || signingOut) return;
     current=data;
-    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">The next step starts here</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits in Airtable ↗</a></p><p class="small muted">Update the linked payment’s Completed +1 value after delivery, then refresh this record. Booking a session does not deduct credits.</p>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-plans.html?player=${encodeURIComponent(id)}">Session plans ↗</a><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session history & feedback ↗</a><button class="button outline small" id="refreshRecord">Refresh record</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
+    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">Player record</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits ↗</a></p><details class="hub-help"><summary>How credits work</summary><p>After delivery, update Completed +1 on the Airtable payment, then refresh. Bookings do not deduct credits.</p></details>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-plans.html?player=${encodeURIComponent(id)}">Session plans</a><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session log</a><button class="button outline small" id="refreshRecord">Refresh</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
     $('record').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
     $('refreshRecord').addEventListener('click',()=>openPlayer(selected,true));
     mountPlayerSchedule($('playerCalendar'),id,{name:current.profile.name,staff:isStaff(),scheduleLabel:$('sessionsView').textContent});
@@ -156,10 +156,10 @@ async function init() {
     $('trainingLink').href=overview.trainingUrl;
     $('coachLink').hidden=!isStaff(); $('manageAccess').hidden=overview.role!=='owner'; $('ownerActions').hidden=overview.role!=='owner';
     $('workspaceViews').hidden=!isStaff();
-    $('sessionsView').textContent=['owner','admin'].includes(overview.role)?'All team sessions':'My coaching sessions';
-    $('trainingLink').textContent=overview.role==='client'?'Training Hub':'My player Hub';
+    $('sessionsView').textContent=['owner','admin'].includes(overview.role)?'Team sessions':'My sessions';
+    $('trainingLink').textContent='Training';
     $('roleLabel').textContent=overview.role==='owner'?'JT · Team overview':overview.role==='coach'?'JT · Coach workspace':'JT · My coaching';
-    $('welcome').textContent=overview.role==='owner'?'Every coach’s sessions, with player records one tap away.':overview.role==='client'?'Your session credits and personal programmes, all in one place.':'Your coaching sessions, players and programmes in one place.';
+    $('welcome').textContent=overview.role==='owner'?'Your team. Every session.':overview.role==='client'?'Your sessions, plans and credits.':'Your sessions. Your players.';
     if (overview.players.length===1 && overview.role==='client') {
       document.querySelector('.roster').hidden=true;
       $('portal').style.gridTemplateColumns='1fr';

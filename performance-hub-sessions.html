@@ -6,7 +6,7 @@
   <title>My Sessions · JT Performance Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root{--black:#050505;--panel:#0b0b0b;--gold:#dbc181;--gold2:#f4dea0;--white:#f8f3e7;--muted:#aaa69b;--line:rgba(219,193,129,.16);--whiteLine:rgba(255,255,255,.075);--ok:#78d99a}
     *{box-sizing:border-box}html{background:var(--black)}body{margin:0;min-height:100vh;background:radial-gradient(circle at 70% 0,rgba(219,193,129,.12),transparent 32rem),var(--black);color:var(--white);font-family:Montserrat,sans-serif}a{color:inherit;text-decoration:none}.hidden{display:none!important}
@@ -35,8 +35,10 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
+<link rel="stylesheet" href="/performance-hub-ui.css?v=20261101-premium">
+<script defer src="/performance-hub-ui.js?v=20261101-premium"></script>
 </head>
-<body>
+<body class="jt-hub-ui" data-hub-page="/performance-hub-sessions.html">
 <header class="topbar"><div class="topbar-inner">
   <a class="brand" id="homeLink" href="/performance-hub-dashboard.html"><img src="images/logo.jpeg" alt="JT"><span class="brand-copy"><strong>JT Performance Hub</strong><span>Session Connect</span></span></a>
   <a class="back" id="backLink" href="/performance-hub-dashboard.html">← Dashboard</a>
@@ -46,7 +48,7 @@
   <section class="hero">
     <div class="eyebrow">Your Development Record</div>
     <h1>My <span>Sessions.</span></h1>
-    <p>Your coaching work stays connected between sessions. Review what you worked on, coach feedback, next actions and any clips uploaded for you.</p>
+    <p>Your coach’s feedback, videos and next steps.</p>
     <div class="player-select-wrap hidden" id="playerSelectorWrap"><label for="playerSelector">Viewing</label><select class="player-select" id="playerSelector"></select></div>
   </section>
   <div id="loading" class="empty">Loading your session history…</div>

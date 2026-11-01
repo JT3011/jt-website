@@ -7,7 +7,7 @@
   <meta name="description" content="Your free JT Performance Hub player environment with challenges, coach feedback and player profile access.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --black:#050505;
@@ -336,8 +336,10 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
+<link rel="stylesheet" href="/performance-hub-ui.css?v=20261101-premium">
+<script defer src="/performance-hub-ui.js?v=20261101-premium"></script>
 </head>
-<body>
+<body class="jt-hub-ui" data-hub-page="/performance-hub-free.html">
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="/performance-hub-free.html">
@@ -359,8 +361,8 @@
 
   <div class="free-strip">
     <div class="free-strip-inner">
-      <div><strong>Free Account Active</strong> — keep your player profile, challenges and JT coach feedback in one place.</div>
-      <button type="button" data-upgrade="Full Performance Hub">See What Premium Unlocks →</button>
+      <div><strong>Free account</strong> · Your JT essentials.</div>
+      <button type="button" data-upgrade="Full Performance Hub">Explore Premium →</button>
     </div>
   </div>
 
@@ -392,11 +394,11 @@
             <span class="gold" id="firstName">Player.</span>
           </h1>
           <p>
-            Your free JT Performance Hub account keeps you connected to the basics that matter: your player identity, daily standards and feedback from JT coaching sessions. When you want the full performance system, your same account upgrades instantly.
+            Your sessions, daily challenges and coaching feedback.
           </p>
           <div class="hero-actions">
-            <a class="primary" href="/performance-hub-challenges.html">Complete Today’s Challenges →</a>
-            <a class="secondary" id="profileAction" href="/performance-hub-free-profile.html">Build Player Profile</a>
+            <a class="primary" href="/performance-hub-challenges.html">Today’s challenges →</a>
+            <a class="secondary" id="profileAction" href="/performance-hub-free-profile.html">Edit profile</a>
           </div>
         </div>
 
@@ -424,29 +426,29 @@
           <div class="eyebrow">Included In Free</div>
           <h2>Keep Moving <span class="gold">Forward.</span></h2>
         </div>
-        <p>These areas stay available on your free account, so every player can remain connected to JT coaching and build better performance habits.</p>
+        <p>Your everyday essentials.</p>
       </div>
 
       <section class="free-grid">
         <a class="free-card" href="/performance-hub-challenges.html">
           <div class="card-label">Free • Daily Use</div>
           <h3>Performance Challenges.</h3>
-          <p>Complete daily and weekly standards, build your streak and earn Performance Points through consistency.</p>
+          <p>Build your streak. Earn points.</p>
           <div class="card-action">Open Challenges →</div>
         </a>
 
         <a class="free-card" href="/performance-hub-sessions.html">
           <div class="card-label">Free • Coach Connected</div>
           <h3>Session Feedback.</h3>
-          <p>See feedback, next focus areas, homework and clips uploaded from your connected JT coaching sessions.</p>
-          <div class="card-action">View Coach Sessions →</div>
+          <p>Your coach’s feedback, next steps and videos.</p>
+          <div class="card-action">View sessions →</div>
         </a>
 
         <a class="free-card" href="/performance-hub-free-profile.html">
           <div class="card-label">Free • Your Identity</div>
           <h3>Player Profile.</h3>
-          <p>Keep your position, playing level and main development goal connected to your JT player account.</p>
-          <div class="card-action">Edit Player Profile →</div>
+          <p>Your position, level and goals.</p>
+          <div class="card-action">Edit profile →</div>
         </a>
       </section>
 
@@ -454,7 +456,7 @@
         <div>
           <div class="eyebrow">Ready For The Full System?</div>
           <h2>Turn Free Into <span class="gold">Performance.</span></h2>
-          <p>Unlock personalised position-specific training, the AI Performance Coach, matchday preparation, recovery, nutrition, mindset, progress tracking, journal, Player Locker and the full rewards environment.</p>
+          <p>Personal training, matchday preparation, recovery and more.</p>
         </div>
         <div class="upgrade-box">
           <div class="upgrade-price"><strong>£12.99</strong><span> / month</span></div>
@@ -468,7 +470,7 @@
           <div class="eyebrow">Premium Environment</div>
           <h2>See What’s <span class="gold">Locked.</span></h2>
         </div>
-        <p>You can see every area before upgrading. Tap any lock to preview exactly what your account will unlock.</p>
+        <p>Tap an area to explore Premium.</p>
       </div>
 
       <section class="lock-grid" id="lockGrid">
@@ -501,7 +503,7 @@
   </div>
 
   <div class="sticky-upgrade">
-    <div><strong>Free account</strong> • Upgrade once and keep this same player profile, points and coach connection.</div>
+    <div><strong>JT Premium</strong> · Build on your progress.</div>
     <button type="button" data-upgrade="the complete Performance Hub">Unlock Premium • £12.99 →</button>
   </div>
 

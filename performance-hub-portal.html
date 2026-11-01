@@ -10,28 +10,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/performance-hub-portal.css?v=20261101-name-link">
   <link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261101-name-link">
-  <script type="module" src="/performance-hub-portal.js?v=20261101-name-link"></script>
+  <script type="module" src="/performance-hub-portal.js?v=20261101-premium"></script>
+<link rel="stylesheet" href="/performance-hub-ui.css?v=20261101-premium">
+<script defer src="/performance-hub-ui.js?v=20261101-premium"></script>
 </head>
-<body>
+<body class="jt-hub-ui" data-hub-page="/performance-hub-portal.html">
 <a class="skip" href="#main">Skip to coaching record</a>
 <header class="topbar">
   <a class="brand" href="/performance-hub-portal.html"><img src="/images/jt-hub-applogo-192-v3.png" alt="JT"><span>PERFORMANCE HUB<small>Mind. Body. Balance.</small></span></a>
   <nav aria-label="Hub navigation"><a id="trainingLink" href="/performance-hub-free.html">Training Hub</a><a href="/performance-hub-rewards.html">Store &amp; rewards</a><a href="/performance-hub-plans.html">Session plans</a><a id="coachLink" href="/performance-hub-coach-dashboard.html" hidden>Coach sessions</a><button id="signOut" type="button">Sign out</button></nav>
 </header>
 <main id="main">
-  <div class="intro"><div><p class="eyebrow" id="roleLabel">Your JT coaching space</p><h1>Progress, <em>together.</em></h1><p id="welcome">Your sessions, your plan, your next step.</p></div><div id="ownerActions" class="owner-actions" hidden><a class="button" href="/performance-hub-command-centre.html">Owner Command Centre</a><button id="manageAccess" class="button outline" hidden>Manage access</button></div></div>
+  <div class="intro"><div><p class="eyebrow" id="roleLabel">JT Performance</p><h1>Your <em>Hub.</em></h1><p id="welcome">Sessions. Plans. Progress.</p></div><div id="ownerActions" class="owner-actions" hidden><a class="button" href="/performance-hub-command-centre.html">Business tools</a><button id="manageAccess" class="button outline" hidden>Team access</button></div></div>
   <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
-  <div id="loading" class="empty">Opening your private coaching record…</div>
+  <div id="loading" class="empty">Loading your Hub…</div>
   <nav id="workspaceViews" class="workspace-views" aria-label="Coaching workspace" hidden>
-    <button id="sessionsView" type="button" aria-controls="teamCalendar" aria-pressed="false">All team sessions</button>
-    <button id="playersView" type="button" aria-controls="portal" aria-pressed="false">Player records</button>
+    <button id="sessionsView" type="button" aria-controls="teamCalendar" aria-pressed="false">Team sessions</button>
+    <button id="playersView" type="button" aria-controls="portal" aria-pressed="false">Players</button>
   </nav>
   <section id="teamCalendar" aria-label="Coaching sessions" hidden></section>
   <div id="portal" class="workspace" hidden>
-    <aside class="roster panel"><p class="eyebrow" id="rosterTitle">Connected players</p><label for="playerSearch">Find a player</label><input id="playerSearch" type="search" placeholder="Search by name"><div id="playerList" class="player-list" aria-label="Choose a player"></div></aside>
+    <aside class="roster panel"><p class="eyebrow" id="rosterTitle">Players</p><label for="playerSearch">Find a player</label><input id="playerSearch" type="search" placeholder="Search by name"><div id="playerList" class="player-list" aria-label="Choose a player"></div></aside>
     <section id="record" aria-live="polite"><div class="empty">Choose a player to open their record.</div></section>
   </div>
-  <footer>JT Mind &amp; Body Balance <span>Personal coaching. Shared progress.</span></footer>
+  <footer>JT Mind &amp; Body Balance <span>Mind. Body. Balance.</span></footer>
 </main>
 <dialog id="programmeDialog">
   <form id="programmeForm">

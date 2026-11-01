@@ -6,7 +6,7 @@
   <title>Coach Command Centre | JT Performance Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root{--black:#050505;--panel:#0b0b0b;--gold:#dbc181;--gold2:#f4dea0;--white:#f8f3e7;--muted:#aaa69b;--line:rgba(219,193,129,.16);--whiteLine:rgba(255,255,255,.075);--ok:#78d99a;--danger:#ff9292;--shadow:0 30px 90px rgba(0,0,0,.5)}
     *{box-sizing:border-box}html{background:var(--black)}body{margin:0;background:radial-gradient(circle at 80% 0,rgba(219,193,129,.12),transparent 32rem),var(--black);color:var(--white);font-family:Montserrat,sans-serif;min-height:100vh}button,input,textarea,select{font:inherit}.hidden{display:none!important}a{color:inherit;text-decoration:none}
@@ -49,9 +49,11 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/images/jt-hub-applogo-192-v3.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/images/jt-hub-applogo-v3.png">
   <script defer src="/pwa-register.js?v=20260827.3"></script>
-<link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261101-name-link"><script type="module" src="/performance-hub-coach-schedule.js?v=20261101-name-link"></script>
+<link rel="stylesheet" href="/performance-hub-coach-schedule.css?v=20261101-name-link"><script type="module" src="/performance-hub-coach-schedule.js?v=20261101-premium"></script>
+<link rel="stylesheet" href="/performance-hub-ui.css?v=20261101-premium">
+<script defer src="/performance-hub-ui.js?v=20261101-premium"></script>
 </head>
-<body>
+<body class="jt-hub-ui" data-hub-page="/performance-hub-coach-dashboard.html">
 <header class="topbar"><div class="topbar-inner">
   <a class="brand" href="/performance-hub-coach-dashboard.html"><img src="images/logo.jpeg" alt="JT"><span class="brand-copy"><strong>JT Coach</strong><span>Session Connect</span></span></a>
   <div class="top-actions"><a class="pill-btn" href="/performance-hub-plans.html">Session plans</a><a class="pill-btn gold hidden" id="commandCentreLink" href="/performance-hub-command-centre.html">Command Centre</a><a class="pill-btn" href="/performance-hub-dashboard.html">Player Hub</a><button class="pill-btn" id="signOut">Sign Out</button></div>
@@ -61,14 +63,14 @@
   <div id="loading" class="empty">Loading your coaching environment…</div>
   <div id="app" class="hidden">
     <section class="hero">
-      <div><div class="eyebrow">JT Session Connect</div><h1>Coach <span>Command Centre.</span></h1><p>Every session in one place. Open a player, record the work, upload clips and leave the next coach or parent with a clear development picture.</p></div>
+      <div><div class="eyebrow">JT Session Connect</div><h1>Coach <span>Hub.</span></h1><p>Your schedule, players and session logs.</p></div>
       <div class="date-chip"><strong id="coachName">JT Coach</strong><span id="todayLabel"></span></div>
     </section>
     <section data-coach-schedule></section>
-    <section class="stats"><div class="stat"><strong id="sessionCount">0</strong><span>Sessions Today</span></div><div class="stat"><strong id="completedCount">0</strong><span>Completed</span></div><div class="stat"><strong id="mediaCount">0</strong><span>Clips / Photos</span></div></section>
-    <div class="section-head"><div><div class="eyebrow">Today</div><h2>Your Sessions.</h2></div><button class="pill-btn gold" id="addSession">+ Add Session</button></div>
+    <section class="stats"><div class="stat"><strong id="sessionCount">0</strong><span>Session records</span></div><div class="stat"><strong id="completedCount">0</strong><span>Completed</span></div><div class="stat"><strong id="mediaCount">0</strong><span>Clips / Photos</span></div></section>
+    <div class="section-head"><div><div class="eyebrow">Today</div><h2>Session logs</h2></div><button class="pill-btn gold" id="addSession">+ Log session</button></div>
     <section class="session-list" id="sessionList"></section>
-    <div class="section-head"><div><div class="eyebrow">Player Access</div><h2>Find A Player.</h2></div><p>Managers see every player. Coaches see assigned players.</p></div>
+    <div class="section-head"><div><div class="eyebrow">Your players</div><h2>Players</h2></div><p>Find a player to log their session.</p></div>
     <section class="panel"><div class="search-row"><input id="playerSearch" placeholder="Search player name, position or level"><button class="pill-btn gold" id="searchPlayers">Search</button></div><div class="player-results" id="playerResults"></div></section>
   </div>
 </main>
@@ -85,8 +87,8 @@
     <div class="rating-box"><label>Intensity</label><select id="ratingIntensity"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
     <div class="rating-box"><label>Confidence</label><select id="ratingConfidence"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
   </div>
-  <div class="media-zone"><div class="eyebrow">Session Media</div><p style="color:var(--muted);font-size:.7rem;line-height:1.6">Add videos or photos for the player/parent. Files stay inside private Hub storage.</p><input id="sessionMedia" type="file" accept="video/*,image/*" multiple><div class="media-status" id="mediaStatus"></div><div class="media-list" id="mediaList"></div></div>
-  <div class="modal-actions"><button class="secondary" data-close="sessionModal">Close</button><button class="primary" id="saveSession">Save Session</button></div>
+  <div class="media-zone"><div class="eyebrow">Videos & photos</div><p style="color:var(--muted);font-size:.7rem;line-height:1.6">Add videos or photos for the player/parent. Files stay inside private Hub storage.</p><input id="sessionMedia" type="file" accept="video/*,image/*" multiple><div class="media-status" id="mediaStatus"></div><div class="media-list" id="mediaList"></div></div>
+  <div class="modal-actions"><button class="secondary" data-close="sessionModal">Close</button><button class="primary" id="saveSession">Save log</button></div>
 </div></div>
 
 <div class="modal-backdrop hidden" id="addModal"><div class="modal">
