@@ -463,6 +463,8 @@
     "bag": "Bag",
     "search": "Search",
     "account": "Account",
-    "store_tools": "Store tools"
+    "store_tools": "Store tools",
+    "pause_animation": "Pause animation",
+    "resume_animation": "Resume animation"
   }
 }

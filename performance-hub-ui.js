@@ -26,6 +26,7 @@
   tools.hidden = false;
   const context = menu.querySelector('[data-jt-tool-links]');
   const accounts = menu.querySelector('[data-jt-account]');
+  menu.querySelector('[data-jt-account-panel]').hidden = false;
   primary.forEach(a => context.append(a));
   const ownerActions = document.getElementById('ownerActions');
   if (ownerActions) accounts.append(ownerActions);
