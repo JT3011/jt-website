@@ -21,7 +21,7 @@ test('linked booking opens its exact plan and session log with its player credit
  assert.match(html,/performance-hub-plans\.html\?booking=booking-id/);
  assert.match(html,/performance-hub-coach-dashboard\.html\?day=2026-11-03&amp;session=session-id/);
  assert.match(html,/<span>Session log<\/span>/);
- assert.match(html,/<span>Session credit<\/span><strong>4 left<\/strong>/);
+ assert.match(html,/<span>Session credits<\/span><strong>4 left<\/strong>/);
  assert.doesNotMatch(html,/data-cal-log-pending/);
 });
 test('unlinked and account-pending bookings retain all controls without false links or credits',()=>{

@@ -29,7 +29,7 @@ function creditControl(event){
     `<p>Saved balance · ${e(ukDate(event.credit.synced_at,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))} UK time</p>`:'';
   const empty=event.player_id?'A credit balance has not been connected yet. Ask JT to confirm the remaining sessions.':
     event.account_pending?'This player is matched to the booking. Connect their Hub account to show their session credit.':'Link this booking to the correct player to show their session credit.';
-  return `<details class="cal-credit-details"><summary><span>Session credit</span><strong>${e(label)}</strong>${chevron}</summary><div class="cal-credit-body">${rows||`<p>${e(empty)}</p>`}${updated}${balances.length?'<p>Bookings do not deduct credits. JT updates the balance after delivery.</p>':''}${profile?`<a class="cal-credit-profile" href="${e(profile)}">View player &amp; credits ${arrow}</a>`:''}</div></details>`;
+  return `<details class="cal-credit-details"><summary><span>Session credits</span><strong>${e(label)}</strong>${chevron}</summary><div class="cal-credit-body">${rows||`<p>${e(empty)}</p>`}${updated}${balances.length?'<p>Bookings do not deduct credits. JT updates the balance after delivery.</p>':''}${profile?`<a class="cal-credit-profile" href="${e(profile)}">View player &amp; credits ${arrow}</a>`:''}</div></details>`;
 }
 
 export function renderCoachSessionRow(event){
@@ -42,7 +42,7 @@ export function renderCoachSessionRow(event){
     event.player_id?'This booking needs to be connected to its Hub session before it can be logged. Ask JT to review the booking.':'Link this booking to the correct player before adding feedback or clips to their session log.';
   return `<article class="cal-row cal-player-row ${cancelled?'cal-cancelled':''}">
     <time datetime="${e(event.start)}">${e(ukDate(event.start,{hour:'2-digit',minute:'2-digit'}))}<small>to ${e(ukDate(event.end,{hour:'2-digit',minute:'2-digit'}))}</small></time>
-    <div class="cal-detail"><div class="cal-row-top"><strong>${player?`<a class="cal-player-name" href="${e(player)}">${name}</a>`:name}</strong><span class="cal-tag">${cancelled?'Cancelled':event.needs_link?'JT review':event.account_pending?'Matched':e(String(event.status||'scheduled').replaceAll('_',' '))}</span></div><p>${e(event.name)}</p><p>${e(event.coach)}${event.venue?` · ${e(event.venue)}`:''}</p></div>
+    <div class="cal-detail"><div class="cal-row-top"><strong>${player?`<a class="cal-player-name" href="${e(player)}">${name}</a>`:name}</strong><span class="cal-tag">${cancelled?'Cancelled':event.needs_link?'JT review':event.account_pending?'Matched':e(String(event.status||'scheduled').replaceAll('_',' '))}</span></div><p>${e(event.name)}</p><p>${e(event.coach)}${event.venue?` · ${e(event.venue)}`:''}</p>
     <div class="cal-session-controls">
       <div class="cal-session-buttons">
         ${plan?`<a class="cal-session-action cal-plan-link" href="/performance-hub-plans.html?${plan}"><span>Session plan</span>${arrow}</a>`:'<button class="cal-session-action" type="button" disabled>Session plan</button>'}
@@ -50,6 +50,7 @@ export function renderCoachSessionRow(event){
       </div>
       ${!log?`<p class="cal-log-help" data-cal-log-help role="status" hidden>${e(reason)}</p>`:''}
       ${creditControl(event)}
+    </div>
     </div>
   </article>`;
 }
