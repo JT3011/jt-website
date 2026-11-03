@@ -94,7 +94,7 @@ begin
  delete from public.hub_provider_sync_jobs where created_at<now()-interval '14 days';
  ticket:=encode(extensions.gen_random_bytes(32),'hex');
  insert into public.hub_provider_sync_jobs(ticket_hash) values(encode(extensions.digest(ticket,'sha256'),'hex')) returning id into job_id;
- perform net.http_post(url:='https://jt-website-orpin.vercel.app/api/hub-provider-sync',headers:=jsonb_build_object('Content-Type','application/json','Authorization','Bearer '||ticket),body:='{}'::jsonb,timeout_milliseconds:=300000);
+ perform net.http_post(url:='https://jt-website-orpin.vercel.app/api/hub-airtable?job=provider-sync',headers:=jsonb_build_object('Content-Type','application/json','Authorization','Bearer '||ticket),body:='{}'::jsonb,timeout_milliseconds:=300000);
  return job_id;
 end;$$;
 revoke all on function private.request_provider_sync() from public,anon,authenticated;

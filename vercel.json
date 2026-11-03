@@ -3,9 +3,6 @@
     "api/hub-session-plans.mjs": {
       "maxDuration": 300
     },
-    "api/hub-provider-sync.mjs": {
-      "maxDuration": 300
-    },
     "api/coach-schedule.mjs": {
       "maxDuration": 300
     },

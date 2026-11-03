@@ -5,6 +5,7 @@ import {withProviderSync} from '../server/provider-sync-state.mjs';
 import {createSyncJob,syncBounds} from '../server/provider-sync.mjs';
 import {syncAirtable,F,PLAYERS} from '../server/airtable-credits.mjs';
 import {scheduleWork} from '../api/coach-schedule.mjs';
+import {createAirtableHandler} from '../api/hub-airtable.mjs';
 import {autoRefresh} from '../performance-hub-auto-refresh.js';
 const owner='11111111-1111-4111-8111-111111111111',child='22222222-2222-4222-8222-222222222222';
 const event={uri:`https://api.calendly.com/scheduled_events/${owner}`,name:'Test football',status:'active',start_time:'2026-11-04T18:00:00Z',end_time:'2026-11-04T19:00:00Z',updated_at:'2026-11-03T10:00:00Z',event_memberships:[{user:'host-a'}]};
@@ -71,4 +72,13 @@ test('open schedules poll every 30 seconds, pause hidden tabs and avoid overlapp
 });
 test('today and future calendars share a seven-day recovery window, historical days remain accessible',()=>{
  const now=Date.parse('2026-11-03T12:00:00Z');assert.equal(syncBounds('2026-12-01T00:00:00Z',now).start,'2026-10-27T00:00:00.000Z');assert.equal(syncBounds('2026-01-01T00:00:00Z',now).start,'2026-01-01T00:00:00Z');
+});
+
+test('shared API route keeps scheduled jobs and normal connections separately authenticated',async()=>{
+ const handler=createAirtableHandler({env:{},fetchImpl:async()=>{throw Error('Unexpected provider call');}});
+ for(const url of ['/api/hub-airtable?job=provider-sync','/api/hub-airtable']){
+  const response={setHeader(){},status(code){this.code=code;return this;},json(data){this.data=data;return this;}};
+  await handler({url,method:'POST',headers:{},body:{action:'connect'}},response);
+  assert.equal(response.code,401);
+ }
 });

@@ -10,7 +10,7 @@ Airtable is read-only: complete Players and Payments tables refresh cached credi
 
 ## Deployment
 
-Apply `supabase/jt-provider-sync.sql` once. It creates server-only lease/job tables, reconciliation functions and an initially inactive cron job. Deploy the matching `/api/hub-provider-sync` endpoint before enabling the job:
+Apply `supabase/jt-provider-sync.sql` once. Existing installations from the first rollout also apply `supabase/jt-provider-sync-route.sql`. It creates server-only lease/job tables, reconciliation functions and an initially inactive cron job. Deploy the matching `/api/hub-airtable?job=provider-sync` endpoint before enabling the job:
 
 ```sql
 select cron.alter_job((select jobid from cron.job where jobname='jt-hub-provider-sync'),active:=true);
