@@ -55,8 +55,9 @@ export async function syncAirtable(ctx){
     const players=await records(PLAYERS,[F.name,F.fallbackName,F.payments]);
     const payments=await records(PAYMENTS,[F.remaining,F.purchased,F.used,F.service,F.players,F.usageDate,F.paymentDate]);
     const now=new Date().toISOString();
-    const snapshots=players.map(p=>({airtable_record_id:p.id,display_name:p.fields[F.name]||p.fields[F.fallbackName]||'Player',credits:summariseCredits(p,payments),synced_at:now}));
+    const snapshots=players.map(p=>({airtable_record_id:p.id,display_name:p.fields[F.name]||p.fields[F.fallbackName]||'Player',booking_names:[...new Set([p.fields[F.name],p.fields[F.fallbackName]].filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim()))],credits:summariseCredits(p,payments),synced_at:now}));
     if(snapshots.length)await ctx.db('hub_airtable_players',{on_conflict:'airtable_record_id'},'POST',snapshots);
+    await ctx.db('rpc/hub_reconcile_bookings',{},'POST',{});
     return{connected:true,count:players.length,synced_at:now};
   });
 }
