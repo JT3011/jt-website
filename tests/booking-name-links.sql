@@ -62,6 +62,26 @@ do $$begin
  assert(select matched_player_name='Current Name Match One' and player_user_id=(select id from name_link_users where label='one') from public.session_connect_booking_queue where external_booking_id='name-link-known'),'Display name refresh preserves the linked player';
  assert(select count(*) from public.session_connect_sessions where external_booking_id='name-link-known')=1,'Name refresh cannot duplicate a session';
 end$$;
+-- A shared booking keeps one provider row and separate Airtable participants.
+insert into public.session_connect_booking_queue(external_booking_id,external_event_uri,event_name,invitee_name,invitee_email,start_at,end_at,booking_status,airtable_participants)
+ values('shared-name-fixture','https://api.calendly.com/scheduled_events/shared-name-fixture','Name link fixture','Group contact','group@example.invalid',now()+interval '3 days',now()+interval '3 days 1 hour','active',array['recnameone0000001','recnametwo0000002']);
+do $$begin
+ assert(select player_user_id is null and converted_session_id is null and player_match_method='airtable_group' and matched_player_name='Current Name Match One & Name Match Two' from public.session_connect_booking_queue where external_booking_id='shared-name-fixture'),'Group cannot be owned by one player';
+end$$;
+insert into public.session_connect_booking_queue(external_booking_id,external_event_uri,event_name,invitee_name,invitee_email,start_at,end_at,booking_status)
+ values('shared-name-fixture','https://api.calendly.com/scheduled_events/shared-name-fixture','Name link fixture','Group contact','group@example.invalid',now()+interval '3 days',now()+interval '3 days 1 hour','active')
+ on conflict(external_booking_id) do update set booking_status=excluded.booking_status;
+do $$begin
+ assert(select cardinality(airtable_participants)=2 and player_match_method='airtable_group' from public.session_connect_booking_queue where external_booking_id='shared-name-fixture'),'Provider refresh preserves confirmed participants';
+ assert not exists(select 1 from public.session_connect_sessions where external_booking_id='shared-name-fixture'),'No duplicate individual session is created';
+ begin
+  update public.session_connect_booking_queue set converted_session_id=(select converted_session_id from public.session_connect_booking_queue where external_booking_id='name-link-known') where external_booking_id='shared-name-fixture';
+  raise exception 'Fixture expected group conversion to be rejected';
+ exception when raise_exception then
+  assert sqlerrm='Group booking must not belong to one player','Single-player conversion is rejected';
+ end;
+end$$;
+update public.session_connect_booking_queue set booking_status='canceled' where external_booking_id='shared-name-fixture';
 -- Access is checked as real caller roles, not as a database administrator.
 grant select on name_link_users to authenticated;
 select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from name_link_users where label='coach';

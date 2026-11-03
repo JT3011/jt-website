@@ -22,7 +22,16 @@ export function creditSummary(event){
 }
 
 function creditControl(event){
-  const e=escapeHtml,{balances,label}=creditSummary(event);
+  const e=escapeHtml;
+  if(event.group_players?.length){
+    const people=event.group_players.map(member=>{
+      const {balances}=creditSummary({credit:member.credit});
+      const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.service)}</span><strong>${b.unknown?'Under review':e(number(b.remaining))+' left'}</strong></div>`).join('');
+      return `<div class="cal-group-credit"><strong>${e(member.name)}</strong>${rows||'<p>Balance pending</p>'}</div>`;
+    }).join('');
+    return `<details class="cal-credit-details"><summary><span>Session credits</span><strong>By player</strong>${chevron}</summary><div class="cal-credit-body">${people}<p>Each player keeps their own balance. Bookings do not deduct credits.</p></div></details>`;
+  }
+  const {balances,label}=creditSummary(event);
   const profile=event.player_id?`/performance-hub-portal.html?player=${encodeURIComponent(event.player_id)}`:null;
   const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.service)}</span><strong>${b.unknown?'Under review':e(number(b.remaining))+' left'}</strong></div>`).join('');
   const updated=event.credit?.synced_at&&Number.isFinite(Date.parse(event.credit.synced_at))?
@@ -38,11 +47,11 @@ export function renderCoachSessionRow(event){
   const log=event.session_id?`/performance-hub-coach-dashboard.html?day=${sessionDay(event.start)}&session=${encodeURIComponent(event.session_id)}`:null;
   const player=event.player_id?`/performance-hub-portal.html?player=${encodeURIComponent(event.player_id)}`:null;
   const name=e(event.players?.join(' & ')||event.name||'Player');
-  const reason=event.account_pending?'Connect this player’s Hub account before adding feedback or clips to their session log.':
+  const reason=event.group_players?.length?'Connect each player’s Hub account before adding feedback or clips to their individual session logs.':event.account_pending?'Connect this player’s Hub account before adding feedback or clips to their session log.':
     event.player_id?'This booking needs to be connected to its Hub session before it can be logged. Ask JT to review the booking.':'Link this booking to the correct player before adding feedback or clips to their session log.';
   return `<article class="cal-row cal-player-row ${cancelled?'cal-cancelled':''}" data-cal-row="${e(event.id)}">
     <time datetime="${e(event.start)}">${e(ukDate(event.start,{hour:'2-digit',minute:'2-digit'}))}<small>to ${e(ukDate(event.end,{hour:'2-digit',minute:'2-digit'}))}</small></time>
-    <div class="cal-detail"><div class="cal-row-top"><strong>${player?`<a class="cal-player-name" href="${e(player)}">${name}</a>`:name}</strong><span class="cal-tag">${cancelled?'Cancelled':event.needs_link?'JT review':event.account_pending?'Matched':e(String(event.status||'scheduled').replaceAll('_',' '))}</span></div><p>${e(event.name)}</p><p>${e(event.coach)}${event.venue?` · ${e(event.venue)}`:''}</p>
+    <div class="cal-detail"><div class="cal-row-top"><strong>${player?`<a class="cal-player-name" href="${e(player)}">${name}</a>`:name}</strong><span class="cal-tag">${cancelled?'Cancelled':event.needs_link?'JT review':event.group_players?.length?'Group':event.account_pending?'Matched':e(String(event.status||'scheduled').replaceAll('_',' '))}</span></div><p>${e(event.name)}</p><p>${e(event.coach)}${event.venue?` · ${e(event.venue)}`:''}</p>
     <div class="cal-session-controls">
       <div class="cal-session-buttons">
         ${plan?`<a class="cal-session-action cal-plan-link" href="/performance-hub-plans.html?${plan}"><span>Session plan</span>${arrow}</a>`:'<button class="cal-session-action" type="button" disabled>Session plan</button>'}

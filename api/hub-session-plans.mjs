@@ -25,7 +25,7 @@ export async function allowedBookings(ctx,player){
   const calendars=await ctx.db('hub_coach_calendars',{enabled:'eq.true',...(!ctx.owner?{coach_user_id:`eq.${ctx.user.id}`} :{}),select:'id,display_name,coach_user_id'});
   if(!ctx.owner&&!calendars.length)return[];
   const links=ctx.owner?null:await ctx.db('session_connect_coach_players',{coach_user_id:`eq.${ctx.user.id}`,active:'eq.true',select:'player_user_id'});
-  const rows=await calendarRows(ctx.db,'session_connect_booking_queue',{...(!ctx.owner?{calendar_id:`in.(${calendars.map(c=>c.id).join(',')})`}:{}),...(player?{player_user_id:`eq.${player}`} :{}),select:'id,calendar_id,converted_session_id,player_user_id,event_name,invitee_name,start_at,end_at,venue,booking_status',order:'start_at.asc,id.asc'});
+  const rows=await calendarRows(ctx.db,'session_connect_booking_queue',{...(!ctx.owner?{calendar_id:`in.(${calendars.map(c=>c.id).join(',')})`}:{}),...(player?{player_user_id:`eq.${player}`} :{}),select:'id,calendar_id,converted_session_id,player_user_id,event_name,invitee_name,start_at,end_at,venue,booking_status,airtable_participants,matched_player_name',order:'start_at.asc,id.asc'});
   return rows.filter(q=>ctx.owner||!q.player_user_id||links.some(l=>l.player_user_id===q.player_user_id)).map(q=>({...q,coach:calendars.find(c=>c.id===q.calendar_id)?.display_name||'Coach to confirm'}));
 }
 async function planNames(ctx,plans,sessions){
@@ -45,13 +45,14 @@ export async function plansWork(ctx){
     if(booking.booking_status!=='active')fail(400,'Choose an active session.');
     let draft;
     if(ctx.action==='prepare-booking'){
+      if(booking.airtable_participants?.length>1)fail(400,'Write a shared session plan that covers each player’s individual focus.');
       const contexts=await calendarRows(db,'hub_apex_context',{select:'id,player_name,aliases,context,checked_at',order:'id.asc'});
       const links=booking.player_user_id?await db('hub_player_airtable_links',{player_user_id:`eq.${booking.player_user_id}`,select:'airtable_record_id'}):[];
       const match=matchPlanningName(booking.invitee_name,contexts,links[0]?.airtable_record_id);
       try{draft=makeBookingPlan(booking,match,{coach:booking.coach,variant:Math.floor(Date.parse(booking.start_at)/604800000),checkedAt:match.row?.checked_at||new Date().toISOString()});}catch{fail(400,'Write a coach plan for this booking’s duration.');}
     }else{
       if(typeof body.title!=='string'||!body.title.trim()||body.title.length>180||typeof body.content!=='string'||!body.content.trim()||body.content.length>16000||(body.objective||'').length>2000)fail(400,'Add a title and session plan.');
-      draft={title:body.title,objective:body.objective||'',content:body.content,player_name:booking.invitee_name,match_note:'Coach-written plan. Account linking is separate.'};
+      draft={title:body.title,objective:body.objective||'',content:body.content,player_name:booking.matched_player_name||booking.invitee_name,match_note:'Coach-written plan. Account linking is separate.'};
     }
     const id=await db('rpc/hub_create_booking_plan',{},'POST',{p_booking:booking.id,p_title:draft.title,p_objective:draft.objective,p_content:draft.content,p_player_name:draft.player_name,p_airtable:draft.airtable_record_id||null,p_match_note:draft.match_note,p_sheet:draft.plan_sheet||null},true);
     return{id,saved:true};
@@ -96,7 +97,7 @@ export async function plansWork(ctx){
     const booking=(await allowedBookings(ctx,player)).find(b=>b.id===(plan?.booking_id||bookingId));
     if(!plan&&!session&&!booking)fail(404,'This session plan is not available to your account.');
     const {profiles,calendars}=await planNames(ctx,plan?[plan]:[],session?[session]:[]);
-    return{plan:plan||null,session:session||null,booking:booking||null,can_edit:staff(ctx),owner:ctx.owner,player_name:profiles.find(p=>p.id===(plan?.player_user_id||session?.player_user_id))?.player_name||plan?.player_name||booking?.invitee_name||'Player connection needed',coach:calendars.find(c=>c.id===plan?.calendar_id||session&&c.coach_user_id===session.coach_user_id)?.display_name||booking?.coach||'Coach connection needed',calendars:ctx.owner?calendars:[],players:ctx.owner?(await db('profiles',{select:'id,player_name,first_name,account_type',order:'player_name.asc',limit:'1000'})).filter(p=>!calendars.some(c=>c.coach_user_id===p.id)).map(p=>({id:p.id,name:p.player_name||p.first_name||'Player'})):[]};
+    return{plan:plan||null,session:session||null,booking:booking||null,can_edit:staff(ctx),owner:ctx.owner,player_name:profiles.find(p=>p.id===(plan?.player_user_id||session?.player_user_id))?.player_name||plan?.player_name||booking?.matched_player_name||booking?.invitee_name||'Player connection needed',coach:calendars.find(c=>c.id===plan?.calendar_id||session&&c.coach_user_id===session.coach_user_id)?.display_name||booking?.coach||'Coach connection needed',calendars:ctx.owner?calendars:[],players:ctx.owner?(await db('profiles',{select:'id,player_name,first_name,account_type',order:'player_name.asc',limit:'1000'})).filter(p=>!calendars.some(c=>c.coach_user_id===p.id)).map(p=>({id:p.id,name:p.player_name||p.first_name||'Player'})):[]};
   }
   if(ctx.action!=='overview')fail(404,'Action not found.');
   // RLS is applied with the real caller's token; the service role never supplies plan contents here.
@@ -104,6 +105,6 @@ export async function plansWork(ctx){
   const sessions=staff(ctx)?await allowedSessions(ctx,player):[],bookings=await allowedBookings(ctx,player);
   const {profiles,calendars}=await planNames(ctx,plans,sessions);
   const names=p=>profiles.find(x=>x.id===p)?.player_name||profiles.find(x=>x.id===p)?.first_name||'Player connection needed';
-  return{owner:ctx.owner,can_edit:staff(ctx),plans:plans.map(p=>({...p,player_name:p.player_user_id?names(p.player_user_id):p.player_name||p.title,coach:calendars.find(c=>c.id===p.calendar_id)?.display_name||'Coach connection needed'})),sessions:[...bookings.filter(b=>b.booking_status==='active'&&b.start_at>=new Date().toISOString().slice(0,10)&&!plans.some(p=>p.booking_id===b.id||b.converted_session_id&&p.session_id===b.converted_session_id)).map(b=>({id:b.id,booking_id:b.id,start_at:b.start_at,session_type:b.event_name,player_name:b.invitee_name,coach:b.coach})),...sessions.filter(s=>!bookings.some(b=>b.converted_session_id===s.id)&&s.status!=='cancelled'&&!plans.some(p=>p.session_id===s.id)).map(s=>({...s,player_name:names(s.player_user_id),coach:calendars.find(c=>c.coach_user_id===s.coach_user_id)?.display_name||'Assigned coach'}))]};
+  return{owner:ctx.owner,can_edit:staff(ctx),plans:plans.map(p=>({...p,player_name:p.player_user_id?names(p.player_user_id):p.player_name||p.title,coach:calendars.find(c=>c.id===p.calendar_id)?.display_name||'Coach connection needed'})),sessions:[...bookings.filter(b=>b.booking_status==='active'&&b.start_at>=new Date().toISOString().slice(0,10)&&!plans.some(p=>p.booking_id===b.id||b.converted_session_id&&p.session_id===b.converted_session_id)).map(b=>({id:b.id,booking_id:b.id,start_at:b.start_at,session_type:b.event_name,player_name:b.matched_player_name||b.invitee_name,coach:b.coach})),...sessions.filter(s=>!bookings.some(b=>b.converted_session_id===s.id)&&s.status!=='cancelled'&&!plans.some(p=>p.session_id===s.id)).map(s=>({...s,player_name:names(s.player_user_id),coach:calendars.find(c=>c.coach_user_id===s.coach_user_id)?.display_name||'Assigned coach'}))]};
 }
 export default endpoint(plansWork);
