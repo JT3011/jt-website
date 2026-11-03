@@ -32,10 +32,10 @@
 @media(max-width:700px){.jt-hub-ui[data-hub-page='/performance-hub-coach-dashboard.html'] .main{padding:24px 18px 40px}.jt-hub-ui[data-hub-page='/performance-hub-coach-dashboard.html'] .hero{gap:18px}.jt-hub-ui[data-hub-page='/performance-hub-coach-dashboard.html'] .hero p{margin-top:12px}.jt-hub-ui[data-hub-page='/performance-hub-coach-dashboard.html'] .stat{padding:12px 9px}}
 
 /* Session-plan actions: charcoal surfaces with the JT crest's warm gold.
-   The edge makes one pass on entry, then responds to intent; no idle loop.
+   The gold edge travels continuously; reduced-motion and disabled states stay still.
    Keep the selectors scoped to plans so other Hub actions retain their hierarchy. */
 @property --jt-plan-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle){
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]){
   --jt-plan-gold:var(--gold,#dfb44e);
   position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;
   display:inline-flex;align-items:center;justify-content:center;gap:20px;
@@ -49,18 +49,18 @@
   transition:transform 200ms cubic-bezier(.2,.8,.2,1),box-shadow 220ms ease,border-color 220ms ease;
 }
 /* Mask the light to a 1px edge; older browsers keep the static gold outline. */
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle)::before{content:none;pointer-events:none}
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle])::before{content:none;pointer-events:none}
 @supports (mask-composite:exclude) or (-webkit-mask-composite:xor){
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle)::before{
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle])::before{
     content:'';display:block;position:absolute;inset:0;z-index:1;
     padding:1px;border-radius:inherit;opacity:.7;
     background:conic-gradient(from var(--jt-plan-angle),transparent 0deg 245deg,#dfb44e12 275deg,var(--jt-plan-gold) 315deg,#f0d070 335deg,transparent 360deg);
     -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
     mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;
-    animation:jt-plan-edge-in 2800ms 100ms cubic-bezier(.2,.65,.25,1) both;
+    animation:jt-plan-edge-orbit 4s linear infinite;
   }
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):not(:disabled):focus-visible::before{animation:jt-plan-edge-focus 1400ms ease-out both}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):not(:disabled):focus-visible::before{opacity:1}
 }
 .jt-hub-ui .cal-plan-link::after{
   content:'';display:block;flex:0 0 17px;width:17px;height:17px;
@@ -69,43 +69,69 @@
   transition:transform 200ms cubic-bezier(.2,.8,.2,1);
 }
 /* Keep the dark finish through the shared Hub hover overrides. */
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):is(:hover,:focus-visible){
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):is(:hover,:focus-visible){
   background:linear-gradient(120deg,#20201b,#101112 70%);
   color:var(--jt-plan-gold);border-color:#dfb44e8c;filter:none;
 }
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):focus-visible{
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):focus-visible{
   outline:2px solid var(--jt-plan-gold);outline-offset:4px;
   box-shadow:inset 0 1px 0 #ffffff08,0 0 0 2px #101011;
 }
 @media(hover:hover) and (pointer:fine){
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):not(:disabled):hover{
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):not(:disabled):hover{
     transform:translateY(-1px);
     box-shadow:inset 0 1px 0 #ffffff08,0 6px 18px #00000038,0 0 14px #dfb44e09;
   }
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):not(:disabled):hover::before{animation:jt-plan-edge-hover 1400ms ease-out both}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):not(:disabled):hover::before{opacity:1}
   .jt-hub-ui .cal-plan-link:hover::after{transform:translateX(4px)}
 }
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):not(:disabled):active{
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):not(:disabled):active{
   transform:translateY(1px) scale(.98);border-color:var(--jt-plan-gold);
   background:#181811;box-shadow:inset 0 1px 6px #00000050;
   transition-duration:90ms;
 }
 .jt-hub-ui .cal-plan-link:active::after{transform:translateX(4px)}
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):disabled{
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):disabled{
   opacity:.42;cursor:wait;transform:none;box-shadow:none;
   background:#111213;border-color:#dfb44e30;
 }
-.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):disabled::before{animation:none;opacity:0}
-@keyframes jt-plan-edge-in{from{--jt-plan-angle:0deg;opacity:0}18%{opacity:.9}to{--jt-plan-angle:360deg;opacity:.4}}
-@keyframes jt-plan-edge-hover{from{--jt-plan-angle:0deg;opacity:.85}to{--jt-plan-angle:360deg;opacity:.6}}
-@keyframes jt-plan-edge-focus{from{--jt-plan-angle:0deg;opacity:.85}to{--jt-plan-angle:360deg;opacity:.6}}
+.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):disabled::before{animation:none;opacity:0}
+@keyframes jt-plan-edge-orbit{from{--jt-plan-angle:0deg}to{--jt-plan-angle:360deg}}
 @media(prefers-reduced-motion:reduce){
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle),.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle)::before,.jt-hub-ui .cal-plan-link::after{animation:none!important;transition:none!important}
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):not(:disabled):is(:hover,:active),.jt-hub-ui .cal-plan-link:is(:hover,:active)::after{transform:none}
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle)::before{opacity:0}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]),.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle])::before,.jt-hub-ui .cal-plan-link::after{animation:none!important;transition:none!important}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):not(:disabled):is(:hover,:active),.jt-hub-ui .cal-plan-link:is(:hover,:active)::after{transform:none}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle])::before{opacity:0}
 }
 @media(forced-colors:active){
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle),.jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle):is(:hover,:focus-visible,:active){background:ButtonFace;color:ButtonText;border:1px solid ButtonText;box-shadow:none}
-  .jt-hub-ui :is(.cal-plan-link,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],#createPlan,#generateApex,#savePlan,#planEditToggle)::before{display:none}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]),.jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle]):is(:hover,:focus-visible,:active){background:ButtonFace;color:ButtonText;border:1px solid ButtonText;box-shadow:none}
+  .jt-hub-ui :is(.cal-plan-link,.cal-session-action,.plan-card [data-plan],.record-links a[href^="/performance-hub-plans.html"],.session a.save-media[href^="/performance-hub-plans.html"],[id=createPlan],[id=generateApex],[id=savePlan],[id=planEditToggle])::before{display:none}
   .jt-hub-ui .cal-plan-link::after{background:ButtonText}
 }
+
+/* Every coach booking: matching plan/log actions, followed by its saved credit. */
+.jt-hub-ui .cal-player-row .cal-player-name{color:inherit;text-decoration:none;text-underline-offset:4px}
+.jt-hub-ui .cal-player-row .cal-player-name:hover{text-decoration:underline;text-decoration-color:#dfb44e80}
+.jt-hub-ui .cal-session-controls{grid-column:1/-1;min-width:0;margin-top:2px}
+.jt-hub-ui .cal-session-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.jt-hub-ui .jt-schedule.cal-premium .cal-session-buttons .cal-session-action{width:100%;min-width:0;min-height:48px;justify-content:space-between;gap:8px;padding:12px;font-size:10px;letter-spacing:.065em}
+.jt-hub-ui .cal-session-buttons .cal-plan-link::after{content:none;display:none}
+.jt-hub-ui .cal-action-arrow{display:block;width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:transform 200ms ease;pointer-events:none}
+.jt-hub-ui .cal-session-action:active .cal-action-arrow{transform:translateX(3px)}
+@media(hover:hover) and (pointer:fine){.jt-hub-ui .cal-session-action:hover .cal-action-arrow{transform:translateX(3px)}}
+.jt-hub-ui .jt-schedule .cal-credit-details{margin:10px 0 0;padding:0;border:0;border-radius:6px;background:#ffffff02}
+.jt-hub-ui .cal-credit-details>summary{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;list-style:none;font:500 11px/1.5 Montserrat,system-ui,sans-serif;color:#b5b2a9;cursor:pointer}
+.jt-hub-ui .cal-credit-details>summary::-webkit-details-marker{display:none}
+.jt-hub-ui .cal-credit-details>summary strong{margin-left:auto;font:500 12px/1.5 Montserrat,system-ui,sans-serif;color:#dfb44e;text-align:right}
+.jt-hub-ui .cal-credit-chevron{width:14px;height:14px;flex:0 0 14px;fill:none;stroke:#dfb44e;stroke-width:1.5;transition:transform 180ms ease}
+.jt-hub-ui .cal-credit-details[open] .cal-credit-chevron{transform:rotate(180deg)}
+.jt-hub-ui .cal-credit-details[open]{background:#dfb44e05}
+.jt-hub-ui .cal-credit-body{padding:0 12px 12px;border-top:1px solid #ffffff0a}
+.jt-hub-ui .cal-credit-body p,.jt-hub-ui .jt-schedule .cal-log-help{font-size:11px;line-height:1.7;color:#b5b2a9;overflow-wrap:anywhere;margin:10px 0}
+.jt-hub-ui .cal-credit-service{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:10px 0 0;font-size:12px}
+.jt-hub-ui .cal-credit-service strong{color:#dfb44e;font-size:12px;text-align:right}
+.jt-hub-ui .cal-credit-profile{display:inline-flex;align-items:center;gap:12px;min-height:44px;color:#dfb44e;font-size:11px;text-decoration:none}
+.jt-hub-ui .cal-log-help{padding:10px 12px;border-left:1px solid #dfb44e70;background:#dfb44e05}
+@media(min-width:1000px){.jt-hub-ui .cal-session-controls{grid-column:2}}
+@media(max-width:350px){.jt-hub-ui .cal-session-buttons{gap:8px}.jt-hub-ui .jt-schedule.cal-premium .cal-session-buttons .cal-session-action{padding:10px 8px;font-size:9px;letter-spacing:.01em;gap:5px}.jt-hub-ui .cal-action-arrow{width:12px;height:12px;flex-basis:12px}}
+@media(prefers-reduced-motion:reduce){.jt-hub-ui .cal-action-arrow,.jt-hub-ui .cal-credit-chevron{transition:none}.jt-hub-ui .cal-session-action:is(:hover,:active) .cal-action-arrow{transform:none}}
+@media(forced-colors:active){.jt-hub-ui .cal-action-arrow,.jt-hub-ui .cal-credit-chevron{stroke:ButtonText}}
