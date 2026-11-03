@@ -60,3 +60,11 @@ The scheduled Airtable sync now saves both Player Name and the record Name as bo
 Existing converted bookings receive matching display metadata without changing the session owner, coach, family relationships or session history. Coaches can see the Airtable balance for a named booking on their own calendar before the player creates an account. Revoked coach assignments still hide all player names and credit data. No credits are deducted, and no Airtable profile or login is created by this sync.
 
 Migrations: `supabase/migrations/20261103105545_live_airtable_booking_names.sql` and `supabase/migrations/20261103105933_prefer_explicit_booking_names.sql`. Explicit recorded booking aliases take precedence over ambiguous child-only names. Additional checks: `tests/live-airtable-booking-names.sql`, `tests/booking-name-links.sql`, and the coach-calendar/provider-sync tests.
+
+## Shared bookings
+
+A booking can contain 2–10 confirmed Airtable participant IDs in `airtable_participants`. This is booking-specific and does not match unrelated future bookings by a shared contact name. Provider re-imports preserve the selected participants. The schedule keeps one appointment and lists the participants with separate credit balances; balances are never combined or deducted.
+
+A group booking cannot be converted into a session owned by one player. Individual account links and private logs remain separate. Shared plans can be written by the coach; the single-player automatic draft is refused for groups. This avoids pretending that one player’s plan or private record covers the whole group. Existing navigation and action styling remain unchanged.
+
+Migration: `supabase/migrations/20261103111606_shared_booking_players.sql`. Validation: `tests/shared-bookings.test.mjs`, the group cases in `tests/booking-name-links.sql`, existing calendar/plan suites, and a 390px browser fixture with separate balances and no overflow.
