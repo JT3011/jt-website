@@ -45,9 +45,9 @@ test('shared leases skip duplicate provider calls and failure does not claim a s
 });
 test('Airtable saves only after both complete tables load and preserves reciprocal credit links',async()=>{
  for(const failPayments of [false,true]){
-  const writes=[];const ctx={env:{AIRTABLE_READ_TOKEN:'test-token'},db:async(t,q,m,b)=>{if(t.includes('claim'))return{acquired:true,lease_id:'lease'};writes.push({t,b});return[];},fetchImpl:async input=>{if(String(input).includes(PLAYERS))return json({records:[{id:'recPlayer',fields:{[F.name]:'Test player',[F.payments]:['recPayment']}}]});if(failPayments)return new Response('',{status:503});return json({records:[{id:'recPayment',fields:{[F.players]:['recPlayer'],[F.remaining]:4,[F.service]:'Football'}},{id:'recUnrelated',fields:{[F.players]:['recOther'],[F.remaining]:10}}]});}};
+  const writes=[];const ctx={env:{AIRTABLE_READ_TOKEN:'test-token'},db:async(t,q,m,b)=>{if(t.includes('claim'))return{acquired:true,lease_id:'lease'};writes.push({t,b});return[];},fetchImpl:async input=>{if(String(input).includes(PLAYERS))return json({records:[{id:'recPlayer',fields:{[F.name]:'Test player',[F.fallbackName]:'Parent (Test player)',[F.payments]:['recPayment']}}]});if(failPayments)return new Response('',{status:503});return json({records:[{id:'recPayment',fields:{[F.players]:['recPlayer'],[F.remaining]:4,[F.service]:'Football'}},{id:'recUnrelated',fields:{[F.players]:['recOther'],[F.remaining]:10}}]});}};
   if(failPayments){await assert.rejects(syncAirtable(ctx));assert.ok(!writes.some(w=>w.t==='hub_airtable_players'));}
-  else{const result=await syncAirtable(ctx);assert.equal(result.count,1);const saved=writes.find(w=>w.t==='hub_airtable_players').b;assert.equal(saved[0].credits.length,1);assert.equal(saved[0].credits[0].remaining,4);}
+  else{const result=await syncAirtable(ctx);assert.equal(result.count,1);const saved=writes.find(w=>w.t==='hub_airtable_players').b;assert.equal(saved[0].credits.length,1);assert.equal(saved[0].credits[0].remaining,4);assert.deepEqual(saved[0].booking_names,['Test player','Parent (Test player)']);assert.ok(writes.find(w=>w.t==='rpc/hub_reconcile_bookings'));}
  }
 });
 test('coach and parent schedules show only active Calendly bookings, not cancelled or orphan Hub logs',async()=>{

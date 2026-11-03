@@ -52,3 +52,11 @@ Conflicting names/contact details and duplicate names require JT review. A share
 The database applies these rules to future bookings received through the existing signed webhook or dashboard refresh. Continuous Calendly delivery requires the secure team connection in the Hub. The ChatGPT Calendly connector is separate and cannot provide a persistent website credential. A one-time import is labelled as saved data until that connection is completed.
 
 Verification: `tests/booking-name-links.sql` rolls back its fixtures and covers exact/alias matches, accountless players, duplicate/conflicting names, family boundaries, coach assignments and cross-coach access. Run the existing booking-matching and plan RLS suites too.
+
+## Live Airtable player names (3 November 2026)
+
+The scheduled Airtable sync now saves both Player Name and the record Name as booking aliases and re-runs booking reconciliation. Matching uses the current Players cache alongside reviewed aliases and verified Airtable account links. The current Airtable Player Name is the schedule display name. Exact normalized matches only; unknown, duplicate or conflicting names remain for review. A blank or placeholder name cannot create a match.
+
+Existing converted bookings receive matching display metadata without changing the session owner, coach, family relationships or session history. Coaches can see the Airtable balance for a named booking on their own calendar before the player creates an account. Revoked coach assignments still hide all player names and credit data. No credits are deducted, and no Airtable profile or login is created by this sync.
+
+Migrations: `supabase/migrations/20261103105545_live_airtable_booking_names.sql` and `supabase/migrations/20261103105933_prefer_explicit_booking_names.sql`. Explicit recorded booking aliases take precedence over ambiguous child-only names. Additional checks: `tests/live-airtable-booking-names.sql`, `tests/booking-name-links.sql`, and the coach-calendar/provider-sync tests.

@@ -55,6 +55,13 @@ do $$begin
 end$$;
 
 do $$begin assert(select count(*) from public.session_connect_sessions where external_booking_id='name-link-known')=1,'Reconciliation cannot duplicate sessions';end$$;
+-- Existing linked session identity survives a live Airtable name change.
+update public.hub_airtable_players set display_name='Current Name Match One' where airtable_record_id='recnameone0000001';
+select public.hub_reconcile_bookings();
+do $$begin
+ assert(select matched_player_name='Current Name Match One' and player_user_id=(select id from name_link_users where label='one') from public.session_connect_booking_queue where external_booking_id='name-link-known'),'Display name refresh preserves the linked player';
+ assert(select count(*) from public.session_connect_sessions where external_booking_id='name-link-known')=1,'Name refresh cannot duplicate a session';
+end$$;
 -- Access is checked as real caller roles, not as a database administrator.
 grant select on name_link_users to authenticated;
 select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from name_link_users where label='coach';
