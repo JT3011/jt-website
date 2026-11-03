@@ -66,7 +66,7 @@ test('missing server grants produce a service error rather than denying the user
   assert.equal(status,503);assert.match(payload.error,/could not load your account access/);assert.doesNotMatch(payload.error,/do not have permission/);
 });
 
-test('player credit refresh uses the shared snapshot and a unique verified booking, never overwrites it with direct-only payments',async()=>{
+test('owner credit refresh uses the shared snapshot and a unique verified booking, never overwrites it with direct-only payments',async()=>{
  for(const ambiguous of [false,true]){
   let creditReads=0,queueReads=0;
   const record='rec11111111111111';
@@ -74,7 +74,8 @@ test('player credit refresh uses the shared snapshot and a unique verified booki
    const u=new URL(input),json=data=>new Response(JSON.stringify(data),{status:200});
    assert.ok(!u.hostname.includes('airtable.com'),'a current shared snapshot needs no partial provider fetch');
    if(u.pathname==='/auth/v1/user')return json({id:self,email_confirmed_at:'2026-01-01'});
-   if(u.pathname.endsWith('/hub_staff')||u.pathname.endsWith('/session_connect_coach_players')||u.pathname.endsWith('/session_connect_parent_players')||u.pathname.endsWith('/hub_player_programmes')||u.pathname.endsWith('/hub_player_airtable_links'))return json([]);
+   if(u.pathname.endsWith('/hub_staff'))return json([{user_id:self,role:'owner'}]);
+   if(u.pathname.endsWith('/session_connect_coach_players')||u.pathname.endsWith('/session_connect_parent_players')||u.pathname.endsWith('/hub_player_programmes')||u.pathname.endsWith('/hub_player_airtable_links'))return json([]);
    if(u.pathname.endsWith('/profiles'))return json([{id:self,player_name:'Editable name'}]);
    if(u.pathname.endsWith('/session_connect_booking_queue')){
     queueReads++;assert.equal(u.searchParams.get('player_user_id'),`eq.${self}`);assert.equal(u.searchParams.get('player_match_method'),'eq.verified_contact');assert.equal(u.searchParams.get('booking_status'),'eq.active');

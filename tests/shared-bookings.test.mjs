@@ -15,8 +15,10 @@ const ctx={role:'coach',manager:false,owner:false,user:{id:coach},method:'GET',a
 }};
 test('a group stays one booking with three separate player balances and no invented account links',async()=>{
  const result=await scheduleWork(ctx);assert.equal(result.events.length,1);
- const event=result.events[0];assert.deepEqual(event.players,['One','Two','Three']);assert.equal(event.player_id,null);assert.equal(event.credit,null);assert.equal(event.needs_link,false);assert.equal(event.account_pending,true);assert.equal(event.group_players.length,3);assert.deepEqual(result.needs_link,[]);
- const html=renderCoachSessionRow(event);assert.match(html,/One &amp; Two &amp; Three/);assert.match(html,/By player/);assert.match(html,/4 left/);assert.match(html,/2 left/);assert.match(html,/Balance pending/);assert.doesNotMatch(html,/6 left/);assert.equal((html.match(/<article /g)||[]).length,1);
+ const event=result.events[0];assert.deepEqual(event.players,['One','Two','Three']);assert.equal(event.player_id,null);assert.equal(event.credit,undefined);assert.ok(event.group_players.every(p=>!Object.hasOwn(p,'credit')));assert.equal(event.needs_link,false);assert.equal(event.account_pending,true);assert.equal(event.group_players.length,3);assert.deepEqual(result.needs_link,[]);
+ const coachHtml=renderCoachSessionRow(event);assert.doesNotMatch(coachHtml,/Session credits|4 left|2 left/);
+ const ownerResult=await scheduleWork({...ctx,role:'owner',owner:true,manager:true,params:new URLSearchParams({day:'2026-11-10',coach:'test'})});
+ const html=renderCoachSessionRow(ownerResult.events[0]);assert.match(html,/One &amp; Two &amp; Three/);assert.match(html,/By player/);assert.match(html,/4 left/);assert.match(html,/2 left/);assert.match(html,/Balance pending/);assert.doesNotMatch(html,/6 left/);assert.equal((html.match(/<article /g)||[]).length,1);
  await assert.rejects(scheduleWork({...ctx,params:new URLSearchParams({coach:'another'})}),{status:403});
 });
 test('group plans cannot silently generate a single-player plan',async()=>{

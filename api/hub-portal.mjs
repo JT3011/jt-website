@@ -100,26 +100,26 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         return accounts;
       }
       if (req.method === 'GET' && action === 'overview') {
-        if(manager)await configureAirtable();
+        if(owner)await configureAirtable();
         const permitted = [...new Set([user.id,...ctx.parentPlayers,...(ctx.role === 'coach' ? ctx.coachPlayers : [])])];
         const profiles = await db('profiles',{select:profileFields,...(manager ? {} : {id:`in.(${permitted.join(',')})`}),order:'player_name.asc.nullslast'});
         const staffIds = manager ? (await db('hub_staff',{select:'user_id'})).map(s=>s.user_id) : ctx.role==='coach' ? [user.id] : [];
         const membership = await db('memberships',{user_id:`eq.${user.id}`,select:'subscription_status'});
         return send(200,{role:ctx.role,name:user.user_metadata?.full_name || profiles.find(p=>p.id===user.id)?.first_name || 'Welcome',
           trainingUrl:['active','trialing'].includes(membership[0]?.subscription_status) ? '/performance-hub-dashboard.html' : '/performance-hub-free.html',
-          players:profiles.filter(p=>p.id===user.id||!staffIds.includes(p.id)).map(p=>({...p,name:profileName(p),isSelf:p.id===user.id,canEdit:canEdit(ctx,p.id)})),airtableConfigured:manager ? airtableConfigured : undefined});
+          players:profiles.filter(p=>p.id===user.id||!staffIds.includes(p.id)).map(p=>({...p,name:profileName(p),isSelf:p.id===user.id,canEdit:canEdit(ctx,p.id)})),airtableConfigured:owner ? airtableConfigured : undefined});
       }
       if (req.method === 'GET' && action === 'player') {
         requirePlayer();
-        await configureAirtable();
+        if(owner)await configureAirtable();
         const [profiles, programmes, links] = await Promise.all([
           db('profiles',{id:`eq.${player}`,select:profileFields}),
           db('hub_player_programmes',{player_user_id:`eq.${player}`,select:'*'},{asUser:true}),
-          db('hub_player_airtable_links',{player_user_id:`eq.${player}`,select:'airtable_record_id'},{asUser:true})
+          owner?db('hub_player_airtable_links',{player_user_id:`eq.${player}`,select:'airtable_record_id'},{asUser:true}):[]
         ]);
         if (!profiles.length) fail(404,'Player profile not found.');
         let creditRecord=links[0]?.airtable_record_id;
-        if(!creditRecord){
+        if(owner&&!creditRecord){
           // The caller has already passed requirePlayer(). Reuse a unique existing
           // verified-contact booking match, never the account's editable display name.
           const bookings=await calendarRows((table,query)=>db(table,query),'session_connect_booking_queue',{player_user_id:`eq.${player}`,booking_status:'eq.active',player_match_method:'eq.verified_contact',matched_airtable_record_id:'not.is.null',select:'id,matched_airtable_record_id',order:'id.asc'});
@@ -127,7 +127,7 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
           if(records.length===1)creditRecord=records[0];
         }
         let credit = null; let syncStatus = 'unlinked';
-        if (creditRecord) {
+        if (owner&&creditRecord) {
           credit = (await db('hub_airtable_players',{airtable_record_id:`eq.${creditRecord}`,select:'*'},{asUser:!!links[0]}))[0] || null;
           syncStatus = airtableConfigured ? 'cached' : 'connection_pending';
           if (airtableConfigured && (requestUrl.searchParams.get('refresh')==='1' || !credit || Date.now()-new Date(credit.synced_at).getTime()>300000)) {
@@ -139,8 +139,8 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
           }
         }
         return send(200,{profile:{...profiles[0],name:profileName(profiles[0])},canEdit:canEdit(ctx,player),programmes,
-          credit:credit ? {credits:credit.credits,synced_at:credit.synced_at} : null,syncStatus,
-          airtableUrl:canEdit(ctx,player)&&creditRecord?`https://airtable.com/${BASE}/${creditRecord}`:null});
+          canViewCredits:owner,
+          ...(owner?{credit:credit ? {credits:credit.credits,synced_at:credit.synced_at} : null,syncStatus,airtableUrl:creditRecord?`https://airtable.com/${BASE}/${creditRecord}`:null}:{})});
       }
       if (req.method === 'POST' && action === 'save-programme') {
         requirePlayer(); if (!canEdit(ctx,player)) fail(403,'Only your connected coach or JT can edit a programme.');

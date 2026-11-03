@@ -8,6 +8,7 @@ const arrow='<svg class="cal-action-arrow" viewBox="0 0 24 24" aria-hidden="true
 const chevron='<svg class="cal-credit-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m7 10 5 5 5-5"/></svg>';
 
 function creditControl(event){
+  if(event.can_view_credits!==true)return '';
   const e=escapeHtml;
   if(event.group_players?.length){
     const people=event.group_players.map(member=>{

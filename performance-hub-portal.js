@@ -47,6 +47,7 @@ function renderPlayers() {
   $('playerList').querySelectorAll('[data-player]').forEach(b=>b.addEventListener('click',()=>openPlayer(b.dataset.player)));
 }
 function creditsHtml(data) {
+  if(data.canViewCredits!==true)return '';
   const {balances}=creditSummary(data);
   let content;
   if (balances.length) content=`<div class="credit-grid">${balances.map(g=>`<div class="credit-block"><p>${esc(g.label)}</p><div class="balance"><b>${g.unknown?'—':formatCreditBalance(g.remaining,g.display_precision)}</b><span>${g.unknown?'Balance under review':'left'}</span></div>${!g.unknown&&g.remaining<0?'<p>Please contact JT to review your session balance.</p>':''}</div>`).join('')}</div>`;
@@ -67,7 +68,7 @@ async function openPlayer(id,refresh=false) {
     const data=await api('player',null,{player:id,...(refresh?{refresh:'1'}:{})});
     if (version!==loadVersion || signingOut) return;
     current=data;
-    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">Player record</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits ↗</a></p><details class="hub-help"><summary>How credits work</summary><p>After delivery, update Completed +1 on the Airtable payment, then refresh. Bookings do not deduct credits.</p></details>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-plans.html?player=${encodeURIComponent(id)}">Session plans</a><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session log</a><button class="button outline small" id="refreshRecord">Refresh</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
+    $('record').innerHTML=`<div class="record-head"><div><p class="eyebrow">Player record</p><h2>${esc(current.profile.name)}</h2><p class="muted small">${esc([current.profile.primary_position,current.profile.playing_level].filter(Boolean).join(' · '))}</p></div><span class="tag">${current.canEdit?'Coach access':'Player & parent view'}</span></div>${creditsHtml(current)}${current.canViewCredits===true&&current.airtableUrl?`<p><a class="button outline small" target="_blank" rel="noopener noreferrer" href="${esc(current.airtableUrl)}">Update credits ↗</a></p><details class="hub-help"><summary>How credits work</summary><p>After delivery, update Completed +1 on the Airtable payment, then refresh. Bookings do not deduct credits.</p></details>`:''}<div class="record-links"><a class="button outline small" href="/performance-hub-plans.html?player=${encodeURIComponent(id)}">Session plans</a><a class="button outline small" href="/performance-hub-sessions.html?player=${encodeURIComponent(id)}">Session log</a><button class="button outline small" id="refreshRecord">Refresh</button></div>${current.profile.development_goal?`<p class="muted">Current focus: ${esc(current.profile.development_goal)}</p>`:''}<section id="playerCalendar"></section><div class="plan-grid">${programmeHtml('gym')}${programmeHtml('nutrition')}</div>`;
     $('record').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
     $('refreshRecord').addEventListener('click',()=>openPlayer(selected,true));
     mountPlayerSchedule($('playerCalendar'),id,{name:current.profile.name,staff:isStaff(),scheduleLabel:$('sessionsView').textContent});
@@ -152,7 +153,7 @@ async function init() {
     $('sessionsView').textContent=['owner','admin'].includes(overview.role)?'Team sessions':'My sessions';
     $('trainingLink').textContent='Training';
     $('roleLabel').textContent=overview.role==='owner'?'JT · Team overview':overview.role==='coach'?'JT · Coach workspace':'JT · My coaching';
-    $('welcome').textContent=overview.role==='owner'?'Your team. Every session.':overview.role==='client'?'Your sessions, plans and credits.':'Your sessions. Your players.';
+    $('welcome').textContent=overview.role==='owner'?'Your team. Every session.':overview.role==='client'?'Your sessions and personal plans.':'Your sessions. Your players.';
     if (overview.players.length===1 && overview.role==='client') {
       document.querySelector('.roster').hidden=true;
       $('portal').style.gridTemplateColumns='1fr';
