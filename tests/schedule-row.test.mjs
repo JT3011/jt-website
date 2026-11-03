@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {creditSummary,renderCoachSessionRow,wireSessionActions} from '../performance-hub-schedule-row.js';
-const event={id:'booking-id',session_id:'session-id',player_id:'player-id',name:'Football session',players:['Sample player'],coach:'Sample coach',start:'2026-11-03T17:00:00Z',end:'2026-11-03T18:00:00Z',status:'scheduled',source:'Calendly'};
+const event={can_view_credits:true,id:'booking-id',session_id:'session-id',player_id:'player-id',name:'Football session',players:['Sample player'],coach:'Sample coach',start:'2026-11-03T17:00:00Z',end:'2026-11-03T18:00:00Z',status:'scheduled',source:'Calendly'};
 test('credits preserve separate payment balances, including zero and negative values',()=>{
  const model=creditSummary({...event,credit:{credits:[{service:'Football',remaining:3},{service:'Football',remaining:2},{service:'Gym',remaining:0}]}});
  assert.equal(model.label,'View balances');
@@ -51,4 +51,12 @@ test('pending log explains the missing connection and can be closed without writ
  click(input);assert.equal(help.hidden,false);assert.equal(attrs['aria-expanded'],'true');
  click(input);assert.equal(help.hidden,true);assert.equal(attrs['aria-expanded'],'false');
  detach();assert.equal(removed,true);
+});
+
+test('credit controls default to hidden even if a stale response contains balances',()=>{
+ for(const can_view_credits of [undefined,false]){
+  const html=renderCoachSessionRow({...event,can_view_credits,credit:{credits:[{remaining:7}]},group_players:[{name:'Sample player',credit:{credits:[{remaining:7}]}}]});
+  assert.doesNotMatch(html,/Session credits|7 left|View player &amp; credits|Balance pending/);
+  assert.match(html,/Session plan/);assert.match(html,/Session log/);
+ }
 });

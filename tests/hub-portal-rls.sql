@@ -1,10 +1,10 @@
 -- Transactional integration tests: temporary accounts and data are rolled back.
 begin;
 create temporary table portal_test_users(label text, id uuid default gen_random_uuid());
-insert into portal_test_users(label) values ('owner'),('coach'),('player'),('parent'),('other');
+insert into portal_test_users(label) values ('owner'),('admin'),('coach'),('player'),('parent'),('other');
 insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data,raw_app_meta_data)
 select id,'portal-test-'||id||'@example.invalid',now(),'{}','{}' from portal_test_users;
-insert into public.hub_staff(user_id,role) select id,label from portal_test_users where label in ('owner','coach');
+insert into public.hub_staff(user_id,role) select id,label from portal_test_users where label in ('owner','admin','coach');
 insert into public.session_connect_coach_players(coach_user_id,player_user_id)
 select c.id,p.id from portal_test_users c,portal_test_users p where c.label='coach' and p.label='player';
 insert into public.session_connect_parent_players(parent_user_id,player_user_id)
@@ -22,7 +22,7 @@ select set_config('request.jwt.claims',json_build_object('sub',id,'role','authen
 set local role authenticated;
 do $$begin
   assert (select count(*) from public.hub_player_programmes where title in ('Test gym','Private draft'))=1,'Player sees only published plan';
-  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=1,'Player reads own credits';
+  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=0,'Player cannot read credits';
   update public.hub_player_programmes set content='Forbidden' where title='Test gym';
   assert not found,'Player cannot update own programme';
   begin
@@ -35,7 +35,7 @@ select set_config('request.jwt.claims',json_build_object('sub',id,'role','authen
 set local role authenticated;
 do $$begin
   assert (select count(*) from public.hub_player_programmes where title in ('Test gym','Private draft'))=1,'Parent reads published linked plan';
-  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=1,'Parent reads linked credits';
+  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=0,'Parent cannot read credits';
   update public.hub_player_programmes set content='Forbidden' where title='Test gym';
   assert not found,'Parent cannot edit programme';
 end$$;
@@ -51,6 +51,8 @@ select set_config('request.jwt.claims',json_build_object('sub',id,'role','authen
 set local role authenticated;
 do $$begin
   assert (select count(*) from public.hub_player_programmes where title in ('Test gym','Private draft'))=2,'Assigned coach sees drafts';
+  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=0,'Assigned coach cannot read credits';
+  assert (select count(*) from public.hub_player_airtable_links where airtable_record_id='recTESTPORTAL0001')=0,'Assigned coach cannot read credit links';
   update public.hub_player_programmes set content='Updated by coach' where title='Test gym';
   assert found,'Assigned coach can edit';
   begin
@@ -71,7 +73,21 @@ select set_config('request.jwt.claims',json_build_object('sub',id,'role','authen
 set local role authenticated;
 do $$begin
   assert (select count(*) from public.hub_player_programmes where title in ('Test gym','Private draft'))=2,'Owner sees all plans';
+  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=1,'Owner reads credits';
+  assert (select count(*) from public.hub_player_airtable_links where airtable_record_id='recTESTPORTAL0001')=1,'Owner reads credit links';
 end$$;
 reset role;
+select set_config('request.jwt.claims',json_build_object('sub',id,'role','authenticated')::text,true) from portal_test_users where label='admin';
+set local role authenticated;
+do $$begin
+  assert (select count(*) from public.hub_airtable_players where airtable_record_id='recTESTPORTAL0001')=0,'Admin cannot read credits';
+  assert (select count(*) from public.hub_player_airtable_links where airtable_record_id='recTESTPORTAL0001')=0,'Admin cannot read credit links';
+end$$;
+reset role;
+-- Signed-out callers have no table privilege at all; background sync is retained.
+do $$begin
+  assert not has_table_privilege('anon','public.hub_airtable_players','SELECT'),'Anonymous access denied';
+  assert has_table_privilege('service_role','public.hub_airtable_players','INSERT,UPDATE'),'Provider sync can save balances';
+end$$;
 select 'All portal RLS checks passed; fixtures rolled back.' as result;
 rollback;
