@@ -1,1 +1,33 @@
-{"functions":{"api/hub-session-plans.mjs":{"maxDuration":300}}}
+{
+  "functions": {
+    "api/hub-session-plans.mjs": {
+      "maxDuration": 300
+    },
+    "api/hub-provider-sync.mjs": {
+      "maxDuration": 300
+    },
+    "api/coach-schedule.mjs": {
+      "maxDuration": 300
+    },
+    "api/hub-airtable.mjs": {
+      "maxDuration": 300
+    }
+  },
+  "redirects": [
+    {
+      "source": "/performance-hub-avatar.html",
+      "destination": "/performance-hub-portal.html",
+      "permanent": false
+    },
+    {
+      "source": "/performance-hub-avatar-premium.html",
+      "destination": "/performance-hub-portal.html",
+      "permanent": false
+    },
+    {
+      "source": "/performance-hub-avatar-create.html",
+      "destination": "/performance-hub-portal.html",
+      "permanent": false
+    }
+  ]
+}

@@ -3267,7 +3267,7 @@
           : result.plate_complete ? 'Choices saved. Daily or weekly points limit reached.'
           : 'Choices saved. No points awarded for this partial plate.';
         if (result.nutrition_program_unlocked) savedMessage += ' Your Nutrition Programme is unlocked.';
-        if (result.newly_unlocked?.length) savedMessage += ' You also unlocked a new Player Locker or reward item.';
+        if (result.newly_unlocked?.length) savedMessage += ' You also unlocked a new reward item.';
         setSaveStatus(savedMessage, 'success');
         try { await loadProgrammeAccess(); }
         catch (error) { console.warn('Programme refresh failed:', error); setSaveStatus(savedMessage + ' Programme progress will refresh when you reopen the page.', 'success'); }

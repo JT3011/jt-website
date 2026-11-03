@@ -1,30 +1,12 @@
 // Private coaching portal. All provider credentials stay on the server.
 import {connectionToken} from '../server/hub-integrations.mjs';
-const BASE = 'appfxqoZZWAqFgaIu';
-const PLAYERS = 'tblLqAsqaegQarJwG';
-const PAYMENTS = 'tblbALLdCCcML7lHG';
-const F = {
-  name: 'fldHywXlmWQrlX6Hf', fallbackName: 'fldwYEJcw0rABz91D', payments: 'fldl736fChLtnfnqk',
-  remaining: 'fldvc8djsV6LKeug4', purchased: 'fldG76Un7xQtO4CYV', used: 'fld5t8zvFBWPjrdoF',
-  service: 'fldb6f65wjltrsZZf', players: 'fldYD8bKUXRQ8vAK8',
-  usageDate: 'fld4CRcM28FoDjKot', paymentDate: 'fldRSgMlW3gCFDm2m'
-};
+import {BASE,PLAYERS,PAYMENTS,F,summariseCredits,syncAirtable} from '../server/airtable-credits.mjs';
+export {summariseCredits};
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RECORD = /^rec[A-Za-z0-9]{14}$/;
-const fail = (status, message) => { throw Object.assign(new Error(message), { status }); };
-const clean = (v, max) => String(v ?? '').trim().slice(0, max);
-const ids = (v) => Array.isArray(v) ? v.map(x => typeof x === 'string' ? x : x.id) : [];
-const number = (v) => typeof v === 'number' && Number.isFinite(v) ? v : null;
-
-export function summariseCredits(player, payments) {
-  const linked = new Set(ids(player.fields[F.payments]));
-  return payments.filter(p => linked.has(p.id) && ids(p.fields[F.players]).includes(player.id)).map(p => ({
-    service: typeof p.fields[F.service] === 'string' ? p.fields[F.service] : p.fields[F.service]?.name || 'Coaching sessions',
-    remaining: number(p.fields[F.remaining]), purchased: number(p.fields[F.purchased]),
-    used: number(p.fields[F.used]) ?? 0,
-    source_updated_at: [p.fields[F.usageDate], p.fields[F.paymentDate]].filter(x => typeof x === 'string').sort().at(-1) || null
-  }));
-}
+const fail=(status,message)=>{throw Object.assign(new Error(message),{status});};
+const clean=(v,max)=>String(v??'').trim().slice(0,max);
+const ids=v=>Array.isArray(v)?v.map(x=>typeof x==='string'?x:x.id):[];
 
 export function canEdit(context, player) {
   return ['owner','admin'].includes(context.role) || (context.role === 'coach' && context.coachPlayers.includes(player));
@@ -238,11 +220,9 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
       }
       if (req.method === 'POST' && action === 'sync-airtable') {
         requireOwner(); await configureAirtable();
-        const players = await airtable(PLAYERS,null,[F.name,F.fallbackName,F.payments]);
-        const payments = await airtable(PAYMENTS,null,[F.remaining,F.purchased,F.used,F.service,F.players,F.usageDate,F.paymentDate]);
-        const now = new Date().toISOString();
-        await db('hub_airtable_players',{on_conflict:'airtable_record_id'},{method:'POST',body:players.map(p=>({airtable_record_id:p.id,display_name:p.fields[F.name]||p.fields[F.fallbackName]||'Player',credits:summariseCredits(p,payments),synced_at:now})),prefer:'resolution=merge-duplicates'});
-        return send(200,{ok:true,message:`Updated ${players.length} Airtable player records.`});
+        const result=await syncAirtable({env,secret,fetchImpl,db:(table,query,method='GET',body)=>db(table,query,{method,body,prefer:'return=representation,resolution=merge-duplicates'})});
+        if(!result.connected)fail(503,'Connect Airtable first.');
+        return send(200,{ok:true,message:result.count===undefined?'Airtable balances are up to date.':`Updated ${result.count} Airtable player records.`});
       }
       fail(400,'Unknown portal action.');
     } catch (error) {

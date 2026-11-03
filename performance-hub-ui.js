@@ -18,10 +18,9 @@
   if (oldHome) { home.className = ''; home.textContent = 'My Hub'; }
   const plans = take('/performance-hub-plans.html', 'Session plans');
   const training = take('/performance-hub-dashboard.html', 'Training', 'trainingLink');
-  const locker = take('/performance-hub-avatar.html', 'Player locker');
   const rewards = take('/performance-hub-rewards.html', 'Rewards');
   const programmes = take('/performance-hub-programmes.html', 'Nutrition & gym');
-  const primary = [home, plans, programmes, training, locker, rewards];
+  const primary = [home, plans, programmes, training, rewards];
   const {header, menu} = window.JTNavigation.create('hub');
   const tools = menu.querySelector('[data-jt-tools]');
   tools.hidden = false;
@@ -34,6 +33,7 @@
   for (const n of nodes) {
     if (n.tagName === 'BUTTON') { n.className = 'hub-signout'; n.textContent = 'Sign out'; accounts.append(n); }
     else {
+      if (/\/performance-hub-avatar(?:-premium|-create)?\.html/.test(n.getAttribute('href') || '')) continue;
       if (!n.id && primary.some(a => a.getAttribute('href') === n.getAttribute('href'))) continue;
       n.className = n.classList.contains('hidden') ? 'hidden' : '';
       n.textContent = n.textContent.trim().replace(/^←\s*/, '').replace(/^My Coaching$/i,'My Hub');

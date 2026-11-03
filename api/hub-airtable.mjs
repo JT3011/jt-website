@@ -1,4 +1,5 @@
 import {endpoint,fail,saveConnection} from '../server/hub-integrations.mjs';
+import {syncAirtable} from '../server/airtable-credits.mjs';
 export default endpoint(async ctx=>{
   if(!ctx.owner)fail(403,'Only JT can connect Airtable.');
   if(ctx.method!=='POST'||ctx.action!=='connect')fail(404,'Action not found.');
@@ -8,5 +9,6 @@ export default endpoint(async ctx=>{
     if(!response.ok)fail(400,'This token needs data.records:read access to the JT coaching base.');
   }
   await saveConnection(ctx,'airtable',token,{base:'appfxqoZZWAqFgaIu'});
-  return{connected:true};
+  try{await syncAirtable(ctx);return{connected:true,automatic:true};}
+  catch{return{connected:true,automatic:true,warning:'Airtable connected. The first balance update is pending; automatic retries are enabled.'};}
 });

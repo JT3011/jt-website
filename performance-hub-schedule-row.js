@@ -40,7 +40,7 @@ export function renderCoachSessionRow(event){
   const name=e(event.players?.join(' & ')||event.name||'Player');
   const reason=event.account_pending?'Connect this player’s Hub account before adding feedback or clips to their session log.':
     event.player_id?'This booking needs to be connected to its Hub session before it can be logged. Ask JT to review the booking.':'Link this booking to the correct player before adding feedback or clips to their session log.';
-  return `<article class="cal-row cal-player-row ${cancelled?'cal-cancelled':''}">
+  return `<article class="cal-row cal-player-row ${cancelled?'cal-cancelled':''}" data-cal-row="${e(event.id)}">
     <time datetime="${e(event.start)}">${e(ukDate(event.start,{hour:'2-digit',minute:'2-digit'}))}<small>to ${e(ukDate(event.end,{hour:'2-digit',minute:'2-digit'}))}</small></time>
     <div class="cal-detail"><div class="cal-row-top"><strong>${player?`<a class="cal-player-name" href="${e(player)}">${name}</a>`:name}</strong><span class="cal-tag">${cancelled?'Cancelled':event.needs_link?'JT review':event.account_pending?'Matched':e(String(event.status||'scheduled').replaceAll('_',' '))}</span></div><p>${e(event.name)}</p><p>${e(event.coach)}${event.venue?` · ${e(event.venue)}`:''}</p>
     <div class="cal-session-controls">
