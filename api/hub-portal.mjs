@@ -1,12 +1,12 @@
 // Private coaching portal. All provider credentials stay on the server.
 import {connectionToken} from '../server/hub-integrations.mjs';
-import {BASE,PLAYERS,PAYMENTS,F,summariseCredits,syncAirtable} from '../server/airtable-credits.mjs';
+import {BASE,summariseCredits,syncAirtable} from '../server/airtable-credits.mjs';
+import {calendarRows} from '../server/coach-calendars.mjs';
 export {summariseCredits};
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RECORD = /^rec[A-Za-z0-9]{14}$/;
 const fail=(status,message)=>{throw Object.assign(new Error(message),{status});};
 const clean=(v,max)=>String(v??'').trim().slice(0,max);
-const ids=v=>Array.isArray(v)?v.map(x=>typeof x==='string'?x:x.id):[];
 
 export function canEdit(context, player) {
   return ['owner','admin'].includes(context.role) || (context.role === 'coach' && context.coachPlayers.includes(player));
@@ -99,28 +99,6 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         }
         return accounts;
       }
-      async function airtable(table, record, fields) {
-        if (!airtableConfigured) fail(503, 'Automatic Airtable updates need the read-only connection to be enabled by JT.');
-        let offset; const records = [];
-        do {
-          const target = new URL(`https://api.airtable.com/v0/${BASE}/${table}${record ? `/${record}` : ''}`);
-          target.searchParams.set('returnFieldsByFieldId', 'true');
-          if (!record) { target.searchParams.set('pageSize','100'); for (const field of fields) target.searchParams.append('fields[]',field); }
-          if (offset) target.searchParams.set('offset', offset);
-          const response = await fetchImpl(target, {headers:{Authorization:`Bearer ${airtableToken}`},signal:AbortSignal.timeout(10000)});
-          if (!response.ok) fail(502,'Airtable is unavailable. Your last saved balance is shown with its sync date.');
-          const data = await response.json();
-          if (record) return data;
-          records.push(...(data.records || [])); offset = data.offset;
-          if (records.length > 3000) fail(502,'The Airtable sync needs a larger batch limit. Please contact JT.');
-        } while (offset);
-        return records;
-      }
-      async function saveSnapshot(record, payments) {
-        const snapshot = {airtable_record_id:record.id,display_name:record.fields[F.name] || record.fields[F.fallbackName] || 'Player',credits:summariseCredits(record,payments),synced_at:new Date().toISOString()};
-        await db('hub_airtable_players',{on_conflict:'airtable_record_id'},{method:'POST',body:snapshot,prefer:'resolution=merge-duplicates'});
-        return snapshot;
-      }
       if (req.method === 'GET' && action === 'overview') {
         if(manager)await configureAirtable();
         const permitted = [...new Set([user.id,...ctx.parentPlayers,...(ctx.role === 'coach' ? ctx.coachPlayers : [])])];
@@ -140,25 +118,29 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
           db('hub_player_airtable_links',{player_user_id:`eq.${player}`,select:'airtable_record_id'},{asUser:true})
         ]);
         if (!profiles.length) fail(404,'Player profile not found.');
+        let creditRecord=links[0]?.airtable_record_id;
+        if(!creditRecord){
+          // The caller has already passed requirePlayer(). Reuse a unique existing
+          // verified-contact booking match, never the account's editable display name.
+          const bookings=await calendarRows((table,query)=>db(table,query),'session_connect_booking_queue',{player_user_id:`eq.${player}`,booking_status:'eq.active',player_match_method:'eq.verified_contact',matched_airtable_record_id:'not.is.null',select:'id,matched_airtable_record_id',order:'id.asc'});
+          const records=[...new Set(bookings.map(b=>b.matched_airtable_record_id).filter(id=>RECORD.test(id||'')))];
+          if(records.length===1)creditRecord=records[0];
+        }
         let credit = null; let syncStatus = 'unlinked';
-        if (links[0]) {
-          credit = (await db('hub_airtable_players',{airtable_record_id:`eq.${links[0].airtable_record_id}`,select:'*'},{asUser:true}))[0] || null;
+        if (creditRecord) {
+          credit = (await db('hub_airtable_players',{airtable_record_id:`eq.${creditRecord}`,select:'*'},{asUser:!!links[0]}))[0] || null;
           syncStatus = airtableConfigured ? 'cached' : 'connection_pending';
           if (airtableConfigured && (requestUrl.searchParams.get('refresh')==='1' || !credit || Date.now()-new Date(credit.synced_at).getTime()>300000)) {
             try {
-              const record = await airtable(PLAYERS,links[0].airtable_record_id);
-              const payments = [];
-              for (const id of ids(record.fields[F.payments])) {
-                if (!RECORD.test(id)) continue;
-                payments.push(await airtable(PAYMENTS,id));
-              }
-              credit = await saveSnapshot(record,payments); syncStatus = 'live';
+              const result=await syncAirtable({env,secret,fetchImpl,db:(table,query,method='GET',body)=>db(table,query,{method,body,prefer:'return=representation,resolution=merge-duplicates'})});
+              credit=(await db('hub_airtable_players',{airtable_record_id:`eq.${creditRecord}`,select:'*'},{asUser:!!links[0]}))[0]||credit;
+              syncStatus=result.stale?'unavailable':result.pending?'cached':'live';
             } catch { syncStatus = 'unavailable'; }
           }
         }
         return send(200,{profile:{...profiles[0],name:profileName(profiles[0])},canEdit:canEdit(ctx,player),programmes,
           credit:credit ? {credits:credit.credits,synced_at:credit.synced_at} : null,syncStatus,
-          airtableUrl:canEdit(ctx,player)&&links[0]?`https://airtable.com/${BASE}/${PLAYERS}/${links[0].airtable_record_id}`:null});
+          airtableUrl:canEdit(ctx,player)&&creditRecord?`https://airtable.com/${BASE}/${creditRecord}`:null});
       }
       if (req.method === 'POST' && action === 'save-programme') {
         requirePlayer(); if (!canEdit(ctx,player)) fail(403,'Only your connected coach or JT can edit a programme.');

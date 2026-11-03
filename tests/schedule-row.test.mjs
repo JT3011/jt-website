@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {creditSummary,renderCoachSessionRow,wireSessionActions} from '../performance-hub-schedule-row.js';
 const event={id:'booking-id',session_id:'session-id',player_id:'player-id',name:'Football session',players:['Sample player'],coach:'Sample coach',start:'2026-11-03T17:00:00Z',end:'2026-11-03T18:00:00Z',status:'scheduled',source:'Calendly'};
-test('credits combine only matching services and keep zero or negative balances',()=>{
+test('credits preserve separate payment balances, including zero and negative values',()=>{
  const model=creditSummary({...event,credit:{credits:[{service:'Football',remaining:3},{service:'Football',remaining:2},{service:'Gym',remaining:0}]}});
  assert.equal(model.label,'View balances');
- assert.deepEqual(model.balances,[{service:'Football',remaining:5,unknown:false},{service:'Gym',remaining:0,unknown:false}]);
+ assert.deepEqual(model.balances.map(b=>b.remaining),[3,2,0]);
  assert.equal(creditSummary({...event,credit:{credits:[{service:'Football',remaining:0}]}}).label,'0 left');
  assert.equal(creditSummary({...event,credit:{credits:[{service:'Football',remaining:-1}]}}).label,'-1 left');
 });
@@ -13,7 +13,7 @@ test('missing, partial and invalid balances never become a fabricated zero',()=>
  assert.equal(creditSummary(event).label,'Balance pending');
  assert.equal(creditSummary({...event,player_id:null}).label,'Not linked');
  for(const remaining of [null,undefined,'4',NaN,Infinity]){
-  assert.equal(creditSummary({...event,credit:{credits:[{service:'Football',remaining:4},{service:'Football',remaining}]}}).label,'Under review');
+  assert.equal(creditSummary({...event,credit:{credits:[{service:'Football',remaining}]}}).label,'Under review');
  }
 });
 test('linked booking opens its exact plan and session log with its player credit',()=>{
@@ -29,7 +29,7 @@ test('unlinked and account-pending bookings retain all controls without false li
   const html=renderCoachSessionRow({...event,session_id:null,player_id:null,account_pending,needs_link:!account_pending});
   assert.match(html,/Session plan/);assert.match(html,/Session log/);assert.match(html,/Session credit/);
   assert.match(html,/data-cal-log-pending aria-expanded="false"/);
-  assert.match(html,/Not linked/);
+  assert.match(html,account_pending?/Balance pending/:/Not linked/);
   assert.doesNotMatch(html,/coaching-dashboard|coach-dashboard\.html|player=null|0 left/);
   assert.match(html,/data-cal-log-help role="status" hidden/);
  }
