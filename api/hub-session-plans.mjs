@@ -1,3 +1,4 @@
+import {programmesWork} from '../server/programmes/handler.mjs';
 import {endpoint,fail,connectionToken} from '../server/hub-integrations.mjs';
 import {calendarRows} from '../server/coach-calendars.mjs';
 import {matchPlanningName,makeBookingPlan} from '../server/apex-booking-plans.mjs';
@@ -33,6 +34,7 @@ async function planNames(ctx,plans,sessions){
   return{profiles,calendars};
 }
 export async function plansWork(ctx){
+  if(ctx.params?.get('programme')==='personal'||ctx.body?.programme==='personal')return programmesWork(ctx);
   const {db,body,params}=ctx,player=params.get('player');
   if(player&&!UUID.test(player))fail(400,'Choose a player.');
   if(ctx.method==='POST'&&['prepare-booking','save-booking'].includes(ctx.action)){
