@@ -1,5 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+import { mediaSizeLabel, originalMediaDownload } from "/performance-hub-session-media.js?v=20261103-original";
+
 const supabase = createClient(
   "https://hunrekcnmtabowiivmrk.supabase.co",
   "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ",
@@ -72,7 +74,7 @@ async function mediaHtml(session) {
   } = await supabase
     .from("session_connect_media")
     .select(
-      "id,media_type,storage_path,original_name,caption"
+      "id,media_type,storage_path,original_name,caption,file_size"
     )
     .eq(
       "session_id",
@@ -146,7 +148,9 @@ async function mediaHtml(session) {
             "Session media"
           )}
         </div>
-        <button type="button" class="save-media" data-media-id="${escapeHtml(media.id)}">Save ${media.media_type === 'video' ? 'video' : 'photo'}</button>
+        <div class="media-quality">Original quality${mediaSizeLabel(media.file_size) ? ` · ${escapeHtml(mediaSizeLabel(media.file_size))}` : ''}</div>
+        <button type="button" class="save-media" data-media-id="${escapeHtml(media.id)}">Download original ${media.media_type === 'video' ? 'video' : 'photo'}</button>
+        <div class="media-download-status" role="status"></div>
       </div>
     `);
   }
@@ -162,6 +166,7 @@ async function mediaHtml(session) {
       </div>
 
       <h3>Coach Uploads.</h3>
+      <p class="media-help">Download the original file at the quality uploaded by your coach. On iPhone, open the downloaded video, tap Share, then Save Video if available.</p>
 
       <div class="media-grid">
         ${items.join("")}
@@ -351,23 +356,19 @@ async function render(playerId) {
       button.disabled = true;
       button.textContent = 'Preparing download…';
       try {
-        // Recheck the row under the current viewer's RLS on every download.
-        const { data: media, error } = await supabase.from('session_connect_media')
-          .select('storage_path,original_name').eq('id', button.dataset.mediaId)
-          .eq('visibility','player_parent').single();
-        if (error || !media) throw new Error('This file is no longer available to your account.');
-        const filename = (media.original_name || 'JT-session-video.mp4').replace(/[\x00-\x1f/\\]/g,'_');
-        const { data, error: signError } = await supabase.storage.from('session-media')
-          .createSignedUrl(media.storage_path, 60, { download: filename });
-        if (signError || !data?.signedUrl) throw new Error('Unable to prepare this download. Please try again.');
+        const { url, filename } = await originalMediaDownload(supabase, button.dataset.mediaId);
         const link = document.createElement('a');
-        link.href = data.signedUrl;
+        link.href = url;
         link.download = filename;
         link.rel = 'noopener noreferrer';
         link.referrerPolicy = 'no-referrer';
         document.body.appendChild(link); link.click(); link.remove();
-        button.textContent = 'Download started · tap to save again';
-      } catch (error) { button.textContent = 'Try download again'; button.title = error.message; }
+        button.textContent = 'Download original again';
+        button.nextElementSibling.textContent = 'Original file download requested. Check your downloads.';
+      } catch (error) {
+        button.textContent = 'Try download again';
+        button.nextElementSibling.textContent = error.message;
+      }
       finally { button.disabled = false; }
     });
   });

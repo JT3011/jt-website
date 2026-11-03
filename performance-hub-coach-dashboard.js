@@ -1,5 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+import { validateOriginalMedia, uploadOriginalMedia } from "/performance-hub-session-media.js?v=20261103-original";
+
 const SUPABASE_URL = "https://hunrekcnmtabowiivmrk.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
 
@@ -13,6 +15,8 @@ const $ = (id) => document.getElementById(id);
 
 let currentUser = null;
 let currentSession = null;
+let mediaJobs = [];
+let savingSession = false;
 let todaySessions = [];
 let calendarSessionIds=null, dayLoadVersion=0;
 let selectedDay=new URLSearchParams(location.search).get("day")||localDateISO();
@@ -340,6 +344,7 @@ function renderPlayerResults(players, target) {
 }
 
 async function openSession(id) {
+  if (savingSession) return;
   const session = todaySessions.find(
     (s) => s.session_id === id
   );
@@ -378,6 +383,7 @@ async function openSession(id) {
   $("ratingConfidence").value =
     ratings.confidence || "";
 
+  mediaJobs = [];
   $("sessionMedia").value = "";
   $("mediaStatus").textContent = "";
 
@@ -421,198 +427,56 @@ async function loadSessionMedia(sessionId) {
 }
 
 async function saveSession() {
-  if (!currentSession) return;
-
+  if (!currentSession || savingSession) return;
   const button = $("saveSession");
-
-  button.disabled = true;
-  button.textContent = "Saving…";
-
-  const ratings = {
-    technical:
-      $("ratingTechnical").value || null,
-
-    decision_making:
-      $("ratingDecision").value || null,
-
-    intensity:
-      $("ratingIntensity").value || null,
-
-    confidence:
-      $("ratingConfidence").value || null
-  };
-
-  const {
-    error
-  } = await supabase.rpc(
-    "session_connect_complete_session",
-    {
-      p_session_id:
-        currentSession.session_id,
-
-      p_focus:
-        $("focus").value,
-
-      p_coach_feedback:
-        $("coachFeedback").value,
-
-      p_next_focus:
-        $("nextFocus").value,
-
-      p_homework:
-        $("homework").value,
-
-      p_ratings:
-        ratings
+  const session = currentSession;
+  const controls = [...$("sessionModal").querySelectorAll('button,input,textarea,select')];
+  try {
+    // Reject oversized originals before saving; never silently skip or compress them.
+    mediaJobs.forEach(job => validateOriginalMedia(job.file));
+    savingSession = true;
+    controls.forEach(control => { control.disabled = true; });
+    button.textContent = "Saving…";
+    const { error } = await supabase.rpc("session_connect_complete_session", {
+      p_session_id: session.session_id,
+      p_focus: $("focus").value,
+      p_coach_feedback: $("coachFeedback").value,
+      p_next_focus: $("nextFocus").value,
+      p_homework: $("homework").value,
+      p_ratings: {
+        technical: $("ratingTechnical").value || null,
+        decision_making: $("ratingDecision").value || null,
+        intensity: $("ratingIntensity").value || null,
+        confidence: $("ratingConfidence").value || null
+      }
+    });
+    if (error) throw error;
+    for (const [index, job] of mediaJobs.entries()) {
+      $("mediaStatus").textContent = `Uploading original ${index + 1} of ${mediaJobs.length}… Keep this page open.`;
+      await uploadOriginalMedia(supabase, job, session, currentUser.id);
     }
-  );
-
-  if (error) {
-    toast(error.message, true);
-    button.disabled = false;
-    button.textContent = "Save Session";
-    return;
+    toast("Session saved. Original files are ready for the player/parent.");
+    mediaJobs = [];
+    $("sessionMedia").value = "";
+    $("sessionModal").classList.add("hidden");
+    await loadToday();
+  } catch (error) {
+    $("mediaStatus").textContent = error.message || "Could not finish saving. Please try again.";
+    toast($("mediaStatus").textContent, true);
+  } finally {
+    savingSession = false;
+    controls.forEach(control => { control.disabled = false; });
+    button.textContent = "Save log";
   }
-
-  const files =
-    [...$("sessionMedia").files];
-
-  if (files.length) {
-    await uploadMedia(
-      files,
-      currentSession
-    );
-  }
-
-  toast(
-    "Session saved. Player/parent timeline updated."
-  );
-
-  button.disabled = false;
-  button.textContent = "Save Session";
-
-  $("sessionModal")
-    .classList
-    .add("hidden");
-
-  await loadToday();
 }
 
-async function uploadMedia(
-  files,
-  session
-) {
-  let completed = 0;
-
-  for (const file of files) {
-    if (file.size > 262144000) {
-      toast(
-        `${file.name} is over 250MB.`,
-        true
-      );
-      continue;
-    }
-
-    if (
-      !file.type.startsWith("video/") &&
-      !file.type.startsWith("image/")
-    ) {
-      continue;
-    }
-
-    const safeName =
-      file.name.replace(
-        /[^a-zA-Z0-9._-]/g,
-        "-"
-      );
-
-    const path =
-      `${session.player_user_id}/` +
-      `${session.session_id}/` +
-      `${crypto.randomUUID()}-${safeName}`;
-
-    $("mediaStatus").textContent =
-      `Uploading ${
-        completed + 1
-      } of ${files.length}…`;
-
-    const {
-      error: uploadError
-    } = await supabase
-      .storage
-      .from("session-media")
-      .upload(
-        path,
-        file,
-        {
-          upsert: false,
-          contentType: file.type
-        }
-      );
-
-    if (uploadError) {
-      toast(
-        `Upload failed: ${file.name}`,
-        true
-      );
-      continue;
-    }
-
-    const {
-      error: metadataError
-    } = await supabase
-      .from("session_connect_media")
-      .insert({
-        session_id:
-          session.session_id,
-
-        player_user_id:
-          session.player_user_id,
-
-        coach_user_id:
-          currentUser.id,
-
-        media_type:
-          file.type.startsWith("video/")
-            ? "video"
-            : "image",
-
-        storage_path:
-          path,
-
-        original_name:
-          file.name,
-
-        mime_type:
-          file.type,
-
-        file_size:
-          file.size,
-
-        visibility:
-          "player_parent"
-      });
-
-    if (metadataError) {
-      toast(
-        `Saved file but could not link ${file.name}.`,
-        true
-      );
-      continue;
-    }
-
-    completed += 1;
-  }
-
-  $("mediaStatus").textContent =
-    completed
-      ? `${completed} file${
-          completed === 1
-            ? ""
-            : "s"
-        } uploaded.`
-      : "";
-}
+$("sessionMedia").addEventListener("change", event => {
+  const previous = mediaJobs;
+  mediaJobs = [...event.target.files].map(file => previous.find(job => job.file === file) || { file });
+  $("mediaStatus").textContent = mediaJobs.length
+    ? `${mediaJobs.length} original file${mediaJobs.length === 1 ? '' : 's'} selected. No quality reduction.`
+    : '';
+});
 
 $("searchPlayers")
   .addEventListener(
