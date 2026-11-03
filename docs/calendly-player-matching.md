@@ -61,6 +61,16 @@ Existing converted bookings receive matching display metadata without changing t
 
 Migrations: `supabase/migrations/20261103105545_live_airtable_booking_names.sql` and `supabase/migrations/20261103105933_prefer_explicit_booking_names.sql`. Explicit recorded booking aliases take precedence over ambiguous child-only names. Additional checks: `tests/live-airtable-booking-names.sql`, `tests/booking-name-links.sql`, and the coach-calendar/provider-sync tests.
 
+### Airtable payment balances
+
+The credit sync reads complete Players, Payments, Master log and Gym Clients tables before updating the cache. It follows reciprocal direct payment links or the reciprocal Client → Master log → Payments chain. Explicit direct links take precedence. A payment reached through multiple paths is included once. Unlinked payments can match a unique full recorded name, or a player plus a corroborated full parent/contact alias; first names alone, fuzzy matches, and ambiguous matches are never sufficient.
+
+`Sessions Remaining` is read directly, preserving zero, negatives and formula errors. Display precision matches the Airtable field (zero decimal places); the underlying formula is unchanged. Each payment ledger stays separate, and shared family payments are labelled as shared. No totals are invented across separate payment ledgers or across players. Missing payments remain pending, not zero.
+
+The player portal and schedule use the same complete snapshot. After the portal's existing player/parent/coach authorization check, a unique existing verified-contact booking match can supply the credit record when no explicit account-credit link exists. Conflicting matches remain unlinked. This does not create account, family or coach access relationships. Refreshing a profile cannot replace a complete balance with a direct-link-only snapshot.
+
+Checks: `tests/airtable-credit-links.test.mjs`, `tests/hub-portal.test.mjs`, `tests/provider-sync.test.mjs`, `tests/schedule-row.test.mjs`.
+
 ## Shared bookings
 
 A booking can contain 2–10 confirmed Airtable participant IDs in `airtable_participants`. This is booking-specific and does not match unrelated future bookings by a shared contact name. Provider re-imports preserve the selected participants. The schedule keeps one appointment and lists the participants with separate credit balances; balances are never combined or deducted.

@@ -128,7 +128,7 @@
 .jt-hub-ui .cal-credit-body{padding:0 12px 12px;border-top:1px solid #ffffff0a}
 .jt-hub-ui .cal-credit-body p,.jt-hub-ui .jt-schedule .cal-log-help{font-size:11px;line-height:1.7;color:#b5b2a9;overflow-wrap:anywhere;margin:10px 0}
 .jt-hub-ui .cal-credit-service{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:10px 0 0;font-size:12px}
-.jt-hub-ui .cal-credit-service strong{color:#dfb44e;font-size:12px;text-align:right}
+.jt-hub-ui .cal-credit-service strong{color:#dfb44e;font-size:12px;text-align:right;white-space:nowrap;flex-shrink:0}
 .jt-hub-ui .cal-group-credit{padding-top:12px}
 .jt-hub-ui .cal-group-credit+.cal-group-credit{border-top:1px solid #ffffff0a;margin-top:12px}
 .jt-hub-ui .cal-credit-profile{display:inline-flex;align-items:center;gap:12px;min-height:44px;color:#dfb44e;font-size:11px;text-decoration:none}

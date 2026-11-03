@@ -1,43 +1,28 @@
 /* Render only the booking and credit data already authorised by the schedule API. */
+import {creditSummary,formatCreditBalance} from './performance-hub-credit-model.js';
+export {creditSummary};
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ukDate=(value,options)=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',...options}).format(new Date(value));
-const number=value=>new Intl.NumberFormat('en-GB',{maximumFractionDigits:2}).format(value);
 const sessionDay=value=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value));
 const arrow='<svg class="cal-action-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
 const chevron='<svg class="cal-credit-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m7 10 5 5 5-5"/></svg>';
-
-export function creditSummary(event){
-  const groups=new Map();
-  for(const item of event.credit?.credits||[]){
-    const service=String(item.service||'Sessions');
-    const group=groups.get(service)||{service,remaining:0,unknown:false};
-    if(typeof item.remaining==='number'&&Number.isFinite(item.remaining))group.remaining+=item.remaining;
-    else group.unknown=true;
-    groups.set(service,group);
-  }
-  const balances=[...groups.values()];
-  const label=!balances.length?(event.player_id?'Balance pending':'Not linked'):
-    balances.length>1?'View balances':balances[0].unknown?'Under review':`${number(balances[0].remaining)} left`;
-  return{balances,label};
-}
 
 function creditControl(event){
   const e=escapeHtml;
   if(event.group_players?.length){
     const people=event.group_players.map(member=>{
       const {balances}=creditSummary({credit:member.credit});
-      const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.service)}</span><strong>${b.unknown?'Under review':e(number(b.remaining))+' left'}</strong></div>`).join('');
+      const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.label)}</span><strong>${b.unknown?'Under review':e(formatCreditBalance(b.remaining,b.display_precision))+' left'}</strong></div>`).join('');
       return `<div class="cal-group-credit"><strong>${e(member.name)}</strong>${rows||'<p>Balance pending</p>'}</div>`;
     }).join('');
-    return `<details class="cal-credit-details"><summary><span>Session credits</span><strong>By player</strong>${chevron}</summary><div class="cal-credit-body">${people}<p>Each player keeps their own balance. Bookings do not deduct credits.</p></div></details>`;
+    return `<details class="cal-credit-details"><summary><span>Session credits</span><strong>By player</strong>${chevron}</summary><div class="cal-credit-body">${people}<p>Balances come from Airtable Payments. Shared balances are labelled. Bookings do not deduct credits.</p></div></details>`;
   }
   const {balances,label}=creditSummary(event);
   const profile=event.player_id?`/performance-hub-portal.html?player=${encodeURIComponent(event.player_id)}`:null;
-  const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.service)}</span><strong>${b.unknown?'Under review':e(number(b.remaining))+' left'}</strong></div>`).join('');
+  const rows=balances.map(b=>`<div class="cal-credit-service"><span>${e(b.label)}</span><strong>${b.unknown?'Under review':e(formatCreditBalance(b.remaining,b.display_precision))+' left'}</strong></div>`).join('');
   const updated=event.credit?.synced_at&&Number.isFinite(Date.parse(event.credit.synced_at))?
     `<p>Saved balance · ${e(ukDate(event.credit.synced_at,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))} UK time</p>`:'';
-  const empty=event.player_id?'A credit balance has not been connected yet. Ask JT to confirm the remaining sessions.':
-    event.account_pending?'This player is matched to the booking. Connect their Hub account to show their session credit.':'Link this booking to the correct player to show their session credit.';
+  const empty=event.credit||event.account_pending?'Player matched. No confirmed payment balance is linked in Airtable yet.':event.player_id?'A credit balance has not been connected yet. Ask JT to confirm the remaining sessions.':'Link this booking to the correct player to show their session credit.';
   return `<details class="cal-credit-details"><summary><span>Session credits</span><strong>${e(label)}</strong>${chevron}</summary><div class="cal-credit-body">${rows||`<p>${e(empty)}</p>`}${updated}${balances.length?'<p>Bookings do not deduct credits. JT updates the balance after delivery.</p>':''}${profile?`<a class="cal-credit-profile" href="${e(profile)}">View player &amp; credits ${arrow}</a>`:''}</div></details>`;
 }
 

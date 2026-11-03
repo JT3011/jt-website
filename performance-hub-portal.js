@@ -1,10 +1,10 @@
+import {creditSummary,formatCreditBalance} from './performance-hub-credit-model.js';
 import { supabase } from '/performance-hub-free-access.js?v=2';
 import {mountPlayerSchedule,mountCoachSchedule} from '/performance-hub-coach-schedule.js?v=20261101-schedule';
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/London'}).format(new Date(value)) : '';
 const time = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}).format(new Date(value)) : '';
-const number = n => new Intl.NumberFormat('en-GB',{maximumFractionDigits:2}).format(n);
 let overview, selected, current, accessData, loadVersion = 0;
 let signingOut = false;
 let stopCoachSchedule;
@@ -47,16 +47,9 @@ function renderPlayers() {
   $('playerList').querySelectorAll('[data-player]').forEach(b=>b.addEventListener('click',()=>openPlayer(b.dataset.player)));
 }
 function creditsHtml(data) {
-  const entries=data.credit?.credits || [];
-  const grouped=new Map();
-  for (const entry of entries) {
-    const key=entry.service || 'Coaching sessions';
-    const group=grouped.get(key)||{remaining:0,unknown:false};
-    if (typeof entry.remaining==='number' && Number.isFinite(entry.remaining)) group.remaining+=entry.remaining; else group.unknown=true;
-    grouped.set(key,group);
-  }
+  const {balances}=creditSummary(data);
   let content;
-  if (grouped.size) content=`<div class="credit-grid">${[...grouped].map(([service,g])=>`<div class="credit-block"><p>${esc(service)}</p><div class="balance"><b>${g.unknown?'—':number(g.remaining)}</b><span>${g.unknown?'Balance under review':'left'}</span></div>${!g.unknown&&g.remaining<0?'<p>Please contact JT to review your session balance.</p>':''}</div>`).join('')}</div>`;
+  if (balances.length) content=`<div class="credit-grid">${balances.map(g=>`<div class="credit-block"><p>${esc(g.label)}</p><div class="balance"><b>${g.unknown?'—':formatCreditBalance(g.remaining,g.display_precision)}</b><span>${g.unknown?'Balance under review':'left'}</span></div>${!g.unknown&&g.remaining<0?'<p>Please contact JT to review your session balance.</p>':''}</div>`).join('')}</div>`;
   else content=`<p class="muted">${data.syncStatus==='unlinked'?'JT is connecting your session balance. It will appear here once your record is linked.':'No linked session balance yet. JT can check the payment link in Airtable.'}</p>`;
   const states={unlinked:'Awaiting connection',connection_pending:'Saved Airtable balance',unavailable:'Last saved balance · updates unavailable',live:'Connected to Airtable',cached:'Connected to Airtable'};
   return `<section class="panel credits-panel"><div class="section-head"><p class="eyebrow">Session credits</p><span class="tag">Read only</span></div>${content}<p class="credit-note">${esc(states[data.syncStatus]||'Balance pending')}${data.credit?.synced_at?` · Synced ${esc(time(data.credit.synced_at))} (UK time)`:''}. Balances are managed by JT.</p>${data.syncStatus==='connection_pending'?'<p class="credit-note">Updates not connected. Ask JT to confirm recent changes.</p>':''}</section>`;
