@@ -1,6 +1,8 @@
 import {endpoint,fail,saveConnection} from '../server/hub-integrations.mjs';
-import {cal,pages,syncHost,subscribe,UUID,publicVenue,connectionFor} from '../server/calendly-sync.mjs';
+import {cal,pages,syncHost,subscribe,UUID,publicVenue} from '../server/calendly-sync.mjs';
 import {coachDirectory,chooseCalendar,calendarRows} from '../server/coach-calendars.mjs';
+import {syncAirtable} from '../server/airtable-credits.mjs';
+import {syncBounds} from '../server/provider-sync.mjs';
 export const dayInZone=(date=new Date(),zone='Europe/London')=>new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
 export function dayBounds(day,days=1,zone='Europe/London'){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(day)||!Number.isFinite(Date.parse(`${day}T12:00:00Z`))||new Date(`${day}T12:00:00Z`).toISOString().slice(0,10)!==day)fail(400,'Choose a valid date.');
@@ -29,7 +31,8 @@ async function playerSchedule(ctx){
   const profiles=coachIds.length?await ctx.db('profiles',{id:`in.(${coachIds.join(',')})`,select:'id,player_name,first_name'}):[];
   const hosts=await ctx.db('session_connect_calendly_hosts',{enabled:'eq.true',select:'coach_user_id,calendly_name,scheduling_url'});
   const info=(coachId,calendarId)=>{const calendar=calendars.find(c=>c.id===calendarId)||(coachId?calendars.find(c=>c.coach_user_id===coachId):null);return{coach:calendar?.display_name||profiles.find(p=>p.id===coachId)?.player_name||profiles.find(p=>p.id===coachId)?.first_name||hosts.find(h=>h.coach_user_id===coachId)?.calendly_name||'JT coach',booking_url:calendar?.booking_url||hosts.find(h=>h.coach_user_id===coachId)?.scheduling_url};};
-  const events=[...sessions.map(s=>{const q=queue.find(q=>q.converted_session_id===s.id);return{id:s.id,player_id:player,name:s.session_type,start:s.start_at,end:s.end_at,status:q?.booking_status==='canceled'?'cancelled':s.status,venue:publicVenue(s.venue),...info(s.coach_user_id,q?.calendar_id)};}),...queue.filter(q=>!q.converted_session_id).map(q=>({id:q.id,player_id:player,name:q.event_name,start:q.start_at,end:q.end_at,status:q.booking_status==='canceled'?'cancelled':'scheduled',venue:publicVenue(q.venue),...info(q.coach_user_id,q.calendar_id)}))].sort((a,b)=>a.start.localeCompare(b.start));
+  // Calendly owns schedule visibility. Standalone Hub logs remain in Session logs.
+  const events=queue.filter(q=>q.booking_status==='active').map(q=>({id:q.id,player_id:player,name:q.event_name,start:q.start_at,end:q.end_at,status:sessions.find(s=>s.id===q.converted_session_id)?.status==='completed'?'completed':'scheduled',venue:publicVenue(q.venue),...info(q.coach_user_id,q.calendar_id)})).sort((a,b)=>a.start.localeCompare(b.start));
   return{day,synced_at:queue.map(q=>q.last_seen_at).filter(Boolean).sort().at(-1)||null,events};
 }
 export async function scheduleWork(ctx){
@@ -70,13 +73,11 @@ export async function scheduleWork(ctx){
   const sync=[];let warning=null;
   for(const host of assignedHosts){
     try{
-      const cached=(await db('hub_coach_calendar_cache',{coach_uri:`eq.${host.calendly_user_uri}`,start_day:`eq.${day}`,days:'eq.28',scope:'eq.all',select:'synced_at',limit:'1'}))[0];
-      const connection=await connectionFor(ctx,host);
-      if(connection&&cached&&Date.now()-Date.parse(cached.synced_at)<300000&&ctx.params.get('refresh')!=='1'){sync.push({connected:true,synced_at:cached.synced_at,automatic:!!connection.metadata.webhook_uri});continue;}
-      const result=await syncHost(ctx,host,bounds);sync.push({...result,automatic:!!connection?.metadata.webhook_uri});
-      if(result.connected)await db('hub_coach_calendar_cache',{on_conflict:'coach_uri,start_day,days'},'POST',{coach_uri:host.calendly_user_uri,start_day:day,days:28,scope:'all',events:[],synced_at:result.synced_at});
+      const result=await syncHost(ctx,host,syncBounds(bounds.start));sync.push(result);
+      if(result.stale)warning='Calendly refresh pending. Showing the last checked bookings.';
     }catch{warning='Some Calendly updates are unavailable. Saved bookings are shown; check Calendly for recent changes.';}
   }
+  let creditSync;try{creditSync=await syncAirtable(ctx);}catch{creditSync={connected:true,stale:true};}
   await db('rpc/hub_reconcile_bookings',{},'POST',{});
   const query={start_at:`gte.${bounds.start}`,order:'start_at.asc,id.asc'};
   const queueScope=selected==='all'?{}:calendars.some(c=>c.id===selected)?{calendar_id:`eq.${selected}`,...(!ctx.manager?{coach_user_id:`eq.${user.id}`}:{})}:{coach_user_id:`eq.${calendar.user_id}`};
@@ -89,12 +90,11 @@ export async function scheduleWork(ctx){
   const [players,links]=playerIds.length?await Promise.all([db('profiles',{id:`in.(${playerIds.join(',')})`,select:'id,player_name,first_name'}),db('hub_player_airtable_links',{player_user_id:`in.(${playerIds.join(',')})`,select:'player_user_id,airtable_record_id'})]):[[],[]];
   const records=[...new Set(links.map(x=>x.airtable_record_id))],credits=records.length?await db('hub_airtable_players',{airtable_record_id:`in.(${records.join(',')})`,select:'airtable_record_id,credits,synced_at'}):[];
   const info=s=>({calendar_id:s.calendar_id||(s.coach_user_id?coaches.find(c=>c.user_id===s.coach_user_id)?.id:null),player_id:!permitted||permitted.has(s.player_user_id)?s.player_user_id:null,coach_id:s.coach_user_id,coach:coaches.find(c=>c.id===s.calendar_id)?.name||(s.coach_user_id?coaches.find(c=>c.user_id===s.coach_user_id)?.name:null)||rules.find(r=>r.event_name===s.event_name)?.display_name||'Coach to confirm',players:[players.find(p=>p.id===s.player_user_id)?.player_name||players.find(p=>p.id===s.player_user_id)?.first_name||((!s.player_user_id||!permitted||permitted.has(s.player_user_id))&&s.matched_player_name)||s.invitee_name||s.booking_name||'Player'],credit:credits.find(c=>c.airtable_record_id===links.find(l=>l.player_user_id===s.player_user_id)?.airtable_record_id)||null});
-  const linked=new Set(queue.map(q=>q.converted_session_id).filter(Boolean));
-  const events=[...queue.map(q=>({id:q.id,session_id:q.converted_session_id,uri:q.external_event_uri,name:q.event_name,start:q.start_at,end:q.end_at,status:q.booking_status==='canceled'?'cancelled':sessions.find(s=>s.id===q.converted_session_id)?.status||'scheduled',venue:publicVenue(q.venue),needs_link:!q.converted_session_id&&(!q.matched_airtable_record_id||!q.coach_user_id),account_pending:!q.player_user_id&&!!q.matched_airtable_record_id,player_match:q.player_match_method,source:'Calendly',...info(q)})),...sessions.filter(s=>!linked.has(s.id)).map(s=>({id:s.id,session_id:s.id,uri:s.external_event_uri,name:s.session_type,start:s.start_at,end:s.end_at,status:s.status,venue:publicVenue(s.venue),source:'Hub',...info(s)}))].sort((a,b)=>a.start.localeCompare(b.start));
+  const events=queue.filter(q=>q.booking_status==='active').map(q=>({id:q.id,session_id:q.converted_session_id,uri:q.external_event_uri,name:q.event_name,start:q.start_at,end:q.end_at,status:sessions.find(s=>s.id===q.converted_session_id)?.status==='completed'?'completed':'scheduled',venue:publicVenue(q.venue),needs_link:!q.converted_session_id&&(!q.matched_airtable_record_id||!q.coach_user_id),account_pending:!q.player_user_id&&!!q.matched_airtable_record_id,player_match:q.player_match_method,source:'Calendly',...info(q)})).sort((a,b)=>a.start.localeCompare(b.start));
   const connected=sync.length>0&&sync.every(x=>x.connected),automatic=connected&&sync.every(x=>x.automatic);
   if(!connected&&!warning)warning='Saved bookings · connect Calendly below for automatic updates.';
   const needs=ctx.manager?queue.filter(q=>!q.converted_session_id&&(!q.matched_airtable_record_id||!q.coach_user_id)&&q.booking_status==='active'):[];
   const choices=needs.length?await db('profiles',{select:'id,player_name,first_name,account_type',order:'player_name.asc.nullslast',limit:'1000'}):[];
-  return{day,coaches,selected,booking_url:calendar?.booking_url,link_coaches:coaches.filter(c=>c.user_id).map(c=>({id:c.user_id,name:c.name})),coach_accounts:ctx.owner?coaches.filter(c=>calendars.some(r=>r.id===c.id)):undefined,owner:ctx.owner,manager:ctx.manager,events,connected,automatic,stale:!connected||!!warning,warning,synced_at:[...sync.map(x=>x.synced_at),...queue.map(x=>x.last_seen_at)].filter(Boolean).sort().at(-1)||null,needs_link:needs.map(q=>({id:q.id,name:q.invitee_name,email:q.invitee_email,event:q.event_name,start:q.start_at,player:q.player_user_id,coach:q.coach_user_id,reason:q.issue_code})),players:choices.filter(p=>!staffIds.includes(p.id)&&p.player_name).map(p=>({id:p.id,name:p.player_name||p.first_name||'Player'}))};
+  return{day,coaches,selected,booking_url:calendar?.booking_url,link_coaches:coaches.filter(c=>c.user_id).map(c=>({id:c.user_id,name:c.name})),coach_accounts:ctx.owner?coaches.filter(c=>calendars.some(r=>r.id===c.id)):undefined,owner:ctx.owner,manager:ctx.manager,events,connected,automatic,stale:!connected||!!warning,warning,credit_sync:creditSync,synced_at:sync.length?sync.map(x=>x.synced_at).filter(Boolean).sort()[0]||null:queue.map(x=>x.last_seen_at).filter(Boolean).sort().at(-1)||null,needs_link:needs.map(q=>({id:q.id,name:q.invitee_name,email:q.invitee_email,event:q.event_name,start:q.start_at,player:q.player_user_id,coach:q.coach_user_id,reason:q.issue_code})),players:choices.filter(p=>!staffIds.includes(p.id)&&p.player_name).map(p=>({id:p.id,name:p.player_name||p.first_name||'Player'}))};
 }
 export default endpoint(scheduleWork);

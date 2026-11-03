@@ -22,7 +22,7 @@ No Airtable writes are performed. Credits use the existing **Sessions Remaining*
 through Players → Payments and the reciprocal Client / Player link. Missing/invalid formula values
 are not interpreted as zero. Separate service types are displayed separately; negative balances remain visible.
 
-Balances refresh when the record opens if the saved snapshot is older than five minutes. JT can
+Background jobs refresh balances about every five minutes, and opening a record can refresh an older snapshot. See `provider-auto-sync.md`. JT can
 also use **Sync all Airtable balances**. Without the token or during an outage, the page labels
 the saved snapshot and its sync time. It does not claim the balance is current.
 

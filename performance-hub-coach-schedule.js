@@ -1,5 +1,6 @@
 import {hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
 import {renderCoachSessionRow,wireSessionActions} from '/performance-hub-schedule-row.js?v=20261103-actions';
+import {autoRefresh} from '/performance-hub-auto-refresh.js?v=20261103-sync';
 export const zoneDay=(date=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
 const time=iso=>ukDate(iso,{hour:'2-digit',minute:'2-digit'});
 const active=event=>!['cancelled','canceled'].includes(event.status);
@@ -37,30 +38,36 @@ function wireDates(root,load){
   q('[data-cal-today]').onclick=()=>{q('[data-cal-day]').value=zoneDay();reload();};
   for(const[selector,n]of[['prev',-1],['next',1]])q(`[data-cal-${selector}]`).onclick=()=>{q('[data-cal-day]').value=shift(q('[data-cal-day]').value||zoneDay(),n);reload();};
 }
+const listVersions=new WeakMap();
 function renderLists(root,data,parent=false){
-  const q=s=>root.querySelector(s),events=data.events||[],day=q('[data-cal-day]').value;
+  const q=s=>root.querySelector(s),events=(data.events||[]).filter(active),day=q('[data-cal-day]').value;
+  const version=JSON.stringify([day,events]);if(listVersions.get(root)===version)return false;listVersions.set(root,version);
+  const expanded=new Map([...root.querySelectorAll('[data-cal-row]')].map(row=>[row.dataset.calRow,{credits:!!row.querySelector('.cal-credit-details[open]'),log:!!row.querySelector('[data-cal-log-pending][aria-expanded="true"]')} ]));
   const today=events.filter(x=>zoneDay(new Date(x.start))===day),upcoming=events.filter(x=>zoneDay(new Date(x.start))>day);
   q('[data-cal-heading]').textContent=ukDate(`${day}T12:00:00Z`,{weekday:'long',day:'numeric',month:'long'});
   q('[data-cal-timeline]').innerHTML=today.map(x=>sessionRow(x,parent)).join('')||'<p class="cal-empty">No sessions on this day.</p>';
   let last='';q('[data-cal-upcoming]').innerHTML=upcoming.map(x=>{const date=zoneDay(new Date(x.start)),heading=date!==last?`<h4 class="cal-day">${ukDate(x.start,{weekday:'long',day:'numeric',month:'short'})}</h4>`:'';last=date;return heading+sessionRow(x,parent);}).join('')||'<p class="cal-empty">No upcoming sessions.</p>';
   q('[data-cal-counts]').innerHTML=`<div><b>${today.filter(active).length}</b><span>On this day</span></div><div><b>${upcoming.filter(active).length}</b><span>Upcoming</span></div>${!parent&&events.some(x=>x.needs_link&&active(x))?`<div><b>${events.filter(x=>x.needs_link&&active(x)).length}</b><span>To review</span></div>`:''}`;
+  for(const row of root.querySelectorAll('[data-cal-row]')){const prior=expanded.get(row.dataset.calRow);if(!prior)continue;const details=row.querySelector('.cal-credit-details'),button=row.querySelector('[data-cal-log-pending]'),help=row.querySelector('[data-cal-log-help]');if(details)details.open=prior.credits;if(button&&help){button.setAttribute('aria-expanded',String(prior.log));help.hidden=!prior.log;}}
+  return true;
 }
 const columns='<div class="cal-loading-state" aria-hidden="true"><div><i></i><span></span><span></span></div><div><i></i><span></span><span></span></div></div><div class="cal-stats" data-cal-counts></div><div class="cal-grid"><section><h3 data-cal-heading>Your day</h3><div class="cal-list" data-cal-timeline></div></section><section><h3>Next sessions</h3><div class="cal-list" data-cal-upcoming></div></section></div>';
 export function mountPlayerSchedule(root,player,{name,staff=false,scheduleLabel='Coaching sessions'}={}){
   root.classList.add('jt-schedule','cal-family','cal-premium');root.innerHTML=`<div class="cal-heading-row"><h2>Sessions</h2><span class="cal-timezone"><span data-cal-year></span><i aria-hidden="true">·</i>UK time</span></div>${staff?`<p><a class="cal-link" href="/performance-hub-portal.html">← ${e(scheduleLabel)}</a></p>`:''}${dateControls()}<div class="cal-status" role="status" aria-live="polite" data-cal-status></div>${columns}<details class="hub-help"><summary>Missing a booking?</summary><p>Ask JT to connect the email used in Calendly to this player.</p></details>`;
   let sequence=0;
-  async function load(){
-    const version=++sequence;calendarState(root,'loading');
-    root.querySelector('[data-cal-status]').textContent='Loading sessions…';
+  async function load(silent=false){
+    const version=++sequence;if(!silent)calendarState(root,'loading');
+    if(!silent)root.querySelector('[data-cal-status]').textContent='Loading sessions…';
     try{
       const query=new URLSearchParams({action:'player',player,day:root.querySelector('[data-cal-day]').value});
       const data=await hubApi('coach-schedule',null,`?${query}`);
       if(version!==sequence||!root.isConnected)return;
       renderLists(root,data,true);calendarState(root,'ready');
       root.querySelector('[data-cal-status]').textContent=data.synced_at?'Updated '+ukDate(data.synced_at,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Waiting for a booking update.';
-    }catch(error){if(version!==sequence||!root.isConnected)return;calendarState(root,'error');root.querySelector('[data-cal-status]').textContent=error.message;}
+    }catch(error){if(version!==sequence||!root.isConnected)return;if(!silent)calendarState(root,'error');root.querySelector('[data-cal-status]').textContent=error.message;}
   }
-  wireDates(root,load);load();
+  wireDates(root,()=>load());load();
+  const detach=autoRefresh(root,()=>load(true));return()=>{++sequence;detach();};
 }
 export function mountCoachSchedule(root){
   root.classList.add('jt-schedule','cal-premium');root.innerHTML=`<div class="cal-heading-row"><h2>Schedule</h2><span class="cal-timezone"><span data-cal-year></span><i aria-hidden="true">·</i>UK time</span></div><div class="cal-controls"><div class="cal-coach-select"><label><span class="cal-field-label">Coach</span><select data-cal-coach disabled><option value="">Loading…</option></select></label><button class="cal-button" data-cal-mine hidden>My sessions</button></div>${dateControls()}</div><div class="cal-status" role="status" aria-live="polite" data-cal-status>Loading your private schedule…</div>${columns}<details class="cal-calendar-links"><summary>Booking links</summary><a class="cal-link" data-cal-booking hidden target="_blank" rel="noopener noreferrer">Booking link ↗</a><a class="cal-link" href="https://calendly.com/app/scheduled_events/user/me" target="_blank" rel="noopener noreferrer">Open Calendly ↗</a></details><div data-cal-linking></div><div data-cal-coach-accounts></div><details class="cal-setup"><summary>Calendar settings</summary><p>Connect Calendly for automatic booking updates. JT sees the team; each coach sees their own sessions. Use a Calendly account with access to the calendars you want to sync.</p><form data-cal-connect><label>Calendly personal access token<input name="token" type="password" required maxlength="5000" autocomplete="off" placeholder="Paste token securely"></label><p>Create a token in Calendly → Integrations & apps → API & webhooks. Include scheduled_events:read, users:read, organizations:read, webhooks:read and webhooks:write. The token is encrypted on the server.</p><button class="cal-button" type="submit">Connect Calendly</button><p class="cal-connect-status" role="status"></p></form></details><details data-airtable-setup hidden><summary>Credit settings</summary><p>JT’s Airtable base stays the source of truth. Connect a token with data.records:read access to that base so parents see the latest saved balances.</p><form data-airtable-connect><label>Airtable personal access token<input name="token" type="password" required maxlength="5000" autocomplete="off"></label><button class="cal-button" type="submit">Connect credit balances</button><p role="status"></p></form></details>`;
@@ -78,21 +85,21 @@ export function mountCoachSchedule(root){
     q('[data-cal-mine]').hidden=!data.owner;
     q('[data-cal-mine]').onclick=()=>{const own=rows.find(c=>c.id==='jt');if(own){q('[data-cal-coach]').value=own.id;load();}};
   }
-  async function load(refresh=false){
+  async function load(refresh=false,silent=false){
     const version=++sequence,day=q('[data-cal-day]').value||zoneDay(),coach=q('[data-cal-coach]').value;
-    calendarState(root,'loading');q('[data-cal-status]').textContent='Loading schedule…';
+    if(!silent){calendarState(root,'loading');q('[data-cal-status]').textContent='Loading schedule…';}
     try{
       const query=new URLSearchParams({day,...(coach?{coach}:{}),...(refresh?{refresh:'1'}:{})});const data=await hubApi('coach-schedule',null,`?${query}`);if(version!==sequence||!root.isConnected)return;
       q('[data-cal-coach]').innerHTML=(data.manager?'<option value="all">All coaches</option>':'')+data.coaches.map(c=>`<option value="${e(c.id)}">${e(c.name)}</option>`).join('');q('[data-cal-coach]').value=data.selected;root.dataset.coachesReady='true';
-      q('[data-cal-status]').textContent=[data.warning||(data.automatic?'Automatic updates on':'Calendar refreshes every 5 minutes'),data.synced_at?`${data.stale?'Saved':'Checked'} ${ukDate(data.synced_at,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}.`:''].filter(Boolean).join(' ');
+      q('[data-cal-status]').textContent=[data.warning||(data.automatic?'Live Calendly updates · automatic checks every 2 minutes':'Automatic Calendly checks every 2 minutes'),data.synced_at?`${data.stale?'Saved':'Checked'} ${ukDate(data.synced_at,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}.`:'',data.credit_sync?.stale?'Credit refresh pending; saved balances shown.':''].filter(Boolean).join(' ');
       const url=bookingLink(data.booking_url);q('[data-cal-booking]').hidden=!url;if(url)q('[data-cal-booking]').href=url;
-      q('[data-airtable-setup]').hidden=!data.owner;renderLists(root,data);linking(data);coachAccounts(data);calendarState(root,'ready');
-      window.dispatchEvent(new CustomEvent('jt-calendar-day',{detail:{day,sessionIds:data.selected==='all'?null:data.events.map(x=>x.session_id).filter(Boolean)}}));
-    }catch(error){if(version!==sequence||!root.isConnected)return;calendarState(root,'error');q('[data-cal-status]').textContent=error.message;if(!root.dataset.coachesReady)q('[data-cal-coach]').innerHTML='<option value="">Unavailable</option>';}
+      q('[data-airtable-setup]').hidden=!data.owner;const changed=renderLists(root,data);linking(data);coachAccounts(data);calendarState(root,'ready');
+      if(!silent||changed)window.dispatchEvent(new CustomEvent('jt-calendar-day',{detail:{day,sessionIds:data.selected==='all'?null:data.events.map(x=>x.session_id).filter(Boolean)}}));
+    }catch(error){if(version!==sequence||!root.isConnected)return;if(!silent||root.dataset.state!=='ready')calendarState(root,'error');q('[data-cal-status]').textContent=error.message;if(!root.dataset.coachesReady)q('[data-cal-coach]').innerHTML='<option value="">Unavailable</option>';}
   }
   wireDates(root,load);q('[data-cal-coach]').onchange=()=>load();
   for(const[selector,endpoint,label]of[['data-cal-connect','coach-schedule','Calendly'],['data-airtable-connect','hub-airtable','Airtable']])q(`[${selector}]`).onsubmit=async event=>{event.preventDefault();const form=event.target,token=form.elements.token.value,button=form.querySelector('button'),status=form.querySelector('[role="status"]');form.elements.token.value='';button.disabled=true;status.textContent=`Verifying ${label}…`;try{const result=await hubApi(endpoint,{action:'connect',token});status.textContent=result.warning||`${label} connected.`;await load(true);}catch(error){status.textContent=error.message;}finally{button.disabled=false;}};
-  load();const timer=setInterval(()=>{if(root.isConnected&&!root.hidden&&!document.hidden&&!root.querySelector('.cal-link-form:focus-within')&&!root.querySelector('.cal-review[open]')&&!root.querySelector('.cal-coach-access[open]')&&!root.querySelector('.cal-credit-details[open]')&&!root.querySelector('[data-cal-log-pending][aria-expanded="true"]'))load();},300000);
-  return ()=>{++sequence;clearInterval(timer);detachSessionActions();};
+  load();const detachRefresh=autoRefresh(root,()=>load(false,true));
+  return ()=>{++sequence;detachRefresh();detachSessionActions();};
 }
 for(const root of document.querySelectorAll('[data-coach-schedule]'))mountCoachSchedule(root);
