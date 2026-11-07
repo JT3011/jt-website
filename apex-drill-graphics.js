@@ -1,4 +1,4 @@
-import {LADDER_PATTERNS,flowSteps,shortText} from './apex-plan-model.mjs';
+import {LADDER_PATTERNS,flowSteps,shortText} from './apex-plan-model.mjs?v=20261107-all-graphics';
 const e=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const text=(x,y,s,cls='')=>`<text x="${x}" y="${y}" class="${cls}">${e(s)}</text>`;
 const player=(x,y,label='P')=>`<circle class="player-dot" cx="${x}" cy="${y}" r="11"/>${text(x,y+4,label,'center')}`;

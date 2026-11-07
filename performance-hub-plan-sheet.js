@@ -1,5 +1,5 @@
-import {displaySheet,JT_STRUCTURE,shortText,flowSteps} from './apex-plan-model.mjs?v=20261107-visual';
-import {drillGraphic} from './apex-drill-graphics.js?v=20261107-visual';
+import {displaySheet,JT_STRUCTURE,shortText,flowSteps} from './apex-plan-model.mjs?v=20261107-all-graphics';
+import {drillGraphic} from './apex-drill-graphics.js?v=20261107-all-graphics';
 const e=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v&&!Number.isNaN(Date.parse(v))?new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',dateStyle:'medium'}).format(new Date(v)):'';
 const dose=b=>shortText(String(b.work||'').split(/Stay within|Use remaining|Coach uses|Keep this within|Use the rest/)[0].trim(),120);

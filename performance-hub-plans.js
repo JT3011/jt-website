@@ -1,4 +1,4 @@
-import {renderPlanSheet,bindPlanSheet} from '/performance-hub-plan-sheet.js?v=20261107-visual';
+import {renderPlanSheet,bindPlanSheet} from '/performance-hub-plan-sheet.js?v=20261107-all-graphics';
 import {supabase,hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),player=params.get('player');
 const date=value=>ukDate(value.length===10?value+'T12:00:00Z':value,{day:'numeric',month:'short',year:'numeric'});

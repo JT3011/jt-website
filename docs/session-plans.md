@@ -69,3 +69,19 @@ automatically overwritten. Bespoke positional tasks use exact action-sequence gr
 the one-page layout and full instructions behind each drill's + button.
 
 Run `node --test tests/apex-player-context.test.mjs tests/apex-booking-plans.test.mjs tests/apex-visual-plans.test.mjs tests/session-plans.test.mjs tests/shared-bookings.test.mjs`.
+
+## Graphics on every session plan
+
+The visual sheet is mandatory for every saved session plan, including historical imports and
+coach-written plans. Timed plans, untimed Markdown headings, labelled drills, numbered/bulleted
+exercise lists and coaching tables all receive graphics. Untimed work is never assigned invented
+minutes. Numbered steps under a drill heading remain that drill's instructions.
+
+Structured blocks are normalised without changing the stored source. Missing or unsupported
+diagram types use an action graphic derived from the recorded instructions; unusable sheets fall
+back to the coach's text. Unstructured prose still receives a graphical overview. Superseded audit
+sections are excluded from active graphics. Full instructions and the original plan remain available.
+
+Validation includes every saved plan in a private local audit and synthetic format/legacy-data
+regressions in `tests/apex-visual-plans.test.mjs`. No player records are rewritten for this display
+change; existing access rules and plan publication states are preserved.
