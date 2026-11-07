@@ -29,7 +29,7 @@ The Supabase security advisor reports the authenticated security-definer RPCs (`
 
 Every active Calendly booking can own a draft using `booking_id`, independently of `player_user_id`. Calendar links open that booking’s plan. The new-plan picker can prepare an Apex coaching draft from reviewed Airtable context, or the coach can edit the plan. Drafts are never marked delivered and do not consume credits. Today and upcoming plans appear first.
 
-`hub_apex_context` contains a curated source snapshot last reviewed on 30 October 2026. It is service-only, with no browser grants. The server prefers an existing verified Airtable link, then normalized names and documented parent aliases; ambiguous names receive a starter plan. Name matching changes coaching content only, never family permissions, credits or account links. New Airtable changes need a new context review/import; this feature does not automatically read separate Apex conversations or continuously sync Airtable. Future drafts remain provisional until the coach checks actual recent feedback and readiness.
+`hub_apex_context` retains reviewed identity aliases and a fallback coaching snapshot. It is service-only, with no browser grants. For each new booking plan, the server resolves the recorded Airtable player connection, then reads that player's current position and progress notes plus their latest linked session logs. A linked Hub profile supplies position/goals when Airtable has no position. An unavailable live lookup is clearly disclosed and retains the date of the saved context; a missing position is flagged instead of guessed. Name matching changes coaching content only, never family permissions, credits or account links. This is a read at plan creation, not continuous background sync or access to separate Apex conversations. Future drafts remain provisional until the coach checks readiness.
 
 Structured drafts have timed blocks, practical setup and work/rest instructions, adaptations and football setup diagrams. Editing the plain text clears the structured sheet so the display never shows superseded content. Sharing still requires a verified player connection and explicit publication. `hub_create_booking_plan` is idempotent, checks current booking ownership in the database, and creates drafts only. Private plans for unlinked players remain visible to JT and their own coach.
 
@@ -46,3 +46,26 @@ Run `node --test tests/apex-visual-plans.test.mjs` for JT ordering, timing, youn
 Run `node --test tests/*.test.mjs`. The transactional RLS tests also cover accountless plan creation, duplicate requests, cross-coach denial, private context denial, family denial, and calendar revocation.
 
 The context table intentionally has RLS with no browser policies or grants: only the server service role may read it. Its no-policy advisor notice reflects this deliberate closed access.
+
+## Position and session continuity — 7 November 2026
+
+New football plans (including the football part of a combined session) use position-specific drill
+banks for CB, full-back, midfield, winger, striker and goalkeeper roles. Multiple recorded positions
+can contribute tasks. Unrecorded positions use general foundations with an explicit coach check;
+very young players retain play-based adaptations.
+
+The selector checks up to six earlier accessible plans and prefers drills not recently used, then
+uses current goals/notes to choose relevant, complementary tasks. Actual setups and actions vary,
+with further feed/decision variations per booking. Repeated generation for the same booking and
+history is stable. JT's physical opening stays consistent; session novelty is not a reason to
+increase workload or abandon a development objective.
+
+Only completed, coach-confirmed session feedback is treated as delivered evidence. Planned work
+may inform variety but never proves progress. Cancelled Airtable logs and future sessions are
+excluded. Prior Hub plans and completed logs are read with the caller's RLS token; live Airtable
+reads are limited to the resolved player's record and its linked log IDs. No new access grants,
+account links, credit changes, or delivery statuses are made. Existing coach-edited plans are not
+automatically overwritten. Bespoke positional tasks use exact action-sequence graphics, preserving
+the one-page layout and full instructions behind each drill's + button.
+
+Run `node --test tests/apex-player-context.test.mjs tests/apex-booking-plans.test.mjs tests/apex-visual-plans.test.mjs tests/session-plans.test.mjs tests/shared-bookings.test.mjs`.
