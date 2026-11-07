@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { validateOriginalMedia, uploadOriginalMedia } from "/performance-hub-session-media.js?v=20261103-original";
+import { validateMediaFile, uploadSessionMedia } from "/performance-hub-session-media.js?v=20261107-auto";
 
 const SUPABASE_URL = "https://hunrekcnmtabowiivmrk.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yfi5vW_HTltDcUPAqmqiyQ_qSnckDNJ";
@@ -432,8 +432,8 @@ async function saveSession() {
   const session = currentSession;
   const controls = [...$("sessionModal").querySelectorAll('button,input,textarea,select')];
   try {
-    // Reject oversized originals before saving; never silently skip or compress them.
-    mediaJobs.forEach(job => validateOriginalMedia(job.file));
+    // Validate inputs; oversized videos are automatically reduced during upload.
+    mediaJobs.forEach(job => validateMediaFile(job.file));
     savingSession = true;
     controls.forEach(control => { control.disabled = true; });
     button.textContent = "Saving…";
@@ -452,10 +452,16 @@ async function saveSession() {
     });
     if (error) throw error;
     for (const [index, job] of mediaJobs.entries()) {
-      $("mediaStatus").textContent = `Uploading original ${index + 1} of ${mediaJobs.length}… Keep this page open.`;
-      await uploadOriginalMedia(supabase, job, session, currentUser.id);
+      await uploadSessionMedia(supabase, job, session, currentUser.id, {
+        onProgress: ({stage, progress}) => {
+          const action = stage === 'compressing'
+            ? `Reducing video size${Number.isFinite(progress) ? ` ${Math.round(progress * 100)}%` : ''}`
+            : stage === 'attaching' ? 'Saving' : 'Uploading';
+          $("mediaStatus").textContent = `${action} · ${index + 1} of ${mediaJobs.length}… Keep this page open.`;
+        }
+      });
     }
-    toast("Session saved. Original files are ready for the player/parent.");
+    toast("Session saved. Files are ready for the player/parent.");
     mediaJobs = [];
     $("sessionMedia").value = "";
     $("sessionModal").classList.add("hidden");
@@ -474,7 +480,7 @@ $("sessionMedia").addEventListener("change", event => {
   const previous = mediaJobs;
   mediaJobs = [...event.target.files].map(file => previous.find(job => job.file === file) || { file });
   $("mediaStatus").textContent = mediaJobs.length
-    ? `${mediaJobs.length} original file${mediaJobs.length === 1 ? '' : 's'} selected. No quality reduction.`
+    ? `${mediaJobs.length} file${mediaJobs.length === 1 ? '' : 's'} selected. Large videos will be reduced and uploaded automatically.`
     : '';
 });
 

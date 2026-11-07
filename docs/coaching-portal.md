@@ -44,23 +44,35 @@ Tests: `node --test tests/hub-portal.test.mjs` and the transactional `tests/hub-
 The SQL tests roll back their temporary accounts and records. Browser QA uses isolated, synthetic fixtures
 excluded from the repository; no example plans are assigned to real players.
 
-## Original session media
+## Session media and automatic video compression
 
-Coach uploads retain the exact File supplied by the device: no resizing, transcoding or added
-compression. This includes 4K clips within the private `session-media` bucket's existing 250 MiB
-limit (labelled 250 MB in the Hub). Files larger than the limit are rejected before saving; they
-are never compressed to fit. Phone MOV/HEIC files with an empty MIME type are recognised by
-extension without changing their contents.
+Files within the private `session-media` bucket's 250 MiB limit retain the exact original bytes.
+Oversized videos are automatically transcoded on the coach's device, then uploaded in the same
+save operation. A storage size rejection also triggers progressively smaller copies (up to four
+size fallbacks), covering a global storage limit lower than the bucket limit. Photos remain original.
 
-Parents and players use **Download original video/photo** in My Sessions. The file size is shown
-where recorded, and the download signs the original storage object with its original filename.
-Each click rechecks the media row under the viewer's RLS and requires `player_parent` visibility.
-The private download link expires after ten minutes. Playback depends on the device's codec
-support, but the original remains downloadable.
+The lazy-loaded Mediabunny 1.65.2 browser module uses WebCodecs, preferring H.264/AAC MP4 and
+falling back to VP8/Opus WebM where MP4 encoding is unavailable. Compression accounts for duration,
+keeps aspect ratio and phone rotation, retains the primary sound track, caps at 1080p/30fps and
+adjusts bitrate/resolution to fit. Output size is checked before upload; conversion retries at lower
+bitrates if needed. No clip trimming or silent audio removal is allowed. Unsupported codecs or
+browsers leave the file selected and show an error, never a false successful save. Large inputs are
+read lazily and the encoded-size budget is capped at 96 MiB to reduce phone memory pressure.
 
-Upload errors keep the session editor open. Retrying within the same open editor skips already
-linked files and reuses uploads whose metadata still needs saving. The page must remain open
-while uploading; this is not a background or resumable upload across reloads.
+Progress distinguishes reducing size, uploading and attaching. Original and prepared Files stay in
+memory until saving succeeds; retrying in the open editor reuses a prepared copy or uploaded object
+and skips linked files. Storage/metadata errors keep the editor open. The page must remain open;
+this does not provide background uploading or persistence across reloads.
 
-Verification: `node --test tests/session-media.test.mjs` covers original bytes and metadata,
-size limits, phone MIME fallback, failed uploads, retry state and authorised original downloads.
+Optimised storage paths use a `jt-optimised-` prefix, and the saved filename, MIME type and byte
+count describe the actual uploaded copy. Parents see **Optimised for upload** or **Original quality**
+and can download the saved file. Download clicks recheck the media row under the viewer's existing
+RLS and require `player_parent` visibility; private links expire after ten minutes. No access policies
+or bucket limits are changed.
+
+Verification: `node --test tests/session-media.test.mjs` covers original preservation, automatic
+size fallbacks, prepared-file reuse, failure handling, metadata and authorised downloads.
+Browser QA converted synthetic landscape MP4, portrait MOV and rotation-metadata MP4 clips
+from about 9 MiB to below 1 MiB, retaining their six-second duration, audio and orientation.
+The available Chromium browser exercised the WebM path; Safari/MP4 encoding was not available
+in this test environment. No production player media was created for testing.
