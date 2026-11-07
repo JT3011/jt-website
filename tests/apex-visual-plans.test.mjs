@@ -43,3 +43,56 @@ test('HTML in player or drill text is escaped, and a still-ball strike uses the 
  const html=renderPlanSheet(null,p);assert.ok(!html.includes('<script>alert'));assert.ok(!html.includes('<svg onload'));assert.match(html,/&lt;img/);
  assert.equal(diagramType({title:'Side foot, then laces',diagram:'finish'}),'strike');
 });
+
+function assertEveryBlockHasGraphic(plan,expected){
+ const sheet=displaySheet(plan),html=renderPlanSheet(plan.plan_sheet,plan);
+ assert.equal(sheet.blocks.length,expected);
+ assert.equal((html.split('<section class="drill-details"')[0].match(/<svg /g)||[]).length,expected);
+ assert.equal((html.match(/<figure class="drill-diagram">/g)||[]).length,expected*2);
+ return sheet;
+}
+test('untimed Markdown drills each get a graphic and numbered instructions stay together',()=>{
+ const p={title:'Coach plan',content:'# Session plan\n## Focus\nReceiving detail\n## First-touch gates\nSetup: two gates.\n1. Scan.\n2. Receive.\n3. Pass.\n## Intercept and release\nInstructions: Read the ground pass. Intercept in balance. Pass wide.\n## After delivery\nRecord actual work.'};
+ const s=assertEveryBlockHasGraphic(p,2);
+ assert.match(s.blocks[0].steps,/Scan.*Receive.*Pass/);
+ assert.equal(s.blocks[1].title,'Intercept and release');
+ assert.ok(s.blocks.every(b=>b.start===undefined&&b.end===undefined));
+});
+test('coach-written numbered drills and exercise lists receive separate graphics',()=>{
+ for(const prefix of ['1.','-','•']){
+  const p={title:'Gym',content:`${prefix} Cable kickbacks — Move with control.\n  Reps: 8 each side.\n${prefix==='1.'?'2.':prefix} Hip thrusts — Pause at the top.\n  Cue: Ribs down.`};
+  const s=assertEveryBlockHasGraphic(p,2);
+  assert.equal(s.blocks[0].title,'Cable kickbacks');assert.equal(s.blocks[0].work,'8 each side.');
+  assert.equal(s.blocks[1].cue,'Ribs down.');
+ }
+});
+test('labelled drills need no timings, headings or particular exercise names',()=>{
+ const p={title:'Bespoke',content:'Drill 1: Coach’s colour game\nWatch the cue and choose a gate.\nExercise 2 — New receiving task\nScan and open up.'};
+ assertEveryBlockHasGraphic(p,2);
+});
+test('bold headings keep each drill and its numbered action sequence',()=>{
+ const s=assertEveryBlockHasGraphic({title:'Coach plan',content:'**First touch**\n1. Scan\n2. Receive\n3. Pass\n**Pass and move**\n1. Pass\n2. Move'},2);
+ assert.equal(s.blocks[0].steps,'1. Scan 2. Receive 3. Pass');
+});
+test('timed and untimed coaching tables produce one graphic for every row',()=>{
+ const timed={title:'Football',content:'| Time | Drill | Setup | Instructions | Cue |\n| --- | --- | --- | --- | --- |\n| 0–10 min | First touch | Two gates | Scan, receive, pass | Open up |\n| 10–20 min | Passing | Triangle | Pass and move | Move early |'};
+ const s=assertEveryBlockHasGraphic(timed,2);
+ assert.equal(s.blocks[0].end,10);assert.equal(s.blocks[1].start,10);assert.equal(s.blocks[0].steps,'Scan, receive, pass');
+ const untimed={title:'Gym',content:'| Exercise | Reps | Instructions |\n| --- | --- | --- |\n| Squat | 8 | Sit under control |\n| Hip thrust | 10 | Pause at the top |'};
+ const u=assertEveryBlockHasGraphic(untimed,2);assert.equal(u.blocks[1].work,'10');
+});
+test('legacy structured blocks with absent or unsupported graphics remain fully visual',()=>{
+ const p={plan_sheet:{blocks:[null,{},{title:'Custom task',steps:['Scan','Receive','Pass'],diagram:'unavailable-picture'},'Review']}};
+ const before=JSON.stringify(p),s=assertEveryBlockHasGraphic(p,2);
+ assert.equal(s.blocks[0].diagram,'sequence');assert.equal(s.blocks[0].steps,'Scan\nReceive\nPass');assert.equal(JSON.stringify(p),before);
+});
+test('an unusable structured sheet falls back to the coach text with graphics',()=>{
+ assertEveryBlockHasGraphic({title:'Old plan',plan_sheet:{blocks:[null,{}]},content:'## Pass and move\nPass, move, receive.\n## Review\nWalk, drink, reflect.'},2);
+});
+test('unstructured prose and title-only plans always have a graphical fallback',()=>{
+ for(const content of ['Receive across the body, then pass into the target.',''])assertEveryBlockHasGraphic({title:'Custom coaching task',content},1);
+});
+test('untimed graphics never resurrect a superseded audit plan',()=>{
+ const s=assertEveryBlockHasGraphic({title:'Current work',content:'## Current drill\nWalk and pass.\n--- SUPERSEDED PLAN RETAINED FOR AUDIT ONLY ---\n## Old drill\nSprint hard.'},1);
+ assert.doesNotMatch(s.blocks[0].steps,/Sprint|Old drill/);
+});
