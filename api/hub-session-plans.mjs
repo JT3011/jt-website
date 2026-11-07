@@ -1,3 +1,4 @@
+import {loadPlanningContext} from '../server/apex-player-context.mjs';
 import {programmesWork} from '../server/programmes/handler.mjs';
 import {endpoint,fail,connectionToken} from '../server/hub-integrations.mjs';
 import {calendarRows} from '../server/coach-calendars.mjs';
@@ -25,7 +26,7 @@ export async function allowedBookings(ctx,player){
   const calendars=await ctx.db('hub_coach_calendars',{enabled:'eq.true',...(!ctx.owner?{coach_user_id:`eq.${ctx.user.id}`} :{}),select:'id,display_name,coach_user_id'});
   if(!ctx.owner&&!calendars.length)return[];
   const links=ctx.owner?null:await ctx.db('session_connect_coach_players',{coach_user_id:`eq.${ctx.user.id}`,active:'eq.true',select:'player_user_id'});
-  const rows=await calendarRows(ctx.db,'session_connect_booking_queue',{...(!ctx.owner?{calendar_id:`in.(${calendars.map(c=>c.id).join(',')})`}:{}),...(player?{player_user_id:`eq.${player}`} :{}),select:'id,calendar_id,converted_session_id,player_user_id,event_name,invitee_name,start_at,end_at,venue,booking_status,airtable_participants,matched_player_name',order:'start_at.asc,id.asc'});
+  const rows=await calendarRows(ctx.db,'session_connect_booking_queue',{...(!ctx.owner?{calendar_id:`in.(${calendars.map(c=>c.id).join(',')})`}:{}),...(player?{player_user_id:`eq.${player}`} :{}),select:'id,calendar_id,converted_session_id,player_user_id,event_name,invitee_name,start_at,end_at,venue,booking_status,airtable_participants,matched_player_name,matched_airtable_record_id',order:'start_at.asc,id.asc'});
   return rows.filter(q=>ctx.owner||!q.player_user_id||links.some(l=>l.player_user_id===q.player_user_id)).map(q=>({...q,coach:calendars.find(c=>c.id===q.calendar_id)?.display_name||'Coach to confirm'}));
 }
 async function planNames(ctx,plans,sessions){
@@ -48,8 +49,11 @@ export async function plansWork(ctx){
       if(booking.airtable_participants?.length>1)fail(400,'Write a shared session plan that covers each player’s individual focus.');
       const contexts=await calendarRows(db,'hub_apex_context',{select:'id,player_name,aliases,context,checked_at',order:'id.asc'});
       const links=booking.player_user_id?await db('hub_player_airtable_links',{player_user_id:`eq.${booking.player_user_id}`,select:'airtable_record_id'}):[];
-      const match=matchPlanningName(booking.invitee_name,contexts,links[0]?.airtable_record_id);
-      try{draft=makeBookingPlan(booking,match,{coach:booking.coach,variant:Math.floor(Date.parse(booking.start_at)/604800000),checkedAt:match.row?.checked_at||new Date().toISOString()});}catch{fail(400,'Write a coach plan for this booking’s duration.');}
+      const sourceId=links[0]?.airtable_record_id||booking.matched_airtable_record_id||(booking.airtable_participants?.length===1?booking.airtable_participants[0]:null);
+      let match=matchPlanningName(booking.invitee_name,contexts,sourceId);
+      if(sourceId&&!match.row)match={row:{id:sourceId,player_name:booking.matched_player_name||booking.invitee_name,context:{}},state:'verified',note:'Using the booking’s recorded Airtable player connection.'};
+      const planning=await loadPlanningContext(ctx,booking,match);
+      try{draft=makeBookingPlan(booking,planning.match,{coach:booking.coach,recentPlans:planning.recentPlans,checkedAt:planning.checkedAt});}catch{fail(400,'Write a coach plan for this booking’s duration.');}
     }else{
       if(typeof body.title!=='string'||!body.title.trim()||body.title.length>180||typeof body.content!=='string'||!body.content.trim()||body.content.length>16000||(body.objective||'').length>2000)fail(400,'Add a title and session plan.');
       draft={title:body.title,objective:body.objective||'',content:body.content,player_name:booking.matched_player_name||booking.invitee_name,match_note:'Coach-written plan. Account linking is separate.'};
