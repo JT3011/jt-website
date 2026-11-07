@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { mediaSizeLabel, originalMediaDownload } from "/performance-hub-session-media.js?v=20261103-original";
+import { mediaQualityLabel, mediaSizeLabel, originalMediaDownload } from "/performance-hub-session-media.js?v=20261107-auto";
 
 const supabase = createClient(
   "https://hunrekcnmtabowiivmrk.supabase.co",
@@ -148,8 +148,8 @@ async function mediaHtml(session) {
             "Session media"
           )}
         </div>
-        <div class="media-quality">Original quality${mediaSizeLabel(media.file_size) ? ` · ${escapeHtml(mediaSizeLabel(media.file_size))}` : ''}</div>
-        <button type="button" class="save-media" data-media-id="${escapeHtml(media.id)}">Download original ${media.media_type === 'video' ? 'video' : 'photo'}</button>
+        <div class="media-quality">${mediaQualityLabel(media)}${mediaSizeLabel(media.file_size) ? ` · ${escapeHtml(mediaSizeLabel(media.file_size))}` : ''}</div>
+        <button type="button" class="save-media" data-media-id="${escapeHtml(media.id)}">Download ${media.media_type === 'video' ? 'video' : 'photo'}</button>
         <div class="media-download-status" role="status"></div>
       </div>
     `);
@@ -166,7 +166,7 @@ async function mediaHtml(session) {
       </div>
 
       <h3>Coach Uploads.</h3>
-      <p class="media-help">Download the original file at the quality uploaded by your coach. On iPhone, open the downloaded video, tap Share, then Save Video if available.</p>
+      <p class="media-help">Download the saved file. Videos keep their original quality unless they needed reducing to fit the upload limit. On iPhone, open the downloaded video, tap Share, then Save Video if available.</p>
 
       <div class="media-grid">
         ${items.join("")}

@@ -1,4 +1,6 @@
-// Keep the original File throughout upload. No resizing, re-encoding or compression.
+import { compressVideo } from './performance-hub-video-compression.js?v=20261107-auto';
+
+// Preserve originals when they fit; automatically prepare smaller copies otherwise.
 export const MAX_MEDIA_BYTES = 262144000;
 
 export function mediaFileType(file) {
@@ -9,10 +11,10 @@ export function mediaFileType(file) {
   return types[file.name.split('.').pop().toLowerCase()] || '';
 }
 
-export function validateOriginalMedia(file) {
+export function validateMediaFile(file) {
   if (!file.size) throw new Error(`${file.name} is empty. Choose the original file again.`);
-  if (file.size > MAX_MEDIA_BYTES) {
-    throw new Error(`${file.name} is over the 250 MB limit. Choose a shorter original clip; the Hub will not reduce its quality.`);
+  if (file.size > MAX_MEDIA_BYTES && !mediaFileType(file).startsWith('video/')) {
+    throw new Error(`${file.name} is over the 250 MB photo limit.`);
   }
   if (!mediaFileType(file)) throw new Error(`${file.name} is not a supported video or photo.`);
 }
@@ -23,21 +25,54 @@ export function mediaSizeLabel(bytes) {
   return size < 1048576 ? `${Math.ceil(size / 1024)} KB` : `${(size / 1048576).toFixed(1)} MB`;
 }
 
-// The job survives an interrupted save, so retrying does not re-upload linked files.
-export async function uploadOriginalMedia(supabase, job, session, coachId) {
-  const { file } = job;
-  validateOriginalMedia(file);
+export function mediaQualityLabel(media) {
+  return media.storage_path?.includes('/jt-optimised-') ? 'Optimised for upload' : 'Original quality';
+}
+
+export function isMediaSizeError(error) {
+  return Number(error?.statusCode || error?.status) === 413 ||
+    /EntityTooLarge|PayloadTooLarge|exceeded.*(?:size|limit)|(?:size|payload|entity|file).*too large|maximum.*(?:size|limit)/i
+      .test(`${error?.code || ''} ${error?.message || ''}`);
+}
+
+// Retain the original and prepared copy across an interrupted save. Linked files are skipped.
+export async function uploadSessionMedia(supabase, job, session, coachId, {
+  onProgress = () => {}, compress = compressVideo
+} = {}) {
+  validateMediaFile(job.file);
   if (job.linked) return;
-  const type = mediaFileType(file);
-  job.path ||= `${session.player_user_id}/${session.session_id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '-')}`;
-  if (!job.uploaded) {
+  let file = job.preparedFile || job.file;
+  let limit = job.maxBytes || MAX_MEDIA_BYTES;
+  for (let attempt = 0; !job.uploaded; attempt++) {
+    if (file.size > limit) {
+      onProgress({stage: 'compressing', progress: 0});
+      file = await compress(job.file, limit, onProgress);
+      if (!file?.size || file.size > limit || !mediaFileType(file).startsWith('video/')) {
+        throw new Error(`Could not prepare ${job.file.name} for upload. Your file has been kept.`);
+      }
+      job.preparedFile = file;
+      job.path = null;
+    }
+    const type = mediaFileType(file);
+    job.path ||= `${session.player_user_id}/${session.session_id}/${job.preparedFile ? 'jt-optimised-' : ''}${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '-')}`;
+    onProgress({stage: 'uploading', compressed: !!job.preparedFile});
     const { error } = await supabase.storage.from('session-media').upload(job.path, file, {
       upsert: false,
       contentType: type
     });
-    if (error) throw new Error(`Could not upload ${file.name}. ${error.message || 'Please try again.'}`);
+    if (error) {
+      if (isMediaSizeError(error) && type.startsWith('video/') && attempt < 4) {
+        // A project's global limit can be lower than the bucket's advertised limit.
+        limit = Math.min(48 * 1048576, Math.floor(file.size * 0.5), Math.floor(limit * 0.5));
+        job.maxBytes = limit;
+        continue;
+      }
+      throw new Error(`Could not upload ${file.name}. ${error.message || 'Please try again.'}`);
+    }
     job.uploaded = true;
   }
+  const type = mediaFileType(file);
+  onProgress({stage: 'attaching', compressed: !!job.preparedFile});
   const { error } = await supabase.from('session_connect_media').insert({
     session_id: session.session_id,
     player_user_id: session.player_user_id,
