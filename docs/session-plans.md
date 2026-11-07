@@ -17,7 +17,7 @@ The initial import uses the existing Airtable Session Log `APEX Coach Plan`, pla
 
 The owner can import additional saved Apex records using **Import Apex plans** after connecting the existing Airtable read token. The import is idempotent by source record ID and never overwrites a plan already edited in the Hub. Updated source versions require deliberate review in the editor. This is an explicit import; separate ChatGPT agent conversations do not send plans automatically.
 
-Existing plans open in a phone-readable view with a separate edit action. Coaches can paste a new plan or import a `.txt`/`.md` sheet into the session editor. Drafts stay staff-only; publish shares that player's plan with their family. PDF graphics are not uploaded by this text import.
+Existing plans open as a single A4 coaching sheet with a graphic for every timed block. Coaches can use **Larger drill view** on a phone, tap **+** for complete drill instructions, or **Print / save one-page PDF**. Coaches can paste a new plan or import a `.txt`/`.md` sheet into the session editor. Drafts stay staff-only; publish shares that player's plan with their family. Uploaded text is parsed into timed blocks; exact known drills use setup diagrams, while bespoke drills use instruction-sequence graphics instead of guessing a pitch layout. Original notes remain available under the source disclosure. Text import does not extract graphics from a PDF.
 
 ## Verification
 
@@ -32,6 +32,16 @@ Every active Calendly booking can own a draft using `booking_id`, independently 
 `hub_apex_context` contains a curated source snapshot last reviewed on 30 October 2026. It is service-only, with no browser grants. The server prefers an existing verified Airtable link, then normalized names and documented parent aliases; ambiguous names receive a starter plan. Name matching changes coaching content only, never family permissions, credits or account links. New Airtable changes need a new context review/import; this feature does not automatically read separate Apex conversations or continuously sync Airtable. Future drafts remain provisional until the coach checks actual recent feedback and readiness.
 
 Structured drafts have timed blocks, practical setup and work/rest instructions, adaptations and football setup diagrams. Editing the plain text clears the structured sheet so the display never shows superseded content. Sharing still requires a verified player connection and explicit publication. `hub_create_booking_plan` is idempotent, checks current booking ownership in the database, and creates drafts only. Private plans for unlinked players remain visible to JT and their own coach.
+
+## Visual coaching standard — 7 November 2026
+
+New football drafts use JT's sequence: six ladder patterns (one in each, two in each, sideways, two feet each box, icky shuffle, two forward / one back), parachute sprints, low hurdles/agility with small plyometrics, then individual technical/position work. Timings scale to the booking; recovery and the final review remain inside it. Young-player adaptations omit resistance and forced jumping. Gym and combined sessions retain their exercise-specific structure.
+
+The shared `apex-plan-model.mjs` upgrades the previous unedited automatic football template at display time and at generation. Bespoke/edited plans retain their exact timings and adaptations; the standard remains visible as guidance. Saved source text, history, permissions and delivery status are unchanged. Archived text below an explicit superseded-plan marker stays out of the working drill cards. All 139 existing records were checked for block extraction and graphics. Print-layout QA covered those records plus a new generated plan, with no overflowing pages or drill cards; browser PDF output itself was not available in the test environment.
+
+Six or fewer drills use two columns; longer plans use compact illustrated rows. Print CSS always selects the one-page overview, even after opening the larger mobile view or drill details. Rendering escapes all coach/player content and never accepts arbitrary SVG from stored text.
+
+Run `node --test tests/apex-visual-plans.test.mjs` for JT ordering, timing, young-player adaptations, text parsing, superseded content, source preservation and HTML escaping.
 
 Run `node --test tests/*.test.mjs`. The transactional RLS tests also cover accountless plan creation, duplicate requests, cross-coach denial, private context denial, family denial, and calendar revocation.
 

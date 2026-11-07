@@ -1,4 +1,4 @@
-import {renderPlanSheet} from '/performance-hub-plan-sheet.js?v=20261030-unlinked';
+import {renderPlanSheet,bindPlanSheet} from '/performance-hub-plan-sheet.js?v=20261107-visual';
 import {supabase,hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),player=params.get('player');
 const date=value=>ukDate(value.length===10?value+'T12:00:00Z':value,{day:'numeric',month:'short',year:'numeric'});
@@ -22,7 +22,8 @@ async function openPlan(query){const version=++opening;$('planError').textConten
   try{const data=await request(null,{action:'detail',...query});if(version!==opening||signedOut)return;detail=data;const p=data.plan,s=data.session||data.booking;const b=data.booking;
     $('planOrigin').textContent=p?.source_name||'JT coaching team';$('planHeading').textContent=p?.title||(data.can_edit?'Prepare a session.':'Plan coming soon.');$('planContext').textContent=`${data.player_name} · ${data.coach} · ${date(p?.session_date||s.start_at)}`;
     $('generateApex').hidden=!(data.can_edit&&!p&&b);$('accountNote').hidden=!(data.can_edit&&p&&!p.player_user_id);
-    $('planRead').innerHTML=p?.plan_sheet?renderPlanSheet(p.plan_sheet):!p?'<p>Your coach has not published a plan for this session yet.</p>':`${p.objective?`<div class="plan-focus"><h3>Session focus</h3><p>${e(p.objective)}</p></div>`:''}<div class="plan-copy">${planCopy(p.content)}</div>`;
+    $('planRead').innerHTML=p?renderPlanSheet(p.plan_sheet,p,data):'<p>Your coach has not published a plan for this session yet.</p>';
+    if(p)bindPlanSheet($('planRead'));
     $('planForm').hidden=!data.can_edit||!!p;$('planRead').hidden=data.can_edit&&!p;$('planEditToggle').hidden=!data.can_edit||!p;$('planEditToggle').textContent='Edit plan';$('planTitle').value=p?.title||`${data.player_name} · ${s.session_type||s.event_name}`;$('planObjective').value=p?.objective||'';$('planBody').value=p?.content||'';$('planStatus').value=p?.status||'draft';$('planFile').value='';
     $('planConnection').hidden=!(data.owner&&p&&!p.session_id);$('bindPlayer').innerHTML='<option value="">Choose the verified player</option>'+data.players.map(x=>`<option value="${e(x.id)}">${e(x.name)}</option>`).join('');$('bindCoach').innerHTML='<option value="">Choose the delivering coach</option>'+data.calendars.map(c=>`<option value="${e(c.id)}">${e(c.display_name)}</option>`).join('');$('bindPlayer').value=p?.player_user_id||'';$('bindCoach').value=p?.calendar_id||'';
   }catch(error){if(version!==opening)return;$('planRead').textContent='';$('planError').textContent=error.message;}}
