@@ -1,4 +1,4 @@
-import {renderPlanSheet,bindPlanSheet} from '/performance-hub-plan-sheet.js?v=20261107-all-graphics';
+import {renderPlanSheet,bindPlanSheet} from '/performance-hub-plan-sheet.js?v=20261110-jt-opening';
 import {supabase,hubApi,escapeHtml as e,ukDate} from '/performance-hub-integrations.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),player=params.get('player');
 const date=value=>ukDate(value.length===10?value+'T12:00:00Z':value,{day:'numeric',month:'short',year:'numeric'});
@@ -40,3 +40,4 @@ $('planSearch').oninput=render;$('planFilter').onchange=render;
 function clear(){signedOut=true;++opening;++loading;$('planDialog').close();$('planRead').replaceChildren();$('planForm').reset();$('plansList').replaceChildren();$('planWorkspace').hidden=true;}
 $('signOut').onclick=async()=>{clear();await supabase.auth.signOut();location.replace('/performance-hub-login.html');};supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){clear();location.replace('/performance-hub-login.html');}});
 load().then(()=>{if(params.get('id'))openPlan({id:params.get('id')});else if(params.get('session'))openPlan({session:params.get('session')});else if(params.get('booking'))openPlan({booking:params.get('booking')});}).catch(error=>{$('planLoading').textContent=error.message;});
+
