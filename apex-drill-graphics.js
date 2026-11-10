@@ -15,9 +15,23 @@ function ladderGraphic(){
   const labelRows=wrap(label,20);return `<g>${labelRows.map((r,j)=>text(x+43,y+6+j*10,`${j===0?i+1+'. ':''}${r}`,'center mini')).join('')}<path class="pitch-mark thin" d="M${x+10} ${y+23}h69v26h-69Zm23 0v26m23-26v26"/>${feet}${i===5?arrow(`M${x+20} ${y+57}h47m-2 10h-23`):arrow(`M${x+17} ${y+63}h53`)}${i===2?text(x+77,y+36,'↕','mini'):''}</g>`;
  }).join('');
 }
+function notebookOpening(b){
+ const kind=b.opening_pattern;if(!['jt-ladder-sprint','jt-ladder-pass','jt-hurdle-pass'].includes(kind))return null;
+ if(kind==='jt-hurdle-pass'){
+  const hurdles=[55,78,101,199,222,245].map(x=>b.flat_hurdles?`<path class="pitch-mark" d="M${x} 77h12"/>`:`<path class="pitch-mark" d="M${x} 91V66h12v25"/>`).join('');
+  return {body:hurdles+player(150,78)+coach(150,143)+cone(150,19)+cone(150,111)+arrow('M134 53H62')+arrow('M64 105H132')+arrow('M168 105H249')+arrow('M245 52H171')+arrow('M139 65Q108 26 140 20')+arrow('M163 91Q185 120 157 118')+arrow('M164 89V130','ball')+text(65,35,'1. Side steps','center mini')+text(233,143,'2. Return pass','center mini')+text(233,125,'3. Front loop','center mini')+text(208,13,b.low_impact?'4. Walk rear loop':'4. Backpedal rear loop','center mini'),caption:b.low_impact?'Face coach below · flat markers · comfortable walking loops':'Face coach below · pass between sides · front / rear loop'};
+ }
+ const ladder='<path class="pitch-mark" d="M28 62H139V92H28Zm18 0v30m19-30v30m19-30v30m19-30v30m18-30v30"/>';
+ let body=ladder+player(14,77)+arrow('M32 49H137')+text(82,32,'1. Ladder pattern','center');
+ if(kind==='jt-ladder-sprint')body+=cone(245,77)+arrow('M151 77H230')+arrow('M245 94Q239 141 44 130Q15 128 14 99')+text(200,58,b.sprint_label||'2. Sprint','center')+text(136,150,b.low_impact?'3. Walk return':'3. Jog / easy return','center');
+ else body+=player(169,77)+coach(272,77)+ball(253,77)+arrow('M249 68H190','ball')+arrow('M189 86H251','ball')+arrow('M169 99Q158 137 51 128Q16 125 14 100')+text(222,43,'2. Return pass','center')+text(139,150,b.low_impact?'3. Walk return':'3. Jog back outside','center');
+ return {body,caption:kind==='jt-ladder-sprint'?'One minute per pattern · recovery within each minute':'Four one-minute sets · separate return lane'};
+}
 export function drillGraphic(b,index=0){
  const id=`apex-arrow-${index}`,type=b.diagram||'sequence';let body='',caption='Setup diagram';
- if(type==='ladders'){body=ladderGraphic();caption='L / R = foot contacts · arrows show travel';}
+ const notebook=notebookOpening(b);
+ if(notebook){body=notebook.body;caption=notebook.caption;}
+ else if(type==='ladders'){body=ladderGraphic();caption='L / R = foot contacts · arrows show travel';}
  else if(type==='sprint'){body=cone(66,50)+cone(66,109)+cone(216,50)+cone(216,109)+player(80,80)+arrow('M99 80H218')+arrow('M217 120H82')+text(146,61,'5–10 m','center')+text(255,92,'Slow down','center mini')+text(150,140,'Walk back + full recovery','center');if(!/no resistance/i.test(b.title))body+='<path class="chute" d="M26 59Q-3 80 26 101Z"/><path class="pitch-mark thin" d="M26 59L67 80L26 101"/>';caption='Start → accelerate → controlled stop';}
  else if(type==='hurdles'){body=player(24,80)+[60,92,124].map(x=>`<path class="pitch-mark" d="M${x} 94V65h15v29"/>`).join('')+arrow('M38 50H141Q171 50 186 30')+arrow('M141 50Q170 61 187 91')+cone(195,25)+cone(195,100)+[232,251,270].map(x=>`<ellipse class="landing" cx="${x}" cy="65" rx="7" ry="4"/>`).join('')+arrow('M228 47Q243 22 251 47Q262 22 273 47')+text(80,123,'1. Step through','center')+text(183,143,'2. Brake + turn','center')+text(253,104,'3. Low hops','center mini')+text(253,118,'Stick landing','center mini');caption='Low hurdles · controlled turn · low contacts';}
  else if(['receive','carry','midfield'].includes(type)){body=cone(48,23)+cone(77,23)+cone(223,23)+cone(252,23)+player(150,117)+coach(type==='carry'?150:263,type==='carry'?65:127)+ball(166,111)+arrow(type==='carry'?'M143 101Q111 65 63 35':'M254 116L171 115','ball')+arrow('M137 101L70 38',type==='carry'?'run':'ball')+arrow('M162 100L234 38',type==='carry'?'run':'ball')+text(65,14,'Gate 1','center mini')+text(237,14,'Gate 2','center mini');if(type==='midfield')body+=arrow('M175 134H245','ball');caption=type==='midfield'?'Scan → turn forward or set back':type==='carry'?'Coach closes a gate → carry through the free gate':'Look → receive → play to a gate';}
@@ -33,3 +47,4 @@ export function drillGraphic(b,index=0){
  }
  return `<figure class="drill-diagram"><svg viewBox="0 0 300 160" role="img" aria-label="${e(b.title)}: ${e(caption)}"><title>${e(b.title)}</title><desc>${e(b.setup||'')} ${e(b.steps||'')}</desc><defs><marker id="${id}" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="currentColor"/></marker></defs><g style="--arrow:url(#${id})">${body}</g></svg><figcaption>${e(caption)}</figcaption></figure>`;
 }
+
