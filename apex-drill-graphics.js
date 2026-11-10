@@ -27,9 +27,18 @@ function notebookOpening(b){
  else body+=player(169,77)+coach(272,77)+ball(253,77)+arrow('M249 68H190','ball')+arrow('M189 86H251','ball')+arrow('M169 99Q158 137 51 128Q16 125 14 100')+text(222,43,'2. Return pass','center')+text(139,150,b.low_impact?'3. Walk return':'3. Jog back outside','center');
  return {body,caption:kind==='jt-ladder-sprint'?'One minute per pattern · recovery within each minute':'Four one-minute sets · separate return lane'};
 }
+function combinationGraphic(b){
+ const kind=b.combination_pattern;if(!['build-finish','overlap-cross'].includes(kind))return null;
+ const n=b.diagram_players||{},name=(key,fallback)=>shortText(n[key]||fallback,14);
+ const mark=(x,y,key,fallback)=>player(x,y,name(key,fallback).slice(0,1))+text(x,y+20,name(key,fallback),'center mini');
+ let body='<rect class="pitch-mark" x="120" y="5" width="80" height="15"/>'+text(160,35,name('goalkeeper','GK'),'center mini')+mark(230,138,'server','Coach')+mark(50,120,'overlap','P1')+mark(146,100,'midfielder','P2')+mark(55,72,'wide','P3')+arrow('M216 136L65 122','ball')+arrow('M66 116L130 104','ball')+arrow('M130 94L70 76','ball');
+ if(kind==='build-finish')body+=arrow('M65 62Q78 42 105 47')+arrow('M108 43L148 22','ball')+text(241,65,'Drive + finish','center mini');
+ else body+=arrow('M68 80L131 105','ball')+arrow('M43 107Q6 72 20 39')+arrow('M135 89L30 43','ball')+arrow('M68 60L126 44')+arrow('M155 87L184 44')+arrow('M30 38L145 43','ball')+arrow('M148 39L158 23','ball')+text(234,75,'Overlap → cross','center mini')+text(236,91,'Two separate runs','center mini');
+ return {body,caption:'Solid = run · dashed = ball · *Charlie if available; targets otherwise'};
+}
 export function drillGraphic(b,index=0){
  const id=`apex-arrow-${index}`,type=b.diagram||'sequence';let body='',caption='Setup diagram';
- const notebook=notebookOpening(b);
+ const notebook=combinationGraphic(b)||notebookOpening(b);
  if(notebook){body=notebook.body;caption=notebook.caption;}
  else if(type==='ladders'){body=ladderGraphic();caption='L / R = foot contacts · arrows show travel';}
  else if(type==='sprint'){body=cone(66,50)+cone(66,109)+cone(216,50)+cone(216,109)+player(80,80)+arrow('M99 80H218')+arrow('M217 120H82')+text(146,61,'5–10 m','center')+text(255,92,'Slow down','center mini')+text(150,140,'Walk back + full recovery','center');if(!/no resistance/i.test(b.title))body+='<path class="chute" d="M26 59Q-3 80 26 101Z"/><path class="pitch-mark thin" d="M26 59L67 80L26 101"/>';caption='Start → accelerate → controlled stop';}
