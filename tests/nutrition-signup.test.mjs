@@ -51,3 +51,8 @@ test('nutrition questionnaire accepts an adult without football profile fields a
  assert.match(wizardStep('nutrition',0,answers).html,/Player’s age/);
  assert.throws(()=>normaliseIntake('nutrition',{...answers,age:15},{},{submit:true}),/guardian/);
 });
+
+test('pricing sign-in returns to the fixed owner page, while arbitrary return URLs are ignored',async()=>{
+ const pricing=signupHarness({search:'?mode=login&next=pricing'});await pricing.submit();assert.deepEqual(pricing.routes,['/nutrition-pricing.html']);
+ const unsafe=signupHarness({search:'?mode=login&next=https://example.invalid'});await unsafe.submit();assert.deepEqual(unsafe.routes,['/nutrition-programme.html']);
+});

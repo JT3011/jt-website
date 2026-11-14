@@ -1,4 +1,5 @@
 import {loadPlanningContext} from '../server/apex-player-context.mjs';
+import {quotesWork} from '../server/programmes/quotes.mjs';
 import {programmesWork} from '../server/programmes/handler.mjs';
 import {endpoint,fail,connectionToken} from '../server/hub-integrations.mjs';
 import {calendarRows} from '../server/coach-calendars.mjs';
@@ -35,6 +36,7 @@ async function planNames(ctx,plans,sessions){
   return{profiles,calendars};
 }
 export async function plansWork(ctx){
+  if(ctx.params?.get('programme')==='nutrition-pricing'||ctx.body?.programme==='nutrition-pricing')return quotesWork(ctx);
   if(ctx.params?.get('programme')==='personal'||ctx.body?.programme==='personal')return programmesWork(ctx);
   const {db,body,params}=ctx,player=params.get('player');
   if(player&&!UUID.test(player))fail(400,'Choose a player.');
