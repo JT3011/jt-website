@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#12130f">
+  <meta name="description" content="Personal nutrition programmes from JT Mind & Body Balance. Create your account and tell us about your goals, favourite foods and routine.">
+  <title>Nutrition programmes | JT Mind &amp; Body Balance</title>
+  <link rel="icon" href="/images/jt-hub-applogo-192-v3.png">
+  <link rel="stylesheet" href="/nutrition.css?v=20261114">
+  <script type="module" src="/nutrition-signup.js?v=20261114"></script>
+</head>
+<body>
+  <a class="skip" href="#signup">Skip to sign-up</a>
+  <header><a class="brand" href="/nutrition"><img src="/images/jt-crest-transparent-v2.png" alt="JT" width="52" height="62"><span>JT Mind &amp; Body Balance<small>Mind. Body. Balance.</small></span></a><a href="?mode=login#signup" id="headerLogin">Already a member? <b>Sign in</b></a></header>
+  <main>
+    <section class="intro" aria-labelledby="introTitle">
+      <div class="intro-copy"><p class="eyebrow">PERSONAL NUTRITION PROGRAMMES</p><h1 id="introTitle">Good food.<br>Your goals.<br><em>Real life.</em></h1><p class="lead">A nutrition programme built around you — the food you enjoy, your budget and the way you live.</p><a class="mobile-start" href="#signup">Get started <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
+      <figure><img src="/images/jt-nutrition-hero-v1.webp" alt="A colourful meal with chicken, rice, vegetables and fresh fruit" width="1440" height="960"><figcaption>Simple meals. A routine you can keep.</figcaption></figure>
+      <ol class="steps"><li><span>01</span><div><h2>Tell us about you</h2><p>Your goals, preferences, allergies and everyday routine.</p></div></li><li><span>02</span><div><h2>Make a plan with JT</h2><p>JT reviews your answers. Your programme and price are agreed before payment.</p></div></li><li><span>03</span><div><h2>Put it into practice</h2><p>Access your shared meal plan, recipes, shopping list and check-ins in one place.</p></div></li></ol>
+    </section>
+    <section class="signup" id="signup" aria-labelledby="formTitle">
+      <p class="eyebrow" id="formEyebrow">YOUR FIRST STEP</p><h2 id="formTitle">Let’s get started.</h2><p class="form-intro" id="formIntro">Create your free account, confirm your email and complete your nutrition questionnaire.</p>
+      <div class="signed-in" id="signedIn" hidden><p>You’re already signed in.</p><a class="button" href="/nutrition-programme.html">Open my nutrition programme</a><button type="button" class="text-button" id="useAnother">Use a different account</button></div>
+      <form id="accountForm">
+        <label id="nameField">First name<input id="firstName" name="first_name" autocomplete="given-name" maxlength="80" required></label>
+        <label>Email address<input id="email" name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required><small id="passwordHelp">Use at least 10 characters.</small></label>
+        <label id="confirmField">Confirm password<input id="confirmPassword" name="confirm_password" type="password" autocomplete="new-password" minlength="10" required></label>
+        <label class="check" id="termsField"><input id="terms" name="terms" type="checkbox" required><span>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and acknowledge the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+        <p id="formError" class="error" role="alert" hidden></p>
+        <button type="submit" class="button" id="submitButton" disabled>Loading sign-up…</button>
+        <a id="forgotPassword" class="text-button" href="?mode=reset#signup" hidden>Forgot your password?</a>
+      </form>
+      <div class="success" id="success" role="status" tabindex="-1" hidden></div>
+      <p class="no-charge" id="noCharge">No payment is taken when you create an account. JT will agree the programme with you before you pay.</p>
+      <p class="switch" id="switchRow">Already have an account? <a href="?mode=login#signup" id="switchMode">Sign in</a></p>
+      <noscript><p>Please enable JavaScript to create your account.</p></noscript>
+    </section>
+  </main>
+  <footer><span>JT Mind &amp; Body Balance</span><nav aria-label="Legal"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a></nav><span>Mind. Body. Balance.</span></footer>
+</body>
+</html>

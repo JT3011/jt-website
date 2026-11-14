@@ -64,7 +64,9 @@ export async function routeSignedInUser() {
 
   if (!access.user) return access;
 
-  window.location.replace("/performance-hub-portal.html");
+  window.location.replace(access.user.user_metadata?.service_focus === "nutrition"
+    ? "/nutrition-programme.html"
+    : "/performance-hub-portal.html");
 
   return access;
 }
@@ -74,6 +76,12 @@ export async function requireFreeAccess() {
 
   if (!access.user) {
     window.location.replace("/performance-hub-login.html");
+    return null;
+  }
+
+  // Service preference controls the landing page only, never account permissions.
+  if (access.user.user_metadata?.service_focus === "nutrition") {
+    window.location.replace("/nutrition-programme.html");
     return null;
   }
 

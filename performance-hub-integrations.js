@@ -3,7 +3,7 @@ export {supabase};
 export const escapeHtml=(value='')=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export async function hubApi(path,body,query=''){
   const{data:{session}}=await supabase.auth.getSession();
-  if(!session){location.href='/performance-hub-login.html';throw Error('Sign in to continue.');}
+  if(!session){location.href=document.body.dataset.serviceFocus==='nutrition'?'/nutrition?mode=login':'/performance-hub-login.html';throw Error('Sign in to continue.');}
   const response=await fetch(`/api/${path}${query}`,{method:body?'POST':'GET',cache:'no-store',headers:{Authorization:`Bearer ${session.access_token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
   const data=await response.json();if(!response.ok)throw Error(data.error||'Please try again.');return data;
 }

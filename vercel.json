@@ -26,5 +26,11 @@
       "destination": "/performance-hub-portal.html",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/nutrition",
+      "destination": "/nutrition.html"
+    }
   ]
 }
