@@ -1,4 +1,4 @@
-const CACHE_VERSION = "jt-performance-hub-20260827.3";
+const CACHE_VERSION = "jt-performance-hub-20261125.1";
 const OFFLINE_URL = "/performance-hub-offline.html";
 
 const PRECACHE_URLS = [
@@ -15,6 +15,28 @@ const SAFE_STATIC_PATHS = new Set([
   "/images/jt-hub-applogo-192-v3.png",
   "/images/jt-hub-applogo-v3.png"
 ]);
+
+self.addEventListener('push', event => {
+  let payload = {};
+  try { payload = event.data?.json() || {}; } catch {}
+  event.waitUntil(self.registration.showNotification(String(payload.title || 'JT Hub update').slice(0, 100), {
+    body: String(payload.body || 'Open the Hub to see your update.').slice(0, 300),
+    icon: '/images/jt-hub-applogo-192-v3.png',
+    badge: '/images/jt-hub-applogo-192-v3.png',
+    tag: String(payload.tag || 'jt-hub-update').slice(0, 120),
+    data: {url: '/performance-hub-signups.html'}
+  }));
+});
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil((async () => {
+    const target = new URL('/performance-hub-signups.html', self.location.origin).href;
+    const windows = await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    const existing = windows.find(client => client.url === target);
+    if (existing) return existing.focus();
+    return self.clients.openWindow(target);
+  })());
+});
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

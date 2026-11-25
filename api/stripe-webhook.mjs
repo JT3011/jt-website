@@ -1,3 +1,4 @@
+import {processSignupEvent} from '../server/signup-alerts.mjs';
 const JSON_HEADERS = {
   "Content-Type": "application/json",
   "Cache-Control": "no-store",
@@ -156,6 +157,7 @@ async function updateMembershipFromSubscription({
   subscription,
   supabaseUrl,
   supabaseSecretKey,
+  fetchImpl = fetch,
 }) {
   const subscriptionId =
     subscription?.id;
@@ -204,7 +206,7 @@ async function updateMembershipFromSubscription({
       stripePriceId;
   }
 
-  const response = await fetch(url, {
+  const response = await fetchImpl(url, {
     method: "PATCH",
     headers: {
       apikey: supabaseSecretKey,
@@ -236,7 +238,7 @@ async function updateMembershipFromSubscription({
   );
 }
 
-export default {
+export function createWebhook({env=process.env,fetchImpl=fetch,signupProcessor=processSignupEvent}={}) { return {
   async fetch(request) {
     if (request.method !== "POST") {
       return jsonResponse(
@@ -253,14 +255,14 @@ export default {
 
     try {
       const webhookSecret =
-        process.env.STRIPE_WEBHOOK_SECRET;
+        env.STRIPE_WEBHOOK_SECRET;
 
       const supabaseUrl = (
-        process.env.SUPABASE_URL || ""
+        env.SUPABASE_URL || ""
       ).replace(/\/+$/, "");
 
       const supabaseSecretKey =
-        process.env.SUPABASE_SECRET_KEY;
+        env.SUPABASE_SECRET_KEY;
 
       if (
         !webhookSecret ||
@@ -330,6 +332,12 @@ export default {
       const event =
         JSON.parse(rawBody);
 
+      if (event.livemode !== true) return jsonResponse({received:true});
+      if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type)) {
+        await signupProcessor(event, {env,fetchImpl});
+        return jsonResponse({received:true});
+      }
+
       const supportedEvents = [
         "customer.subscription.created",
         "customer.subscription.updated",
@@ -342,6 +350,7 @@ export default {
             event.data?.object,
           supabaseUrl,
           supabaseSecretKey,
+          fetchImpl,
         });
       } else {
         console.log(
@@ -369,4 +378,5 @@ export default {
       );
     }
   },
-};
+}; }
+export default createWebhook();

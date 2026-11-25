@@ -1,5 +1,11 @@
 {
   "functions": {
+    "api/stripe-webhook.mjs": {
+      "maxDuration": 60
+    },
+    "api/hub-portal.mjs": {
+      "maxDuration": 60
+    },
     "api/hub-session-plans.mjs": {
       "maxDuration": 300
     },

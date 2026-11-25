@@ -2,6 +2,7 @@
 import {connectionToken} from '../server/hub-integrations.mjs';
 import {BASE,summariseCredits,syncAirtable} from '../server/airtable-credits.mjs';
 import {calendarRows} from '../server/coach-calendars.mjs';
+import {handleSignupAlerts} from '../server/signup-alerts.mjs';
 export {summariseCredits};
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RECORD = /^rec[A-Za-z0-9]{14}$/;
@@ -69,6 +70,9 @@ export function createHandler({ env = process.env, fetchImpl = fetch } = {}) {
         if (JSON.stringify(body).length > 40000) fail(413, 'This programme is too long.');
       }
       const action = req.method === 'GET' ? requestUrl.searchParams.get('action') || 'overview' : body.action;
+      if (typeof action === 'string' && action.startsWith('signup-')) {
+        return send(200, await handleSignupAlerts({role:ctx.role,user,action,method:req.method,body,db,env}));
+      }
       const player = req.method === 'GET' ? requestUrl.searchParams.get('player') : body.player;
       const requirePlayer = () => { if (!UUID.test(player || '')) fail(400,'Choose a player first.'); if (!canView(ctx,player)) fail(403,'This player is not connected to your account.'); };
       const requireOwner = () => { if (!owner) fail(403,'Only JT can manage account access.'); };
