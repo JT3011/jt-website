@@ -2998,6 +2998,7 @@
 
         const user =
           sessionData.session.user;
+        if(user.user_metadata?.service_focus === "nutrition"){window.location.replace("/nutrition-programme.html");return;}
 
         const {
           data: membership,

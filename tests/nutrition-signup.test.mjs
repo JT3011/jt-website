@@ -11,8 +11,8 @@ function signupHarness({search='',session=null,signupResult={data:{session:null}
  const get=id=>{if(!elements.has(id))elements.set(id,element());return elements.get(id);};
  get('firstName').value='Alex';
  const supabase={auth:{getSession:async()=>({data:{session}}),signUp:async data=>{calls.push(data);return signupResult;},signInWithPassword:async data=>{calls.push(data);return{error:loginError};},resetPasswordForEmail:async(email,options)=>{calls.push({email,options});return{};},signOut:async()=>({})}};
- const context=vm.createContext({supabase,document:{getElementById:get,createElement:element},location:{search,pathname:'/nutrition',origin:'https://nutrition.test',assign:path=>routes.push(path)},history:{replaceState(){}},URLSearchParams,Date});
- vm.runInContext(source.replace(/^import .*;\n/,''),context);
+ const context=vm.createContext({supabase,NUTRITION_CHECKOUT_URL:'https://checkout.example.test',validCheckoutId:value=>/^cs_live_[A-Za-z0-9]+$/.test(value||''),verifyNutritionCheckout:async()=>({verified:true}),connectNutritionMembership:async()=>true,rememberNutritionCheckout:async()=>{},getAccessState:async()=>({isPremium:false}),document:{getElementById:get,createElement:element},location:{search,pathname:'/nutrition',origin:'https://nutrition.test',assign:path=>routes.push(path)},history:{replaceState(){}},URLSearchParams,Date});
+ vm.runInContext(source.replace(/^import .*;\n/gm,''),context);
  return{get,calls,routes,submit:()=>get('accountForm').onsubmit({preventDefault(){}})};
 }
 test('nutrition signup stores a service preference, requests existing confirmation route and waits for verification',async()=>{

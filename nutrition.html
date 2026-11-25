@@ -2,41 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#12130f">
-  <meta name="description" content="Personal nutrition programmes from JT Mind & Body Balance. Create your account and tell us about your goals, favourite foods and routine.">
-  <title>Nutrition programmes | JT Mind &amp; Body Balance</title>
-  <link rel="icon" href="/images/jt-hub-applogo-192-v3.png">
-  <link rel="stylesheet" href="/nutrition.css?v=20261114">
-  <script type="module" src="/nutrition-signup.js?v=20261114"></script>
+  <meta name="theme-color" content="#0b0d0b"><meta name="description" content="Personal nutrition, made for real life. Your meal plan, shopping list, progress and JT AI Coach. 30 days free, then £12.99 a month.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>JT Nutrition | Made for your life</title>
+  <link rel="icon" href="/images/jt-hub-applogo-192-v3.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/nutrition.css?v=20261125.2"><script type="module" src="/nutrition-signup.js?v=20261125.2"></script>
 </head>
-<body>
-  <a class="skip" href="#signup">Skip to sign-up</a>
-  <header><a class="brand" href="/nutrition"><img src="/images/jt-crest-transparent-v2.png" alt="JT" width="52" height="62"><span>JT Mind &amp; Body Balance<small>Mind. Body. Balance.</small></span></a><a href="?mode=login#signup" id="headerLogin">Already a member? <b>Sign in</b></a></header>
-  <main>
-    <section class="intro" aria-labelledby="introTitle">
-      <div class="intro-copy"><p class="eyebrow">PERSONAL NUTRITION PROGRAMMES</p><h1 id="introTitle">Good food.<br>Your goals.<br><em>Real life.</em></h1><p class="lead">A nutrition programme built around you — the food you enjoy, your budget and the way you live.</p><a class="mobile-start" href="#signup">Get started <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
-      <figure><img src="/images/jt-nutrition-hero-v1.webp" alt="A colourful meal with chicken, rice, vegetables and fresh fruit" width="1440" height="960"><figcaption>Simple meals. A routine you can keep.</figcaption></figure>
-      <ol class="steps"><li><span>01</span><div><h2>Tell us about you</h2><p>Your goals, preferences, allergies and everyday routine.</p></div></li><li><span>02</span><div><h2>Make a plan with JT</h2><p>JT reviews your answers. Your programme and price are agreed before payment.</p></div></li><li><span>03</span><div><h2>Put it into practice</h2><p>Access your shared meal plan, recipes, shopping list and check-ins in one place.</p></div></li></ol>
-    </section>
-    <section class="signup" id="signup" aria-labelledby="formTitle">
-      <p class="eyebrow" id="formEyebrow">YOUR FIRST STEP</p><h2 id="formTitle">Let’s get started.</h2><p class="form-intro" id="formIntro">Create your free account, confirm your email and complete your nutrition questionnaire.</p>
-      <div class="signed-in" id="signedIn" hidden><p>You’re already signed in.</p><a class="button" id="continueAccount" href="/nutrition-programme.html">Open my nutrition programme</a><button type="button" class="text-button" id="useAnother">Use a different account</button></div>
-      <form id="accountForm">
-        <label id="nameField">First name<input id="firstName" name="first_name" autocomplete="given-name" maxlength="80" required></label>
-        <label>Email address<input id="email" name="email" type="email" autocomplete="email" required></label>
-        <label>Password<input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required><small id="passwordHelp">Use at least 10 characters.</small></label>
-        <label id="confirmField">Confirm password<input id="confirmPassword" name="confirm_password" type="password" autocomplete="new-password" minlength="10" required></label>
-        <label class="check" id="termsField"><input id="terms" name="terms" type="checkbox" required><span>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and acknowledge the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
-        <p id="formError" class="error" role="alert" hidden></p>
-        <button type="submit" class="button" id="submitButton" disabled>Loading sign-up…</button>
-        <a id="forgotPassword" class="text-button" href="?mode=reset#signup" hidden>Forgot your password?</a>
-      </form>
-      <div class="success" id="success" role="status" tabindex="-1" hidden></div>
-      <p class="no-charge" id="noCharge">No payment is taken when you create an account. JT will agree the programme with you before you pay.</p>
-      <p class="switch" id="switchRow">Already have an account? <a href="?mode=login#signup" id="switchMode">Sign in</a></p>
-      <noscript><p>Please enable JavaScript to create your account.</p></noscript>
-    </section>
-  </main>
-  <footer><span>JT Mind &amp; Body Balance</span><nav aria-label="Legal"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a></nav><span>Mind. Body. Balance.</span></footer>
-</body>
-</html>
+<body data-service-focus="nutrition">
+<a class="skip" href="#signup">Skip to account setup</a>
+<header class="site-header"><a class="brand" href="/nutrition"><img src="/images/jt-crest-transparent-v2.png" alt="JT" width="42" height="51"><span>JT NUTRITION<small>Mind. Body. Balance.</small></span></a><nav aria-label="Main navigation"><a href="#programme">The programme</a><a href="#ai-support">JT AI Coach</a><a href="?mode=login#signup" id="headerLogin">Sign in</a></nav></header>
+<main>
+<section class="nutrition-hero" aria-labelledby="introTitle">
+ <div class="hero-copy"><p class="eyebrow">PERSONAL NUTRITION · EVERYDAY SUPPORT</p><h1 id="introTitle">Eat well.<br>Feel better.<br><em>Live your life.</em></h1><p class="lead">A programme shaped around your goals, the food you love and the life you lead.</p><div class="hero-actions"><a class="button" id="trialLink" href="https://buy.stripe.com/fZucMYcQuaGx2OA3y56Vq05?client_reference_id=nutrition&amp;utm_source=jt_nutrition">Start my 30-day trial</a><p class="price-note"><strong>£12.99 / month</strong> after your free trial.<br>Renews monthly. Manage your subscription in your account.</p></div></div>
+ <figure class="hero-image"><img src="/images/jt-nutrition-hero-v1.webp" alt="Freshly prepared chicken, rice, vegetables and berries on a dark table" width="1440" height="960" fetchpriority="high"><figcaption><span>PERSONAL BY DESIGN</span>Good food. Built around you.</figcaption></figure>
+</section>
+<div class="promise-strip"><span>Food you enjoy</span><span>A budget that fits</span><span>Support between check-ins</span></div>
+<section class="programme-section" id="programme"><div class="section-heading"><p class="eyebrow">THE JT APPROACH</p><h2>Your plan.<br><em>Every detail considered.</em></h2><p>Clear choices, practical support and one calm space to bring it together.</p></div><div class="feature-grid"><article><span class="feature-mark" aria-hidden="true">◒</span><h3>Your personal programme</h3><p>A varied seven-day meal plan, simple recipes and preparation ideas, built from your questionnaire and reviewed by JT or your assigned coach.</p></article><article><span class="feature-mark" aria-hidden="true">◇</span><h3>Shopping, made easier</h3><p>Your ingredients and quantities in one list, with source-checked supermarket estimates where available. Know what you need before you go.</p></article><article><span class="feature-mark" aria-hidden="true">◌</span><h3>Progress that matters</h3><p>Check in on meals, energy, appetite, sleep and hydration. Leave notes your coach can review and build a routine that lasts.</p></article></div></section>
+<section class="ai-feature" id="ai-support"><div class="ai-monogram" aria-hidden="true"><span>JT</span><small>AI COACH</small></div><div><p class="eyebrow">SUPPORT FOR THE EVERYDAY</p><h2>A little guidance.<br><em>Whenever you need it.</em></h2><p>Quick lunch ideas. Eating out. Making a busy week work. Ask JT AI Coach for practical guidance using your nutrition preferences and shared plan.</p><div class="example-prompts"><span>“Help me prep for a busy week.”</span><span>“What could I have instead?”</span></div><p class="fine">20 AI questions per day with an active membership or trial. AI guidance supports your coach-reviewed plan; it does not replace medical advice.</p></div></section>
+<section class="account-section" id="signup" aria-labelledby="formTitle"><div class="account-intro"><p class="eyebrow">YOUR NEXT CHAPTER</p><h2>Make it<br><em>yours.</em></h2><p>Start your trial above, then create or sign in to your account using the same email as checkout.</p><ul class="steps"><li><strong>Tell us about you</strong><span>Your goals, preferences, allergies, routine and budget.</span></li><li><strong>We prepare your programme</strong><span>Apex creates your draft. JT or your assigned coach reviews it before sharing.</span></li><li><strong>Find your everyday rhythm</strong><span>Meals, shopping, check-ins and JT AI Coach in your personal nutrition space.</span></li></ul></div>
+<div class="signup"><p class="eyebrow" id="formEyebrow">YOUR NUTRITION ACCOUNT</p><h2 id="formTitle">Let’s get started.</h2><p class="form-intro" id="formIntro">Create your account and make your programme personal.</p><p id="checkoutStatus" class="checkout-status" role="status" hidden></p>
+<div class="signed-in" id="signedIn" hidden><p>You’re signed in.</p><a class="button" id="continueAccount" href="/nutrition-programme.html">Open my nutrition programme</a><button type="button" class="text-button" id="useAnother">Use a different account</button></div>
+<form id="accountForm"><label id="nameField">First name<input id="firstName" name="first_name" autocomplete="given-name" maxlength="80" required></label><label>Email address<input id="email" name="email" type="email" autocomplete="email" required></label><label>Password<input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required><small id="passwordHelp">Use at least 10 characters.</small></label><label id="confirmField">Confirm password<input id="confirmPassword" name="confirm_password" type="password" autocomplete="new-password" minlength="10" required></label><label class="check" id="termsField"><input id="terms" name="terms" type="checkbox" required><span>I am 18 or over, or the parent/guardian managing this account. I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and acknowledge the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label><p id="formError" class="error" role="alert" hidden></p><button type="submit" class="button" id="submitButton" disabled>Loading…</button><a id="forgotPassword" class="text-button" href="?mode=reset#signup" hidden>Forgot your password?</a></form>
+<div class="success" id="success" role="status" tabindex="-1" hidden></div><p class="fine" id="noCharge">Creating an account does not start a subscription. Your 30-day trial starts when you complete Stripe checkout; £12.99/month follows.</p><p class="switch" id="switchRow">Already have an account? <a href="?mode=login#signup" id="switchMode">Sign in</a></p><noscript><p>Please enable JavaScript to create your account.</p></noscript></div></section>
+</main><footer><span>JT Mind &amp; Body Balance</span><nav aria-label="Legal"><a href="/privacy-policy.html">Privacy</a><a href="/terms.html">Terms</a><a href="mailto:info@jtmindbodybalance.com">Contact JT</a></nav><span>Mind. Body. Balance.</span></footer>
+</body></html>

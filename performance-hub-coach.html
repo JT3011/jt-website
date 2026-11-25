@@ -1421,6 +1421,7 @@
 
         currentUser =
           sessionData.session.user;
+        if(currentUser.user_metadata?.service_focus === "nutrition"){window.location.replace("/nutrition-programme.html?view=coach");return;}
 
         const {
           data: membership,

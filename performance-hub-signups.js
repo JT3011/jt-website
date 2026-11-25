@@ -28,6 +28,7 @@ async function refresh() {
     state=await api('signup-alerts');
     $('workspace').hidden=false; $('loading').hidden=true; $('login').hidden=true; $('signOut').hidden=false;
     $('checkoutLink').href=state.checkout_url;
+    $('nutritionSignupLink').href=state.nutrition_url;
     const fresh=knownIds&&state.signups.filter(row=>!knownIds.has(row.id));
     knownIds=new Set(state.signups.map(row=>row.id));
     if(fresh?.length) notice(`${fresh[0].client_name||fresh[0].client_email||'A client'} — subscription confirmed${fresh[0].subscription_status==='trialing'?' and trial started':''}.`);
@@ -81,3 +82,5 @@ supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')lock(Object.assi
 async function start(){await refresh();if(state){await preparePush();clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)refresh();},5000);}}
 $('loginForm').onsubmit=async event=>{event.preventDefault();$('loginButton').disabled=true;try{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;$('password').value='';notice('');await start();}catch(error){notice(error.message);}finally{$('loginButton').disabled=false;}};
 start();
+
+$('copyNutritionLink').onclick=async()=>{try{await navigator.clipboard.writeText(state.nutrition_url);notice('Nutrition signup link copied — 30 days free, then £12.99/month.');}catch{notice('Copy this nutrition link: '+state.nutrition_url);}};

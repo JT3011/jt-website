@@ -111,10 +111,12 @@ export default {
       ].includes(subscriptionStatus);
 
       const verified =
+        session.livemode === true &&
         session.status === "complete" &&
         session.mode === "subscription" &&
         correctPrice === true &&
-        validSubscriptionStatus;
+        validSubscriptionStatus &&
+        (session.payment_status === "paid" || (subscriptionStatus === "trialing" && session.payment_status === "no_payment_required"));
 
       if (!verified) {
         return new Response(
@@ -138,6 +140,7 @@ export default {
             session.customer_email ||
             null,
           subscriptionStatus,
+          serviceFocus: session.client_reference_id === "nutrition" ? "nutrition" : null,
         }),
         {
           status: 200,

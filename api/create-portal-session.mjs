@@ -98,6 +98,7 @@ async function retrieveMembership({
 async function createStripePortalSession({
   stripeCustomerId,
   stripeSecretKey,
+  nutrition = false,
 }) {
   const formData =
     new URLSearchParams();
@@ -109,7 +110,7 @@ async function createStripePortalSession({
 
   formData.set(
     "return_url",
-    "https://jt-website-orpin.vercel.app/performance-hub-dashboard.html"
+    nutrition ? "https://jt-website-orpin.vercel.app/nutrition-programme.html" : "https://jt-website-orpin.vercel.app/performance-hub-dashboard.html"
   );
 
   const authorization =
@@ -263,6 +264,7 @@ export default {
         await createStripePortalSession({
           stripeCustomerId,
           stripeSecretKey,
+          nutrition: user.user_metadata?.service_focus === "nutrition",
         });
 
       return jsonResponse({

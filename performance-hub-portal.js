@@ -146,7 +146,10 @@ $('playerSearch').addEventListener('input',renderPlayers);
 supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){ clearWorkspace(); location.replace('/performance-hub-login.html'); }});
 async function init() {
   try {
-    overview=await api('overview'); $('loading').hidden=true;
+    overview=await api('overview');
+    const {data:{session}}=await supabase.auth.getSession();
+    if(overview.role==='client'&&session?.user.user_metadata?.service_focus==='nutrition'&&!new URLSearchParams(location.search).has('player')){location.replace('/nutrition-programme.html');return;}
+    $('loading').hidden=true;
     $('trainingLink').href=overview.trainingUrl;
     $('coachLink').hidden=!isStaff(); $('manageAccess').hidden=overview.role!=='owner'; $('ownerActions').hidden=overview.role!=='owner';
     $('workspaceViews').hidden=!isStaff();

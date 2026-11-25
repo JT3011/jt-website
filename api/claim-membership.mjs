@@ -350,10 +350,12 @@ export default {
       ].includes(subscriptionStatus);
 
       const verifiedCheckout =
+        stripeSession.livemode === true &&
         stripeSession.status === "complete" &&
         stripeSession.mode === "subscription" &&
         correctPrice &&
-        validSubscriptionStatus;
+        validSubscriptionStatus &&
+        (stripeSession.payment_status === "paid" || (subscriptionStatus === "trialing" && stripeSession.payment_status === "no_payment_required"));
 
       if (!verifiedCheckout) {
         return jsonResponse(

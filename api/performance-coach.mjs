@@ -1,3 +1,4 @@
+import {buildNutritionInstructions} from '../server/nutrition-coach.mjs';
 const MAX_MESSAGE_LENGTH = 1600;
 const MAX_HISTORY_MESSAGES = 8;
 
@@ -128,7 +129,9 @@ async function getSupabaseRow({
   table,
   column,
   value,
-  select
+  select,
+  filters = {},
+  order
 }) {
   const url = new URL(
     `${supabaseUrl}/rest/v1/${table}`
@@ -144,10 +147,9 @@ async function getSupabaseRow({
     `eq.${value}`
   );
 
-  url.searchParams.set(
-    "limit",
-    "1"
-  );
+  url.searchParams.set("limit", "1");
+  for (const [key,value] of Object.entries(filters)) url.searchParams.set(key,value);
+  if (order) url.searchParams.set("order",order);
 
   const response = await fetch(
     url,
@@ -458,6 +460,9 @@ export default async function handler(
     const body =
       parseRequestBody(request);
 
+    const nutrition = body.service === "nutrition";
+    if (nutrition && body.consent !== true) return sendJson(response, 400, {answered:false,error:"Please agree to the AI support notice before sending a question."});
+
     const message =
       normaliseText(body.message);
 
@@ -502,7 +507,7 @@ export default async function handler(
         accessToken
       });
 
-    if (!user?.id) {
+    if (!user?.id || !user.email_confirmed_at || user.is_anonymous) {
       return sendJson(
         response,
         401,
@@ -585,8 +590,8 @@ export default async function handler(
       });
 
     if (
-      !profile ||
-      !profile.onboarding_complete
+      !nutrition && (!profile ||
+      !profile.onboarding_complete)
     ) {
       return sendJson(
         response,
@@ -599,6 +604,14 @@ export default async function handler(
       );
     }
 
+    let nutritionIntake = null, nutritionPlan = null;
+    if (nutrition) {
+      const query = {supabaseUrl:SUPABASE_URL,supabaseKey:SUPABASE_PUBLISHABLE_KEY,accessToken,column:'player_user_id',value:user.id};
+      [nutritionIntake,nutritionPlan] = await Promise.all([
+        getSupabaseRow({...query,table:'hub_programme_intakes',select:'answers',filters:{kind:'eq.nutrition'}}),
+        getSupabaseRow({...query,table:'hub_personal_plans',select:'status,plan,coach_note',filters:{kind:'eq.nutrition',status:'eq.published'},order:'approved_at.desc'})
+      ]);
+    }
     const categories =
       await moderateMessage({
         apiKey:
@@ -621,7 +634,7 @@ export default async function handler(
           answered: true,
           urgent: true,
           answer:
-            "I’m glad you said something. This needs immediate real-world support rather than football coaching. Tell a parent, guardian, coach or another trusted adult now and stay with someone. If you may act on these thoughts or you are in immediate danger, call emergency services now. Your next step is to tell the nearest trusted adult exactly what is happening."
+            "I’m glad you said something. This needs immediate real-world support and I want you to get support now. Tell a parent, guardian, coach or another trusted adult now and stay with someone. If you may act on these thoughts or you are in immediate danger, call emergency services now. Your next step is to tell the nearest trusted adult exactly what is happening."
         }
       );
     }
@@ -703,9 +716,7 @@ if (!allowance?.allowed) {
               user.id,
 
             instructions:
-              buildCoachInstructions(
-                profile
-              ),
+              nutrition ? buildNutritionInstructions(nutritionIntake,nutritionPlan,profile || {}) : buildCoachInstructions(profile),
 
             input
           })

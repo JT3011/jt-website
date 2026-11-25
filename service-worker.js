@@ -1,4 +1,4 @@
-const CACHE_VERSION = "jt-performance-hub-20261125.1";
+const CACHE_VERSION = "jt-performance-hub-20261125.2";
 const OFFLINE_URL = "/performance-hub-offline.html";
 
 const PRECACHE_URLS = [

@@ -119,7 +119,7 @@ export async function handleSignupAlerts({role, user, action, method, body, db, 
     const ids = signups.map(row => row.id);
     const linked = ids.length ? await db('memberships', {stripe_checkout_session_id: `in.(${ids.join(',')})`, select: 'stripe_checkout_session_id'}) : [];
     const accounts = new Set(linked.map(row => row.stripe_checkout_session_id));
-    return {ready: pushReady(env), public_key: env.HUB_PUSH_PUBLIC_KEY || null, device_count: devices.length, checkout_url: HUB_PAYMENT_LINK,
+    return {ready: pushReady(env), public_key: env.HUB_PUSH_PUBLIC_KEY || null, device_count: devices.length, checkout_url: HUB_PAYMENT_LINK, nutrition_url: "https://jt-website-orpin.vercel.app/nutrition",
       signups: signups.map(row => ({...row, account_connected: accounts.has(row.id)}))};
   }
   if (method !== 'POST') fail(405, 'Method not allowed.');

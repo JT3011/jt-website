@@ -2,6 +2,8 @@
 
 JT opens `/performance-hub-signups.html` or **Signup alerts** in the owner Hub toolbar. This page shares the existing live Stripe link: 30 days free, then GBP 12.99 per month. It does not edit prices, trials, taxes or customer subscriptions.
 
+**Copy nutrition link** shares `/nutrition`, where Bark clients start the same subscription with a nutrition presentation tag. After verified checkout, they return to nutrition account setup. The original Payment Link, price and notification validation remain the same; the nutrition tag never grants access.
+
 The existing Vercel Stripe webhook also receives `checkout.session.completed` and `checkout.session.async_payment_succeeded`. It validates the raw signature, requires live mode, retrieves the checkout from Stripe, and verifies the original Payment Link, expected price, GBP 12.99 monthly single quantity, completed checkout, active/trialing subscription and paid/no-payment-required status. Trial confirmations are labelled as trials. Hub account registration is shown separately using the existing membership claim record. Unfinished and unrelated checkouts are ignored.
 
 Only verified accounts with `hub_staff.role = owner` can access the API. The three signup tables and delivery RPC are inaccessible to anonymous and authenticated database roles. Service role access is used after server authorization. Push endpoints are restricted to supported browser push providers. No push credentials or customer data are public.

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>.jt-profile-routing body{visibility:hidden}.jt-profile-routing::after{content:"Opening your Hub…";position:fixed;inset:0;display:grid;place-items:center;background:#0b0d0b;color:#d4bc83;font:18px Arial,sans-serif}</style><script>document.documentElement.classList.add("jt-profile-routing");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Player Profile | JT Performance Hub</title>
@@ -119,6 +120,7 @@
       try {
         const access = await requireFreeAccess();
         if (!access) return;
+        document.documentElement.classList.remove("jt-profile-routing");
         currentUser = access.user;
 
         const { data: profile, error } = await supabase
@@ -132,6 +134,7 @@
         $("loadingState").classList.add("hidden");
         $("formContent").classList.remove("hidden");
       } catch (error) {
+        document.documentElement.classList.remove("jt-profile-routing");
         console.error("Free profile load error", error);
         $("loadingState").innerHTML = `<p>${error?.message || "Your profile could not be loaded."}</p>`;
       }
