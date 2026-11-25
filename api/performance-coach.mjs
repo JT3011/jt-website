@@ -1,3 +1,4 @@
+import {mondayOf} from '../nutrition-planner-core.mjs';
 import {buildNutritionInstructions} from '../server/nutrition-coach.mjs';
 const MAX_MESSAGE_LENGTH = 1600;
 const MAX_HISTORY_MESSAGES = 8;
@@ -604,13 +605,22 @@ export default async function handler(
       );
     }
 
-    let nutritionIntake = null, nutritionPlan = null;
+    let nutritionIntake = null, nutritionPlan = null, nutritionWeek = null;
     if (nutrition) {
       const query = {supabaseUrl:SUPABASE_URL,supabaseKey:SUPABASE_PUBLISHABLE_KEY,accessToken,column:'player_user_id',value:user.id};
       [nutritionIntake,nutritionPlan] = await Promise.all([
         getSupabaseRow({...query,table:'hub_programme_intakes',select:'answers',filters:{kind:'eq.nutrition'}}),
         getSupabaseRow({...query,table:'hub_personal_plans',select:'status,plan,coach_note',filters:{kind:'eq.nutrition',status:'eq.published'},order:'approved_at.desc'})
       ]);
+    }
+    if (nutrition) {
+      const planner = await getSupabaseRow({supabaseUrl:SUPABASE_URL,supabaseKey:SUPABASE_PUBLISHABLE_KEY,accessToken,table:'hub_nutrition_planner',column:'player_user_id',value:user.id,select:'data'});
+      const today = new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+      const start = mondayOf(today), week = planner?.data?.weeks?.[start];
+      if (week) {
+        const savedPlan = await getSupabaseRow({supabaseUrl:SUPABASE_URL,supabaseKey:SUPABASE_PUBLISHABLE_KEY,accessToken,table:'hub_personal_plans',column:'player_user_id',value:user.id,select:'status,plan,coach_note',filters:{id:'eq.'+week.plan_id,kind:'eq.nutrition',status:'eq.published'}});
+        if (savedPlan?.status==='published') { nutritionPlan=savedPlan;nutritionWeek={week_start:start,meals:week.meals}; }
+      }
     }
     const categories =
       await moderateMessage({
@@ -716,7 +726,7 @@ if (!allowance?.allowed) {
               user.id,
 
             instructions:
-              nutrition ? buildNutritionInstructions(nutritionIntake,nutritionPlan,profile || {}) : buildCoachInstructions(profile),
+              nutrition ? buildNutritionInstructions(nutritionIntake,nutritionPlan,profile || {},nutritionWeek) : buildCoachInstructions(profile),
 
             input
           })

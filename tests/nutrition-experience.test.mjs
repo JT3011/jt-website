@@ -1,3 +1,5 @@
+import {mondayOf,blankWeek} from '../nutrition-planner-core.mjs';
+import {nutritionFixture} from './fixtures/personal-plans.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -8,13 +10,14 @@ import {buildNutritionInstructions} from '../server/nutrition-coach.mjs';
 const userId='00000000-0000-4000-8000-000000000001';
 const env={OPENAI_API_KEY:'fixture-key',SUPABASE_URL:'https://fixture.supabase.co',SUPABASE_PUBLISHABLE_KEY:'fixture-public',STRIPE_SECRET_KEY:'fixture-stripe',STRIPE_PRICE_ID:'price_fixture'};
 const restoreEnv=()=>{const previous={...process.env};Object.assign(process.env,env);return()=>{for(const key of Object.keys(env)){if(previous[key]===undefined)delete process.env[key];else process.env[key]=previous[key];}};};
-async function coachRun({body={service:'nutrition',consent:true,message:'Help me prepare lunches.',history:[]},membership='trialing',confirmed=true}={}){
+async function coachRun({body={service:'nutrition',consent:true,message:'Help me prepare lunches.',history:[]},membership='trialing',confirmed=true,savedWeek=false}={}){
  const undo=restoreEnv(),oldFetch=globalThis.fetch,calls=[];
  globalThis.fetch=async(url,options={})=>{
   const u=new URL(url);calls.push({url:u,options,body:options.body?JSON.parse(options.body):null});
   if(u.pathname==='/auth/v1/user')return Response.json({id:userId,email_confirmed_at:confirmed?'2026-01-01':null});
   if(u.pathname.endsWith('/memberships'))return Response.json([{subscription_status:membership}]);
   if(u.pathname.endsWith('/profiles'))return Response.json([{age_group:null,onboarding_complete:false}]);
+  if(u.pathname.endsWith('/hub_nutrition_planner'))return Response.json([{data:{weeks:savedWeek?{[mondayOf(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()))]:blankWeek({id:'00000000-0000-4000-8000-000000000010',plan:nutritionFixture()},{servings:3})}:{}}}]);
   if(u.pathname.endsWith('/hub_programme_intakes'))return Response.json([{answers:{age:34,goal:'Easy lunches',allergies:'peanuts',likes:'pasta',health_notes:'sensitive note not needed',consent:true}}]);
   if(u.pathname.endsWith('/hub_personal_plans'))return Response.json([{status:'published',plan:{title:'Personal week',summary:'Simple meals',recipes:[],ingredients:[],week:[],habits:[]}}]);
   if(u.pathname.endsWith('/consume_coach_message'))return Response.json({allowed:true});
@@ -70,3 +73,5 @@ test('checkout routing selects nutrition only from verified Stripe session and n
   await vm.runInContext(code,context);assert.deepEqual(routes,focus?['/nutrition?session_id=cs_live_Fixture#signup']:[]);if(!focus)assert.equal(classes.size,0);
  }
 });
+
+test('nutrition coach loads only the owner’s saved current week and re-verifies the referenced plan is published',async()=>{const {response,calls}=await coachRun({savedWeek:true});assert.equal(response.statusCode,200);const read=calls.find(c=>c.url.pathname.endsWith('/hub_nutrition_planner'));assert.equal(read.url.searchParams.get('player_user_id'),'eq.'+userId);const plan=calls.find(c=>c.url.pathname.endsWith('/hub_personal_plans')&&c.url.searchParams.has('id'));assert.equal(plan.url.searchParams.get('status'),'eq.published');assert.equal(plan.url.searchParams.get('player_user_id'),'eq.'+userId);const prompt=calls.find(c=>c.url.pathname==='/v1/responses').body.instructions;assert.match(prompt,/SAVED CURRENT WEEK:.*meal0/);assert.match(prompt,/servings.:3/);});

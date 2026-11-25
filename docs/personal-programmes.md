@@ -8,7 +8,7 @@ Open `/performance-hub-programmes.html`, also linked from Hub → Plans, the Hub
 4. JT or the assigned coach reviews the questionnaire, Apex notes and every day of the plan, adds a note, then shares it. Parents and players cannot see unpublished drafts or approve plans.
 5. Follow the Today or Week cards and record daily check-ins. A coach can see the player's check-ins. Nutrition tracks meal completion, appetite, energy, sleep and water. Gym adds session completion, soreness and actual sets/reps/load/effort.
 
-Nutrition includes a seven-day rotation, at least six different dinners, short recipes, ingredient quantities, prep and optional alternatives. Dinner quantities scale to the household's selected servings; other meals serve one. Alternatives do not automatically change the shopping basket. Gym has a seven-day schedule and four-week progression, selected equipment and available days, warm-ups, sets/reps/rest, technique cues, easier alternatives and recovery.
+Nutrition includes a seven-day rotation, at least six different dinners, short recipes, ingredient quantities, prep and optional alternatives. Dinner quantities scale to the household's selected servings; other meals serve one. In the dedicated nutrition workspace, clients can apply approved alternatives and household serving changes to dated weeks; the shopping basket recalculates. The original coach-authored plan remains intact. Gym has a seven-day schedule and four-week progression, selected equipment and available days, warm-ups, sets/reps/rest, technique cues, easier alternatives and recovery.
 
 ## Shopping prices
 

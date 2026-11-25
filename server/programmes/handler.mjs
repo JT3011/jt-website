@@ -1,3 +1,4 @@
+import {readPlanner,updatePlanner} from './planner.mjs';
 import {randomUUID} from 'node:crypto';
 import {fail} from '../hub-integrations.mjs';
 import {normaliseIntake,needsReview,basketNeeds,basketSummary,cleanCheckin} from './core.mjs';
@@ -21,7 +22,9 @@ export async function programmesWork(ctx){
   await db('hub_personal_plans',{...filter,status:'eq.generating',created_at:`lt.${new Date(Date.now()-300000).toISOString()}`},'PATCH',{status:'failed',message:'The previous request timed out. Please try again.'});
   const [plans,latest,logs]=await Promise.all([db('hub_personal_plans',{...filter,select:'*',status:access.edit?'in.(draft,published)':'eq.published',order:'created_at.desc',limit:'8'},'GET',undefined,true),db('hub_personal_plans',{...filter,select:'id,status,message,intake_revision,created_at',order:'created_at.desc',limit:'1'}),db('hub_programme_checkins',{...filter,select:'*',order:'logged_on.desc',limit:'60'},'GET',undefined,true)]);
   const active=plans.find(x=>x.status==='published')||null,draft=access.edit?plans.find(x=>x.status==='draft')||null:null;
-  return{profile:access.profile,can_review:access.edit,intake,active,draft,latest:latest[0]||null,logs,today:day(),ai_available:Boolean(ctx.env.OPENAI_API_KEY)};
+  const planner=kind==='nutrition'?await readPlanner(ctx,player):null;
+  const history=kind==='nutrition'?await db('hub_personal_plans',{...filter,status:'eq.published',select:'id,status,kind,plan,prices,price_checked_at,approved_at,intake_revision,coach_note',order:'approved_at.desc',limit:'80'},'GET',undefined,true):[];
+  return{profile:access.profile,can_review:access.edit,intake,active,draft,latest:latest[0]||null,logs,today:day(),ai_available:Boolean(ctx.env.OPENAI_API_KEY),planner,history};
  }
  if(ctx.action==='intake'){
   let answers;try{answers=normaliseIntake(kind,body.answers||{},access.profile,{submit:body.submit===true});}catch(e){fail(400,e.message);}
@@ -52,6 +55,7 @@ export async function programmesWork(ctx){
  if(!UUID.test(body.plan_id||''))fail(400,'Choose a programme.');
  const p=(await db('hub_personal_plans',{...filter,id:`eq.${body.plan_id}`,select:'*'},'GET',undefined,true))[0];
  if(!p||!p.plan)fail(404,'This programme is not available.');
+ if((ctx.action||'').startsWith('planner_'))return updatePlanner(ctx,player,p,intake,day());
  if(ctx.action==='publish'){
   if(!access.edit)fail(403,'Only JT or the assigned coach can share this plan.');
   if(p.status!=='draft'||p.intake_revision!==intake?.revision||intake.status!=='submitted')fail(409,'Create a new draft from the latest answers before sharing.');
@@ -63,7 +67,7 @@ export async function programmesWork(ctx){
   if(kind!=='nutrition')fail(400,'Shopping applies to nutrition plans.');
   if(p.intake_revision!==intake?.revision)fail(409,'Create a new plan after changing your food preferences.');
   if(p.price_lock_at&&Date.now()-Date.parse(p.price_lock_at)<250000)fail(409,'Prices are already being checked.');
-  const needs=basketNeeds(p.plan,intake.answers.servings),prices=p.prices||[],pending=needs.filter(n=>!prices.some(x=>x.id===n.id));
+  const baseNeeds=basketNeeds(p.plan,intake.answers.servings),needs=[...baseNeeds,...p.plan.ingredients.filter(i=>!baseNeeds.some(n=>n.id===i.id)).map(i=>({...i,required:1}))],prices=p.prices||[],pending=needs.filter(n=>!prices.some(x=>x.id===n.id));
   if(!pending.length&&p.price_checked_at&&Date.now()-Date.parse(p.price_checked_at)<86400000)return{complete:true,summary:basketSummary(prices)};
   const reset=!pending.length,batch=(reset?needs:pending).slice(0,8),lock=new Date().toISOString();
   const attempts=p.price_attempt_day===day()?p.price_attempts:0;

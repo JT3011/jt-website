@@ -1,4 +1,5 @@
-import {startNutritionDashboard} from '/nutrition-dashboard.js?v=20261125.2';
+import {renderNutritionPlanner,nutritionPlannerRecord} from '/nutrition-planner.js?v=20261125.3';
+import {startNutritionDashboard} from '/nutrition-dashboard.js?v=20261125.3';
 import {supabase,hubApi,escapeHtml as e,money} from '/performance-hub-integrations.js?v=20261114';
 import {plate,movement} from '/performance-hub-programme-visuals.js';
 import {DAYS,SHOP_LABELS,answersHTML,wizardStep} from '/performance-hub-programme-form.js?v=20261114';
@@ -10,9 +11,9 @@ const call=(body)=>hubApi('hub-session-plans',body?{...body,kind,player,programm
 const date=s=>new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',timeZone:'Europe/London'}).format(new Date(s));
 const labelKind=()=>kind==='nutrition'?'nutrition':'gym';
 function notice(s){$('notice').textContent=s;$('notice').hidden=!s;}
-function setBusy(value){busy=value;$('playerSelect').disabled=value;document.querySelectorAll('[data-kind],#workspace button,#wizard button').forEach(b=>b.disabled=value);}
+function setBusy(value){busy=value;$('playerSelect').disabled=value;document.querySelectorAll('[data-kind],#workspace button,#wizard button').forEach(b=>{if(value){b.dataset.busyWasDisabled=String(b.disabled);b.disabled=true;}else if(b.dataset.busyWasDisabled!==undefined){b.disabled=b.dataset.busyWasDisabled==='true';delete b.dataset.busyWasDisabled;}});}
 async function act(work){if(busy)return;setBusy(true);notice('');try{await work();}catch(err){notice(err.message);}finally{setBusy(false);}}
-function current(){return showDraft&&state.draft?state.draft:state.active;}
+function current(){const p=showDraft&&state.draft?state.draft:state.active;return nutritionOnly&&p?.status==='published'?nutritionPlannerRecord(state,player):p;}
 function statusText(){const x=state.latest;return !x?'':x.status==='generating'?'Apex is preparing your plan.':x.status==='draft'?'Your coach is reviewing your Apex draft.':x.status==='review_required'?'Your coach needs to review your readiness first.':x.status==='failed'?'Your answers are saved. Apex needs another attempt.':'';}
 async function load(){const stamp=++version;$('wizard').hidden=true;$('workspace').hidden=true;$('loading').hidden=false;const data=await call();if(stamp!==version)return;state=data;$('loading').hidden=true;$('workspace').hidden=false;document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.kind===kind));history.replaceState(null,'','?'+new URLSearchParams({player,kind}));render();}
 function render(){
@@ -22,6 +23,7 @@ function render(){
  const plan=p.plan;
  $('workspace').innerHTML=`${state.draft&&showDraft?`<div class="coach-bar"><p><span class="badge">Apex draft</span><br>Only JT and the assigned coach can see this draft.</p><button class="button small" id="openReview">Review & share</button></div>`:''}<div class="plan-heading"><div><p class="eyebrow">${e(state.profile.player_name||state.profile.first_name||'Your')} · ${kind==='nutrition'?'FUEL':'TRAIN'}</p><h1 class="plan-title">${e(plan.title)}</h1><p class="sub">${e(plan.summary)}</p><p class="small muted">${p.status==='published'?`Shared ${date(p.approved_at)} · ${kind==='gym'?'4-week programme':'7-day meal rotation'}`:'Draft · coach review required'}</p></div><div class="actions"><button class="button secondary small" id="startIntake">Your answers</button>${state.draft&&state.active?`<button class="text-button" id="toggleDraft">${showDraft?'View shared plan':'View draft'}</button>`:''}</div></div>${p.intake_revision!==state.intake?.revision?'<p class="notice">Your answers have changed. Create a fresh draft before following new preferences. <button class="text-button" id="generate">Create updated draft</button></p>':''}${p.coach_note?`<p class="notice">${e(p.coach_note)}</p>`:''}<details class="personal-focus"><summary>Made for you</summary><div class="focus-strip">${plan.focus.map((x,i)=>`<div><span>0${i+1}</span>${e(x)}</div>`).join('')}</div></details><nav class="view-tabs" aria-label="Programme view">${['today','week',...(kind==='nutrition'?['shop']:[]),'progress'].map(t=>`<button data-view="${t}" aria-pressed="${view===t}">${{today:'Today',week:'Week',shop:'Shopping',progress:'Progress'}[t]}</button>`).join('')}</nav><div id="planView"></div>`;
  bindBasics();document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;render();});if($('toggleDraft'))$('toggleDraft').onclick=()=>{showDraft=!showDraft;render();};if($('openReview'))$('openReview').onclick=openReview;
+ if(nutritionOnly&&kind==='nutrition'&&p.status==='published'&&view!=='progress'){renderNutritionPlanner({state,player,view,selectedDay,call,act,notice,redraw:render,refresh:load,onView:next=>{view=next;render();},onDay:day=>{selectedDay=day;render();}});return;}
  if(view==='shop')renderShop(p,a);else if(view==='progress')renderProgress(p);else if(view==='week')renderWeek(p);else renderToday(p);
 }
 function bindBasics(){if($('startIntake'))$('startIntake').onclick=startWizard;if($('generate'))$('generate').onclick=()=>act(generate);if($('refresh'))$('refresh').onclick=()=>act(load);}

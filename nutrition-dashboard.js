@@ -54,13 +54,14 @@ export async function startNutritionDashboard(overview,{navigate,questionnaire,c
  };
  return{update(state,view,player){
   latest=state;
+  if(!['coach','support'].includes(page)){page=view==='recipes'?'today':view;document.querySelectorAll('[data-nutrition-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.nutritionView===page)));}
   if(["coach","support"].includes(page))$("workspace").hidden=true;
   document.querySelectorAll('[data-nutrition-view]').forEach(b=>b.disabled=false);
   const name=state.profile.first_name||state.profile.player_name?.split(' ')[0];
   $('nutritionGreeting').textContent=name?'YOUR NUTRITION · '+name.toUpperCase():'PERSONAL NUTRITION';
   const log=state.logs.find(x=>x.logged_on===state.today)?.data;
   $('nutritionToday').innerHTML=`<article><small>MEALS</small><strong>${(log?.done||[]).filter(x=>['breakfast','lunch','dinner','snack'].includes(x)).length}<span> / 4</span></strong><span>Checked in</span></article><article><small>HYDRATION</small><strong>${log?.water??'—'}<span> cups</span></strong><span>${log?.water!=null?'Logged today':'Log in Progress'}</span></article><article><small>ENERGY</small><strong>${log?.energy??'—'}<span> / 5</span></strong><span>${log?.energy!=null?'Your check-in':'Daily check-in'}</span></article>`;
-  $('nutritionToday').hidden=page!=='today'||!state.active;
+  $('nutritionToday').hidden=page!=='today'||view!=='today'||!state.active;
   if(initial){initial=false;if(Object.hasOwn(titles,requestedView))queueMicrotask(()=>setPage(requestedView));}
   if(player!==access.user?.id){$('nutritionSubtitle').textContent='Viewing '+(state.profile.player_name||'this client')+'’s programme. JT AI Coach uses your own account’s nutrition context.';}
  }};
